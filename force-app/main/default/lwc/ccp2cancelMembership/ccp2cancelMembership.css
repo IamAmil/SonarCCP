@@ -1,0 +1,850 @@
+.withdraw-div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    width: 85%;
+    height: 100px;
+    /* border: solid; */
+}
+
+.withdraw-btn{
+    color: black;
+    background-color: #F4F4F4;
+    padding: 8px 0;
+    border: none;
+    border-radius: 12px;
+    height: 40px;
+    width: 170px;
+    box-shadow: 0px 0px 10px 0px #00000026;
+    
+}
+ 
+.withdraw-btn:hover {
+    background-color: white;
+    color: #8F98AA;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #8F98AA;
+}
+
+
+
+.main{
+    /* position: relative;
+    width: 100%;
+    height: 200vh; */
+    position: relative;
+    width: calc(100vw - 16px);
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: -16px 0 0 -16px;
+}
+.half {
+    width: 100%;
+    position: absolute;
+    left: 0;
+}
+.top {
+    /* height: 60%;
+    background-color: lightblue; */
+    height: 40%;
+    top: 0;
+    background-color: rgb(246, 249, 249);
+     background: linear-gradient(to bottom, #BFBFBF, #F4F4F4); /* Gradient effect */
+     z-index: 1;
+}
+
+.bottom {
+    
+    position: relative;
+    height: max-content;
+    background-color: rgb(253, 253, 253);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    z-index: 1;
+
+    
+}
+.center-content {
+    /* position: relative;
+    height: 100vh;
+    width: 94%;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1; 
+    border-radius: 30px 30px 0px 0px; */
+    position: relative;
+    height: 100%;
+    margin-top: -52vh;
+    width: 90%;
+    background-color:    rgba(251, 251, 251, 0.8);
+    z-index: 2;
+    transform: translate(0%, -10%);
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.heading-form{
+    font-weight: bolder;
+    font-size: x-large;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3%;
+}
+
+.heading-over-info{
+    font-weight: bold;
+    font-size: medium;
+    display: flex;
+    justify-content: left;
+    margin-top: 5%;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.center-content img{
+    width: 50%;
+    height: 18%;
+    display: block;
+    margin: auto;
+}
+
+.main-content{
+    padding: 20px 30px 30px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.radio-btns{
+    font-size: 1.2em;
+    font-weight: 500;
+    /* margin-top: 4%; */
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+}
+
+.hr-class{
+    background-color: lightgrey;
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+.form{
+    display: block;
+    margin: auto;
+    margin-top: 2%;
+    /* flex-direction: column; */
+    height: 100%;
+    width: 70%;
+    block-size: auto;
+    /* align-items: center;
+    justify-content: center;
+    padding-top: 25px; */
+
+}
+
+
+.form_container{
+    margin-top: 4%;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #b7b7b7 ;
+    border-radius: 7px;
+    padding: 25px;
+}
+
+.form2-head{
+    display: flex;
+    justify-content: center;
+    font-size: large;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.part1{
+    font-size: x-large;
+    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 0;
+}
+/* .form_container{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+} */
+
+.datarec{
+    width: 90%;
+}
+
+.records{
+
+    margin-bottom: 25px;
+
+    display: flex;
+
+}
+
+.head{
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: #0A0A0A;
+
+    width: 150px;
+
+    font-family: 'Noto Sans JP', sans-serif;
+
+    /* margin-left: 30px; */
+
+    margin-left: inherit;
+
+}
+
+.data{
+
+    margin-left: 80px;
+
+    margin-top: 1px;
+
+    font-size: 14px;
+
+    margin-bottom: 2px;
+
+    font-family: 'Noto Sans JP', sans-serif;
+
+}
+
+
+
+.form_footer{
+    display: flex;
+    flex-direction: row;
+    height: 30%;
+    width: 100%;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.datarec{
+    width: 90%;
+}
+.records{
+    margin-bottom: 25px;
+    display: flex;
+}
+.head{
+    font-size: medium;
+    font-weight: bold;
+    color: #0A0A0A;
+    width: 150px;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-left: inherit;
+}
+.data{
+    margin-left: 80px;
+    margin-top: 1px;
+    font-size: medium;
+    margin-bottom: 2px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.toedit{
+    color: white;
+    transition: color 0.3s ease;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.btn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 40px;
+    background-color: #8F98AA; 
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.button{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+}
+.btn:hover{
+    background-color: white;
+    border: 1px solid #E10202;
+    cursor: pointer;
+    color: #0A0A0A;
+}
+.btn:hover .toedit {
+    color: red;
+}
+.btn1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 40px;
+    background-color: #8F98AA;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.btn1:hover{
+    background-color: white;
+    border: 1px solid #8F98AA;
+    cursor: pointer;
+}
+.btn1:hover .toedit {
+    color: #8F98AA;
+}
+
+/* .imghead{
+    object-fit: fill;
+} */
+.overlay {
+    position: absolute;
+    /* top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); 
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+    top:20vh;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.centered-text {
+    color: white; 
+    font-size: 2.5em; 
+    font-weight: bolder;
+    margin-bottom: 30px;
+}
+
+
+
+img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.slds-modal__container {
+    max-width: 50rem;
+    max-height: 30rem;
+    width: 30%;
+}
+
+.modal1{
+    border-radius: 8px
+}
+
+.btn-no{
+    width: 120px;
+    height: 30px;
+}
+.btn-yes{
+    width:120px;
+    height: 30px;
+}
+
+.content-modal{
+    height: 7rem;
+}
+.content-modal h1{
+    margin-top: 10%;
+    text-align: center;
+    font-size: medium;
+    font-weight: bold;
+}
+.content-modal .btn-modal{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    margin-left: 15%;
+    margin-right: 15%;
+    font-size:small;
+    /* align-items: center; */
+    justify-content: space-between;
+}
+
+/* .content-modal .btn-modal button{
+    border: none;
+    border-radius: none;
+    color: black;
+    background-color:#D9D9D9;
+} */
+
+.other-input::placeholder{
+    color: #BFBFBF;
+}
+
+.content .btn-modal .btn-yes{
+    border: none;
+    font-weight: 300;
+    color: white;
+    background-color: #E10202;
+    font-family: 'Noto Sans JP', sans-serif;
+    box-shadow: 0px 0px 10px 0px #00000026;
+    border-radius: 8px;
+    /* padding: 0.5rem 1rem; */
+    cursor: pointer;
+}
+
+.content-modal .btn-modal .btn-yes:hover{
+    background-color: white;
+    color: #E10202;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #E10202;
+}
+
+/* .content-modal2{
+    height: 13rem;
+}
+
+.content-modal2 h1{
+    /* margin-top: 10%; */
+    /* text-align: center;
+    padding:2%;
+} */
+
+/* .content-modal2 .btn-modal{
+
+    display: flex;
+    flex-direction: row;
+    margin-top: 3%;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-bottom: 2%; */
+    /* align-items: center; */
+    /* justify-content: space-between;
+}
+
+.content-modal2 .btn-modal button{
+
+    border: none;
+    border-radius: none;
+    color: black;
+    background-color:#D9D9D9;
+}  */
+
+.custom-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: #ffffff0d;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1040;
+}
+
+.custom-modal-container {
+    
+    width: 30rem; /* Same width */
+    height: 20rem; /* Adjust the height as needed */
+    max-width: 90%;
+    max-height: 90%;
+    background-color: rgba(255, 255, 255, 0.9);
+    /* box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); */
+    /* margin-top: 5%; */
+    border-radius: 7px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.content-modal2 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin: 15% 20% 15% 20%;
+    /* padding: 5% 5% 5% 5%; */
+}
+
+.content-modal2 h1 {
+    text-align: left;
+    font-size: medium;
+    font-weight: 500;
+    /* padding: 2%; */
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 20%;
+}
+
+.content-modal2 ul{
+    font-size: medium;
+    list-style-type: disc;
+    font-weight: 400;
+    margin-left: 10%;
+    margin-top: 5%;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 5%;
+}
+.content-modal2 .btn-modal {
+    display: flex;
+    flex-direction: row;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    padding-bottom: 2%;
+    justify-content: space-between;
+    width: 100%;
+    /* padding-bottom: 2%; */
+}
+
+
+.btn-modal .btn-no {
+    border: none;
+    color: black;
+    font-weight: 300;
+    background-color: #E9E9E9;
+    box-shadow: 0px 0px 10px 0px #00000026;
+    font-family: 'Noto Sans JP', sans-serif;
+    border-radius: 8px;
+    /* padding: 0.5rem 1rem; */
+    cursor: pointer;
+}
+
+/* red yes color : #E10202 */
+
+.btn-modal .btn-no:hover{
+    background-color: white;
+    font-weight: 300;
+    color: #8F98AA;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #8F98AA;
+}
+
+.btn-modal .btn-yes{
+    border: none;
+    font-weight: 300;
+    color: white;
+    background-color: #E10202;
+    font-family: 'Noto Sans JP', sans-serif;
+    box-shadow: 0px 0px 10px 0px #00000026;
+    border-radius: 8px;
+    /* padding: 0.5rem 1rem; */
+    cursor: pointer;
+}
+
+.btn-modal .btn-yes:hover{
+    background-color: white;
+    color: #E10202;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #E10202;
+}
+
+.custom-backdrop {
+    z-index: 1030;
+    opacity: 0.9;
+}
+
+.slds-backdrop.custom-backdrop.slds-backdrop_open {
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+
+    .withdraw-btn{
+        width: 150px;
+        height: 30px;
+        font-size: 10px;
+    }
+
+    .heading-radio{
+        margin-top: 5%;
+    }
+    
+    .heading-radio h1{
+        font-size: 0.7em;
+        /* font-weight: bolder; */
+    
+    }
+
+    .radio-btns{
+        font-size: 0.8em;
+        font-weight: bold;
+        /* margin-top: 4%; */
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .check-btn label{
+        font-size: 0.7em;
+        font-weight: bold;
+        width: 100%;
+        
+    }
+
+    .month h1{
+        margin-left:2.5%;
+        font-size: 9px;
+        font-weight: lighter;
+        /* text-align: end; */
+    }
+
+    .center-content {
+        width: 90%; 
+        top: 50%; 
+    }
+
+    .btn-no{
+        width: 50px;
+        height: 30px;
+        font-size:x-small;
+        font-weight: bold;
+    }
+    .btn-yes{
+        width:50px;
+        height: 30px;
+        font-size: x-small;
+        font-weight: bold;
+    }
+
+    .content-modal h1{
+        margin-top: 10%;
+        text-align: center;
+        font-size: small;
+        font-weight: bolder;
+    }
+
+    .head{
+        font-size: 10px;
+        margin-left: 20px;
+    }
+
+    
+    
+
+    .data{
+        font-size: 10px;
+    }
+
+    .main-content{
+        width: 100%;
+    }
+
+    .form_container {
+        width: 90%; 
+        height: 80%; 
+    }
+
+    .btn, .btn1 {
+        width: 100px; 
+        height: 40px; 
+    }
+}
+
+.card{
+    /* font-size: larger; */
+    /* font-weight: bolder; */
+    color:black;
+}
+
+.heading-radio{
+    font-size: 1.3em;
+    margin-top: 5%;
+}
+
+.heading-radio h1{
+    font-weight: bolder;
+
+}
+
+input[type="radio"]:checked + label {
+    accent-color: red;
+}
+
+.selected {
+    accent-color: red;
+    font-size: large;
+    margin-top: 5%;
+    font-family: 'Noto Sans JP', sans-serif;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.selected2{
+    accent-color: red;    
+    transform: scale(1.2);
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.other-input{
+    border-radius: 7px;
+    margin-left: 3%;
+    margin-top: 0.5%;
+    width: 80%;
+    height: 40px;
+    padding-left: 2%;
+    border: 1px solid lightgrey;
+    font-size: medium;
+    background-color: white;
+}
+
+.next-button{
+    color: white;
+    background-color: #E10202;
+    /* padding: 8px 0; */
+    border: none;
+    height: 40px;
+    width: 170px;
+    font-family: 'Noto Sans JP', sans-serif;
+    box-shadow: 0px 0px 10px 0px #00000026;
+    border-radius: 8px;
+    /* padding: 0.5rem 1rem; */
+    cursor: pointer;
+}
+
+.next-button:hover{
+    background-color: white;
+    color: #E10202;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #E10202;
+}
+
+.check-btn{
+    font-size: 1.2em;
+    /* font-weight: bold; */
+    width: 100%;
+    /* margin-top: 4%; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: center;
+}
+
+.check-label{
+    font-weight: bolder;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 5%;
+}
+.checkbox-div{
+    width: 80%;
+    margin-left: 5%;
+    display: flex;
+    align-items: flex-start;
+    font-weight: 400;
+    font-family: 'Noto Sans JP', sans-serif;
+    flex-direction: column;
+    margin-top: 3%;
+    margin-bottom: 5%;
+}
+
+.month{
+    margin-top: 1%;
+    margin-left:3.5%;
+    font-size: 0.8em;
+    font-weight: 540;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.head-input{
+    /* margin-left: 3%; */
+    font-weight: bold;
+    font-size: x-large;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.step2-input{
+    margin-bottom: 8%;
+    margin-top: 8%;
+}
+
+.hrclass2{
+    background-color: lightgrey;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+    
+.data-input{
+    margin-bottom: 2%;
+    font-size: medium;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.prev-btn{
+    padding: 8px 0;
+    margin-right: 7%;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: black;
+    background-color: #F4F4F4;
+    padding: 8px 0;
+    border: none;
+    border-radius: 12px;
+    height: 40px;
+    width: 170px;
+    box-shadow: 0px 0px 10px 0px #00000026;
+}
+
+.prev-btn:hover {
+    background-color: white;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #8F98AA;
+    border: solid;
+    border-width: 1px;
+    border-color: #8F98AA;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+}
+
+.step2-btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.step3-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Noto Sans JP', sans-serif;
+    padding: 20%;
+    font-size: large;
+}

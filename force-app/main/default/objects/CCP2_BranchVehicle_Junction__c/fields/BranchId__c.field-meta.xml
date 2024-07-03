@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BranchId__c</fullName>
+    <description>Branch Id from CCP2_Branch</description>
+    <externalId>false</externalId>
+    <label>Branch Id</label>
+    <referenceTo>CCP2_Branch__c</referenceTo>
+    <relationshipLabel>Branch Vehicle Junctions</relationshipLabel>
+    <relationshipName>Branch_Vehicle_Junctions</relationshipName>
+    <relationshipOrder>0</relationshipOrder>
+    <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackTrending>false</trackTrending>
+    <type>MasterDetail</type>
+    <writeRequiresMasterRead>false</writeRequiresMasterRead>
+</CustomField>

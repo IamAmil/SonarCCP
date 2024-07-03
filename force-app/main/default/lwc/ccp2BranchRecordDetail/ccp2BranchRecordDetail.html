@@ -1,0 +1,223 @@
+<template>
+    <template if:true={main}>
+        <div class="main">
+            <div class="half top">
+                <img src={backgroundImagePC}>
+            </div>
+            </div>
+            <div class="half bottom"></div>
+            <div class="center-content">
+                <template if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </template>
+                <template if:false={showSpinner}>
+                    <template if:true={showDetails}>
+                        <div class="form">
+                            <div class="form_header">
+                                <h1 class="centered-text">{labels.CCP2_LocationInformation}</h1>
+                            </div>
+                            <div class="form_container">
+                                <div class="b">
+                                    <div class="button">
+                                        <div class="btn" onclick={handleChange}>
+                                            <P class="toedit">{labels.CCP2_ToEdit}</P>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="datarec">
+                                    <div class="records">
+                                        <div class="head">{labels.CCP2_CompanyName}</div>
+                                        <div class="data">{CompanyName}</div>
+                                    </div>
+                                    <!-- <div class="records">
+                                        <div class="head">{labels.CCP2_BranchNumber}</div>
+                                        <div class="data">{BranchNumber}</div>
+                                    </div> -->
+                                    <div class="records">
+                                        <div class="head">{labels.CCP2_BranchName}</div>
+                                        <div class="data">{branchName}</div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="head">{labels.CCP2_Address}</div>
+                                        <div class="data">{Address}</div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="head">{labels.CCP2_Contact}</div>
+                                        <div class="data">{Contact}</div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="head">{labels.CCP2_Users}</div>
+                                        <div class="datamain no-scroll">
+                                            <template for:each={contacts} for:item="veh">
+                                                <div key={veh.Id} class="record-item">
+                                                    <span>{veh.Name}</span>
+                                                    <br>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <div class="records-end">
+                                        <div class="head">{labels.CCP2_AffiliatedVehicles}</div>
+                                        <div class="datamain no-scroll">
+                                            <template for:each={vehicle} for:item="veh">
+                                                <div key={veh.Id} class="record-item">
+                                                    <span>{veh.Name}</span>
+                                                    <br>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form_footer">
+                                <div class="btn1" onclick={goToMain}>
+                                    <P class="toedit1">{labels.CCP2_Return}</P>
+                                </div>
+                                <div class="delete" onclick={deletebranch}>
+                                    <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={deletebranch} class="filtericn"></lightning-icon>
+                                    <p class="deletetxt">{labels.CCP2_DeleteThisBranch}</p>
+                                    </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:false={showDetails}>
+                        <div class="form" onclick={toggleDropdown}>
+                            <div class="form_header">
+                                <h1 class="centered-text">{labels.CCP2_LocationInformation}</h1>
+                            </div>
+                            <div class="form_container">
+                                <div class="records margin-top">
+                                    <div class="head">{labels.CCP2_CompanyName}</div>
+                                    <div class="data">{CompanyName}</div>
+                                </div>
+                                <!-- <div class="records">
+                                    <div class="head">{labels.CCP2_BranchNumber}</div>
+                                    <div class="data">{BranchNumber}</div>
+                                </div> -->
+                                <div class="recordsI">
+                                    <div class="field">
+                                        <div class="headI">{labels.CCP2_BranchName}</div>
+                                        <div class="req"><p class="reqtxt">{labels.CCP2_Required}</p></div>
+                                    </div>
+                                    <div class="dataI"><input type="text" value={branchName} onchange={handleBranchChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs {branchNameClass}" required></div>
+                                </div>
+                                <div class="recordsI">
+                                    <div class="field">
+                                        <div class="headAdd" >{labels.CCP2_Address}</div>
+                                        <!-- <div class="req"><p class="reqtxt">{labels.CCP2_Required}</p></div> -->
+                                    </div>
+                                    <div class="dataAdd"><input type="text" value={Address} onchange={handleAddressChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {addressClass}"></div>
+                                </div>
+                                <div class="recordsI">
+                                    <div class="fieldCon">
+                                     <div class="headCon">{labels.CCP2_Contact}</div>
+                                     <!-- <div class="req1"><p class="reqtxt">{labels.CCP2_Required}</p></div> -->
+                                    </div>
+                                    <div class="dataCon">
+                                     <input type="text" name="contactNumber" value={Contact} onchange={handleContactNoChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {contactClass}" oninput={handleInput} minlength="10" maxlength="10" pattern="\d*">
+                                     <div class="ins">{labels.CCP2_WithoutHyphen}</div>
+                                    </div>
+                                </div>
+                                <div class="recordsContacts">
+                                    <div class="records1">
+                                        <div class="head1">{labels.CCP2_AddUsers}</div>
+                                        <div class="comboboxheader">
+                                            <div class="instructions">
+                                                <p class="instruct">{labels.CCP2_AssignMem}</p>
+                                            </div>
+                                            <div class="comboboxes">
+                                                    <div class="dataC com">
+                                                        <div class="dataDrop2">
+                                                            <input type="text" oninput={handleSearchCon} onclick={handleConChange} class="Inputs1 icon" placeholder={labels.CCP2_PleaseSelect}>
+                                                            <template if:true={showList}>
+                                                                <div class="lists2 no-scroll" onclick={handleInsideClick}>
+                                                                    <template for:each={filteredContacts} for:item="veh">
+                                                                        <div key={veh.value} class="list-item" onclick={handleContactSelect} data-id={veh.value}>
+                                                                            <p>{veh.label}</p>
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="recordsUser">
+                                        <div class="scrollbar">
+                                            <template for:each={contacts} for:item="veh">
+                                                <div key={veh.Id} class="record-item">
+                                                    <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                    <span>{veh.Name}</span>
+                                                    <br>
+                                                </div>
+                                            </template>
+                                            <template for:each={moreContacts} for:item="veh">
+                                                <div key={veh.Id} class="record-item">
+                                                    <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                    <span>{veh.Name}</span>
+                                                    <br>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="recordVehicles">
+                                    <div class="records1" onclick={handleOutsideClick}>
+                                        <div class="head1">{labels.CCP2_AddVehicles}</div> 
+                                        <div class="vehicleall">
+                                                <div class="vehIns">
+                                                    <p class="vehInstruc">{labels.CCP2_AssignVeh}</p>
+                                                </div>
+                                                <div class="vehicles">
+                                                    <div class="dataDrop">
+                                                        <input type="text" oninput={handleSearch} onclick={handlevehChange} class="Inputs1 icon" placeholder={labels.CCP2_PleaseSelect}>
+                                                        <template if:true={showlist}>
+                                                            <div class="lists no-scroll" onclick={handleInsideClick}>
+                                                                <template for:each={filteredVehicles} for:item="veh">
+                                                                    <div key={veh.value} class="list-item" onclick={handleVehicleSelect} data-id={veh.value}>
+                                                                        <p>{veh.label}</p>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="dataScroll">
+                                            <div class="scrollbar">
+                                                <template for:each={vehicle} for:item="veh">
+                                                    <div key={veh.Id} class="record-item">
+                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                        <span class="vehicleInBox">{veh.Name}</span>
+                                                        <br>
+                                                    </div>
+                                                </template>
+                                                <template for:each={morevehicles} for:item="veh1">
+                                                    <div key={veh1.Id} class="record-item">
+                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh1.Id} class="filtericn"></lightning-icon>
+                                                        <span class="vehicleInBox">{veh1.Name}</span>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form_footerSave">
+                                <div class="btnSave" onclick={handleSave}>
+                                    <P class="toeditSave">{labels.CCP2_SaveChanges}</P>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+            </div> 
+    </template>
+    <template if:false={main}>
+        <c-ccp2-_branch></c-ccp2-_branch>
+    </template>
+</template>

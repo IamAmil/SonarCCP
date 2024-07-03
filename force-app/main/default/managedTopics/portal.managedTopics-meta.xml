@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ManagedTopics xmlns="http://soap.sforce.com/2006/04/metadata">
+    <managedTopic>
+        <fullName>portal.Content:お客様情報</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>お客様情報</name>
+        <parentName></parentName>
+        <position>0</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>portal.Content:その他</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>その他</name>
+        <parentName></parentName>
+        <position>1</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>portal.Content:車検予約</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>車検予約</name>
+        <parentName></parentName>
+        <position>2</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+</ManagedTopics>

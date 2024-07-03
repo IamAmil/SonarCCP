@@ -1,0 +1,382 @@
+import { LightningElement,track,wire } from 'lwc';
+import backgroundImage from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
+import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
+import truckcancel from '@salesforce/resourceUrl/truckcancel1';
+import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
+import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
+import userData from '@salesforce/apex/CCP2_userData.userDtl';
+import ccpoptout from '@salesforce/apex/CCP_Inquiry.CCPOptOut';
+import USER_ID from '@salesforce/user/Id';
+import CONTACT_ID_FIELD from '@salesforce/schema/User.ContactId';
+import USER_ACCOUNT_ID_FIELD from '@salesforce/schema/User.AccountId';
+import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
+import ACCOUNT_TYPE_FIELD from '@salesforce/schema/Account.Type';
+import deleteadmin from '@salesforce/apex/CCP2_UserDeleteController.deleteUser';
+// import ACCOUNT_NAME from '@salesforce/schema/User.Account.Name'
+
+
+import CCP2_Withdraw from '@salesforce/label/c.CCP2_Withdraw';
+import CCP2_DiscontinueMembership from '@salesforce/label/c.CCP2_DiscontinueMembership';
+import CCP2_No from '@salesforce/label/c.CCP2_No';
+import CCP2_Yes from '@salesforce/label/c.CCP2_Yes';
+import CCP2_CancelMembership from '@salesforce/label/c.CCP2_CancelMembership';
+import CCP2_ServicesList from '@salesforce/label/c.CCP2_ServicesList';
+import CCP2_MonthlyRequestForm from '@salesforce/label/c.CCP2_MonthlyRequestForm';
+import CCP2_FinancialServices from '@salesforce/label/c.CCP2_FinancialServices';
+import CCP2_ReservationForVehicleInspection from '@salesforce/label/c.CCP2_ReservationForVehicleInspection';
+import CCP2_VehicleManagement from '@salesforce/label/c.CCP2_VehicleManagement';
+import CCP2_ExpenseManagement from '@salesforce/label/c.CCP2_ExpenseManagement';
+import CCP2_ApplicationDiscontinuation from '@salesforce/label/c.CCP2_ApplicationDiscontinuation';
+import CCP2_CompanyName from '@salesforce/label/c.CCP2_CompanyName';
+import CCP2_CustomerId from '@salesforce/label/c.CCP2_CustomerId';
+import CCP2_FullName from '@salesforce/label/c.CCP2_FullName';
+import CCP2_NameFurigana from '@salesforce/label/c.CCP2_NameFurigana';
+import CCP2_EmployeeNumber from '@salesforce/label/c.CCP2_EmployeeNumber';
+import CCP2_WorkLocation from '@salesforce/label/c.CCP2_WorkLocation';
+import CCP2_Department from '@salesforce/label/c.CCP2_Department';
+import CCP2_Position from '@salesforce/label/c.CCP2_Position';
+import CCP2_EmailAddress from '@salesforce/label/c.CCP2_EmailAddress';
+import CCP2_TelephoneNo from '@salesforce/label/c.CCP2_TelephoneNo';
+import CCP2_MobileNo from '@salesforce/label/c.CCP2_MobileNo';
+import CCP2_CancellationRequest from '@salesforce/label/c.CCP2_CancellationRequest';
+import CCP2_ReasonForDiscontinuation from '@salesforce/label/c.CCP2_ReasonForDiscontinuation';
+import CCP2_LowFrequency from '@salesforce/label/c.CCP2_LowFrequency';
+import CCP2_PoorUsability from '@salesforce/label/c.CCP2_PoorUsability';
+import CCP2_DataAccuracyDissatisfaction from '@salesforce/label/c.CCP2_DataAccuracyDissatisfaction';
+import CCP2_FewMemberBenefits from '@salesforce/label/c.CCP2_FewMemberBenefits';
+import CCP2_FoundBetterProduct from '@salesforce/label/c.CCP2_FoundBetterProduct';
+import CCP2_BusinessClosure from '@salesforce/label/c.CCP2_BusinessClosure';
+import CCP2_Other from '@salesforce/label/c.CCP2_Other';
+import CCP2_DeleteData from '@salesforce/label/c.CCP2_DeleteData';
+import CCP2_DataDeletionNote from '@salesforce/label/c.CCP2_DataDeletionNote';
+import CCP2_Next from '@salesforce/label/c.CCP2_Next';
+import CCP2_Previous from '@salesforce/label/c.CCP2_Previous';
+import CCP2_TOPPage from '@salesforce/label/c.CCP2_TOPPage';
+import branchdetails from '@salesforce/apex/CCP2_userData.userBranchDtl';
+
+
+
+
+
+
+
+const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
+
+export default class Ccp2CancelMembership extends LightningElement {
+
+
+    labels = {
+        CCP2_Withdraw,
+        CCP2_DiscontinueMembership,
+        CCP2_No,
+        CCP2_Yes,
+        CCP2_CancelMembership,
+        CCP2_ServicesList,
+        CCP2_MonthlyRequestForm,
+        CCP2_FinancialServices,
+        CCP2_ReservationForVehicleInspection,
+        CCP2_VehicleManagement,
+        CCP2_ExpenseManagement,
+        CCP2_ApplicationDiscontinuation,
+        CCP2_CompanyName,
+        CCP2_CustomerId,
+        CCP2_FullName,
+        CCP2_NameFurigana,
+        CCP2_EmployeeNumber,
+        CCP2_WorkLocation,
+        CCP2_Department,
+        CCP2_Position,
+        CCP2_EmailAddress,
+        CCP2_TelephoneNo,
+        CCP2_MobileNo,
+        CCP2_CancellationRequest,
+        CCP2_ReasonForDiscontinuation,
+        CCP2_LowFrequency,
+        CCP2_PoorUsability,
+        CCP2_DataAccuracyDissatisfaction,
+        CCP2_FewMemberBenefits,
+        CCP2_FoundBetterProduct,
+        CCP2_BusinessClosure,
+        CCP2_Other,
+        CCP2_DeleteData,
+        CCP2_DataDeletionNote,
+        CCP2_Next,
+        CCP2_Previous,
+        CCP2_TOPPage
+    };
+
+    truckpic1 = truckcancel;
+    truckpic2 = truckcancel2;
+    truckpic3 = truckcancel3;
+    backgroundImagePC = BACKGROUND_IMAGE_PC;
+    @track branchfromjunction = [];
+    @track hidebasicInfo = true;
+    @track showConformpage = false;
+    @track showconfModal = false;
+    @track showstep1 = true;
+    @track showstep2 = false;
+    @track selectedReasonMessage;
+    @track showstep3 = false;
+    @track showServiceModal = false;
+    @track isInputDisabled = true;
+    @track UserDetails = []; 
+    @track CompanyName = '';
+    @track selectedReason = '';  // Initialize with the pre-selected value
+    @track otherReason = '';
+    @track showOtherInput = false;
+    @track deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」';
+    @track accountId;
+    @track userDetailData = {
+        Name: null,
+        id: null,
+        email: null,
+        account: {
+          id: null,
+          name: null,
+          siebelAccountCode__c: null,
+          Industry: null
+        },
+        Branch__r: {
+          name: null
+        },
+        MobilePhone: null,
+        Department: null,
+        Employee_Code__c: null,
+        Phone:null,
+        firstNameKana__c:null,
+        lastNameKana__c:null,
+        Title:null
+      };
+    userId = USER_ID;
+    @track contactId;
+    @track accountName;
+
+    connectedCallback(){
+        const link = document.createElement('link');
+        link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
+        link.rel = 'stylesheet';
+        document.head.appendChild(link);
+        
+    }
+
+    deleteadmin() {
+        deleteadmin({ contactId: this.contactId })
+          .then((result) => {
+            // this.handleDeleteSuccess();
+            console.log("delete user api data response : ", this.contactId);
+          })
+          .catch((error) => {
+            console.log("delete User Fetching error id :" + this.contactId);
+            console.error("delete User Fetching error:" + JSON.stringify(error));
+          });
+      }
+    
+
+    @wire(branchdetails, {User: "$contactId"})
+    wiredbranches2({data,error}){
+    if(data){
+      // this.userDetailData.Branchs__r = data == [] ? [{Id: 12, Name: "Null"}] : data;
+      this.branchfromjunction = data.map(branch => ({ Name: branch.Name }));
+      console.log("branch data from new branch func",JSON.stringify(this.branchfromjunction));
+    }else{
+      console.log("error in fetching branches from new",error);
+    }
+  }
+    @wire(userData,{User:'$contactId',refresh: true})
+    fetchUserData({data,error}){
+       // console.log("user id",this.contactId)
+        if(data){
+            console.log("data " , data)
+            this.userDetailData = {
+                Name: data[0].Name == null ? 'null' : data[0].Name,
+                id: data[0].Id == null ? 'null' : data[0].Id,
+                email: data[0].Email == null ? "null" : data[0].Email,
+                account: {
+                    id: data[0].Account.Id == null ? 'null' : data[0].Account.Id,
+                    name: data[0].Account.Name == null ? 'null' : data[0].Account.Name,
+                    SiebelAccountCode__c: data[0].Account.siebelAccountCode__c == null ? 'null' : data[0].Account.siebelAccountCode__c,
+                },
+                Branchs: data[0].Branchs__r == undefined ? [{Name:'null'}] : data[0].Branchs__r,
+                MobilePhone: data[0].MobilePhone == null ? 'null' : data[0].MobilePhone,
+                Department: data[0].Department == null ? 'null' : data[0].Department,
+                Employee_Code__c: data[0].Employee_Code__c == null ? 'null' : data[0].Employee_Code__c,
+                Phone: data[0].Phone == null ? 'null' : data[0].Phone,
+                firstNameKana__c: data[0].firstNameKana__c == null ? 'null' : data[0].firstNameKana__c,
+                lastNameKana__c: data[0].lastNameKana__c == null ? 'null' : data[0].lastNameKana__c,
+                Title: data[0].Title == null ? 'null' : data[0].Title
+            }
+            console.log("userData",JSON.stringify(this.userDetailData));
+
+    } else if(error){
+        console.log("error,",error);
+    }
+    }
+
+
+    @wire(getRecord, {
+        recordId: '$userId',
+        fields: [CONTACT_ID_FIELD, USER_ACCOUNT_ID_FIELD]
+    })
+    userRecord({ error, data }) {
+        if (data) {
+            this.contactId = data.fields.ContactId.value;
+            this.accountId = data.fields.AccountId.value;
+            console.log('Contact ID:', this.contactId);
+        } else if (error) {
+            console.error('Error fetching user record:', error);
+        }
+    }
+
+    @wire(getRecord, {
+        recordId: '$accountId',
+        fields: [ACCOUNT_NAME_FIELD, ACCOUNT_TYPE_FIELD]
+    })
+    accountDetailHandler({ error, data }) {
+        if (data) {
+            this.accountName = data.fields.Name.value;
+        } else if (error) {
+            console.error(error);
+        }
+    }
+
+    // @wire(getRecord, {
+    //     recordId: '$userId',
+    //     fields: [CONTACT_ID_FIELD]
+    // })
+
+    
+    
+    handlewithdraw(){
+        this.showconfModal = false;
+        this.showServiceModal = true;
+        this.showConformpage = false;
+        this.hidebasicInfo = true;
+    }
+
+
+
+    handleYes() {
+        this.showstep2 = false;
+        this.showconfModal = false;
+        this.showstep3 = true;
+        this.deleteadmin(this.contactId);
+       // const ne34 = this.userDetailData.account.name;
+        // console.log("acc name",this.selectedReasonMessage);
+        // (ccpoptout,{inquiryType: 'CCP opt out ticket',description: this.selectedReasonMessage,accountName: this.accountName,accountId: this.accountId})
+        try {
+            // Assuming this is an asynchronous call with separate parameters
+            ccpoptout({
+                inquiryType: 'CCP opt out ticket',
+                description: this.selectedReasonMessage,
+                accountName: this.accountName,
+                accountId: this.accountId
+            })
+            .then(result => {
+                // Handle success
+                console.log('Operation successful:', result);
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error occurred:', error);
+            });
+        } catch (error) {
+            // Handle any unexpected errors
+            console.error('Unexpected error:', error);
+        }
+    }
+
+    handleYesmodal2(){
+
+        this.showServiceModal = false;
+        this.hidebasicInfo = false;
+        this.showConformpage = true;
+        this.showstep1 = true;
+        
+    }
+
+    handleNomodal2(){
+        this.showServiceModal=false;
+        this.hidebasicInfo = true;
+        
+    }
+
+    handleTop(){
+        this.hidebasicInfo = true;
+        this.showstep3 = false;
+        this.showstep1 = false;
+        this.showstep2 = false;
+        this.showConformpage = false;
+    }
+
+    handleNo() {
+        // Handle No action
+        this.showconfModal = false;
+        this.showstep2 = true;
+        
+    }
+
+    handlestep1(){
+        this.showstep1 = false;
+        this.showstep2 = true;
+        this.selectedReasonMessage = this.selectedReason;
+        if (this.selectedReason === 'その他') {
+            this.selectedReasonMessage = this.otherReason;
+            console.log("other reason 2",this.otherReason)
+        }
+        console.log('Selected Reason:', selectedReasonMessage);
+
+        
+
+    }
+    handlestep2(){
+        this.showstep1 = false;
+        this.showstep2 = true;
+        this.showconfModal = true;
+        this.showServiceModal = false;
+        // this.showstep3 = true;
+    }
+
+    handlePrevstep2(){
+        this.showstep1 = true;
+        this.showstep2 = false;
+        this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」'
+    }
+
+    handleReasonChange(event) {
+        this.selectedReason = event.target.value;
+        this.isInputDisabled = event.target.value !== 'その他';
+        console.log("selected reason",this.selectedReason)
+    }
+
+    handleOtherReasonChange(event) {
+        this.otherReason = event.target.value;
+        console.log("other reason",this.otherReason);
+    }
+
+    handleCheckbox(event){
+        if (event.target.checked) {
+            this.deletecheckbox = event.target.value;
+        } else {
+            this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」';
+        }
+
+        
+    }
+
+    // Handle submit button click
+    handleSubmit() {
+        
+        // You can add logic here to process the selected reason, e.g., save it to the server or display a message
+    }
+
+    // Compute the class for the radio buttons
+    // get getRadioClass() {
+    //     return this.selectedReason ? 'selected' : '';
+    // }
+
+
+    get getRadioClasscheck(){
+        return this.deletecheckbox ? 'selected2' : '';
+    }
+
+}

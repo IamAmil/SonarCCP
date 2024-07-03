@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ManagedTopics xmlns="http://soap.sforce.com/2006/04/metadata">
+    <managedTopic>
+        <fullName>faq.Content:お客様情報</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>お客様情報</name>
+        <parentName></parentName>
+        <position>0</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Content:その他</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>その他</name>
+        <parentName></parentName>
+        <position>2</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Content:車検予約</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>車検予約</name>
+        <parentName></parentName>
+        <position>1</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Content:部整月次請求書（電子版）</fullName>
+        <managedTopicType>Content</managedTopicType>
+        <name>部整月次請求書（電子版）</name>
+        <parentName></parentName>
+        <position>3</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Featured:お客様情報</fullName>
+        <managedTopicType>Featured</managedTopicType>
+        <name>お客様情報</name>
+        <parentName></parentName>
+        <position>0</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Featured:その他</fullName>
+        <managedTopicType>Featured</managedTopicType>
+        <name>その他</name>
+        <parentName></parentName>
+        <position>3</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Featured:部整月次請求書（電子版）</fullName>
+        <managedTopicType>Featured</managedTopicType>
+        <name>部整月次請求書（電子版）</name>
+        <parentName></parentName>
+        <position>2</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Navigational:お客様情報</fullName>
+        <managedTopicType>Navigational</managedTopicType>
+        <name>お客様情報</name>
+        <parentName></parentName>
+        <position>0</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Navigational:その他</fullName>
+        <managedTopicType>Navigational</managedTopicType>
+        <name>その他</name>
+        <parentName></parentName>
+        <position>3</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Navigational:車検予約</fullName>
+        <managedTopicType>Navigational</managedTopicType>
+        <name>車検予約</name>
+        <parentName></parentName>
+        <position>1</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+    <managedTopic>
+        <fullName>faq.Navigational:部整月次請求書（電子版）</fullName>
+        <managedTopicType>Navigational</managedTopicType>
+        <name>部整月次請求書（電子版）</name>
+        <parentName></parentName>
+        <position>2</position>
+        <topicDescription> </topicDescription>
+    </managedTopic>
+</ManagedTopics>

@@ -1,0 +1,59 @@
+<template>
+    <template if:true={branch}>
+        <div class="main">
+            <div class="half top">
+                <img src={backgroundImagePC} class="imghead">
+            </div>
+            <div class="half bottom"></div>
+            <div class="center-content">
+                <div class="form_header">
+                    <h1 class="centered-text Text">{labels.CCP2_BranchManagement}</h1>
+                </div>
+
+                <div class="form">
+                
+                    <div class="cards-gap no-scroll">
+                        <template for:each={branchData} for:item="branch">
+                            <div key={branch.BranchId} data-id={branch.BranchId} onclick={handleclick2} class="card">
+                                <div class="branch-name-main">
+                                    <span class="Text">{branch.BranchName}</span>
+                                </div>
+                                <div class="third-div">
+                                    <p class="Text">{labels.CCP2_AffiliatedVehicles} : {branch.VehicleCount}台</p>
+                                </div>
+                            </div>
+                        </template>
+                     </div>
+    <!-- <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <button style="background-color: #ccc; padding: 10px 20px; border: none;  cursor: pointer;">TOP Page</button>
+        <button
+            style="background-color: #ccc; color: white; padding: 10px 20px; border: none;  cursor: pointer; margin-left: 10px;"
+            onclick={navigateToNewBranch}> Create Branch</button>
+    </div> -->
+    <div class="form-footer">
+        <div class="button">
+            <div class="btn" onclick={goToMain}>
+                <P class="toedit Text">{labels.CCP2_TOPPage}</P>
+            </div>
+        </div> 
+        <div class="button2">
+            <div class="btn2" onclick={navigateToNewBranch}>
+                <P class="toedit2 Text">{labels.CCP2_CreateBranch}</P>
+            </div>
+        </div> 
+      
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+</template>
+<template if:true={branchA}>
+    <c-ccp2-Branch-Record-Detail branch-id={branchId}></c-ccp2-Branch-Record-Detail>
+</template>
+
+<template if:true={addBranch}>
+    <c-ccp2-add-branch-form></c-ccp2-add-branch-form>
+</template>
+</template>
