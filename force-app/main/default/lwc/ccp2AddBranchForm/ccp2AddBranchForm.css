@@ -154,26 +154,35 @@
 
 @media (max-width: 768px) {
     .center-content {
-        width: 80%;
+        width: 93%;
     }
-    .address{
+    .main{
+        height: 120vh;
+    }
+    .form-body{
+        /* width: 90%; */
+    }
+    /* .address{
         margin-right: 20px;
-    }
+    } */
     .form-group {
-        margin-left: 90px;
+        margin-left: 11px;
     }
 
     .form-group-2input {
-        margin-left: 80px;
+        margin-left: 11px;
       
+    }
+    .form-group34 {
+        margin-left: 12px;
     }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .form-group-2input {
        margin-left: 100px;
     }
-}
+} */
 
 
 .form-group-checkbox {
@@ -682,9 +691,7 @@ margin-right:30px;
 }
 
 @media (max-width: 768px) {
-    .form-group34 {
-        margin-left: 100px;
-    }
+  
     .company-name2{
         width: 170px;
     }

@@ -53,11 +53,11 @@
         <name>CCP2_AssignMemberRelevant</name>
     </customLabels>
     <customLabels>
-        <label>新しい会員を該当拠点に配属する</label>
+        <label>会員を該当勤務地に配属する</label>
         <name>CCP2_AssignNewMember</name>
     </customLabels>
     <customLabels>
-        <label>新しい車両を該当拠点に配属する</label>
+        <label>車両を該当勤務地に配属する</label>
         <name>CCP2_AssignNewVehicle</name>
     </customLabels>
     <customLabels>
@@ -103,6 +103,10 @@
     <customLabels>
         <label>拠点追加完了</label>
         <name>CCP2_BranchAddCompleted</name>
+    </customLabels>
+    <customLabels>
+        <label>この勤務地が追加完成しました。</label>
+        <name>CCP2_BranchAdded</name>
     </customLabels>
     <customLabels>
         <label>拠点番号</label>
@@ -345,7 +349,7 @@
         <name>CCP2_LoadingPlatformInformation</name>
     </customLabels>
     <customLabels>
-        <label>拠点情報</label>
+        <label>勤務地情報</label>
         <name>CCP2_LocationInformation</name>
     </customLabels>
     <customLabels>
@@ -465,6 +469,10 @@
         <name>CCP2_PleaseConfirmInputDetails</name>
     </customLabels>
     <customLabels>
+        <label>入力してください</label>
+        <name>CCP2_PleaseEnter</name>
+    </customLabels>
+    <customLabels>
         <label>追加する勤務地の基本情報をご入力ください</label>
         <name>CCP2_PleaseEnterBasicInfo</name>
     </customLabels>
@@ -533,7 +541,7 @@
         <name>CCP2_ReservationForVehicleInspection</name>
     </customLabels>
     <customLabels>
-        <label>拠点管理へ戻る</label>
+        <label>拠点管理へ</label>
         <name>CCP2_Return</name>
     </customLabels>
     <customLabels>
@@ -565,6 +573,14 @@
         <name>CCP2_SelectVehicles</name>
     </customLabels>
     <customLabels>
+        <label>選択された会員</label>
+        <name>CCP2_SelectedMembers</name>
+    </customLabels>
+    <customLabels>
+        <label>選択された車両</label>
+        <name>CCP2_SelectedVehicle</name>
+    </customLabels>
+    <customLabels>
         <label>利用サービス</label>
         <name>CCP2_ServiceUsed</name>
     </customLabels>
@@ -581,7 +597,7 @@
         <name>CCP2_SurnameFurigana</name>
     </customLabels>
     <customLabels>
-        <label>TOPページへ戻る</label>
+        <label>トップに戻る</label>
         <name>CCP2_TOPPage</name>
     </customLabels>
     <customLabels>

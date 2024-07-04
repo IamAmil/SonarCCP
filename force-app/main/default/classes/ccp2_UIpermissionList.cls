@@ -76,9 +76,9 @@ public with sharing class ccp2_UIpermissionList {
         }
     }
      @AuraEnabled(cacheable=true)
-    public static List<String> uiPermissionList(Id userId,Boolean refresh) {
+    public static List<String> uiPermissionList(Id userId,Integer refresh) {
         // Query the access control record for the given user ID
-        if(refresh){
+       // if(refresh){
         List<CCP2_Access_Control__c> accessList = [
             SELECT Name, Basic_Service_EC_Flag__c, Cost_management_Flag__c, E_invoice_Flag__c,
                    Financial_service_Flag__c, Online_maintenance_booking_Flag__c, Vehicle_management_Flag__c
@@ -114,7 +114,7 @@ public with sharing class ccp2_UIpermissionList {
         // Return the list of active permissions
         System.debug(activePermissions);
         return activePermissions;
-    }
+   /* }
     
     else{
         List<CCP2_Access_Control__c> accessList = [
@@ -152,6 +152,6 @@ public with sharing class ccp2_UIpermissionList {
         // Return the list of active permissions
         System.debug(activePermissions);
         return activePermissions;
-    }
+    }*/
     }
 }

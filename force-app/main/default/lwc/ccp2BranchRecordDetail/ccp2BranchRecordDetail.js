@@ -337,55 +337,32 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
  //on Saving the data on edit page
   async handleSave() {
     try {
-        //   if (Object.keys(this.contacts).length === 0 && Object.keys(this.moreContacts).length === 0) {
-        //     this.dispatchEvent(
-        //         new ShowToastEvent({
-        //             title: 'Error',
-        //             message: 'User data cannot be empty. Please add at least one contact.',
-        //             variant: 'error',
-        //         }),
-        //     );
-        //     return;
-        // }
-        // if (this.vehicle.length === 0 && this.morevehicles.length === 0) {
-        //     this.dispatchEvent(
-        //         new ShowToastEvent({
-        //             title: 'Error',
-        //             message: 'Vehicle data cannot be empty. Please add at least one vehicle.',
-        //             variant: 'error',
-        //         }),
-        //     );
-        //     return;
-        // }
-        
-        const allInputs = this.template.querySelectorAll('input:not(.Inputs1):not(.Inputs12)');
-            let allValid = true;
+        const branchInput = this.template.querySelector('input[name="branch"]');
+        let allValid = true;
 
-            allInputs.forEach(input => {
-                if (!input.value) {
-                    input.classList.add('invalid-input');
-                    input.setCustomValidity('この項目は必須です');
-                    input.reportValidity();
-                    allValid = false;
-                } else {
-                    input.classList.remove('invalid-input');
-                    input.setCustomValidity('');
-                    input.reportValidity();
-                }
-            });
-
-            if (this.Contact.length !== 0 && this.Contact.length < 10) {
-                const contactInput = this.template.querySelector('input[name="contactNumber"]');
-                contactInput.classList.add('invalid-input');
-                contactInput.setCustomValidity('連絡先番号は正確に 10 桁である必要があります');
-                contactInput.reportValidity();
-                allValid = false;
-            } else {
-                const contactInput = this.template.querySelector('input[name="contactNumber"]');
-                contactInput.classList.remove('invalid-input');
-                contactInput.setCustomValidity('');
-                contactInput.reportValidity();
-            }
+        // Validate the branch input
+        if (!branchInput.value) {
+            branchInput.classList.add('invalid-input');
+            branchInput.setCustomValidity('この項目は必須です');
+            branchInput.reportValidity();
+            allValid = false;
+        } else {
+            branchInput.classList.remove('invalid-input');
+            branchInput.setCustomValidity('');
+            branchInput.reportValidity();
+        }
+            // if (this.Contact.length !== 0 && this.Contact.length < 10) {
+            //     const contactInput = this.template.querySelector('input[name="contactNumber"]');
+            //     contactInput.classList.add('invalid-input');
+            //     contactInput.setCustomValidity('連絡先番号は正確に 10 桁である必要があります');
+            //     contactInput.reportValidity();
+            //     allValid = false;
+            // } else {
+            //     const contactInput = this.template.querySelector('input[name="contactNumber"]');
+            //     contactInput.classList.remove('invalid-input');
+            //     contactInput.setCustomValidity('');
+            //     contactInput.reportValidity();
+            // }
 
             if (!allValid) {
                 this.dispatchEvent(
@@ -432,6 +409,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             }));
         }
         if (actions.length > 0) {
+            console.log('Actions length:', actions.length);
             await Promise.all(actions);
             this.dispatchEvent(
                 new ShowToastEvent({
@@ -442,23 +420,24 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             );
             this.goTodetail();
         } else {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    //title: 'No Changes',
-                    message: '保存する変更はありません',
-                    variant: 'info',
-                }),
-            );
-            this.goTodetail();
-           
+            console.log("going");
+            // this.dispatchEvent(
+            //     new ShowToastEvent({
+            //         //title: 'No Changes',
+            //         message: '保存する変更はありません',
+            //         variant: 'info',
+
+            //     }),
+            // );
+            this.goTodetail(); 
         }
 
     } catch (error) {
         this.dispatchEvent(
             new ShowToastEvent({
                // title: 'Error',
-                message: '変更を保存できませんでした:' + error.body.message,
-                variant: 'error',
+               message: error.body ? `変更を保存できませんでした: ${error.body.message}` : '変更を保存できませんでした',
+               variant: 'error',
             }),
         );
     }

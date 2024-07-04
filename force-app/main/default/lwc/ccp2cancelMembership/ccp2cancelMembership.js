@@ -110,7 +110,7 @@ export default class Ccp2CancelMembership extends LightningElement {
     @track showconfModal = false;
     @track showstep1 = true;
     @track showstep2 = false;
-    @track selectedReasonMessage;
+    @track selectedReasonMessage = '';
     @track showstep3 = false;
     @track showServiceModal = false;
     @track isInputDisabled = true;
@@ -193,7 +193,7 @@ export default class Ccp2CancelMembership extends LightningElement {
       console.log("error in fetching branches from new",error);
     }
   }
-    @wire(userData,{User:'$contactId',refresh: true})
+    @wire(userData,{User:'$contactId',refresh: 1})
     fetchUserData({data,error}){
        // console.log("user id",this.contactId)
         if(data){
@@ -249,13 +249,7 @@ export default class Ccp2CancelMembership extends LightningElement {
             console.error(error);
         }
     }
-
-    // @wire(getRecord, {
-    //     recordId: '$userId',
-    //     fields: [CONTACT_ID_FIELD]
-    // })
-
-    
+   
     
     handlewithdraw(){
         this.showconfModal = false;
@@ -308,7 +302,6 @@ export default class Ccp2CancelMembership extends LightningElement {
     handleNomodal2(){
         this.showServiceModal=false;
         this.hidebasicInfo = true;
-        
     }
 
     handleTop(){
@@ -328,26 +321,46 @@ export default class Ccp2CancelMembership extends LightningElement {
 
     handlestep1(){
         console.log("selected reason message",this.selectedReasonMessage)
-        if (this.otherReason == '' || this.selectedReason == '') {
+        if (this.selectedReason == '') {
             this.dispatchEvent(
-              new ShowToastEvent({
-                title: "エラー",
-                message:
-                  "退会理由を選択してください。",
-                variant: "error"
-              })
-            );
-            return;
+                  new ShowToastEvent({
+                    title: "エラー",
+                    message:
+                      "退会理由を選択してください。",
+                    variant: "error"
+                  })
+                );
+                return;
+            
+           
           }
-          else{
-              this.showstep1 = false;
-              this.showstep2 = true;
-              this.selectedReasonMessage = this.selectedReason;
-              if (this.selectedReason === 'その他') {
-                  this.selectedReasonMessage = this.otherReason;
-                  console.log("other reason 2",this.otherReason)
-              }
+        else if(this.selectedReason == 'その他'){
+            if(this.otherReason == ''){
+                this.dispatchEvent(
+                            new ShowToastEvent({
+                              title: "エラー",
+                              message:
+                                "コメント欄に理由を述べてください。",
+                              variant: "error"
+                            })
+                          );
+                return;
+            }
+            else{
+                this.showstep1 = false;
+                this.showstep2 = true;
+                this.selectedReasonMessage = this.selectedReason;
+                if (this.selectedReason === 'その他') {
+                    this.selectedReasonMessage = this.otherReason;
+                    console.log("other reason 2",this.otherReason)
+                }
           }
+        }
+        else{
+            this.showstep1 = false;
+            this.showstep2 = true;
+            this.selectedReasonMessage = this.selectedReason;
+        }
 
     }
     handlestep2(){
@@ -360,8 +373,12 @@ export default class Ccp2CancelMembership extends LightningElement {
 
     handlePrevstep2(){
         this.showstep1 = true;
+        this.selectedReason = '';
+        this.selectedReasonMessage = '';
+        this.otherReason = '';
         this.showstep2 = false;
-        this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」'
+        this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」';
+        console.log("selected reason on prev",this.selectedReason);
     }
 
     handleReasonChange(event) {
@@ -385,17 +402,7 @@ export default class Ccp2CancelMembership extends LightningElement {
         
     }
 
-    // Handle submit button click
-    handleSubmit() {
-        
-        // You can add logic here to process the selected reason, e.g., save it to the server or display a message
-    }
-
-    // Compute the class for the radio buttons
-    // get getRadioClass() {
-    //     return this.selectedReason ? 'selected' : '';
-    // }
-
+    
 
     get getRadioClasscheck(){
         return this.deletecheckbox ? 'selected2' : '';

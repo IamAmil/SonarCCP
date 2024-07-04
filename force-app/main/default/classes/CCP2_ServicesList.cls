@@ -1,6 +1,6 @@
 public with sharing class CCP2_ServicesList {
     @AuraEnabled(cacheable=true)
-    public static List<Map<String, Object>> permissionValues(Id userId) {
+    public static List<Map<String, Object>> permissionValues(Id userId,Integer refresh) {
         if(userId == null){
             throw new AuraHandledException('Input is empty');
         }

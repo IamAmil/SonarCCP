@@ -96,14 +96,14 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_AssignNewMember</shortDescription>
-        <value>新しい会員を該当拠点に配属する</value>
+        <value>会員を該当勤務地に配属する</value>
     </labels>
     <labels>
         <fullName>CCP2_AssignNewVehicle</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_AssignNewVehicle</shortDescription>
-        <value>新しい車両を該当拠点に配属する</value>
+        <value>車両を該当勤務地に配属する</value>
     </labels>
     <labels>
         <fullName>CCP2_AssignVehicleRelevant</fullName>
@@ -181,6 +181,13 @@
         <protected>false</protected>
         <shortDescription>CCP2_BranchAddCompleted</shortDescription>
         <value>拠点追加完了</value>
+    </labels>
+    <labels>
+        <fullName>CCP2_BranchAdded</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCP2_BranchAdded</shortDescription>
+        <value>この勤務地が追加完成しました。</value>
     </labels>
     <labels>
         <fullName>CCP2_BranchId</fullName>
@@ -607,7 +614,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_LocationInformation</shortDescription>
-        <value>拠点情報</value>
+        <value>勤務地情報</value>
     </labels>
     <labels>
         <fullName>CCP2_Logout</fullName>
@@ -813,6 +820,13 @@
         <value>基本情報をご確認ください</value>
     </labels>
     <labels>
+        <fullName>CCP2_PleaseEnter</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCP2_PleaseEnter</shortDescription>
+        <value>入力してください</value>
+    </labels>
+    <labels>
         <fullName>CCP2_PleaseEnterBasicInfo</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -936,7 +950,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_Return</shortDescription>
-        <value>拠点管理へ戻る</value>
+        <value>拠点管理へ</value>
     </labels>
     <labels>
         <fullName>CCP2_ReturnToTopPage</fullName>
@@ -988,6 +1002,20 @@
         <value>所属車両</value>
     </labels>
     <labels>
+        <fullName>CCP2_SelectedMembers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCP2_SelectedMembers</shortDescription>
+        <value>選択された会員</value>
+    </labels>
+    <labels>
+        <fullName>CCP2_SelectedVehicle</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CCP2_SelectedVehicle</shortDescription>
+        <value>選択された車両</value>
+    </labels>
+    <labels>
         <fullName>CCP2_ServiceUsed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1020,7 +1048,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_TOPPage</shortDescription>
-        <value>TOPページへ戻る</value>
+        <value>トップに戻る</value>
     </labels>
     <labels>
         <fullName>CCP2_TelephoneNo</fullName>

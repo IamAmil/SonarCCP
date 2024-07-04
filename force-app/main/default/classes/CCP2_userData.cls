@@ -43,7 +43,7 @@ public with sharing class CCP2_userData {
             }*/
         
         if (accId != null) {
-        user = [SELECT Id, Name FROM Contact WHERE accountId = :accId and ccpUseFlag__c= true AND Id NOT IN (SELECT ContactId__c FROM CCP2_BranchContact_Junction__c WHERE BranchId__c = :branchId)];
+        user = [SELECT Id, Name FROM Contact WHERE accountId = :accId and ccpUseFlag__c= true AND canManageMember__c = false AND Id NOT IN (SELECT ContactId__c FROM CCP2_BranchContact_Junction__c WHERE BranchId__c = :branchId)];
 
         }
         System.debug('user ' +user);
@@ -76,8 +76,8 @@ public with sharing class CCP2_userData {
          
     }
        @AuraEnabled(cacheable=true)
-    public static List<CCP2_Branch__c> userBranchDtl(Id User,Boolean refresh) {
-        if(refresh){
+    public static List<CCP2_Branch__c> userBranchDtl(Id User,Integer refresh) {
+       // if(refresh){
         try {
             // Query the Branch Ids related to the given User
             List<CCP2_BranchContact_Junction__c> BranchIds = [SELECT BranchId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :User];
@@ -96,8 +96,8 @@ public with sharing class CCP2_userData {
             System.debug('Error in userDtl: ' + e.getMessage());
             throw new AuraHandledException('An error occurred while fetching branch details');
         }
-    }
-     else{
+    /*}
+    else{
          try {
             // Query the Branch Ids related to the given User
             List<CCP2_BranchContact_Junction__c> BranchIds = [SELECT BranchId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :User];
@@ -116,7 +116,7 @@ public with sharing class CCP2_userData {
             System.debug('Error in userDtl: ' + e.getMessage());
             throw new AuraHandledException('An error occurred while fetching branch details');
         }
-     }
+     }*/
     }
     /* @AuraEnabled(cacheable=true)
     public static List<CCP2_BranchContact_Junction__c> userDtl(Id User,Boolean refresh)

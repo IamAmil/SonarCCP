@@ -173,10 +173,17 @@ export default class Ccp2AddBranchForm extends LightningElement {
     openlist(event){
         event.stopPropagation();
         this.showList = !this.showList;
+        if(this.vehicles.length === 0){
+            this.showList = false;
+          }
+
     }
     openlistUser(event){
         event.stopPropagation();
         this.showListUser = !this.showListUser;
+        if(this.users.length === 0){
+            this.showListUser = false;
+        }
     }
 
     handleVehicleChange() {
@@ -192,13 +199,11 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
         if (selectedVehicle) {
             this.morevehicles.push({ Id: selectedVehicle.value, Name: selectedVehicle.label });
-        }
-
-
-        this.selectedVehicleId = null;
-        if(this.vehicles.length === 0){
-            this.showList = false;
-        }
+            }
+            this.selectedVehicleId = null;
+            if(this.vehicles.length === 0){
+                this.showList = false;
+              }
 
        
     }
@@ -219,8 +224,8 @@ export default class Ccp2AddBranchForm extends LightningElement {
             this.moreusers.push({ Id: selectedUser.value, Name: selectedUser.label });
         }
 
-
         this.selectedUserId = null;
+
         if(this.users.length === 0){
             this.showListUser = false;
         }
