@@ -478,6 +478,16 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
          Update branchs;
      return abcd;
     }
+    @AuraEnabled(cacheable=true)
+    public static List<Account> accountDetails(){
+       // User currentUser = [SELECT Id, Name, AccountId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+			Id accId=accId();
+            List<Account> currentUserAccount = [SELECT Id, Name FROM Account WHERE Id =:accId];
+            
+            System.debug(currentUserAccount);
+            //System.debug('Current User Account: ' + currentUserAccount.Name);
+        Return currentUserAccount;
+    }
     
     @AuraEnabled(cacheable=true)
     public static List<AggregateResult> BranchVehicleCount() {

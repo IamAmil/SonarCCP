@@ -3,6 +3,7 @@ import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_V
 import getVehicleWithoutAssociation from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociation';
 import getUsersWithoutAssociation from '@salesforce/apex/CCP2_userData.userList';
 import AddBranch from '@salesforce/apex/CCP2_branchManagement.createAndAssociateBranch';
+import getAccount from '@salesforce/apex/CCP2_userData.accountDetails';
 import Img1 from '@salesforce/resourceUrl/ccp2HeaderImg1';
 import Img2 from '@salesforce/resourceUrl/ccp2HeaderImg2';
 import Img3 from '@salesforce/resourceUrl/ccp2HeaderImg3';
@@ -139,6 +140,16 @@ export default class Ccp2AddBranchForm extends LightningElement {
             this.accountId = getFieldValue(data, ACCOUNT_ID_FIELD);
         } else if (error) {
             console.error('Error fetching user record:', error);
+        }
+    }
+    @track AccountName;
+
+    @wire(getAccount)loadaccount({data,error}){
+        if(data){
+            console.log("mydata",data);
+            this.AccountName = data[0].Name;
+        }else if(error){
+            console.log(error);
         }
     }
 
@@ -388,7 +399,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
         branchName: this.branchName,
         telephoneNo: this.phone,
         cellPhoneNo: this.fax,
-        companyName: 'PwC Japan Contract Co., Ltd',
+        companyName: this.AccountName,
         // branchNumber: '0003'
     };
     console.log(JSON.stringify(params));

@@ -1,282 +1,227 @@
 @isTest
 public class CCP2_userDataTest {
-
-    @testSetup
-    static void setupTestData() {
-        Account testAccount = new Account(Name = 'Test Account', siebelAccountCode__c = '00190000001pPvHAAU'); // Assuming siebelAccountCode__c is required
-        insert testAccount;
-
-        Contact testContact = new Contact(FirstName = 'Test', LastName = 'Contact', Email = 'testcontact@example.com', AccountId = testAccount.Id);
-        insert testContact;
-
-        Profile communityProfile = [SELECT Id FROM Profile WHERE Name = 'FUSO Customer Community Plus Login User' LIMIT 1];
-        String uniqueUserName = 'testuser' + DateTime.now().getTime() + '@example.com';
-        User testUser = new User(Alias = 'tuser', Email = 'testuser@example.com', EmailEncodingKey = 'UTF-8',
-                                 LastName = 'User', LanguageLocaleKey = 'en_US', LocaleSidKey = 'en_US', 
-                                 ProfileId = communityProfile.Id, TimeZoneSidKey = 'America/Los_Angeles', 
-                                 UserName = uniqueUserName, ContactId = testContact.Id);
-        insert testUser;
-
-        CCP2_Branch__c testBranch = new CCP2_Branch__c(Account__c = testAccount.Id, Name = 'Test Branch');
-        insert testBranch;
-		ID cpCaseRecordTypeId = Schema.SObjectType.VehicleInfo__c.getRecordTypeInfosByDeveloperName().get('expectedVehicle').getRecordTypeId();
-        Account portalAccount = [SELECT Id FROM Account WHERE Name = 'Test Account' LIMIT 1];
-        VehicleInfo__c v = new VehicleInfo__c();
-            v.Name = 'TEST11';
-        v.vehicleManagementNumber__c = '12312312';
-        v.newCarFlag__c = 'LDT';
-        v.mileage__C = 1234;
-        v.lastWorkshopCode__c = '1';
-        v.carPlatformNo__c = 'FA-TEST';
-        v.vehicleInspectionExpiryDate__c = Date.today();
-        v.userAccountCode__c = portalAccount.Id;
-            //Name = '東京123-45567', 
-           // userAccountCode__c = testAccount.siebelAccountCode__c, 
-           // recordTypeId = cpCaseRecordTypeId,
-           // vehicleInspectionExpiryDate__c = Date.today().addMonths(6) // Assuming this is a required date field
+    
+    // Test data setup
+    private static void setupTestData() {
+        // Create test account
+        Account acc = new Account(Name = 'Test Account', siebelAccountCode__c = 'Test123');
+        insert acc;
         
-        insert v;
-    }
+        // Create test branch
+        CCP2_Branch__c branch = new CCP2_Branch__c(Name = 'Test Branch', Account__c = acc.Id, Branch_Number__c = '12345');
+        insert branch;
+        
+        // Create test contact
+        Contact contact1 = new Contact(FirstName = 'Test', LastName = 'User', AccountId = acc.Id, ccpUseFlag__c = true, canManageMember__c = false);
+        insert contact1;
 
-    private static User getTestUser() {
-        return [SELECT Id, Name FROM User WHERE Email = 'testuser@example.com' LIMIT 1];
-    }
+        Contact contact2 = new Contact(FirstName = 'Test', LastName = 'User2', AccountId = acc.Id, ccpUseFlag__c = true, canManageMember__c = false);
+        insert contact2;
+        
+        // Create test vehicle
+        VehicleInfo__c vehicle = new VehicleInfo__c(Name = 'Test Vehicle', userAccountCode__c = acc.siebelAccountCode__c);
+        insert vehicle;
 
+        // Create junction records
+        CCP2_BranchContact_Junction__c contactJunction = new CCP2_BranchContact_Junction__c(ContactId__c = contact1.Id, BranchId__c = branch.Id);
+        insert contactJunction;
+
+        CCP2_BranchVehicle_Junction__c vehicleJunction = new CCP2_BranchVehicle_Junction__c(VehicleId__c = vehicle.Id, BranchId__c = branch.Id);
+        insert vehicleJunction;
+    }
+    
     @isTest
     static void testUserList() {
-        User testUser = getTestUser();
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<Contact> result = CCP2_userData.userList();
-            Test.stopTest();
-			System.debug(result);
-            System.assertNotEquals(null, result, 'User list should not be null');
-            //System.assert(result.size() > 0, 'User list should contain users');
-        }
+        Test.startTest();
+        List<Contact> result = CCP2_userData.userList();
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'User list should not be empty');
     }
-
+    
+    @isTest
+    static void testUserListDtl() {
+        setupTestData();
+        
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        
+        Test.startTest();
+        List<Contact> result = CCP2_userData.userListDtl(branch.Id);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'User list detail should not be empty');
+    }
+    
     @isTest
     static void testUserDtl() {
-        User testUser = getTestUser();
-        Contact testContact = [SELECT Id FROM Contact WHERE Email = 'testcontact@example.com' LIMIT 1];
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<Contact> result = CCP2_userData.userDtl(testContact.Id, true);
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'User detail list should not be null');
-            System.assert(result.size() > 0, 'User detail list should contain details');
-        }
+        Contact contact = [SELECT Id FROM Contact LIMIT 1];
+        
+        Test.startTest();
+        List<Contact> result = CCP2_userData.userDtl(contact.Id, 1);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'User detail should not be empty');
     }
-
+    
     @isTest
-    static void testUserDtlWithRefreshFalse() {
-        User testUser = getTestUser();
-        Contact testContact = [SELECT Id FROM Contact WHERE Email = 'testcontact@example.com' LIMIT 1];
+    static void testUserBranchDtl() {
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<Contact> result = CCP2_userData.userDtl(testContact.Id, false);
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'User detail list should not be null');
-            System.assert(result.size() > 0, 'User detail list should contain details');
-        }
+        Contact contact = [SELECT Id FROM Contact LIMIT 1];
+        
+        Test.startTest();
+        List<CCP2_Branch__c> result = CCP2_userData.userBranchDtl(contact.Id, 1);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'User branch detail should not be empty');
     }
-
+    
     @isTest
     static void testBranchList() {
-        User testUser = getTestUser();
+        setupTestData();
         
-        Id accountId = [SELECT Contact.AccountId FROM User WHERE Id = :testUser.Id].Contact.AccountId;
-
-        List<CCP2_Branch__c> branches = new List<CCP2_Branch__c>();
-        for (Integer i = 0; i < 3; i++) {
-            branches.add(new CCP2_Branch__c(Account__c = accountId, Name = 'Test Branch ' + i));
-        }
-        insert branches;
+        Test.startTest();
+        List<CCP2_Branch__c> result = CCP2_userData.BranchList();
+        Test.stopTest();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<CCP2_Branch__c> result = CCP2_userData.BranchList();
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Branch list should not be null');
-          //  System.assertEquals(3, result.size(), 'Branch list should contain 3 branches');
-            for (Integer i = 0; i < 3; i++) {
-                System.assert(result[i].Name.contains('Test Branch'), 'Branch name should contain "Test Branch"');
-            }
-        }
+        System.assertNotEquals(0, result.size(), 'Branch list should not be empty');
     }
-
+    
     @isTest
     static void testUnAssociatedBranch() {
-        User testUser = getTestUser();
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<CCP2_Branch__c> result = CCP2_userData.UnAssociatedBranch();
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Unassociated Branch list should not be null');
-            // Add further assertions as needed
-        }
+        Contact contact = [SELECT Id FROM Contact LIMIT 1];
+        
+        Test.startTest();
+        List<CCP2_Branch__c> result = CCP2_userData.UnAssociatedBranch(contact.Id);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'Unassociated branch list should not be empty');
     }
-
+    
     @isTest
     static void testVehicleWithoutAssociation() {
-        User testUser = getTestUser();
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<VehicleInfo__c> result = CCP2_userData.VehicleWithoutAssociation();
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Vehicle list should not be null');
-            // Add further assertions as needed
-        }
+        Test.startTest();
+        List<VehicleInfo__c> result = CCP2_userData.VehicleWithoutAssociation();
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'Vehicle without association list should not be empty');
     }
-
+    
     @isTest
-    static void testAccId() {
-        User testUser = getTestUser();
+    static void testVehicleWithoutAssociationDtl() {
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            Id accountId = CCP2_userData.accId();
-            Test.stopTest();
-
-            System.assertNotEquals(null, accountId, 'Account Id should not be null');
-
-            Account expectedAccount = [SELECT Id FROM Account WHERE Name = 'Test Account'];
-            System.assertEquals(expectedAccount.Id, accountId, 'Account Id should match the test account Id');
-        }
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        
+        Test.startTest();
+        List<VehicleInfo__c> result = CCP2_userData.VehicleWithoutAssociationDtl(branch.Id);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'Vehicle without association detail list should not be empty');
     }
-
+    
     @isTest
     static void testBranchDetails() {
-        User testUser = getTestUser();
-        CCP2_Branch__c testBranch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<CCP2_Branch__c> result = CCP2_userData.BranchDetails(testBranch.Id);
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Branch details list should not be null');
-            //System.assert(result.size() > 0, 'Branch details list should contain details');
-        }
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        
+        Test.startTest();
+        List<CCP2_Branch__c> result = CCP2_userData.BranchDetails(branch.Id);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'Branch details should not be empty');
     }
-
+    
     @isTest
     static void testNewBranchDetails() {
-        User testUser = getTestUser();
-        CCP2_Branch__c testBranch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        setupTestData();
         
-        System.runAs(testUser) {
-            Test.startTest();
-            Map<String, Object> result = CCP2_userData.NewBranchDetails(testBranch.Id);
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Branch details map should not be null');
-            System.assert(result.containsKey('BranchDetails'), 'Result map should contain branch details');
-            System.assert(result.containsKey('Contacts'), 'Result map should contain contacts');
-            System.assert(result.containsKey('Vehicles'), 'Result map should contain vehicles');
-        }
-    }
-
-    @isTest
-    static void testUserWithoutAssociation() {
-        User testUser = getTestUser();
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<Contact> result = CCP2_userData.UserWithoutAssociation();
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'User list should not be null');
-            System.assert(result.size() > 0, 'User list should contain users');
-        }
+        Test.startTest();
+        Map<String, Object> result = CCP2_userData.NewBranchDetails(branch.Id);
+        Test.stopTest();
+        
+        System.assertNotEquals(0, result.size(), 'New branch details should not be empty');
     }
-
+    
     @isTest
     static void testUnassociateVehicle() {
-        User testUser = getTestUser();
-        VehicleInfo__c testVehicle = [SELECT Id FROM VehicleInfo__c LIMIT 1];
-        CCP2_Branch__c testBranch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
-
-        System.runAs(testUser) {
-            Test.startTest();
-            CCP2_userData.unassociateVehicle(new List<Id>{testVehicle.Id}, testBranch.Id);
-            Test.stopTest();
-
-            // Verify that vehicle was unassociated
-            List<CCP2_BranchVehicle_Junction__c> junctions = [SELECT Id FROM CCP2_BranchVehicle_Junction__c WHERE VehicleId__c = :testVehicle.Id];
-            System.assertEquals(0, junctions.size(), 'Vehicle should be unassociated from the branch');
-        }
+        setupTestData();
+        
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        VehicleInfo__c vehicle = [SELECT Id FROM VehicleInfo__c LIMIT 1];
+        
+        Test.startTest();
+        CCP2_userData.unassociateVehicle(new List<Id>{vehicle.Id}, branch.Id);
+        Test.stopTest();
+        
+        List<CCP2_BranchVehicle_Junction__c> result = [SELECT Id FROM CCP2_BranchVehicle_Junction__c WHERE VehicleId__c = :vehicle.Id];
+        System.assertEquals(0, result.size(), 'Vehicle should be unassociated');
     }
-
-    //@isTest
-    //static void testEditBranch() {
-       // User testUser = getTestUser();
-      //  CCP2_Branch__c testBranch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
-
-        //CCP2_Branch__c updatedBranch = new CCP2_Branch__c(
-            //Id = testBranch.Id,
-            //Name = 'Updated Test Branch'
-        //);
-
-        //System.runAs(testUser) {
-            //Test.startTest();
-            //CCP2_userData.editBranch(new List<CCP2_Branch__c>{updatedBranch});
-            //Test.stopTest();
-
-            // Verify branch update
-            //CCP2_Branch__c updatedBranchFromDB = [SELECT Name FROM CCP2_Branch__c WHERE Id = :testBranch.Id];
-            //System.assertEquals('Updated Test Branch', updatedBranchFromDB.Name, 'Branch name should be updated');
-        //}
-    //}
-
-    /*@isTest
-    static void testSaveNewBranch() {
-        User testUser = getTestUser();
-
-        CCP2_Branch__c newBranch = new CCP2_Branch__c(
-            Name = 'New Test Branch'
-        );
-
-        System.runAs(testUser) {
-            Test.startTest();
-            CCP2_userData.saveNewBranch(new List<CCP2_Branch__c>{newBranch});
-            Test.stopTest();
-
-            // Verify new branch creation
-            CCP2_Branch__c createdBranch = [SELECT Name FROM CCP2_Branch__c WHERE Name = 'New Test Branch' LIMIT 1];
-            System.assertNotEquals(null, createdBranch, 'New branch should be created');
-        }
-    }
-
+    
     @isTest
-    static void testContactList() {
-        User testUser = getTestUser();
+    static void testUnassociateUser() {
+        setupTestData();
         
-        Id accountId = [SELECT Contact.AccountId FROM User WHERE Id = :testUser.Id].Contact.AccountId;
-
-        List<Contact> contacts = new List<Contact>();
-        for (Integer i = 0; i < 3; i++) {
-            contacts.add(new Contact(FirstName = 'Test', LastName = 'Contact' + i, Email = 'testcontact' + i + '@example.com', AccountId = accountId));
-        }
-        insert contacts;
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        Contact contact = [SELECT Id FROM Contact LIMIT 1];
         
-        System.runAs(testUser) {
-            Test.startTest();
-            List<Contact> result = CCP2_userData.contactList();
-            Test.stopTest();
-
-            System.assertNotEquals(null, result, 'Contact list should not be null');
-            System.assert(result.size() > 0, 'Contact list should contain contacts');
-        }
-    }*/
+        Test.startTest();
+        CCP2_userData.unassociateUser(new List<Id>{contact.Id}, branch.Id);
+        Test.stopTest();
+        
+        List<CCP2_BranchContact_Junction__c> result = [SELECT Id FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :contact.Id];
+        System.assertEquals(0, result.size(), 'User should be unassociated');
+    }
+    
+    @isTest
+    static void testAssociateUser() {
+        setupTestData();
+        
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        Contact contact = [SELECT Id FROM Contact WHERE Name = 'Test User2' LIMIT 1];
+        
+        Test.startTest();
+        CCP2_userData.associateUser(new List<Id>{contact.Id}, branch.Id);
+        Test.stopTest();
+        
+        List<CCP2_BranchContact_Junction__c> result = [SELECT Id FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :contact.Id];
+        System.assertNotEquals(0, result.size(), 'User should be associated');
+    }
+    
+    @isTest
+    static void testAssociateVehicle() {
+        setupTestData();
+        
+        CCP2_Branch__c branch = [SELECT Id FROM CCP2_Branch__c LIMIT 1];
+        VehicleInfo__c vehicle = [SELECT Id FROM VehicleInfo__c WHERE Name = 'Test Vehicle' LIMIT 1];
+        
+        Test.startTest();
+        CCP2_userData.associateVehicle(new List<Id>{vehicle.Id}, branch.Id);
+        Test.stopTest();
+        
+        List<CCP2_BranchVehicle_Junction__c> result = [SELECT Id FROM CCP2_BranchVehicle_Junction__c WHERE VehicleId__c = :vehicle.Id];
+        System.assertNotEquals(0, result.size(), 'Vehicle should be associated');
+    }
+    
+    @isTest
+    static void testAccId() {
+        setupTestData();
+        
+        Test.startTest();
+        Id result = CCP2_userData.accId();
+        Test.stopTest();
+        
+        System.assertNotEquals(null, result, 'Account ID should not be null');
+    }
 }

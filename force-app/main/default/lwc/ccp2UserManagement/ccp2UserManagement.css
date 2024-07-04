@@ -1,6 +1,9 @@
 .icon-red {
   --sds-c-icon-color-foreground-default: #e10202;
 }
+input::placeholder {
+  color: #BBBBBB; /* Change placeholder color to gray */
+}
 input{
     padding:14px 20px 14px 20px;
     border: 1px solid #d9d9d9;

@@ -167,51 +167,54 @@
                                             <label class="required form-label aligntop">勤務地</label>
                                             <div class="form-item__wrapper">
 
-                                                
-                                                <div class="dataDrop">
-                                                    <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                        class="Inputs1 icon" placeholder="選択してください" name="branchsss">
-                                                    <template if:true={showlist}>
-                                                        <div class="lists" onclick={handleInsideClick}>
-                                                            <template for:each={filteredbranch} for:item="veh">
-                                                                <div key={veh.value} class="list-item"
-                                                                    onclick={handleBranchSelect} data-id={veh.value}>
-                                                                    <p>{veh.label}</p>
-                                                                </div>
-                                                            </template>
-                                                        </div>
-                                                    </template>
-                                                    
-                                                    <div class="form-item__error flex sp-flex-direction-column">
-                                                        <div class="form-item__list">
+                                                <div class="with-error">
+
+                                                    <div class="dataDrop">
+                                                        <input type="text" oninput={handleSearch} onclick={handlebranChange}
+                                                            class="Inputs1 icon slds-form-element__control slds-input" placeholder="選択してください" name="branchsss">
                                                             <template if:true={branchError}>
                                                                 <p class="_error">{branchErrorText}</p>
                                                             </template>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="branchrecords">
-                                                    <div class="scrollbar">
-                                                        <template if:true={branch.length}>
-                                                            <template for:each={branch} for:item="veh">
-                                                                <div key={veh.Id} class="record-item">
-                                                                    <lightning-icon icon-name="utility:close" size="x-small"
-                                                                        alternative-text="Delete" onclick={handleDeleteBranch}
-                                                                        data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                                    <span>{veh.Name}</span>
-                                                                    <br>
-    
-                                                                </div>
-                                                            </template>
+                                                        <template if:true={showlist}>
+                                                            <div class="lists" onclick={handleInsideClick}>
+                                                                <template for:each={filteredbranch} for:item="veh">
+                                                                    <div key={veh.value} class="list-item"
+                                                                        onclick={handleBranchSelect} data-id={veh.value}>
+                                                                        <p>{veh.label}</p>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
                                                         </template>
+                                                        
                                                     </div>
-                                                    <template if:false={branch.length}>
-                                                        <p class="custom-placeholder">選択された勤務地</p>
+                                                    <!-- <div class="form-item__error flex sp-flex-direction-column">
+                                                        <div class="form-item__list">
+                                                            
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+                                            <!-- </div> -->
+                                            
+                                            <div class="branchrecords">
+                                                <div class="scrollbar">
+                                                    <template if:true={branch.length}>
+                                                        <template for:each={branch} for:item="veh">
+                                                            <div key={veh.Id} class="record-item">
+                                                                <lightning-icon icon-name="utility:close" size="x-small"
+                                                                    alternative-text="Delete" onclick={handleDeleteBranch}
+                                                                    data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                                <span>{veh.Name}</span>
+                                                                <br>
+    
+                                                            </div>
+                                                        </template>
                                                     </template>
                                                 </div>
+                                                <template if:false={branch.length}>
+                                                    <p class="custom-placeholder">選択された勤務地</p>
+                                                </template>
                                             </div>
-                                            <!-- </div> -->
-
+                                        </div>
                                         </div>
 
 
@@ -239,14 +242,14 @@
                                                     <input type="tel"
                                                         class="form-input slds-form-element__control slds-input"
                                                         name="phone" value={contactInputData.phone}
-                                                        placeholder="0312345678" minlength="10" maxlength="10" pattern="\d*" onchange={handleAllInputChange} >
+                                                        placeholder="0312345678" onchange={handleAllInputChange} >
                                                 </div>
                                                 <div class="form-item__list">
                                                     <label class="label-text">携帯番号</label>
                                                     <input type="tel"
                                                         class="form-input slds-form-element__control slds-input"
                                                         name="mobilePhone" value={contactInputData.mobilePhone}
-                                                        placeholder="08012345678" minlength="10" maxlength="10" pattern="\d*" onchange={handleAllInputChange}>
+                                                        placeholder="08012345678" onchange={handleAllInputChange}>
                                                 </div>
 
                                                 <template if:true={phoneError}>
@@ -262,9 +265,9 @@
                                                         <label class="label-box" for="1">
                                                             <input class="input-checkbox" type="checkbox"
                                                                 name="baseService" onchange={handleCheckboxChange1} checked={baseChecked}>
-                                                            <a href="javascript:void(0);" target="_blank">
+                                                            <p>
                                                                 基本サービス（ふそうショップ）
-                                                            </a>
+                                                            </p>
                                                         </label>
                                                     </div>
                                                     <br>
@@ -274,9 +277,9 @@
                                                     <label class="label-box" for="1">
                                                         <input class="input-checkbox" type="checkbox" name="requestbook"
                                                             onchange={handleCheckboxChange1} checked={rbChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
+                                                        <p>
                                                             部整月次請求書（電子版）
-                                                        </a>
+                                                        </p>
                                                     </label>
                                                 </div>
                                                 <br>
@@ -286,9 +289,9 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="financialservice" onchange={handleCheckboxChange1}
                                                             checked={fsChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
+                                                        <p>
                                                             金融サービス
-                                                        </a>
+                                                        </p>
                                                     </label>
                                                 </div>
                                                 <br>
@@ -299,9 +302,9 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="onlinemaintenancebooking"
                                                             onchange={handleCheckboxChange1} checked={ombChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
+                                                        <p>
                                                             車検入庫予約
-                                                        </a>
+                                                        </p>
                                                     </label>
                                                 </div>
                                                 <br>
@@ -312,9 +315,9 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="vehiclemanagement" onchange={handleCheckboxChange1}
                                                             checked={vmChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
+                                                        <p>
                                                             車両管理
-                                                        </a>
+                                                        </p>
                                                     </label>
                                                 </div>
                                                 <br>
@@ -325,9 +328,9 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="costmanagement" onchange={handleCheckboxChange1}
                                                             checked={cmChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            費用管理
-                                                        </a>
+                                                        <p>
+                                                            費  用管理
+                                                        </p>
                                                     </label>
                                                 </div>
                                                 <!-- </template> -->
@@ -476,42 +479,24 @@
                                                 <dt class="aligntop">利用するサービス</dt>
                                                 <div class="form-item__wrapper _tell padtop">
                                                     <template if:true={baseChecked}>
-                                                        <!-- <div class="checkbox-wrapper">
-                                                            <label class="label-box" for="1"><input
-                                                                    class="input-checkbox" type="checkbox"
-                                                                    name="baseService1" disabled checked={baseService}> -->
-                                                                <a href="javascript:void(0);" target="_blank">
-                                                                    基本サービス（三菱ふそう_ショップ）
-                                                                </a>
-                                                            <!-- </label> -->
-                                                        <!-- </div> -->
+                                                        <p>基本サービス（ふそうショップ）</p>
+                                                    </template>
+
+                                                    <template if:true={rbChecked}>
+                                                        <p>部整月次請求書（電子版）</p>
                                                     </template>
                                                         
                                                     <template if:true={fsChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            ファイナンシャルサービス
-                                                        </a>
+                                                        <p>金融サービス</p>
                                                     </template>
                                                     <template if:true={ombChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            車検入庫予約
-                                                        </a>
+                                                        <p>車検入庫予約</p>
                                                     </template>
                                                     <template if:true={vmChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            車両管理
-                                                        </a>
+                                                        <p>車両管理</p>
                                                     </template>
-                                                    <template if:true={rbChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            部整月次請求書（電子版）
-                                                        </a>
-                                                    </template>
-                                                    
                                                     <template if:true={cmChecked}>
-                                                        <a href="javascript:void(0);" target="_blank">
-                                                            費用管理
-                                                        </a>
+                                                        <p>費 用管理</p>
                                                     </template>
                                                     <!-- <div class="checkbox-wrapper">
                                                         <label class="label-box" for="1">

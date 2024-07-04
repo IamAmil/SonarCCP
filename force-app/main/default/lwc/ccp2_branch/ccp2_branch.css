@@ -268,7 +268,7 @@ margin-left: 280px;
 }
 .btn:hover{
     background-color: white;
-    border: 1px solid #ededed;
+    border: 1px solid #bbbbbb;
     cursor: pointer;
     color: #0A0A0A;
 }
@@ -278,10 +278,11 @@ margin-left: 280px;
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-
+    box-shadow: 0 0 8px 4px rgba(224, 224, 224, 0.8);
     width: 180px;
     height: 40px;
-    background-color: #ededed;
+    background-color: #f1f1f1;
+    border: 1px solid #bbbbbb;
     color: black;
     transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }

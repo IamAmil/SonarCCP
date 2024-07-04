@@ -386,12 +386,12 @@ export default class Ccp_AddUser extends LightningElement {
             mobilePhone.className = 'form-input _error slds-form-element__control slds-input';
             this.phoneError = true;
             this.phoneErrorText = '電話番号と携帯番号のいずれかを必ず入力してください';
-        } else if((phone.value.length > 0 || !onlyNumber.test(phone.value)) &&
-                (mobilePhone.value.length > 0 || !onlyNumber.test(mobilePhone.value))){
-            if((phone.value.length > 0 || !onlyNumber.test(phone.value))){
+        } else if((phone.value.length > 0 && !onlyNumber.test(phone.value)) || 
+                (mobilePhone.value.length > 0 && !onlyNumber.test(mobilePhone.value))){
+            if((phone.value.length > 0 && !onlyNumber.test(phone.value))){
                 phone.className= 'form-input _error slds-form-element__control slds-input';
             }
-            if((mobilePhone.value.length > 0 || !onlyNumber.test(mobilePhone.value))){
+            if((mobilePhone.value.length > 0 && !onlyNumber.test(mobilePhone.value))){
                 mobilePhone.className = 'form-input _error slds-form-element__control slds-input'; 
             }
             this.phoneError = true;
@@ -402,7 +402,6 @@ export default class Ccp_AddUser extends LightningElement {
             this.phoneError = false;
             this.phoneErrorText = '';
         }
-
     
     if (this.branch.length === 0) {
       this.dispatchEvent(
@@ -415,8 +414,11 @@ export default class Ccp_AddUser extends LightningElement {
       );
       branchList.className = "hello-class icon form-input _error slds-form-element__control slds-input";
       this.branchError = true;
-      this.branchErrorText = "メールアドレスを入力してください";
-
+      this.branchErrorText = "change branch error text";
+    }
+    else{
+      this.branchErrorText = '';
+      this.branchError = false;
     }
     // the email verify not null, have correct email format and the same email does not exist for contacts under the same account
     if (!email.value) {

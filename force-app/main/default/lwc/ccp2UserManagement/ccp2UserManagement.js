@@ -575,24 +575,43 @@ export default class Ccp2UserManagement extends LightningElement {
           this.InputEmail = event.target.value;
           this.contactClassEmail = this.InputEmail ? "" : "invalid-input";
         } else if (field == "電話番号") {
+          const onlyNumber =/^[0-9]*$/;
           const input = event.target;
-          input.value = input.value.replace(/\D/g, "").slice(0, 10); // Allow only numbers and limit to 10 characters
-          this.InputTelephone = event.target.value
-            .replace(/\D/g, "")
-            .slice(0, 10);
-          // console.log("field in tele : ", this.InputTelephone);
-
-          this.contactClassTelephone = this.InputTelephone
+          input.value = input.value.replace(/\D/g, "");
+          // phone.value.length > 0 && !onlyNumber.test(phone.value)
+          let isOk = (input.value.length > 0 && onlyNumber.test(input.value)) ? true : false; 
+          console.log('isok',isOk, input.value)
+          // input.value = input.value.replace(/\D/g, "").slice(0, 10); // Allow only numbers and limit to 10 characters
+          this.InputTelephone = input.value;
+         
+          this.contactClassTelephone = (isOk == true)
             ? ""
             : "invalid-input";
+            console.log(this.contactClassTelephone)
         } else if (field == "携帯番号") {
-          const input = event.target;
-          input.value = input.value.replace(/\D/g, "").slice(0, 10);
-          this.InputCellPhone = event.target.value;
 
-          this.contactClassCellPhone = this.InputCellPhone
+          const onlyNumber =/^[0-9]*$/;
+          const input = event.target;
+          input.value = input.value.replace(/\D/g, "");
+          // phone.value.length > 0 && !onlyNumber.test(phone.value)
+          let isOk = (input.value.length > 0 && onlyNumber.test(input.value)) ? true : false; 
+          console.log('isok',isOk, input.value)
+          // input.value = input.value.replace(/\D/g, "").slice(0, 10); // Allow only numbers and limit to 10 characters
+          this.InputCellPhone = input.value;
+         
+          this.contactClassCellPhone = (isOk == true)
             ? ""
             : "invalid-input";
+            console.log(this.contactClassCellPhone)
+
+
+          // const input = event.target;
+          // input.value = input.value.replace(/\D/g, "").slice(0, 10);
+          // this.InputCellPhone = event.target.value;
+
+          // this.contactClassCellPhone = this.InputCellPhone
+          //   ? ""
+          //   : "invalid-input";
         }
 
         this.formData[field] = event.target.value;
@@ -666,23 +685,40 @@ export default class Ccp2UserManagement extends LightningElement {
 // }
 
   saveFormData() {
+    let onlyNumber =/^[0-9]*$/;
     if (
       this.InputFirstName == "" ||
       this.InputLastName == "" ||
       this.InputFKanaName == "" ||
       this.InputLKanaName == "" ||
       this.InputEmail == "" ||
-      this.InputTelephone == "" ||
-      this.InputCellPhone == ""
+      (this.InputTelephone == "" &&
+      this.InputCellPhone == "")
     ) {
       this.handleError();
-    } else if (this.InputTelephone.length < 10) {
-      this.contactClassTelephone = "invalid-input";
-      this.handleValidationError();
-    } else if (this.InputCellPhone.length < 10) {
+    } 
+    else if (this.InputTelephone == '' && !onlyNumber.test(this.InputCellPhone)) {
+      // this.contactClassTelephone = "invalid-input";
       this.contactClassCellPhone = "invalid-input";
       this.handleValidationError();
-    } else {
+    } 
+    else if (!onlyNumber.test(this.InputTelephone)  && this.InputCellPhone == '') {
+      this.contactClassTelephone = "invalid-input";
+      // this.contactClassCellPhone = "invalid-input";
+      this.handleValidationError();
+    } 
+    else if (this.InputTelephone != '' && this.InputCellPhone != '') {
+      if(!onlyNumber.test(this.InputTelephone) || !onlyNumber.test(this.InputCellPhone))
+      this.contactClassTelephone = "invalid-input";
+      this.contactClassCellPhone = "invalid-input";
+      this.handleValidationError();
+    } 
+
+    // else if (this.InputCellPhone == '') {
+    //   this.contactClassCellPhone = "invalid-input";
+    //   this.handleValidationError();
+    // }
+     else {
       this.formDataArray = [];
       this.formData["ContactId"] = this.selectedUserId;
       this.formDataArray.push(this.formData);

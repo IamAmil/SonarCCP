@@ -337,7 +337,7 @@ margin-right:30px;
     font-family: 'Noto Sans JP', sans-serif;
     max-height: 150px;
     border: 1px solid #d9d9d9;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     border-radius: 8px;
     /* overflow-y: auto; */
     align-items: center;
@@ -434,7 +434,7 @@ margin-right:30px;
     align-items: center;
     justify-content: center;
     height: 70px;
-    margin-right: 60px;
+    /* margin-right: 60px; */
 
 }
 .btn:hover{
@@ -879,7 +879,7 @@ margin-bottom: 15px;
     height: 1cm;
     border-radius: 5px;
     margin-top: 17px;
-
+background-color: white;
     flex: 1; 
     padding: 20px;
     border: 1px solid #ccc;

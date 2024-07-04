@@ -1111,7 +1111,7 @@ h4 {
 
 .button__wrapper .primary_nextbtn--m.disabled{
     pointer-events: none;
-    background-color: #E10202;
+    background-color: #7B7B7B;
     color: white;
     box-shadow: 0px 0px 10px 0px #00000026;
     border-radius: 10px;
@@ -1336,11 +1336,11 @@ label.form-label--tel {
 }
 
 label.label-box {
+    display: flex;
     font-size: 16px;
     padding-left: 40px;
     line-height: 1.5;
     position: relative;
-    cursor: pointer;
 }
 .heading{
     font-size:xx-large;
@@ -1956,4 +1956,8 @@ padding: 10px;
     color: #BBBBBB;
     margin-left: 3.5%;
     /* margin-top: 2%; */
+}
+
+.with-error{
+    margin-right: 2%;
 }
