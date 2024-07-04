@@ -11,8 +11,7 @@ input{
   position: relative;
   width: calc(100vw - 16px);
   margin: -16px 0 0 -16px;
-  /* height: max-content; */
-  height: 210vh;
+  height: max-content;
 }
 
 .half {
@@ -21,50 +20,26 @@ input{
   left: 0;
 }
 .top {
-  /* height: 60vh;
-  background-color: lightblue; */
-  height: 32%;
-    top: 0;
-    background: linear-gradient(to bottom, #BFBFBF, #F4F4F4); /* Gradient effect */
-    background-color: rgb(2, 1, 1);
-    z-index: 1;
+  height: 60vh;
+  background-color: lightblue;
 }
 
 .bottom {
   /* height: 60%; */
-  /* position: relative;
+  position: relative;
   height: max-content;
   background-color: rgb(253, 253, 253);
   display: flex;
-  justify-content: center; */
-  height: 68%;
-    bottom: 0;
-    background-color: #f4f4f4;
-    z-index: 0;
+  justify-content: center;
 }
 .center-content {
-  /* position: relative;
+  position: relative;
   height: 100%;
   margin-top: -46.5vh;
   width: 90%;
   background-color: rgba(251, 251, 251, 0.8);
   z-index: 1;
-  border-radius: 10px; */
-  position: absolute;
-    /* height: 85%; */
-
-    height: 38%;
-    width: 90%;
-    top: 26%;
-    left: 50%;
-    width: 90%;
-    /* top: 52%; */
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(251, 251, 251, 0.9);
-    padding: 20px;
-    z-index: 2; 
-    border-radius: 8px;
+  border-radius: 10px;
 }
 
 .overlay {
@@ -100,7 +75,6 @@ img {
 
 .list-container {
   min-height: 250px;
-  margin-bottom: -30px;
 }
 
 .list-element {

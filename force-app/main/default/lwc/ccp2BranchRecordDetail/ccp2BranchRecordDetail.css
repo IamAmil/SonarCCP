@@ -630,21 +630,23 @@ img {
 }
 
 @media (max-width: 768px) {
-    main{
-        height: 150vh;
+    .main {
+        height: 210vh;
     }
+
     .top {
         height: 22%;
         top: 0;
         background-color: rgb(255, 255, 255);
     }
-    .bottom{
+
+    .bottom {
         height: 78%;
     }
+
     .center-content {
-        width: 90%;
-        top: 47%;
-        border-radius: 20px 20px 0px 0px;
+        width: 88%;
+        top: 51%;
     }
 
     .form_container {
@@ -653,65 +655,87 @@ img {
         height: max-content; 
     }
 
-    .btn{
+    .btn {
         width: 120px; 
         height: 40px;
         margin-top: 5px;
     }
+
     .btn1 {
         width: 150px; 
         height: 35px;
     }
 
-    .instruct{
-        font-size: 6px;
-    }
-    .head,  .head1 {
-        font-size: 12px; 
-        margin-left: 20px; /* Adjusted for tablet */
+    .instruct {
+        font-size: 8px;
+        margin-left: 15px;
+        margin-bottom: 5px;
     }
 
-     .dataI{
-        margin-left: 65px; /* Adjusted for tablet */
-        font-size: 12px; /* Adjusted for tablet */
+    .head, .head1 {
+        font-size: 12px; 
+        margin-left: 20px; 
     }
-    .data{
-        margin-left: 20px; /* Adjusted for tablet */
+
+    .dataI {
+        margin-left: 65px; 
+        font-size: 12px; 
+    }
+
+    .data {
+        margin-left: 20px; 
         font-size: 12px;
     }
-    .dataScroll{
-        margin-left: 20px; /* Adjusted for tablet */
+
+    .dataScroll {
         font-size: 12px;
     }
-    .headI{
+
+    .headI {
         font-size: 12px;
         margin-left: 20px;
     }
-    .headAdd{
+
+    .headAdd {
         font-size: 12px;
         margin-left: 20px;
     }
-    .headCon{
+
+    .headCon {
         font-size: 12px;
         margin-left: 20px;
     }
-    .dataAdd{
+
+    .dataAdd {
         margin-left: 76px;
     }
-    .dataCon{
+
+    .dataCon {
         margin-left: 45px;
     }
-    .combo{
+
+    .combo {
         width: 250px; 
         height: 35px;
     }
-    .Inputs{
+
+    .Inputs {
         width: 250px;
         padding: 15px;
-     }
-     .Inputs1{
-        width: 100px;
-     }
+    }
+
+    .Inputs1 {
+        width: 150px;
+        margin-top: 8px;
+    }
+    .vehInstruc{
+        font-size: 8px;
+        margin-left: 15px;
+        margin-bottom: 5px;
+    }
+    .datamain{
+        margin-left: 0px;
+    }
 
     .filtericn {
         margin-right: 5px; 
@@ -721,26 +745,29 @@ img {
         height: 40%; 
         width: 25px; 
     }
-    .records1{
-        margin-left: 160px;
+
+    .records1 {
+        margin-left: 10px;
     }
 
     .reqtxt {
-        font-size: 5px; /* Adjusted for tablet */
+        font-size: 5px; 
     }
-    .lists{
+
+    .lists {
         width: 250px;
     }
-    .dataDrop{
+
+    .dataDrop {
         margin-left: 15px;
     }
-    .com{
+
+    .com {
         margin-left: 15px;
     }
-    .form_footer{
+
+    .form_footer {
         width: 80%;
         margin-bottom: 20px;
     }
-
-    
 }

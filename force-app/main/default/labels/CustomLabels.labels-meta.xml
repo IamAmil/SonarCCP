@@ -334,7 +334,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_CreateBranch</shortDescription>
-        <value>拠点追加</value>
+        <value>勤務地追加</value>
     </labels>
     <labels>
         <fullName>CCP2_CurrentParkingSpot</fullName>
@@ -817,7 +817,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_PleaseEnterBasicInfo</shortDescription>
-        <value>追加する拠点の基本情報をご入力ください</value>
+        <value>追加する勤務地の基本情報をご入力ください</value>
     </labels>
     <labels>
         <fullName>CCP2_PleaseEnterBasicInformation</fullName>

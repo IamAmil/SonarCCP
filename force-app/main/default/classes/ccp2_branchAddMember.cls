@@ -1,4 +1,4 @@
-public class ccp2_branchAddMember {
+public with sharing class ccp2_branchAddMember {
     @AuraEnabled
     public static void addBranch(String accountId, String contactId, List<Id> branches) {
         // Input validation

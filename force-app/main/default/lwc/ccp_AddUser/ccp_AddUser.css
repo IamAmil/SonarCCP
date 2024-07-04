@@ -1814,35 +1814,90 @@ input.input-checkbox {
     width: 50%;
     min-height: 50px;
     max-height: 232px;
-    border-radius: 10px;
-    border: 1px solid lightgrey;
+    /* border-radius: 10px; */
+    border: 1px solid #d9d9d9;
     --slds-c-icon-color-foreground-default: #E10202;
     padding: 2%;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    /* margin-left: 5px;
+    margin-bottom: 25px; */
+    /* width: 180px; */
+    padding-left: 6px;
+    padding-top: 10px;
+    padding: 5px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    justify-content: center;
+}
+ 
+.scrollbar{
+    max-height: 100%;
+    overflow-y: auto;
+    width: 97%;
 }
 
-/* width */
-.branchrecords::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
+    width: 12px;
+   
+}
+ 
+.scrollbar::-webkit-scrollbar-track {
+    background: #F4F4F4;
+    border-radius: 3px;
+}
+ 
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #BBBBBB;
+    border-radius: 3px;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #d1d0d0;
+}
+
+
+/* .branchrecords::-webkit-scrollbar {
     width: 10px;
   }
   
-  /* Track */
 .branchrecords::-webkit-scrollbar-track {
     background: #f1f1f1; 
+    border-radius: 5px;
   }
    
-  /* Handle */
 .branchrecords::-webkit-scrollbar-thumb {
-    background: #888; 
-    border-radius:50px;
+    background: #a3a3a3;
+    border-radius:5px;
   }
-  
-  /* Handle on hover */
+
 .branchrecords::-webkit-scrollbar-thumb:hover {
-    background: #555; 
-  }
+    background: #d1d0d0;  
+  } */
 
+  /* .dataScroll{
+    padding: 5px;
+    padding-top: 10px;
+    margin-left: 5px;
+    margin-top: 24px;
+    font-size: 12px;
+    margin-bottom: 2px;
+    font-family: 'Noto Sans JP', sans-serif;
+    max-height: 150px; 
+    border: 1px solid #d9d9d9;
+    background-color: #ffffff;
+    border-radius: 8px;
+    align-items: center;
+    width: 180px;
+}
+.scrollbar{
+    max-height: 100%;
+    overflow-y: auto;
+    width: 95%;
+}
 
+   */
 
 .record-item{
     font-size: medium;

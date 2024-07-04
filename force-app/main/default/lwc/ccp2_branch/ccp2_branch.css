@@ -154,6 +154,7 @@ margin-left: 60px;
 @media (max-width: 768px) {
     .branch-name-main {
         margin-left: 150px;
+        width: 400px;
 
     }
 }
@@ -165,7 +166,7 @@ margin-left: 280px;
 
 @media (max-width: 768px) {
     .third-div p{
-        margin-right: 130px;
+        margin-right: 10px6;
         width: 190px;
     }
 }

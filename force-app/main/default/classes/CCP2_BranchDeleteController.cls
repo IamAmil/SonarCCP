@@ -1,4 +1,4 @@
-public class CCP2_BranchDeleteController { 
+public with sharing class CCP2_BranchDeleteController { 
       @AuraEnabled
     public static void deleteBranchById(Id branchId) { 
         try {

@@ -29,10 +29,6 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CCP2_UpdatePermissionAssignmentTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CCP2_UserDeleteController</apexClass>
         <enabled>false</enabled>
     </classAccesses>

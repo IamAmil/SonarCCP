@@ -1,4 +1,4 @@
-public class ccp2_userupdate {
+public with sharing class ccp2_userupdate {
     @AuraEnabled
     //@future
     public static void updateRecords(String uiFieldJson) {

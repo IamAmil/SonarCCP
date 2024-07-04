@@ -298,14 +298,30 @@ export default class Ccp2AddBranchForm extends LightningElement {
             
             if (this.currentStep === 1) {
                 if (!this.branchName) {
-                    isValid = false;
-                    throw new Error('Please fill in Branch Name.');
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            //title: 'Error',
+                            message: '勤務地名を入力してください',
+                            variant: 'error',
+                        })
+                    );
+                    //Please fill in branch name.
+                    // this.showToast('Error', '勤務地名を入力してください', 'error');
+                    return false; // Validation failed
                 }
     
                 if (this.phone !== '' && !this.validatePhone(this.phone)) {
-                    isValid = false;
-                    throw new Error('Please enter a valid 10-digit phone number.');
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            //title: 'Error',
+                            message: '有効な 10 桁の電話番号を入力してください.',
+                            variant: 'error',
+                        })
+                    );
+                    // this.showToast('Error', 'Please enter a valid 10-digit phone number.', 'error');
+                    return false; // Validation failed
                 }
+
             }
     
             if (isValid) {
@@ -375,11 +391,25 @@ export default class Ccp2AddBranchForm extends LightningElement {
     AddBranch(params)
         .then(result => {
             console.log('Record inserted successfully:', result);
-            this.showToast('Success', 'Branch record inserted successfully.', 'success');
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    //title: 'Success',
+                    message: '新規勤務地が追加されました。',
+                    variant: 'success',
+                })
+            );
+            // this.showToast('Success', '新規勤務地が追加されました。', 'success');
         })
         .catch(error => {
             console.error('Error inserting branch record:', error);
-            this.showToast('Error', 'Error inserting branch record. Please try again.', 'error');
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    //title: 'error',
+                    message: 'ブランチレコードの挿入中にエラーが発生しました。もう一度試してください。',
+                    variant: 'error',
+                })
+            );
+            // this.showToast('Error', 'Error inserting branch record. Please try again.', 'error');
         });
     }
 

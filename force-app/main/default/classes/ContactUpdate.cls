@@ -1,4 +1,4 @@
-public class ContactUpdate {
+public with sharing class ContactUpdate {
  	 @AuraEnabled
     public static void updateAccessControl(CCP2_Access_Control__c con) {
         try {

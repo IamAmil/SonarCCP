@@ -1,4 +1,4 @@
-public class CCP2_branchUpdate {
+public with sharing class CCP2_branchUpdate {
     @AuraEnabled
     public static void updateBranchById(Id branchId, String address, String contactNo, String branchName) {
         try {

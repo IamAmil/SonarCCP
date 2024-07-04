@@ -191,18 +191,20 @@
                                                     </div>
                                                 </div>
                                                 <div class="branchrecords">
-                                                    <template if:true={branch.length}>
-                                                        <template for:each={branch} for:item="veh">
-                                                            <div key={veh.Id} class="record-item">
-                                                                <lightning-icon icon-name="utility:close" size="x-small"
-                                                                    alternative-text="Delete" onclick={handleDeleteBranch}
-                                                                    data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                                <span>{veh.Name}</span>
-                                                                <br>
-
-                                                            </div>
+                                                    <div class="scrollbar">
+                                                        <template if:true={branch.length}>
+                                                            <template for:each={branch} for:item="veh">
+                                                                <div key={veh.Id} class="record-item">
+                                                                    <lightning-icon icon-name="utility:close" size="x-small"
+                                                                        alternative-text="Delete" onclick={handleDeleteBranch}
+                                                                        data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                                    <span>{veh.Name}</span>
+                                                                    <br>
+    
+                                                                </div>
+                                                            </template>
                                                         </template>
-                                                    </template>
+                                                    </div>
                                                     <template if:false={branch.length}>
                                                         <p class="custom-placeholder">選択された勤務地</p>
                                                     </template>

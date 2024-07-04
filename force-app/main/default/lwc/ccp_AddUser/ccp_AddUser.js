@@ -378,39 +378,30 @@ export default class Ccp_AddUser extends LightningElement {
       this.firstNameKanaErrorText = "";
     }
     
-    phone.className = "form-input  slds-form-element__control slds-input";
-    mobilePhone.className = "form-input  slds-form-element__control slds-input";
-    // verify the phone and mobile cannot be empty at the same time
-    if (!phone.value || !mobilePhone.value) {
-      phone.className =
-        "form-input _error slds-form-element__control slds-input";
-      mobilePhone.className =
-        "form-input _error slds-form-element__control slds-input";
-      this.phoneError = true;
-      //this.phoneErrorText = '電話番号と携帯番号のいずれかを必ず入力してください';
-      this.phoneErrorText = "電話番号か携帯番号かいずれ入力してください。";
-    } else if (
-      (phone.value.length < 10 || !onlyNumber.test(phone.value)) ||
-      (mobilePhone.value.length < 10 || !onlyNumber.test(mobilePhone.value))
-    ) {
-      if (phone.value.length < 10 || !onlyNumber.test(phone.value)) {
-        phone.className =
-          "form-input _error slds-form-element__control slds-input";
-      }
-      if (mobilePhone.value.length < 10 || !onlyNumber.test(mobilePhone.value)) {
-        mobilePhone.className =
-          "form-input _error slds-form-element__control slds-input";
-      }
-      this.phoneError = true;
-      this.phoneErrorText =
-        "電話番号・携帯番号は数字（ハイフンなし）でご入力ください";
-    } else {
-      phone.className = "form-input slds-form-element__control slds-input";
-      mobilePhone.className =
-        "form-input slds-form-element__control slds-input";
-      this.phoneError = false;
-      this.phoneErrorText = "";
-    }
+    phone.className = 'form-input  slds-form-element__control slds-input';
+        mobilePhone.className = 'form-input  slds-form-element__control slds-input';
+        // verify the phone and mobile cannot be empty at the same time
+        if(!phone.value && !mobilePhone.value){
+            phone.className= 'form-input _error slds-form-element__control slds-input';
+            mobilePhone.className = 'form-input _error slds-form-element__control slds-input';
+            this.phoneError = true;
+            this.phoneErrorText = '電話番号と携帯番号のいずれかを必ず入力してください';
+        } else if((phone.value.length > 0 || !onlyNumber.test(phone.value)) &&
+                (mobilePhone.value.length > 0 || !onlyNumber.test(mobilePhone.value))){
+            if((phone.value.length > 0 || !onlyNumber.test(phone.value))){
+                phone.className= 'form-input _error slds-form-element__control slds-input';
+            }
+            if((mobilePhone.value.length > 0 || !onlyNumber.test(mobilePhone.value))){
+                mobilePhone.className = 'form-input _error slds-form-element__control slds-input'; 
+            }
+            this.phoneError = true;
+            this.phoneErrorText = '電話番号・携帯番号は数字（ハイフンなし）でご入力ください';
+        } else{
+            phone.className = 'form-input slds-form-element__control slds-input';
+            mobilePhone.className = 'form-input slds-form-element__control slds-input';
+            this.phoneError = false;
+            this.phoneErrorText = '';
+        }
 
     
     if (this.branch.length === 0) {

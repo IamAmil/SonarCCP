@@ -1,4 +1,4 @@
-public class ccp2_UIpermissionList {
+public with sharing class ccp2_UIpermissionList {
     
 
  @AuraEnabled

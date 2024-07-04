@@ -327,7 +327,8 @@ export default class Ccp2CancelMembership extends LightningElement {
     }
 
     handlestep1(){
-        if (this.selectedReason == '') {
+        console.log("selected reason message",this.selectedReasonMessage)
+        if (this.otherReason == '' || this.selectedReason == '') {
             this.dispatchEvent(
               new ShowToastEvent({
                 title: "エラー",

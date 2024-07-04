@@ -124,10 +124,11 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     
     @wire(getBranchData,{branchId: '$branchId'})BranchData({data,error}){
         if(data){
+            console.log("mine",data);
             const branch = data.BranchDetails;
            // console.log("BrDATA",data);
            // console.log('Branch Details:', JSON.stringify(data));
-            this.CompanyName = branch.Company;
+            this.CompanyName = branch.Company ? branch.Company : "-";
             //this.TipNumber = branch.Tip_Number__c;
            // this.BranchNumber = branch.Branch_Number__c;
            this.Address = branch.Address ? branch.Address : null;
@@ -135,7 +136,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
            this.Contact = branch.ContactNo ? branch.ContactNo : null;
             //this.vehicle = branch.vehicleBranch__r;
             //this.contacts = branch.Contact__r;
-            this.branchName = branch.Name;
+            this.branchName = branch.Name ? branch.Name : "-";
             //comparison variables
             this.originalBranchName = branch.Name;
             this.OriginalAddress = branch.Address;
@@ -149,7 +150,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
                 Name: vehicle.Name,
                 Id: vehicle.Id
             }));
-            console.log("ve",JSON.stringify(this.vehicle));
+           // console.log("ve",JSON.stringify(this.vehicle));
             this.showSpinner = false; 
         }
         else if(error){
@@ -363,7 +364,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             allInputs.forEach(input => {
                 if (!input.value) {
                     input.classList.add('invalid-input');
-                    input.setCustomValidity('This field is required');
+                    input.setCustomValidity('この項目は必須です');
                     input.reportValidity();
                     allValid = false;
                 } else {
@@ -373,10 +374,10 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
                 }
             });
 
-            if (this.Contact.length !== 0 && this.Contact.length !== 10) {
+            if (this.Contact.length !== 0 && this.Contact.length < 10) {
                 const contactInput = this.template.querySelector('input[name="contactNumber"]');
                 contactInput.classList.add('invalid-input');
-                contactInput.setCustomValidity('Contact number must be exactly 10 digits');
+                contactInput.setCustomValidity('連絡先番号は正確に 10 桁である必要があります');
                 contactInput.reportValidity();
                 allValid = false;
             } else {
@@ -389,8 +390,8 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             if (!allValid) {
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'Error',
-                        message: 'Please fill in all required fields.',
+                        //title: 'Error',
+                        message: 'すべての項目を入力してください。',
                         variant: 'error',
                     }),
                 );
@@ -434,7 +435,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             await Promise.all(actions);
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Success',
+                   // title: 'Success',
                     message: 'ブランチが正常に編集されました',
                     variant: 'success',
                 }),
@@ -443,7 +444,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         } else {
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'No Changes',
+                    //title: 'No Changes',
                     message: '保存する変更はありません',
                     variant: 'info',
                 }),
@@ -455,7 +456,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     } catch (error) {
         this.dispatchEvent(
             new ShowToastEvent({
-                title: 'Error',
+               // title: 'Error',
                 message: '変更を保存できませんでした:' + error.body.message,
                 variant: 'error',
             }),
@@ -573,7 +574,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     //contact input validation
     handleInput(event) {
         const input = event.target;
-        input.value = input.value.replace(/\D/g, '').slice(0, 10);
+        input.value = input.value.replace(/\D/g, '').slice(0, 16);
     }
 
     //function to redirect to branch page
@@ -598,7 +599,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             this.goToMain();
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Success',
+                    //title: 'Success',
                     message: 'ブランチが正常に削除されました',
                     variant: 'success',
                 })
@@ -607,7 +608,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         .catch(error => {
             this.dispatchEvent(
                 new ShowToastEvent({
-                    title: 'Error',
+                    //title: 'Error',
                     message: 'ブランチの削除中にエラーが発生しました:' + error.body.message,
                     variant: 'error',
                 })

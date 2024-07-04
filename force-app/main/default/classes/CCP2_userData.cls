@@ -51,9 +51,9 @@ public with sharing class CCP2_userData {
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<Contact> userDtl(Id User,Boolean refresh)
+    public static List<Contact> userDtl(Id User,Integer refresh)
     {
-        if(refresh){
+        //if(refresh){
             Id accId=accId();
         	List<Contact> userData;
             if(accId!=null)
@@ -62,7 +62,7 @@ public with sharing class CCP2_userData {
             }
                
         return userData;
-        }
+       /* }
         else{
             Id accId=accId();
         	List<Contact> userData;
@@ -72,7 +72,7 @@ public with sharing class CCP2_userData {
             }
                
         	return userData;
-        }
+        }*/
          
     }
        @AuraEnabled(cacheable=true)

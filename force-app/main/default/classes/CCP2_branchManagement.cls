@@ -1,4 +1,4 @@
-public class CCP2_branchManagement {
+public with sharing class CCP2_branchManagement {
     @AuraEnabled
     public static String createAndAssociateBranch(Id accId, String companyName, String branchName, String address, String telephoneNo, String cellPhoneNo, List<Id> contactIds, List<Id> vehicleIds) {
         List<CCP2_Branch__c> existingBranches = [SELECT Id FROM CCP2_Branch__c WHERE Account__c = :accId AND Name = :branchName];

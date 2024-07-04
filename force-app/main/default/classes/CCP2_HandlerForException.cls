@@ -1,4 +1,4 @@
-public class CCP2_HandlerForException extends Exception {
+public with sharing class CCP2_HandlerForException extends Exception {
     
     // Log Exception in CustomException object. 
     

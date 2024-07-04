@@ -1,4 +1,4 @@
-public class CCP2_UpdatePermissionAssignment {
+public with sharing class CCP2_UpdatePermissionAssignment {
     @AuraEnabled
     
     public static Void createAndAssociateBranch(CCP2_Access_Control__c con){
@@ -28,13 +28,13 @@ public class CCP2_UpdatePermissionAssignment {
                 } catch (DmlException e) {
                         CCP2_HandlerForException.LogException(e);
                         System.debug('An error occurred while deleting PermissionSetAssignment record: ' + e.getMessage());
-                        // Optionally, handle or log other exceptions further if needed
+                        // Optionally, handle or log other exceptions further if needed,FUSO_CCP_External_Basic_Service_EC
                 }
         } 
         else {
             System.debug('No PermissionSetAssignment record found for user ID: ' + userId);
         }*/
-        List<PermissionSet> permissionSets = [Select Id, Name from permissionSet where Name IN ('E_invoice','FUSO_CCP_External_Financial_service','FUSO_CCP_External_Basic_Service_EC','FUSO_CCP_External_Cost_management','FUSO_CCP_External_Online_maintenance_booking','FUSO_CCP_External_Vehicle_management')];
+        List<PermissionSet> permissionSets = [Select Id, Name from permissionSet where Name IN ('E_invoice','FUSO_CCP_External_Financial_service','Direct_Booking','FUSO_CCP_External_Cost_management','FUSO_CCP_External_Online_maintenance_booking','FUSO_CCP_External_Vehicle_management')];
         List<Id> permissionSetIds = new List<Id>();
             for (PermissionSet ps : permissionSets) {
                 permissionSetIds.add(ps.Id);
@@ -71,7 +71,7 @@ public class CCP2_UpdatePermissionAssignment {
                     //Boolean rbChecked = false;
                     //CCP_AddUserCtrl.setPermissionSetforUser(userId,vrChecked,rbChecked, fsChecked,  ombChecked, vmChecked,  cmChecked);
                     //System.debug('PermissionSetAssignment record deleted successfully for ID: ' + psa.Id);
-                } catch (DmlException e) {
+                } catch (Exception e) {
                         CCP2_HandlerForException.LogException(e);
                         System.debug('An error occurred while deleting PermissionSetAssignment record: ' + e.getMessage());
                         // Optionally, handle or log other exceptions further if needed

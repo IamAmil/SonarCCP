@@ -1,4 +1,4 @@
-public class ccp2_userPermissionSet {
+public with sharing class ccp2_userPermissionSet {
     @AuraEnabled
     public static void permissionValues(ID userId) {
         // Predefined permissions

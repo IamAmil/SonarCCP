@@ -1,4 +1,4 @@
-public class ccp2_filedmap {
+public with sharing class ccp2_filedmap {
 		public final static Map<String, String> filedMap = new Map<String, String>{
         '名' => 'FirstName',//contact
          '姓' => 'LastName',//contact

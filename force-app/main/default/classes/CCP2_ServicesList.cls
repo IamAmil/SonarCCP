@@ -1,4 +1,4 @@
-public class CCP2_ServicesList {
+public with sharing class CCP2_ServicesList {
     @AuraEnabled(cacheable=true)
     public static List<Map<String, Object>> permissionValues(Id userId) {
         if(userId == null){

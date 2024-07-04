@@ -189,7 +189,7 @@
         <name>CCP2_ContactDetails</name>
     </customLabels>
     <customLabels>
-        <label>拠点追加</label>
+        <label>勤務地追加</label>
         <name>CCP2_CreateBranch</name>
     </customLabels>
     <customLabels>
@@ -465,7 +465,7 @@
         <name>CCP2_PleaseConfirmInputDetails</name>
     </customLabels>
     <customLabels>
-        <label>追加する拠点の基本情報をご入力ください</label>
+        <label>追加する勤務地の基本情報をご入力ください</label>
         <name>CCP2_PleaseEnterBasicInfo</name>
     </customLabels>
     <customLabels>
