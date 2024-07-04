@@ -68,6 +68,18 @@
     padding: 10px;
     height: 100%;
 }
+.empty{
+    margin-left: 16px;
+    margin-bottom: 1px;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: #777977;
+}
+.empty1{
+    margin-left: 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin-top: 2px;
+    color: #777977;
+}
 .form_footer{
     display: flex;
     flex-direction: row;

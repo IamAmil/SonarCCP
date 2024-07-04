@@ -146,19 +146,24 @@
                                     </div>
                                     <div class="recordsUser">
                                         <div class="scrollbar">
-                                            <template for:each={contacts} for:item="veh">
-                                                <div key={veh.Id} class="record-item">
-                                                    <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                    <span>{veh.Name}</span>
-                                                    <br>
-                                                </div>
+                                            <template if:true={hasContacts}>
+                                                <template for:each={contacts} for:item="veh">
+                                                    <div key={veh.Id} class="record-item">
+                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                        <span>{veh.Name}</span>
+                                                        <br>
+                                                    </div>
+                                                </template>
+                                                <template for:each={moreContacts} for:item="veh">
+                                                    <div key={veh.Id} class="record-item">
+                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                        <span>{veh.Name}</span>
+                                                        <br>
+                                                    </div>
+                                                </template>
                                             </template>
-                                            <template for:each={moreContacts} for:item="veh">
-                                                <div key={veh.Id} class="record-item">
-                                                    <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                    <span>{veh.Name}</span>
-                                                    <br>
-                                                </div>
+                                            <template if:false={hasContacts}>
+                                                <p class="empty">{labels.CCP2_SelectedMembers}</p>
                                             </template>
                                         </div>
                                     </div>
@@ -189,18 +194,23 @@
                                     <div class="records">
                                         <div class="dataScroll">
                                             <div class="scrollbar">
-                                                <template for:each={vehicle} for:item="veh">
-                                                    <div key={veh.Id} class="record-item">
-                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                        <span class="vehicleInBox">{veh.Name}</span>
-                                                        <br>
-                                                    </div>
+                                                <template if:true={hasVehicles}>
+                                                    <template for:each={vehicle} for:item="veh">
+                                                        <div key={veh.Id} class="record-item">
+                                                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                            <span class="vehicleInBox">{veh.Name}</span>
+                                                            <br>
+                                                        </div>
+                                                    </template>
+                                                    <template for:each={morevehicles} for:item="veh1">
+                                                        <div key={veh1.Id} class="record-item">
+                                                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh1.Id} class="filtericn"></lightning-icon>
+                                                            <span class="vehicleInBox">{veh1.Name}</span>
+                                                        </div>
+                                                    </template>
                                                 </template>
-                                                <template for:each={morevehicles} for:item="veh1">
-                                                    <div key={veh1.Id} class="record-item">
-                                                        <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteVehicle} data-id={veh1.Id} class="filtericn"></lightning-icon>
-                                                        <span class="vehicleInBox">{veh1.Name}</span>
-                                                    </div>
+                                                <template if:false={hasVehicles}>
+                                                    <p class="empty1">{labels.CCP2_SelectedVehicle}</p>
                                                 </template>
                                             </div>
                                         </div>

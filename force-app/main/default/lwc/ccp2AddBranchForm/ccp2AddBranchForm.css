@@ -27,12 +27,12 @@
 }
 .center-content {
     position: absolute;
-    height: 170vh;
+    height: 88%;
     width: 90%;
-    top: 55%;
+    top: 53%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color:    rgba(251, 251, 251, 0.8);
+    background-color:    rgba(251, 251, 251, 0.9);
     padding: 20px;
     z-index: 1;
     border-radius: 8px;
@@ -232,7 +232,8 @@ margin-right:30px;
     text-align: center;
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
+
+    margin-top: 12px;
 }
 
 .submit-button {
@@ -408,6 +409,8 @@ margin-right:30px;
     align-items: center;
     justify-content: center;
     height: 70px;
+    margin-right: 60px;
+
 }
 .btn:hover{
     background-color: white;
@@ -465,6 +468,7 @@ margin-right:30px;
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-left: 80px;
     align-items: center;
     justify-content: center;
     height: 70px;
@@ -497,20 +501,27 @@ margin-right:30px;
 }
 
 .company-name2{
-    margin-left: 120px;
+    margin-left: 107px;
     margin-right: 100px;
 
 }
 .address2{
-    margin-left: 120px;
+    margin-left: 107px;
 
 }
+.custom-placeholder{
+    color: #b2b2b2;
+    margin-left: 5%;
+    margin-top: 5%;
+    font-size: small;
+}
+ 
 .branch-id2{
     margin-left: 120px;
 
 }
 .branch-name2{
-    margin-left: 120px;
+    margin-left: 107px;
 
 }
 .branchAV{

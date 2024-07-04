@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="dataScroll no-scroll">
                                     <div class="scrollbar">
-                                      
+                                        <template if:true={moreusers.length}>
                                     <template for:each={moreusers} for:item="memb">
                                         <div key={memb.Id} class="record-item">
                                             <div >
@@ -88,7 +88,10 @@
                                             </div>
                                         </div>
                                     </template>
-                                    
+                                    </template>
+                                    <template if:false={moreusers.length}>
+                                        <p class="custom-placeholder">{labels.CCP2_SelectedMembers}</p>
+                                    </template>
                                 </div>
                                 </div>
                             </div>
@@ -119,6 +122,7 @@
                                 </div>
                                 <div class="dataScroll no-scroll">
                                     <div class="scrollbar">
+                                        <template if:true={morevehicles.length}>
 
                                     
                                     <template for:each={morevehicles} for:item="veh">
@@ -130,8 +134,10 @@
                                             </div>
                                         </div>
                                     </template>
-                                    
-                                    
+                                    </template>
+                                    <template if:false={morevehicles.length}>
+                                        <p class="custom-placeholder">{labels.CCP2_SelectedVehicle}</p>
+                                    </template>
                                 </div>
                             </div>
                         </div>
@@ -208,6 +214,7 @@
                                         <br>
                                     </div>
                                 </template>
+
                             </div>
                         </div>
                      

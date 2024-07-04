@@ -2,9 +2,11 @@
 
     <template if:true={hidebasicInfo}>
         <c-ccp-_-user-profile></c-ccp-_-user-profile>
-        <div class="withdraw-div">
-            <button class="withdraw-btn" onclick={handlewithdraw}>{labels.CCP2_Withdraw}</button>
-        </div>
+        <template if:true={showWithdraw}>
+            <div class="withdraw-div">
+                <button class="withdraw-btn" onclick={handlewithdraw}>{labels.CCP2_Withdraw}</button>
+            </div>
+        </template>
     </template>
 
     <template if:true={showconfModal}>
@@ -127,11 +129,15 @@
                                         </div>
                                         <div class="records">
                                             <div class="head">{labels.CCP2_WorkLocation}</div>
-                                            <template for:each={branchfromjunction} for:item="branch">
-                                                <div key={branch.Name}>
-                                                    <div class="data">{branch.Name}</div>
-                                                </div>
-                                            </template>
+                                            <div class="databranch">
+
+                                                <template for:each={branchfromjunction} for:item="branch">
+    
+                                                    <div key={branch.Name}>
+                                                        <div class="data">{branch.Name}</div>
+                                                    </div>
+                                                </template>
+                                            </div>
                                         </div>
                                         <div class="records">
                                             <div class="head">{labels.CCP2_Department}</div>
@@ -158,12 +164,18 @@
                                 </div>
                                 <div class="card">
                                     <div class="heading-radio">
-                                        <label>
-                                            <h1>
-                                                <!-- {labels.CCP2_CancellationRequest} -->
-                                                以下の退会理由を選択してください。
-                                            </h1>
-                                        </label>
+                                        <!-- <label> -->
+                                            <div>
+                                                <h1>
+                                                    <!-- {labels.CCP2_CancellationRequest} -->
+                                                    以下の退会理由を選択してください。
+                                                </h1>
+                                            </div>
+                                            <div>
+                                                <span class="reqtxt">{labels.CCP2_Required}</span>
+                                            </div>
+                                            
+                                        <!-- </label> -->
                                         
                                         
                                     </div>

@@ -57,9 +57,9 @@
                                     </div>
 
                                     <p class="text-main">追加する会員の基本情報をご入力ください。</p>
-                                    <p class="text-main">※追加は1名までとなります</p>
+                                    <p class="text-main">※追加は2名までとなります</p>
                                     <br>
-                                    <form action="">
+                                    <form action="" class="form-main">
                                         <div class="form form--register">
                                             <div class="form-item">
                                                 <label class="form-label">会社名</label>
@@ -162,37 +162,6 @@
                                                 placeholder="入力してください" onchange={handleAllInputChange}>
                                         </div>
 
-                                        <!-- <div class="item__input-form">
-                                            <div class="item__input-form-item" onclick={toggleDropdown}>
-                                                <label class="required form-label aligntop">支店</label>
-                                                
-                                                <div class="dataDrop">
-                                                    <template for:each={branch} for:item="bran">
-                                                        <div key={bran.Id} class="record-item" style="top:40px;">
-                                                            <lightning-icon icon-name="utility:close" size="x-small"
-                                                                alternative-text="Delete" onclick={handleDeleteBranch}
-                                                                data-id={bran.Id} class="filtericn"></lightning-icon>
-                                                            <span>{bran.Name}</span>
-                                                            <br>
-                                                        </div>
-                                                    </template>
-                                                    <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                        class="Inputs1 icon" placeholder="Please Select Branch">
-                                                    <template if:true={showlist}>
-                                                        <div class="lists">
-                                                            <template for:each={branchoptions} for:item="bran">
-                                                                <div key={bran.value} class="list-item"
-                                                                    onclick={handleBranchSelect} data-id={bran.value}>
-                                                                    <p>{bran.label}</p>
-                                                                </div>
-                                                            </template>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </div>
-                                        </div> -->
-
-
                                         <div class="form-item">
                                             <!-- <div class="item__input-form-item" onclick={toggleDropdown}> -->
                                             <label class="required form-label aligntop">勤務地</label>
@@ -201,7 +170,7 @@
                                                 
                                                 <div class="dataDrop">
                                                     <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                        class="Inputs1 icon" placeholder="選択してください">
+                                                        class="Inputs1 icon" placeholder="選択してください" name="branchsss">
                                                     <template if:true={showlist}>
                                                         <div class="lists" onclick={handleInsideClick}>
                                                             <template for:each={filteredbranch} for:item="veh">
@@ -212,21 +181,35 @@
                                                             </template>
                                                         </div>
                                                     </template>
+                                                    
+                                                    <div class="form-item__error flex sp-flex-direction-column">
+                                                        <div class="form-item__list">
+                                                            <template if:true={branchError}>
+                                                                <p class="_error">{branchErrorText}</p>
+                                                            </template>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="branchrecords">
-                                                    <template for:each={branch} for:item="veh">
-                                                        <div key={veh.Id} class="record-item">
-                                                            <lightning-icon icon-name="utility:close" size="x-small"
-                                                                alternative-text="Delete" onclick={handleDeleteBranch}
-                                                                data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                            <span>{veh.Name}</span>
-                                                            <br>
+                                                    <template if:true={branch.length}>
+                                                        <template for:each={branch} for:item="veh">
+                                                            <div key={veh.Id} class="record-item">
+                                                                <lightning-icon icon-name="utility:close" size="x-small"
+                                                                    alternative-text="Delete" onclick={handleDeleteBranch}
+                                                                    data-id={veh.Id} class="filtericn"></lightning-icon>
+                                                                <span>{veh.Name}</span>
+                                                                <br>
 
-                                                        </div>
+                                                            </div>
+                                                        </template>
+                                                    </template>
+                                                    <template if:false={branch.length}>
+                                                        <p class="custom-placeholder">選択された勤務地</p>
                                                     </template>
                                                 </div>
                                             </div>
                                             <!-- </div> -->
+
                                         </div>
 
 
@@ -278,7 +261,7 @@
                                                             <input class="input-checkbox" type="checkbox"
                                                                 name="baseService" onchange={handleCheckboxChange1} checked={baseChecked}>
                                                             <a href="javascript:void(0);" target="_blank">
-                                                                基本サービス（三菱ふそう_ショップ）
+                                                                基本サービス（ふそうショップ）
                                                             </a>
                                                         </label>
                                                     </div>
@@ -302,7 +285,7 @@
                                                             name="financialservice" onchange={handleCheckboxChange1}
                                                             checked={fsChecked}>
                                                         <a href="javascript:void(0);" target="_blank">
-                                                            ファイナンシャルサービス
+                                                            金融サービス
                                                         </a>
                                                     </label>
                                                 </div>
@@ -490,7 +473,7 @@
                                             <div class="section__definition-list">
                                                 <dt class="aligntop">利用するサービス</dt>
                                                 <div class="form-item__wrapper _tell padtop">
-                                                    <template if:true={isFDPShow}>
+                                                    <template if:true={baseChecked}>
                                                         <!-- <div class="checkbox-wrapper">
                                                             <label class="label-box" for="1"><input
                                                                     class="input-checkbox" type="checkbox"

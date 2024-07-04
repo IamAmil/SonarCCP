@@ -672,6 +672,13 @@ h4 {
     align-items: flex-start;
 }
 
+.form-main{
+    width:85%;
+    display: block;
+    margin: auto;
+}
+
+
 @media (min-width: 768px) and (max-width: 1440px) {
     .form-item {
         padding-bottom: 4.4444444444vw;
@@ -757,6 +764,7 @@ h4 {
 .form-item__wrapper._email {
     flex-direction: column;
     align-items: flex-start;
+    font-weight: 549;
 }
 
 .select-date__wrapper._tell .form__title,
@@ -1404,6 +1412,17 @@ input.input-checkbox {
     }
 }
 
+.hello-class{
+    border: 1px solid #E10202;
+    border-radius: 8px;
+    width: 250px;
+    height: 50px;
+    padding-left: 22px;
+    background-color: #fe9494;
+    cursor: pointer;
+}
+
+
 .form-input._error,
 .form-textarea._error,
 .form-calendar._error,
@@ -1837,6 +1856,12 @@ input.input-checkbox {
     background-size: 20px; /* Adjust size as needed */
 }
 
+.icon2{
+    background: var(--dropdown-icon) no-repeat;
+    background-position: 215px 50%; /* Adjust position as needed */
+    background-size: 20px; /* Adjust size as needed */
+}
+
 
 
 /* Shivam new css */
@@ -1847,6 +1872,7 @@ input.input-checkbox {
     height: 50px;
     padding-left: 22px;
     background-color: #ffffff;
+    cursor: pointer;
  }
 
  .Inputs1::placeholder{
@@ -1867,4 +1893,9 @@ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 z-index: 1000;
 margin-top: 5px; /* Space between input and dropdown */
 padding: 10px;
+}
+.custom-placeholder{
+    color: #BBBBBB;
+    margin-left: 3.5%;
+    /* margin-top: 2%; */
 }

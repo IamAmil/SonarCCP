@@ -270,6 +270,11 @@
     font-family: 'Noto Sans JP', sans-serif;
 }
 
+.databranch{
+    display:flex;
+    flex-direction: column;
+}
+
 .toedit{
     color: white;
     transition: color 0.3s ease;
@@ -507,6 +512,20 @@ img {
     margin-top: 20%;
 }
 
+.reqtxt{
+    color: white;
+    font-size: 10px;
+    background-color: #E10202;
+    padding: 5px 6px;
+    width: 45px;
+    height: 22px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-left: 4px; */
+ }
+
 .content-modal2 ul{
     font-size: medium;
     list-style-type: disc;
@@ -684,6 +703,7 @@ img {
 }
 
 .heading-radio{
+    display: flex;
     font-size: 1.3em;
     margin-top: 5%;
 }

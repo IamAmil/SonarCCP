@@ -11,7 +11,8 @@ input{
   position: relative;
   width: calc(100vw - 16px);
   margin: -16px 0 0 -16px;
-  height: max-content;
+  /* height: max-content; */
+  height: 210vh;
 }
 
 .half {
@@ -20,26 +21,50 @@ input{
   left: 0;
 }
 .top {
-  height: 60vh;
-  background-color: lightblue;
+  /* height: 60vh;
+  background-color: lightblue; */
+  height: 32%;
+    top: 0;
+    background: linear-gradient(to bottom, #BFBFBF, #F4F4F4); /* Gradient effect */
+    background-color: rgb(2, 1, 1);
+    z-index: 1;
 }
 
 .bottom {
   /* height: 60%; */
-  position: relative;
+  /* position: relative;
   height: max-content;
   background-color: rgb(253, 253, 253);
   display: flex;
-  justify-content: center;
+  justify-content: center; */
+  height: 68%;
+    bottom: 0;
+    background-color: #f4f4f4;
+    z-index: 0;
 }
 .center-content {
-  position: relative;
+  /* position: relative;
   height: 100%;
   margin-top: -46.5vh;
   width: 90%;
   background-color: rgba(251, 251, 251, 0.8);
   z-index: 1;
-  border-radius: 10px;
+  border-radius: 10px; */
+  position: absolute;
+    /* height: 85%; */
+
+    height: 38%;
+    width: 90%;
+    top: 26%;
+    left: 50%;
+    width: 90%;
+    /* top: 52%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(251, 251, 251, 0.9);
+    padding: 20px;
+    z-index: 2; 
+    border-radius: 8px;
 }
 
 .overlay {
@@ -62,6 +87,11 @@ img {
   height: 140%;
 }
 
+.custom-width-modal{
+  height: 100%;
+  width: 40%;
+}
+
 .heading {
   font-weight: 600;
   font-size: 1.5em;
@@ -70,6 +100,7 @@ img {
 
 .list-container {
   min-height: 250px;
+  margin-bottom: -30px;
 }
 
 .list-element {
@@ -385,6 +416,11 @@ img {
 .content-modal h1{
     margin-top: 10%;
     text-align: center;
+    font-size: medium;
+    font-weight: 500;
+    /* padding: 2%; */
+    font-family: 'Noto Sans JP', sans-serif;
+    /* margin-top: 20%; */
 }
 .content-modal .btn-modal{
     display: flex;
@@ -535,17 +571,28 @@ button.btn-yes {
   background-color:#E10202; 
   color: white;
   border-radius: 10px;
-  width: 176px;
-  height: 48px;
+  width: 190px;
+  height: 35px;
+  border: none;
+  font-weight: 300;
+  font-family: 'Noto Sans JP', sans-serif;
+  box-shadow: 0px 0px 10px 0px #00000026;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 button.btn-yes:hover {
   background-color: white;
   color: #E10202;
-  border: 1px solid #E10202 !important;
   border-radius: 10px;
-  width: 176px;
-  height: 48px;
+  width: 190px;
+  height: 35px;
+  font-weight: 300;
+  font-family: 'Noto Sans JP', sans-serif;
+  border: solid;
+  border-width: 1px;
+  transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+  border-color: #E10202;
 }
 
 .btn-top{
@@ -578,20 +625,31 @@ button.btn-yes:hover {
   margin-top: 5%;
 }
 button.btn-no {
-  background-color: #f4f4f4;
   color: black;
-  border-radius: 10px;
-    width: 176px;
-    height: 48px;
+  width: 190px;
+  height: 35px;
+  border: none;
+  font-weight: 300;
+  background-color: #E9E9E9;
+  box-shadow: 0px 0px 10px 0px #00000026;
+  font-family: 'Noto Sans JP', sans-serif;
+  border-radius: 8px;
+    /* padding: 0.5rem 1rem; */
+  cursor: pointer;
 }
 
 button.btn-no:hover {
   background-color: white !important;
-  color: black !important;
-  border: 1px solid #F4F4F4 !important;
   border-radius: 10px;
-  width: 176px;
-  height: 48px;
+  width: 190px;
+  height: 35px;
+  font-weight: 300;
+  color: #8F98AA;
+  font-family: 'Noto Sans JP', sans-serif;
+  border: solid;
+  border-width: 1px;
+  transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+  border-color: #8F98AA;
 }
 
 .btn-yes.btn-yes-save {

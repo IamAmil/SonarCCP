@@ -26,27 +26,37 @@
                     <img src={link} class="small">
                 </div>
             </div>
+
+
             <div class="menu">
                 <div class="user">
                     <img src={UserIcon} class="menu_icons" onclick={openuserlist}>
                     
                     <template if:true={showUserList}>
-                        <div class="lists">
-                            <div class="centerlists">
-                                <template if:true={showInfo}>
-                                <ul><a class="lists_anchor" href={profileUrl}>{labels.CCP2_BasicInfo}</a></ul>
-                            </template>
-                            <template if:true={UserManagment}>
-                                <ul><a class="lists_anchor" href={UserManagementUrl}>{labels.CCP2_MemManage}</a></ul>
-                            </template>
-                            <template if:true={BranchManagment}>
-                                <ul><a class="lists_anchor" href={addBranchUrl}>{labels.CCP2_BranchManage}</a></ul>
-                            </template>
-                            <template if:true={IsUserLogin}>
-                                <ul><a class="lists_anchor logout" onclick={handleLogout}>{labels.CCP2_Logout}</a></ul>
-                            </template>
+                        <template if:false={amIGuestUser}>
+                            <div class="lists">
+                                <div class="centerlists">
+                                    <template if:true={showInfo}>
+                                    <ul><a class="lists_anchor" href={profileUrl}>{labels.CCP2_BasicInfo}</a></ul>
+                                </template>
+                                <template if:true={UserManagment}>
+                                    <ul><a class="lists_anchor" href={UserManagementUrl}>{labels.CCP2_MemManage}</a></ul>
+                                </template>
+                                <template if:true={BranchManagment}>
+                                    <ul><a class="lists_anchor" href={addBranchUrl}>{labels.CCP2_BranchManage}</a></ul>
+                                </template>
+                                <template if:true={IsUserLogin}>
+                                    <ul><a class="logout" onclick={handleLogout}>{labels.CCP2_Logout}</a></ul>
+                                </template>
+                                </div>
                             </div>
-                        </div>
+                        </template>
+                        <template if:true={amIGuestUser}>
+                            <div class="lists">
+                                <ul><a href={loginLink}>ログイン</a></ul>
+                            </div>
+                            
+                        </template>
                     </template>
                 </div>
                 <div class="Notifications">

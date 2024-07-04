@@ -39,6 +39,26 @@ public class CCP2_UpdatePermissionAssignment {
             for (PermissionSet ps : permissionSets) {
                 permissionSetIds.add(ps.Id);
             }
+        
+        PermissionSet bsCheck = [Select Id from permissionSet where Name = 'Direct_Booking'];
+        Id bsCheckedId = bsCheck.Id;
+        //System.debug(bsCheckedId);
+        PermissionSet eiCheck = [Select Id from permissionSet where Name = 'E_invoice'];
+        Id eiCheckedId = eiCheck.Id;
+        //System.debug(eiCheckedId);
+        PermissionSet fsCheck = [Select Id from permissionSet where Name = 'FUSO_CCP_External_Financial_service'];
+        Id fsCheckedId = fsCheck.Id;
+        //System.debug(fsCheckedId);
+        PermissionSet ombCheck = [Select Id from permissionSet where Name = 'FUSO_CCP_External_Online_maintenance_booking'];
+        Id ombCheckedId = ombCheck.Id;
+        //System.debug(ombCheckedId);
+        PermissionSet vmCheck = [Select Id from permissionSet where Name = 'FUSO_CCP_External_Vehicle_management'];
+        Id vmCheckedId = vmCheck.Id;
+        //System.debug(vmCheckedId);
+        PermissionSet cmCheck = [Select Id from permissionSet where Name = 'FUSO_CCP_External_Cost_management'];
+        Id cmCheckedId = cmCheck.Id;
+        //System.debug(cmCheckedId);
+        
         List<PermissionSetAssignment> psaList = [SELECT Id,AssigneeId,PermissionSetId FROM PermissionSetAssignment WHERE AssigneeId = :userId and PermissionSetId IN:permissionSetIds ];
         System.debug(psaList);
            if (!psaList.isEmpty()) {
@@ -63,27 +83,27 @@ public class CCP2_UpdatePermissionAssignment {
         try{
              System.debug('No1');
             if(bsChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PS5i0000090MkgGAE', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = bsCheckedId, AssigneeId = userId);
                 insert vsa;
             }
              if(eiChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PS5i0000090MkhGAE', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = eiCheckedId, AssigneeId = userId);
                 insert vsa;
             }
              if(fsChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PSIo000000TPCzOAO', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = fsCheckedId, AssigneeId = userId);
                 insert vsa;
             }
              if(ombChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PSIo000000TPD4OAO', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = ombCheckedId, AssigneeId = userId);
                 insert vsa;
             }
              if(vmChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PSIo000000TPD9OAO', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = vmCheckedId, AssigneeId = userId);
                 insert vsa;
             }
              if(cmChecked){
-                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId ='0PSIo000000TPDEOA4', AssigneeId = userId);
+                PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = cmCheckedId, AssigneeId = userId);
                 insert vsa;
             }
          }

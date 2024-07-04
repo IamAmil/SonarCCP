@@ -27,7 +27,17 @@ public class CCP2_branchManagement {
                 }
                 insert junctionInserts;
                 System.debug('Junction records inserted successfully.');
+				//vehicle created in junction table
+				List<CCP2_BranchVehicle_Junction__c> vehicleToInsert = new List<CCP2_BranchVehicle_Junction__c>();
 
+                    for (Id vehicleId : vehicleIds) {
+                    CCP2_BranchVehicle_Junction__c vehicleInsert = new CCP2_BranchVehicle_Junction__c();
+                    vehicleInsert.VehicleId__c = vehicleId;
+                    vehicleInsert.BranchId__c = newBranch.Id;
+                    vehicleToInsert.add(vehicleInsert);
+                    }
+                insert vehicleToInsert;
+                
                 return 'Branch Created';
             } catch (DmlException e) {
                 CCP2_HandlerForException.LogException(e);

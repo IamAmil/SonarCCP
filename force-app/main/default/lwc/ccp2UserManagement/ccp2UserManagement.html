@@ -203,8 +203,8 @@
                                             class="reqtxt">{labels.CCP2_Required}</span></div>
                                     <div class="data">
                                         <div class="dataCellName">
-                                            <span class="data-cell-item">Surname</span>
-                                            <span class="data-cell-item">Name</span>
+                                            <span class="data-cell-item">姓</span>
+                                            <span class="data-cell-item">名</span>
                                         </div>
                                         <div class="dataCellName">
                                             <input type="text" class={contactClassLastName} onchange={handleInputChange}
@@ -222,8 +222,8 @@
                                     </div>
                                     <div class="data">
                                         <div class="dataCellName">
-                                            <span class="data-cell-item">Surname (furigana)</span>
-                                            <span class="data-cell-item">Name (furigana)</span>
+                                            <span class="data-cell-item">姓（フリガナ）</span>
+                                            <span class="data-cell-item">姓（フリガナ）</span>
                                         </div>
                                         <div class="dataCellName">
                                             <input type="text" class={contactClassFKanaName}
@@ -249,7 +249,7 @@
                                     <div class="dataBranchedit">
                                         <div class="dataDrop">
                                             <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                class="Inputs1 icon" placeholder="Please select">
+                                                class="Inputs1 icon" placeholder="選択してください">
                                             <template if:true={showlist}>
                                                 <div class="lists" onclick={handleInsideClick}>
                                                     <template for:each={filteredbranch} for:item="veh">
@@ -330,8 +330,8 @@
                                     <div class="head head-save head-save-align">{labels.CCP2_TelephoneNumber} <span class="reqtxt">{labels.CCP2_Required}</span>
                                     </div>
                                     <div class="data data-align">
-                                        <div class="">Please enter either your phone number or mobile number </div>
-                                        <div class="">Please enter without hyphen.</div>
+                                        <div class="">電話番号か携帯番号かいずれかご入力してください。</div>
+                                        <div class="">ハイフンなしでご入力ください。</div>
                                         <div class="records_number" style="margin-top: 15px;">
                                             <div class="">{labels.CCP2_TelephoneNumber}</div>
                                             <div class=""><input type="text" class={contactClassTelephone}
@@ -418,16 +418,16 @@
 
     <template if:true={showconfModal}>
         <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-text-heading_medium" style="border-radius:10px;">
+            <div class="slds-modal__container custom-width-modal">
+                <div class="slds-modal__content slds-text-heading_small" style="border-radius:8px; background-color: rgba(251, 251, 251, 0.8);">
                     <div class="content-modal">
-                        <h1><strong>このアカウントを削除します。<br>
+                        <h1>このアカウントを削除します。<br>
                             また、そのアカウントが作成されたデータ所<br>
                             有権を管理者に移管します。
-                            </strong></h1>
+                            </h1>
                         <div class="btn-modal">
-                            <button class="btn-no" style="background-color:#F4F4F4;" onclick={handleNo}><strong>いいえ</strong></button>
-                            <button class="btn-yes" onclick={handleYes}><strong>はい</strong></button>
+                            <button class="btn-no" style="background-color:#F4F4F4;" onclick={handleNo}>いいえ</button>
+                            <button class="btn-yes" onclick={handleYes}>はい</button>
                         </div>
                     </div>
                 </div>

@@ -17,8 +17,8 @@ public with sharing class CCP2_userData {
     @AuraEnabled(cacheable=true)
     public static List<Contact> userList()
     {
-         //Id accId=accId();
-         Id accId='001Io000003ITP2IAO';
+         Id accId=accId();
+         //Id accId='001Io000003ITP2IAO';
         
         List<Contact> user;
             if(accId!=null)
@@ -43,7 +43,7 @@ public with sharing class CCP2_userData {
             }*/
         
         if (accId != null) {
-        user = [SELECT Id, Name FROM Contact WHERE accountId = :accId AND Id NOT IN (SELECT ContactId__c FROM CCP2_BranchContact_Junction__c WHERE BranchId__c = :branchId)];
+        user = [SELECT Id, Name FROM Contact WHERE accountId = :accId and ccpUseFlag__c= true AND Id NOT IN (SELECT ContactId__c FROM CCP2_BranchContact_Junction__c WHERE BranchId__c = :branchId)];
 
         }
         System.debug('user ' +user);
@@ -76,7 +76,8 @@ public with sharing class CCP2_userData {
          
     }
        @AuraEnabled(cacheable=true)
-    public static List<CCP2_Branch__c> userBranchDtl(Id User) {
+    public static List<CCP2_Branch__c> userBranchDtl(Id User,Boolean refresh) {
+        if(refresh){
         try {
             // Query the Branch Ids related to the given User
             List<CCP2_BranchContact_Junction__c> BranchIds = [SELECT BranchId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :User];
@@ -95,6 +96,27 @@ public with sharing class CCP2_userData {
             System.debug('Error in userDtl: ' + e.getMessage());
             throw new AuraHandledException('An error occurred while fetching branch details');
         }
+    }
+     else{
+         try {
+            // Query the Branch Ids related to the given User
+            List<CCP2_BranchContact_Junction__c> BranchIds = [SELECT BranchId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :User];
+            System.debug(BranchIds);
+            // Create a list to hold the Branch Ids
+            List<Id> junctionbranchIds = new List<Id>();
+            for (CCP2_BranchContact_Junction__c junction : BranchIds) {
+                junctionbranchIds.add(junction.BranchId__c);
+            }
+            System.debug(junctionbranchIds);
+            // Query the Branch details using the Branch Ids
+            List<CCP2_Branch__c> branchDetails = [SELECT Id, Name FROM CCP2_Branch__c WHERE Id IN :junctionbranchIds];
+            system.debug(branchDetails);
+            return branchDetails;
+        } catch (Exception e) {
+            System.debug('Error in userDtl: ' + e.getMessage());
+            throw new AuraHandledException('An error occurred while fetching branch details');
+        }
+     }
     }
     /* @AuraEnabled(cacheable=true)
     public static List<CCP2_BranchContact_Junction__c> userDtl(Id User,Boolean refresh)
@@ -326,7 +348,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
             for (VehicleInfo__c child : childRecords) {
                 child.CCP2_Branch__c = null;
             }*/
-            List<CCP2_BranchVehicle_Junction__c> childRecords = [SELECT Id, VehicleId__c FROM CCP2_BranchVehicle_Junction__c WHERE VehicleId__c IN :vehicles and BranchId__c =:branchId];
+            List<CCP2_BranchVehicle_Junction__c> childRecords = [SELECT Id, VehicleId__c,BranchId__c FROM CCP2_BranchVehicle_Junction__c WHERE VehicleId__c IN :vehicles and BranchId__c =:branchId];
             /*for (CCP2_BranchVehicle_Junction__c child : childRecords) {
                 child.VehicleId__c = null;
             }*/

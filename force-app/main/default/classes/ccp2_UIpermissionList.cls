@@ -75,9 +75,10 @@ public class ccp2_UIpermissionList {
             throw new AuraHandledException('Error updating access control record: ' + e.getMessage());
         }
     }
-        @AuraEnabled
-    public static List<String> uiPermissionList(Id userId) {
+     @AuraEnabled(cacheable=true)
+    public static List<String> uiPermissionList(Id userId,Boolean refresh) {
         // Query the access control record for the given user ID
+        if(refresh){
         List<CCP2_Access_Control__c> accessList = [
             SELECT Name, Basic_Service_EC_Flag__c, Cost_management_Flag__c, E_invoice_Flag__c,
                    Financial_service_Flag__c, Online_maintenance_booking_Flag__c, Vehicle_management_Flag__c
@@ -94,16 +95,16 @@ public class ccp2_UIpermissionList {
                 activePermissions.add('基本サービス（ふそうショップ）');
             }
             if (accessControl.Cost_management_Flag__c) {
-                activePermissions.add('コスト管理');
+                activePermissions.add('費用管理');
             }
             if (accessControl.E_invoice_Flag__c) {
-                activePermissions.add('外部電子請求書');
+                activePermissions.add('部整月次請求書（電子版）');
             }
             if (accessControl.Financial_service_Flag__c) {
-                activePermissions.add('外部金融サービス');
+                activePermissions.add('金融サービス');
             }
             if (accessControl.Online_maintenance_booking_Flag__c) {
-                activePermissions.add('オンラインメンテナンス予約');
+                activePermissions.add('車検入庫予約');
             }
             if (accessControl.Vehicle_management_Flag__c) {
                 activePermissions.add('車両管理');
@@ -113,5 +114,44 @@ public class ccp2_UIpermissionList {
         // Return the list of active permissions
         System.debug(activePermissions);
         return activePermissions;
+    }
+    
+    else{
+        List<CCP2_Access_Control__c> accessList = [
+            SELECT Name, Basic_Service_EC_Flag__c, Cost_management_Flag__c, E_invoice_Flag__c,
+                   Financial_service_Flag__c, Online_maintenance_booking_Flag__c, Vehicle_management_Flag__c
+            FROM CCP2_Access_Control__c 
+            WHERE Name = :userId
+            LIMIT 1
+        ];
+        System.debug(accessList);
+        List<String> activePermissions = new List<String>();
+
+        if (!accessList.isEmpty()) {
+            CCP2_Access_Control__c accessControl = accessList[0];
+            if (accessControl.Basic_Service_EC_Flag__c) {
+                activePermissions.add('基本サービス（ふそうショップ）');
+            }
+            if (accessControl.Cost_management_Flag__c) {
+                activePermissions.add('費用管理');
+            }
+            if (accessControl.E_invoice_Flag__c) {
+                activePermissions.add('部整月次請求書（電子版）');
+            }
+            if (accessControl.Financial_service_Flag__c) {
+                activePermissions.add('金融サービス');
+            }
+            if (accessControl.Online_maintenance_booking_Flag__c) {
+                activePermissions.add('車検入庫予約');
+            }
+            if (accessControl.Vehicle_management_Flag__c) {
+                activePermissions.add('車両管理');
+            }
+        }
+
+        // Return the list of active permissions
+        System.debug(activePermissions);
+        return activePermissions;
+    }
     }
 }

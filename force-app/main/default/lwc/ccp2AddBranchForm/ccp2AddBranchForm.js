@@ -40,10 +40,9 @@ import CCP2_AssignMemberRelevant from '@salesforce/label/c.CCP2_AssignMemberRele
 import CCP2_PleaseSelect from '@salesforce/label/c.CCP2_PleaseSelect';
 import CCP2_PleaseEnter from '@salesforce/label/c.CCP2_PleaseEnter';
 import CCP2_BranchAdded from '@salesforce/label/c.CCP2_BranchAdded';
+import CCP2_SelectedVehicle from '@salesforce/label/c.CCP2_SelectedVehicle';
+import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
  
-
-
-
 
 
 const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
@@ -77,9 +76,9 @@ export default class Ccp2AddBranchForm extends LightningElement {
         CCP2_AssignMemberRelevant:CCP2_AssignMemberRelevant,
         CCP2_PleaseSelect: CCP2_PleaseSelect,
         CCP2_PleaseEnter: CCP2_PleaseEnter,
-        CCP2_BranchAdded: CCP2_BranchAdded
-
-
+        CCP2_BranchAdded: CCP2_BranchAdded,
+        CCP2_SelectedVehicle: CCP2_SelectedVehicle,
+        CCP2_SelectedMembers: CCP2_SelectedMembers
 
     };
 
@@ -111,9 +110,9 @@ export default class Ccp2AddBranchForm extends LightningElement {
     @track morevehicles = [];
     @track selectedVehicleId; // Selected vehicle Id
     @track users = []; // Array to hold users for combobox
-    @track moreusers = [];
-    @track selectedVehicleId; // Selected user Id
+    @track moreusers = [];// Selected user Id
     @track selectedUser = ''; // Selected user (will hold the name)
+    @track selectedUserId;
 
     @track isNextDisabled = true;
     searchTerm = '';
@@ -165,6 +164,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
                     label: user.Name,
                     value: user.Id
                 }));
+                console.log(JSON)
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
@@ -302,7 +302,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
                     throw new Error('Please fill in Branch Name.');
                 }
     
-                if (!this.validatePhone(this.phone)) {
+                if (this.phone !== '' && !this.validatePhone(this.phone)) {
                     isValid = false;
                     throw new Error('Please enter a valid 10-digit phone number.');
                 }
@@ -316,8 +316,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
         } catch (error) {
             this.showToast('Error', error.message, 'error');
         }
-    }
-    
+    }   
     
 
     validateBranchName() {
@@ -347,8 +346,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
         input.value = input.value.replace(/\D/g, '').slice(0, 10); 
         this.validatePhone(input.value);
     }
-  
-    
+ 
 
 
     handle2Next() {
@@ -359,11 +357,11 @@ export default class Ccp2AddBranchForm extends LightningElement {
         console.log("map",JSON.stringify(vehicleIds));
         console.log("veh",JSON.stringify(this.morevehicles));
 
-        let contactIds = this.users.map(user => user.Id);
+        let contactIds = this.moreusers.map(user => user.Id);
 
-    let params = {
+     let params = {
         vehicleIds: vehicleIds,
-        contactIds: this.selectedUserId,
+        contactIds: contactIds,
         accId: this.accountId,
         address: this.address,
         branchName: this.branchName,
@@ -372,6 +370,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
         companyName: 'PwC Japan Contract Co., Ltd',
         // branchNumber: '0003'
     };
+    console.log(JSON.stringify(params));
 
     AddBranch(params)
         .then(result => {
@@ -407,7 +406,6 @@ export default class Ccp2AddBranchForm extends LightningElement {
     addressChange(event){
         this.address = event.target.value;
 
-
     }
 
     handleBranchNameChange(event) {
@@ -417,14 +415,18 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
     // handlePhoneChange(event) {
     //     this.phone = event.target.value;
-    //            this.validatePhone();
+    //            this.validatePhone();han
         
     // }
     handlePhoneChange(event) {
         const input = event.target;
+        console.log("212wsw",input);
         const cleanedPhone = input.value.replace(/\D/g, '').slice(0, 10); // Clean input to allow only digits and limit to 10 characters
         this.phone = cleanedPhone; // Update phone number in component state
+        console.log("212wsw",cleanedPhone);
+        if(cleanedPhone !== ''){
         this.validatePhone(); // Validate the cleaned phone number
+        }
     }
 
     
@@ -462,9 +464,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
     }
     
     handleDeleteVehicle(event) {
-      
-
-        const vehicleId = event.currentTarget.dataset.id;
+      const vehicleId = event.currentTarget.dataset.id;
 
     const deletedVehicleFromMoreVehiclesArray = this.morevehicles.find(veh => veh.Id === vehicleId);
 
@@ -491,7 +491,10 @@ export default class Ccp2AddBranchForm extends LightningElement {
     if (deletedUserFromMoreUsersArray) {
         this.users = [...this.users, { label: deletedUserFromMoreUsersArray.Name, value: deletedUserFromMoreUsersArray.Id }];
 
-    }}
+    }
+}
+
+
 //    validatePhone (phone) {
 //         if (phone.length === 10) {
 //             this.template.querySelector('.phone').classList.remove('error'); 

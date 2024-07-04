@@ -49,14 +49,14 @@ export default class Ccp_AddUser extends LightningElement {
   termServiceChecked = false;
   termDataChecked = false;
   vrChecked = false;
-  rbChecked = false;
+  rbChecked = true;
 
   //bsChecked = false;
   //eiChecked = false;
-  fsChecked = false;
-  ombChecked = false;
-  vmChecked = false;
-  cmChecked = false;
+  fsChecked = true;
+  ombChecked = true;
+  vmChecked = true;
+  cmChecked = true;
 
    deletedBranchIds = [];
    selectedLabels = [];
@@ -77,6 +77,7 @@ export default class Ccp_AddUser extends LightningElement {
   lastNameKanaError = false;
   firstNameKanaError = false;
   emailError = false;
+  branchError = false;
   phoneError = false;
   vehicleShow = false;
   requestShow = false;
@@ -91,10 +92,11 @@ export default class Ccp_AddUser extends LightningElement {
   firstNameErrorText;
   lastNameKanaErrorText;
   firstNameKanaErrorText;
+  branchErrorText;
   emailErrorText;
   phoneErrorText;
   isShowModal = false;
-  baseChecked = false;
+  baseChecked = true;
   // baseService = true;
   eInvioceService = false;
   directBookService = false;
@@ -274,6 +276,7 @@ export default class Ccp_AddUser extends LightningElement {
     let mobilePhone = this.template.querySelector('[name="mobilePhone"]');
     let department = this.template.querySelector('[name="department"]');
     let title = this.template.querySelector('[name="title"]');
+    let branchList = this.template.querySelector('[name="branchsss"]');
     
     let employeeCode = this.template.querySelector('[name="employeeCode"]');
     // if (!this.isFDP) {
@@ -320,18 +323,10 @@ export default class Ccp_AddUser extends LightningElement {
         '[name="costmanagement"]'
       ).checked;
     }
-    if (this.branch.length === 0) {
-      this.dispatchEvent(
-        new ShowToastEvent({
-          title: "Error",
-          message:
-            "Branch data cannot be empty. Please add at least one Branch.",
-          variant: "error"
-        })
-      );
-      return;
-    }
 
+    
+
+    
     
     
     // the lastName verify not null and up to 80 characters
@@ -382,10 +377,11 @@ export default class Ccp_AddUser extends LightningElement {
       this.firstNameKanaError = false;
       this.firstNameKanaErrorText = "";
     }
+    
     phone.className = "form-input  slds-form-element__control slds-input";
     mobilePhone.className = "form-input  slds-form-element__control slds-input";
     // verify the phone and mobile cannot be empty at the same time
-    if (!phone.value && !mobilePhone.value) {
+    if (!phone.value || !mobilePhone.value) {
       phone.className =
         "form-input _error slds-form-element__control slds-input";
       mobilePhone.className =
@@ -414,6 +410,22 @@ export default class Ccp_AddUser extends LightningElement {
         "form-input slds-form-element__control slds-input";
       this.phoneError = false;
       this.phoneErrorText = "";
+    }
+
+    
+    if (this.branch.length === 0) {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Error",
+          message:
+            "必須項目を入力してください。",
+          variant: "error"
+        })
+      );
+      branchList.className = "hello-class icon form-input _error slds-form-element__control slds-input";
+      this.branchError = true;
+      this.branchErrorText = "メールアドレスを入力してください";
+
     }
     // the email verify not null, have correct email format and the same email does not exist for contacts under the same account
     if (!email.value) {
@@ -453,6 +465,8 @@ export default class Ccp_AddUser extends LightningElement {
                 "入力されたメールアドレスでは、会員登録ができません。担当営業にご連絡ください";
             }
           }
+      
+
           // if the page not error can turn to next section
           if (
             !this.lastNameError &&
@@ -473,6 +487,8 @@ export default class Ccp_AddUser extends LightningElement {
         .catch((error) => {
           console.log("checkUserEmail Errors:" + JSON.stringify(error));
         });
+
+        
     }
     // get input data
     this.contactInputData = {
@@ -489,13 +505,13 @@ export default class Ccp_AddUser extends LightningElement {
     };
 
     if(title.value == ''){
-      this.contactInputData.title = 'Null';
+      this.contactInputData.title = '-';
     }
     if(department.value == ''){
-      this.contactInputData.department = 'Null';
+      this.contactInputData.department = '-';
     }
     if(employeeCode.value == ''){
-      this.contactInputData.employeeCode = 'Null';
+      this.contactInputData.employeeCode = '-';
     }
   }
 

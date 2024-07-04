@@ -40,11 +40,11 @@ public class CCP2_ServicesList {
 
         List<Map<String, Object>> permissionStatusList = new List<Map<String, Object>>();
         Map<String, String> permissionMap = new Map<String, String>{
-            'Basic_Service_EC_Flag__c' => '基本サービスEC',
-            'Cost_management_Flag__c' => 'コスト管理',
-            'E_invoice_Flag__c' => '外部電子請求書',
-            'Financial_service_Flag__c' => '外部金融サービス',
-            'Online_maintenance_booking_Flag__c' => 'オンラインメンテナンス予約',
+            'Basic_Service_EC_Flag__c' => '基本サービス（ふそうショップ）',
+            'Cost_management_Flag__c' => '費用管理',
+            'E_invoice_Flag__c' => '部整月次請求書（電子版）',
+            'Financial_service_Flag__c' => '金融サービス',
+            'Online_maintenance_booking_Flag__c' => '車検入庫予約',
             'Vehicle_management_Flag__c' => '車両管理'
         };
 

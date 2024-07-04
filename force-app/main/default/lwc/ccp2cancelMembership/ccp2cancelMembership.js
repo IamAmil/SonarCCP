@@ -1,5 +1,6 @@
 import { LightningElement,track,wire } from 'lwc';
 import backgroundImage from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
 import truckcancel from '@salesforce/resourceUrl/truckcancel1';
 import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
@@ -12,9 +13,8 @@ import USER_ACCOUNT_ID_FIELD from '@salesforce/schema/User.AccountId';
 import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
 import ACCOUNT_TYPE_FIELD from '@salesforce/schema/Account.Type';
 import deleteadmin from '@salesforce/apex/CCP2_UserDeleteController.deleteUser';
+import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
 // import ACCOUNT_NAME from '@salesforce/schema/User.Account.Name'
-
-
 import CCP2_Withdraw from '@salesforce/label/c.CCP2_Withdraw';
 import CCP2_DiscontinueMembership from '@salesforce/label/c.CCP2_DiscontinueMembership';
 import CCP2_No from '@salesforce/label/c.CCP2_No';
@@ -41,6 +41,7 @@ import CCP2_MobileNo from '@salesforce/label/c.CCP2_MobileNo';
 import CCP2_CancellationRequest from '@salesforce/label/c.CCP2_CancellationRequest';
 import CCP2_ReasonForDiscontinuation from '@salesforce/label/c.CCP2_ReasonForDiscontinuation';
 import CCP2_LowFrequency from '@salesforce/label/c.CCP2_LowFrequency';
+import CCP2_Required from "@salesforce/label/c.CCP2_Required";
 import CCP2_PoorUsability from '@salesforce/label/c.CCP2_PoorUsability';
 import CCP2_DataAccuracyDissatisfaction from '@salesforce/label/c.CCP2_DataAccuracyDissatisfaction';
 import CCP2_FewMemberBenefits from '@salesforce/label/c.CCP2_FewMemberBenefits';
@@ -54,21 +55,15 @@ import CCP2_Previous from '@salesforce/label/c.CCP2_Previous';
 import CCP2_TOPPage from '@salesforce/label/c.CCP2_TOPPage';
 import branchdetails from '@salesforce/apex/CCP2_userData.userBranchDtl';
 
-
-
-
-
-
-
 const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
 
 export default class Ccp2CancelMembership extends LightningElement {
-
-
+    @track showWithdraw = false;
     labels = {
         CCP2_Withdraw,
         CCP2_DiscontinueMembership,
         CCP2_No,
+        CCP2_Required,
         CCP2_Yes,
         CCP2_CancelMembership,
         CCP2_ServicesList,
@@ -152,18 +147,30 @@ export default class Ccp2CancelMembership extends LightningElement {
     @track accountName;
 
     connectedCallback(){
+        this.checkManagerUser();
         const link = document.createElement('link');
         link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
         link.rel = 'stylesheet';
         document.head.appendChild(link);
-        
     }
+
+    checkManagerUser() {
+        checkManagerUser()
+          .then((result) => {
+            console.log("checkManagerUser result: ", result);
+           this.showWithdraw = result;
+          })
+          .catch((error) => {
+            this.errors = JSON.stringify(error);
+            console.log("checkManagerUser errors:" + JSON.stringify(error));
+          });
+      }
 
     deleteadmin() {
         deleteadmin({ contactId: this.contactId })
           .then((result) => {
             // this.handleDeleteSuccess();
-            console.log("delete user api data response : ", this.contactId);
+            //console.log("delete user api data response : ", this.contactId);
           })
           .catch((error) => {
             console.log("delete User Fetching error id :" + this.contactId);
@@ -175,10 +182,14 @@ export default class Ccp2CancelMembership extends LightningElement {
     @wire(branchdetails, {User: "$contactId"})
     wiredbranches2({data,error}){
     if(data){
+        if (data.length > 0) {
+            this.branchfromjunction = data.map(branch => ({ Name: branch.Name }));
+        } else {
       // this.userDetailData.Branchs__r = data == [] ? [{Id: 12, Name: "Null"}] : data;
-      this.branchfromjunction = data.map(branch => ({ Name: branch.Name }));
-      console.log("branch data from new branch func",JSON.stringify(this.branchfromjunction));
+      this.branchfromjunction = [{Name: "-"}]
+        }//console.log("branch data from new branch func",JSON.stringify(this.branchfromjunction));
     }else{
+        
       console.log("error in fetching branches from new",error);
     }
   }
@@ -186,26 +197,26 @@ export default class Ccp2CancelMembership extends LightningElement {
     fetchUserData({data,error}){
        // console.log("user id",this.contactId)
         if(data){
-            console.log("data " , data)
+            //console.log("data " , data)
             this.userDetailData = {
-                Name: data[0].Name == null ? 'null' : data[0].Name,
-                id: data[0].Id == null ? 'null' : data[0].Id,
-                email: data[0].Email == null ? "null" : data[0].Email,
+                Name: data[0].Name == null ? '-' : data[0].Name,
+                id: data[0].Id == null ? '-' : data[0].Id,
+                email: data[0].Email == null ? "-" : data[0].Email,
                 account: {
-                    id: data[0].Account.Id == null ? 'null' : data[0].Account.Id,
-                    name: data[0].Account.Name == null ? 'null' : data[0].Account.Name,
-                    SiebelAccountCode__c: data[0].Account.siebelAccountCode__c == null ? 'null' : data[0].Account.siebelAccountCode__c,
+                    id: data[0].Account.Id == null ? '-' : data[0].Account.Id,
+                    name: data[0].Account.Name == null ? '-' : data[0].Account.Name,
+                    SiebelAccountCode__c: data[0].Account.siebelAccountCode__c == null ? '-' : data[0].Account.siebelAccountCode__c,
                 },
-                Branchs: data[0].Branchs__r == undefined ? [{Name:'null'}] : data[0].Branchs__r,
-                MobilePhone: data[0].MobilePhone == null ? 'null' : data[0].MobilePhone,
-                Department: data[0].Department == null ? 'null' : data[0].Department,
-                Employee_Code__c: data[0].Employee_Code__c == null ? 'null' : data[0].Employee_Code__c,
-                Phone: data[0].Phone == null ? 'null' : data[0].Phone,
-                firstNameKana__c: data[0].firstNameKana__c == null ? 'null' : data[0].firstNameKana__c,
-                lastNameKana__c: data[0].lastNameKana__c == null ? 'null' : data[0].lastNameKana__c,
-                Title: data[0].Title == null ? 'null' : data[0].Title
+                Branchs: data[0].Branchs__r == undefined ? [{Name:'-'}] : data[0].Branchs__r,
+                MobilePhone: data[0].MobilePhone == null ? '-' : data[0].MobilePhone,
+                Department: data[0].Department == null ? '-' : data[0].Department,
+                Employee_Code__c: data[0].Employee_Code__c == null ? '-' : data[0].Employee_Code__c,
+                Phone: data[0].Phone == null ? '-' : data[0].Phone,
+                firstNameKana__c: data[0].firstNameKana__c == null ? '-' : data[0].firstNameKana__c,
+                lastNameKana__c: data[0].lastNameKana__c == null ? '-' : data[0].lastNameKana__c,
+                Title: data[0].Title == null ? '-' : data[0].Title
             }
-            console.log("userData",JSON.stringify(this.userDetailData));
+            //console.log("userData",JSON.stringify(this.userDetailData));
 
     } else if(error){
         console.log("error,",error);
@@ -316,16 +327,26 @@ export default class Ccp2CancelMembership extends LightningElement {
     }
 
     handlestep1(){
-        this.showstep1 = false;
-        this.showstep2 = true;
-        this.selectedReasonMessage = this.selectedReason;
-        if (this.selectedReason === 'その他') {
-            this.selectedReasonMessage = this.otherReason;
-            console.log("other reason 2",this.otherReason)
-        }
-        console.log('Selected Reason:', selectedReasonMessage);
-
-        
+        if (this.selectedReason == '') {
+            this.dispatchEvent(
+              new ShowToastEvent({
+                title: "エラー",
+                message:
+                  "退会理由を選択してください。",
+                variant: "error"
+              })
+            );
+            return;
+          }
+          else{
+              this.showstep1 = false;
+              this.showstep2 = true;
+              this.selectedReasonMessage = this.selectedReason;
+              if (this.selectedReason === 'その他') {
+                  this.selectedReasonMessage = this.otherReason;
+                  console.log("other reason 2",this.otherReason)
+              }
+          }
 
     }
     handlestep2(){

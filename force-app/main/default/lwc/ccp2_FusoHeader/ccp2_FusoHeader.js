@@ -5,6 +5,9 @@ import basePath from "@salesforce/community/basePath";
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
 import getAllServices from "@salesforce/apex/CCP2_ServicesList.permissionValues";
 import Id from "@salesforce/user/Id";
+
+import checkGuestUser from "@salesforce/apex/CCP_HeaderController.checkGuestUser";
+import getLoginURL from "@salesforce/apex/CCP_HeaderController.getLoginURL";
 // import getBaseInfoByUserId from "@salesforce/apex/CCP_HeaderController.getBaseInfoByUserId";
 
 //labels
@@ -35,7 +38,7 @@ export default class Ccp2_FusoHeader extends LightningElement {
   MessageIcon = MessageIcon;
   QuesIcon = QuesIcon;
   link = shoplink;
-
+  amIGuestUser = true;
   //user list variables
   @track showUserList = false;
   @track showInfo = true;
@@ -44,6 +47,7 @@ export default class Ccp2_FusoHeader extends LightningElement {
   @track IsUserLogin = true;
 
   @track uid = Id;
+  loginLink;
 
   //labels
   labels = {
@@ -69,28 +73,46 @@ export default class Ccp2_FusoHeader extends LightningElement {
   eInvoice = false;
   vehicleList = false;
 
-//   @wire(getAllServices, {userId: '$uid'})
-//   fun({ data, error }) {
-//     if (data) {
-//       console.log("data acces ID", this.uid);
-//       console.log("data of access : ", data);
-//     } else {
-//       console.error("access error: ", error);
-//     }
-//   }
-  checkManagerUser(){
+  //   @wire(getAllServices, {userId: '$uid'})
+  //   fun({ data, error }) {
+  //     if (data) {
+  //       console.log("data acces ID", this.uid);
+  //       console.log("data of access : ", data);
+  //     } else {
+  //       console.error("access error: ", error);
+  //     }
+  //   }
+  checkManagerUser() {
     checkManagerUser()
-        .then((result) => {
-            console.log('checkManagerUser result: ', result);
-            this.UserManagment = result;
-            this.BranchManagment = result;
-        })
-        .catch((error) => {
+      .then((result) => {
+        // console.log("checkManagerUser result: ", result);
+        this.UserManagment = result;
+        this.BranchManagment = result;
+      })
+      .catch((error) => {
         this.errors = JSON.stringify(error);
-            console.log("checkManagerUser errors:" + JSON.stringify(error));
+        console.log("checkManagerUser errors:" + JSON.stringify(error));
+      });
+  }
+
+  loadCheckGuestUser() {
+    checkGuestUser().then((result) => {
+      this.amIGuestUser = result;
+      // console.log("amIGuestUser", result);
+      if (result == true) {
+        getLoginURL().then((result) => {
+          console.log("getLoginURL", result);
+          this.loginLink = result;
+        });
+      } else {
+        //this.getNotification();
+        this.checkManagerUser();
+      }
     });
-}
+  }
+
   connectedCallback() {
+    this.loadCheckGuestUser();
     //importing the font (@Noto Sans JP)
     const link = document.createElement("link");
     link.href =
@@ -99,10 +121,10 @@ export default class Ccp2_FusoHeader extends LightningElement {
     document.head.appendChild(link);
     this.getAllUrl();
 
-    console.log("info of user api id:- ", Id);
-    getAllServices({userId: this.uid})
+     console.log("info of user api id:- ", Id);
+    getAllServices({ userId: this.uid })
       .then((res) => {
-        console.log("info of user api:- ", res);
+         console.log("info of user api:- ", res);
 
         res.forEach((elm) => {
           if (elm.apiName == "E_invoice_Flag__c") {
@@ -111,13 +133,12 @@ export default class Ccp2_FusoHeader extends LightningElement {
             this.directBook = elm.isActive;
           } else if (elm.apiName == "Vehicle_management_Flag__c") {
             this.vehicleList = elm.isActive;
-          } 
+          }
         });
 
         // this.eInvoice = true;
         // this.directBook = true;
         // this.vehicleList = true;
-       
       })
       .catch((error) => {
         this.errors = JSON.stringify(error);
@@ -151,13 +172,14 @@ export default class Ccp2_FusoHeader extends LightningElement {
   handleLogout() {
     getLogoutURL()
       .then(async (result) => {
+        console.log("getLogoutURL", result);
         const sitePrefix = basePath.replace(/\/s$/i, "");
         const defLogoutURL = sitePrefix + "/secur/logout.jsp";
         if (result) {
           await fetch(defLogoutURL);
-          window.location.replace(result);
+          window.location.replace(defLogoutURL);
         } else {
-          window.location.replace(result);
+          window.location.replace(defLogoutURL);
         }
       })
       .catch((error) => {

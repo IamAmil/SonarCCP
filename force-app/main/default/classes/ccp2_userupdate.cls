@@ -1,7 +1,7 @@
 public class ccp2_userupdate {
     @AuraEnabled
     //@future
-    public static void updateRecords(String uiFieldJson,list<Id> branches) {
+    public static void updateRecords(String uiFieldJson) {
         System.debug(uiFieldJson);
         //String input = uiFieldJson;
         // Deserialize the JSON string into a list of maps
@@ -91,6 +91,15 @@ public class ccp2_userupdate {
              CCP2_HandlerForException.LogException(e);
             throw new AuraHandledException('Error updating Contact record: ' + e.getMessage());
         }
+        //Deleting branch from junction table
+        /*List<CCP2_BranchContact_Junction__c> childRecords = [SELECT Id,ContactId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c  =:contactId];
+         try {
+            delete childRecords;
+        } catch (DmlException e) {
+            CCP2_HandlerForException.LogException(e);
+            throw new AuraHandledException('Failed to insert Branch records: ' + e.getMessage());
+        }
+        
         List<CCP2_BranchContact_Junction__c> branchRecords = new List<CCP2_BranchContact_Junction__c>();
 
         // Iterate through the branches list and create Branch records
@@ -110,6 +119,48 @@ public class ccp2_userupdate {
             CCP2_HandlerForException.LogException(e);
             throw new AuraHandledException('Failed to insert Branch records: ' + e.getMessage());
         }
+    }*/
+    }
+    @AuraEnabled
+        public static void branchContactDelete(Id contactId, List<Id> branchesToDelete) {
+        if (!branchesToDelete.isEmpty()) {
+            // Fetch child records to be deleted
+            List<CCP2_BranchContact_Junction__c> childRecords = [
+                SELECT Id, ContactId__c, BranchId__c 
+                FROM CCP2_BranchContact_Junction__c 
+                WHERE ContactId__c = :contactId AND BranchId__c IN :branchesToDelete
+            ];
+
+            if (!childRecords.isEmpty()) {
+                try {
+                    delete childRecords;
+                } catch (DmlException e) {
+                    CCP2_HandlerForException.LogException(e);
+                    throw new AuraHandledException('Failed to delete Branch records: ' + e.getMessage());
+                }
+            }
+        }
+    }
+	@AuraEnabled
+    public static void branchContactAdd(Id contactId, List<Id> branchesToAdd) {
+        List<CCP2_BranchContact_Junction__c> branchRecords = new List<CCP2_BranchContact_Junction__c>();
+
+        // Iterate through the branches list and create Branch records
+        for (Id branchId : branchesToAdd) {
+            CCP2_BranchContact_Junction__c branch = new CCP2_BranchContact_Junction__c();
+            branch.BranchId__c = branchId;
+            branch.ContactId__c = contactId;
+            branchRecords.add(branch);
+        }
+
+        // Insert the Branch records if there are any
+        if (!branchRecords.isEmpty()) {
+            try {
+                insert branchRecords;
+            } catch (DmlException e) {
+                CCP2_HandlerForException.LogException(e);
+                throw new AuraHandledException('Failed to insert Branch records: ' + e.getMessage());
+            }
+        }
     }
     }
-}
