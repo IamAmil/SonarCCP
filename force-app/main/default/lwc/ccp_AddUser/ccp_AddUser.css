@@ -1341,6 +1341,7 @@ label.label-box {
     padding-left: 40px;
     line-height: 1.5;
     position: relative;
+    cursor: pointer;
 }
 .heading{
     font-size:xx-large;
@@ -1824,12 +1825,8 @@ input.input-checkbox {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-
-    /* margin-left: 5px;
-    margin-bottom: 25px; */
-    /* width: 180px; */
-    padding-left: 6px;
-    padding-top: 10px;
+    /* padding-left: 6px;
+    padding-top: 10px; */
     padding: 5px;
     border-radius: 8px;
     background-color: #ffffff;

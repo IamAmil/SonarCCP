@@ -414,7 +414,7 @@ export default class Ccp_AddUser extends LightningElement {
       );
       branchList.className = "hello-class icon form-input _error slds-form-element__control slds-input";
       this.branchError = true;
-      this.branchErrorText = "change branch error text";
+      this.branchErrorText = "電話番号あるいは携帯番号のいずれかをハイフンなしでご入力してください";
     }
     else{
       this.branchErrorText = '';
@@ -498,13 +498,13 @@ export default class Ccp_AddUser extends LightningElement {
     };
 
     if(title.value == ''){
-      this.contactInputData.title = '-';
+      this.contactInputData.title = '';
     }
     if(department.value == ''){
-      this.contactInputData.department = '-';
+      this.contactInputData.department = '';
     }
     if(employeeCode.value == ''){
-      this.contactInputData.employeeCode = '-';
+      this.contactInputData.employeeCode = '';
     }
   }
 
@@ -546,6 +546,52 @@ export default class Ccp_AddUser extends LightningElement {
     this.getInputData();
   }
 
+
+  handleParagraphClick(event) {
+    
+const checkName = event.currentTarget.getAttribute('data-checkbox');
+        let checkbox;
+        let newCheckedState;
+
+        switch (checkName) {
+            case 'baseService':
+                checkbox = this.template.querySelector('input[name="baseService"]');
+                newCheckedState = !this.baseChecked;
+                this.baseChecked = newCheckedState;
+                break;
+            case 'requestbook':
+                checkbox = this.template.querySelector('input[name="requestbook"]');
+                newCheckedState = !this.rbChecked;
+                this.rbChecked = newCheckedState;
+                break;
+            case 'financialservice':
+                checkbox = this.template.querySelector('input[name="financialservice"]');
+                newCheckedState = !this.fsChecked;
+                this.fsChecked = newCheckedState;
+                break;
+            case 'onlinemaintenancebooking':
+                checkbox = this.template.querySelector('input[name="onlinemaintenancebooking"]');
+                newCheckedState = !this.ombChecked;
+                this.ombChecked = newCheckedState;
+                break;
+            case 'vehiclemanagement':
+                checkbox = this.template.querySelector('input[name="vehiclemanagement"]');
+                newCheckedState = !this.vmChecked;
+                this.vmChecked = newCheckedState;
+                break;
+            case 'costmanagement':
+                checkbox = this.template.querySelector('input[name="costmanagement"]');
+                newCheckedState = !this.cmChecked;
+                this.cmChecked = newCheckedState;
+                break;
+        }
+
+        if (checkbox) {
+            checkbox.checked = newCheckedState;
+            this.handleCheckboxChange({ target: checkbox });
+        }
+            
+}
 //   handleSearch(event) {
 //     this.searchTerm = event.target.value.toLowerCase();
 //   }

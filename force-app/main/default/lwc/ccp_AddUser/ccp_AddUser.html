@@ -265,7 +265,7 @@
                                                         <label class="label-box" for="1">
                                                             <input class="input-checkbox" type="checkbox"
                                                                 name="baseService" onchange={handleCheckboxChange1} checked={baseChecked}>
-                                                            <p>
+                                                            <p data-checkbox="baseService" onclick={handleParagraphClick}>
                                                                 基本サービス（ふそうショップ）
                                                             </p>
                                                         </label>
@@ -277,7 +277,7 @@
                                                     <label class="label-box" for="1">
                                                         <input class="input-checkbox" type="checkbox" name="requestbook"
                                                             onchange={handleCheckboxChange1} checked={rbChecked}>
-                                                        <p>
+                                                        <p data-checkbox="requestbook" onclick={handleParagraphClick}>
                                                             部整月次請求書（電子版）
                                                         </p>
                                                     </label>
@@ -289,7 +289,7 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="financialservice" onchange={handleCheckboxChange1}
                                                             checked={fsChecked}>
-                                                        <p>
+                                                        <p data-checkbox="financialservice" onclick={handleParagraphClick}>
                                                             金融サービス
                                                         </p>
                                                     </label>
@@ -302,7 +302,7 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="onlinemaintenancebooking"
                                                             onchange={handleCheckboxChange1} checked={ombChecked}>
-                                                        <p>
+                                                        <p data-checkbox="onlinemaintenancebooking" onclick={handleParagraphClick}>
                                                             車検入庫予約
                                                         </p>
                                                     </label>
@@ -315,7 +315,7 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="vehiclemanagement" onchange={handleCheckboxChange1}
                                                             checked={vmChecked}>
-                                                        <p>
+                                                        <p data-checkbox="vehiclemanagement" onclick={handleParagraphClick}>
                                                             車両管理
                                                         </p>
                                                     </label>
@@ -328,7 +328,7 @@
                                                         <input class="input-checkbox" type="checkbox"
                                                             name="costmanagement" onchange={handleCheckboxChange1}
                                                             checked={cmChecked}>
-                                                        <p>
+                                                        <p data-checkbox="costmanagement" onclick={handleParagraphClick}>
                                                             費  用管理
                                                         </p>
                                                     </label>

@@ -336,15 +336,15 @@
                                             <div class="">{labels.CCP2_TelephoneNumber}</div>
                                             <div class=""><input type="text" class={contactClassTelephone}
                                                     onchange={handleInputChange} data-field="電話番号"
-                                                    value={InputTelephone} pattern="\d*"
-                                                    required placeholder="03621268001"></div>
+                                                    value={InputTelephone} maxlength="30" pattern="\d*"
+                                                    required placeholder="03621268002"></div>
                                         </div>
                                         <div class="records_number">
                                             <div class="">{labels.CCP2_CellphoneNumber}</div>
                                             <div class=""><input type="text" class={contactClassCellPhone}
                                                     onchange={handleInputChange} data-field="携帯番号"
-                                                    value={InputCellPhone} pattern="\d*"
-                                                    required placeholder="03621268001"></div>
+                                                    value={InputCellPhone} maxlength="30" pattern="\d*"
+                                                    required placeholder="03621268002"></div>
                                         </div>
                                     </div>
                                 </div>
