@@ -22,6 +22,9 @@ import getBaseInfoByUserId from "@salesforce/apex/CCP_HomeCtrl.getBaseInfoByUser
 import getbranchdetails from "@salesforce/apex/CCP2_userData.UnAssociatedBranch";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
+import truckcancel from '@salesforce/resourceUrl/truckcancel1';
+import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
+import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
 import Id from "@salesforce/user/Id";
 
 const  arrowicon = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/arrow_under.png';
@@ -42,6 +45,9 @@ export default class Ccp_AddUser extends LightningElement {
   imgdrop = arrowicon;
   trackIcon = TRACK_ICON;
   checkIcon = CHECK_ICON;
+  truckpic1 = truckcancel;
+  truckpic2 = truckcancel2;
+  truckpic3 = truckcancel3;
   @track showInputSection = true;
   showConfirmationSection = false;
   showCompletionSection = false;
@@ -61,7 +67,7 @@ export default class Ccp_AddUser extends LightningElement {
    deletedBranchIds = [];
    selectedLabels = [];
 
-  branchoptions = [];
+  @track branchoptions = [];
   branch = [];
   branchranchDataForClass = [];
   selectbranchId = "";
@@ -233,9 +239,11 @@ export default class Ccp_AddUser extends LightningElement {
     console.log('employee', JSON.stringify(this.contactInputData));
     event.stopPropagation();
     this.showlist = !this.showlist;
-    if(this.branchoptions.length === 0){
+    if(this.branchoptions.length == 0){
       this.showlist = false;
+      console.log("inside false branch opts")
     }
+    console.log("branchoption",this.branchoptions.length)
   }
 
   @wire(getbranchdetails) wiredBranches({ data, error }) {
@@ -406,12 +414,12 @@ export default class Ccp_AddUser extends LightningElement {
     if (this.branch.length === 0) {
       this.dispatchEvent(
         new ShowToastEvent({
-          title: "Error",
+          title: "エラー",
           message:
             "必須項目を入力してください。",
           variant: "error"
         })
-      );
+      )
       branchList.className = "hello-class icon form-input _error slds-form-element__control slds-input";
       this.branchError = true;
       this.branchErrorText = "電話番号あるいは携帯番号のいずれかをハイフンなしでご入力してください";
@@ -467,7 +475,8 @@ export default class Ccp_AddUser extends LightningElement {
             !this.lastNameKanaError &&
             !this.firstNameKanaError &&
             !this.emailError &&
-            !this.phoneError
+            !this.phoneError &&
+            !this.branchError
           ) {
             this.showInputSection = false;
             this.showConfirmationSection = true;
@@ -606,6 +615,10 @@ const checkName = event.currentTarget.getAttribute('data-checkbox');
   }
 
   handleBranchSelect(event) {
+    if(this.branchoptions.length == 1){
+      this.showlist = false;
+      console.log("inside false branch opts")
+    }
     this.selectbranchId = event.currentTarget.dataset.id;
     console.log("selected b id", JSON.stringify(this.selectbranchId));
     this.handlebranchChange();
@@ -625,7 +638,7 @@ const checkName = event.currentTarget.getAttribute('data-checkbox');
         this.branchoptions = this.branchoptions.filter(
           (bran) => bran.value !== this.selectbranchId
         );
-        console.log("options2", this.branchoptions);
+        console.log("options2", JSON.stringify(this.branchoptions));
         break;
       }
     }
@@ -638,6 +651,9 @@ const checkName = event.currentTarget.getAttribute('data-checkbox');
       this.branchDataForClass.push(selectedBranch.label);
     }
     this.selectbranchId = null;
+    if(this.branchoptions.length == 0){
+      this.showlist = false;
+    }
     // console.log("AddOpt",this.selectbranchId);
     // console.log("optfind",selectedBranch);
     // console.log('optfindstr11:', JSON.stringify(this.vehicle));
@@ -796,7 +812,7 @@ const checkName = event.currentTarget.getAttribute('data-checkbox');
     let baseUrl = window.location.href;
     let homeUrl;
     if (baseUrl.indexOf("/s/") != -1) {
-      homeUrl = baseUrl.split("/s/")[0] + "/s/";
+      homeUrl = baseUrl.split("/s/")[0] + "/s/usermanagement";
     }
     window.location.href = homeUrl;
   }

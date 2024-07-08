@@ -7,13 +7,16 @@
                     </lightning-spinner>
                 </template>
                 <div class="hero">
+                    <div class="half top">
+                        <img src={backgroundImagePC} alt="" style="width: 100vw;">
+                    </div>
                     <!-- <h1 class="hero__title">会員追加</h1> -->
-                    <div class="hero__wrapper">
+                    <!-- <div class="hero__wrapper">
                         <picture class="hero__image">
                             <source media="(max-width: 767px)" srcset={backgroundImageMobile}>
                             <img src={backgroundImagePC} alt="" style="width: 100vw;">
                         </picture>
-                    </div>
+                    </div> -->
                     <div class="container container--sp-no-padding">
                         <div class="container__inner">
                             <div class="contents-box contents-box--inner">
@@ -26,7 +29,7 @@
                                     <div class="heading">会員追加</div>
                                     <!-- Flow Section -->
                                     <div class="step">
-                                        <div class="step__wrapper">
+                                        <!-- <div class="step__wrapper">
                                             <ol class="step__list">
                                                 <li class="step__item item _current">
                                                     <div class="item__top">
@@ -53,7 +56,8 @@
                                                     <div class="item__bottom">完了</div>
                                                 </li>
                                             </ol>
-                                        </div>
+                                        </div> -->
+                                        <img src={truckpic1} style="width: 48%; height:50px;">
                                     </div>
 
                                     <p class="text-main">追加する会員の基本情報をご入力ください。</p>
@@ -106,7 +110,9 @@
                                             </div>
                                         </div>
                                         <div class="form-item form-item--register">
-                                            <label class="required form-label aligntop">氏名（フリガナ）</label>
+                                            <label class="form-label aligntop">氏名（フリガナ）
+                                                <span class="reqtxt">必須</span>
+                                            </label>
                                             <div class="form-item__wrapper flex-direction-column">
                                                 <div class="form-item__input flex" style="flex-direction:row">
                                                     <div class="form-item__list">
@@ -172,9 +178,7 @@
                                                     <div class="dataDrop">
                                                         <input type="text" oninput={handleSearch} onclick={handlebranChange}
                                                             class="Inputs1 icon slds-form-element__control slds-input" placeholder="選択してください" name="branchsss">
-                                                            <template if:true={branchError}>
-                                                                <p class="_error">{branchErrorText}</p>
-                                                            </template>
+                                                            
                                                         <template if:true={showlist}>
                                                             <div class="lists" onclick={handleInsideClick}>
                                                                 <template for:each={filteredbranch} for:item="veh">
@@ -187,11 +191,13 @@
                                                         </template>
                                                         
                                                     </div>
-                                                    <!-- <div class="form-item__error flex sp-flex-direction-column">
+                                                    <div class="form-item__error flex sp-flex-direction-column">
                                                         <div class="form-item__list">
-                                                            
+                                                            <template if:true={branchError}>
+                                                                <p class="_error">{branchErrorText}</p>
+                                                            </template>
                                                         </div>
-                                                    </div> -->
+                                                    </div>
                                                 </div>
                                             <!-- </div> -->
                                             
@@ -221,7 +227,9 @@
 
 
                                         <div class="form-item">
-                                            <label class="required form-label aligntop">メールアドレス</label>
+                                            <label class="form-label aligntop">メールアドレス
+                                                <span class="reqtxt">必須</span>
+                                            </label>
                                             <div class="form-item__wrapper _email">
                                                 <input type="email"
                                                     class="form-input slds-form-element__control slds-input"
@@ -391,7 +399,7 @@
                                 <template if:true={showConfirmationSection}>
                                     <!-- Flow Section -->
                                     <div class="step">
-                                        <div class="step__wrapper">
+                                        <!-- <div class="step__wrapper">
                                             <ol class="step__list">
                                                 <li class="step__item item _checked">
                                                     <div class="item__top">
@@ -418,7 +426,8 @@
                                                     <div class="item__bottom">完了</div>
                                                 </li>
                                             </ol>
-                                        </div>
+                                        </div> -->
+                                        <img src={truckpic2} style="width: 48%; height:50px;">
                                     </div>
                                     <p class="text-main _register-check">基本情報をご確認ください。</p>
                                     <!-- basic-info__section -->
@@ -530,7 +539,7 @@
                                 <template if:true={showCompletionSection}>
                                     <!-- Flow Section -->
                                     <div class="step">
-                                        <div class="step__wrapper">
+                                        <!-- <div class="step__wrapper">
                                             <ol class="step__list">
                                                 <li class="step__item item _checked">
                                                     <div class="item__top">
@@ -557,7 +566,8 @@
                                                     <div class="item__bottom">完了</div>
                                                 </li>
                                             </ol>
-                                        </div>
+                                        </div> -->
+                                        <img src={truckpic3} style="width: 48%; height:50px;">
                                     </div>
                                     <div class="register-ok">
                                         <p class="text-main">

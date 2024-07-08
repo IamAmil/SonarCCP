@@ -382,9 +382,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
 
     handle2Next() {
-        this.Step2 = false;
-        this.Step3 = true;
-        this.currentStep = 3;
+        
         let vehicleIds = this.morevehicles.map(vehicle => vehicle.Id);
         console.log("map",JSON.stringify(vehicleIds));
         console.log("veh",JSON.stringify(this.morevehicles));
@@ -415,6 +413,9 @@ export default class Ccp2AddBranchForm extends LightningElement {
                 })
             );
             // this.showToast('Success', '新規勤務地が追加されました。', 'success');
+            this.Step2 = false;
+            this.Step3 = true;
+            this.currentStep = 3;
         })
         .catch(error => {
             console.error('Error inserting branch record:', error);

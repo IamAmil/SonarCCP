@@ -23,7 +23,8 @@ public with sharing class CCP2_userData {
         List<Contact> user;
             if(accId!=null)
             {
-                 user=[select Id, Name,UserId__c, Account.siebelAccountCode__c, Branch__r.Name from Contact where accountId=:accId and canManageMember__c = false and ccpUseFlag__c= true];
+                 user=[select Id, Name,UserId__c, Account.siebelAccountCode__c from Contact where accountId=:accId and canManageMember__c = false and ccpUseFlag__c= true];
+                
             }
         
         System.debug('user ' +user);
@@ -214,8 +215,8 @@ public with sharing class CCP2_userData {
     public static List<CCP2_Branch__c> BranchDetails(Id branchId)
     {
         //List<CCP2_Branch__c> branch;
-        //Id accId=accId();
-        Id accId = '001Io000003ITP2IAO';
+        Id accId=accId();
+        //Id accId = '001Io000003ITP2IAO';
         System.debug('branchId:'+branchId);
         System.debug('accId:'+accId);
         List<String> contactNames = new List<String>();
@@ -357,7 +358,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
         }
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static void unassociateUser(List<Id> Contact,Id branchId) {
    
         if (Contact == null || Contact.isEmpty()) 
@@ -378,7 +379,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
         }
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static void associateUser(List<Id> Contact, Id branch) {
    
         if (Contact == null || Contact.isEmpty()) 
@@ -405,7 +406,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
         }
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static void associateVehicle(List<Id> vehicles, Id branch) {
    
         if (vehicles == null || vehicles.isEmpty()) 
@@ -478,6 +479,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
          Update branchs;
      return abcd;
     }
+    
     @AuraEnabled(cacheable=true)
     public static List<Account> accountDetails(){
        // User currentUser = [SELECT Id, Name, AccountId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
@@ -487,6 +489,42 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
             System.debug(currentUserAccount);
             //System.debug('Current User Account: ' + currentUserAccount.Name);
         Return currentUserAccount;
+    }
+    
+    @AuraEnabled(cacheable=true)
+    public static List<CCP2_BranchContact_Junction__c> userbranchList() {
+        Id accId = '001Io000003ITP2IAO';
+        //Id accId=accId();
+        List<CCP2_BranchContact_Junction__c> contactBranchDetail = new List<CCP2_BranchContact_Junction__c>();
+
+        try {
+            if (accId != null) {
+                List<Contact> contactIds = [SELECT Id 
+                                            FROM Contact 
+                                            WHERE AccountId = :accId 
+                                              AND canManageMember__c = false 
+                                              AND ccpUseFlag__c = true];
+
+                for (Contact contact : contactIds) {
+                    List<CCP2_BranchContact_Junction__c> branchDetails = [SELECT ContactId__c, 
+                                                                               ContactId__r.Name, 
+                                                                               ContactId__r.UserId__c, 
+                                                                               ContactId__r.Account.siebelAccountCode__c, 
+                                                                               BranchId__c, 
+                                                                               BranchId__r.Name 
+                                                                        FROM CCP2_BranchContact_Junction__c 
+                                                                        WHERE ContactId__c = :contact.Id];
+                    contactBranchDetail.addAll(branchDetails);
+                }
+
+                System.debug(contactBranchDetail);
+            }
+        } catch (Exception e) {
+            System.debug('Exception: ' + e.getMessage());
+        }
+
+        System.debug('user ' + contactBranchDetail);
+        return contactBranchDetail;
     }
     
     @AuraEnabled(cacheable=true)
@@ -520,6 +558,74 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
      
     System.debug(vehicleCounts);
     return vehicleCounts;
-}
+	}
 
+    @AuraEnabled
+	public static List<VehicleInfo__c> getVehicleInfo(List<String> CarModel, List<String> brandModel) {
+    try {
+        Id accountId = accId();
+        //Id accountId = '001Io000003IIw3IAG'; 
+        Boolean adminFlag = false; // Default value in case no records are found
+        List<Contact> contacts = [SELECT canManageMember__c FROM Contact WHERE AccountId = :accountId LIMIT 1];
+		
+        if (!contacts.isEmpty()) {
+            adminFlag = contacts[0].canManageMember__c;
+        }
+        System.debug(adminFlag);
+        System.debug(contacts);
+        System.debug(accountId);
+
+        ID vehicleRecordTypeId = Schema.SObjectType.VehicleInfo__c.getRecordTypeInfosByDeveloperName().get('vehicle').getRecordTypeId();
+        ID customerRegisteredRecordTypeId = Schema.SObjectType.VehicleInfo__c.getRecordTypeInfosByDeveloperName().get('CustomerRegisteredVehicle').getRecordTypeId();
+        
+        String queryString = 'SELECT Id, Name, VehiclebrandName__c, Customer_Name__c, Mileage__c, lastArrivalDateTime__c, vehicleInspectionExpiryDate__c, TruckImg__c, carModelFormatName__c, newCarFlag__c, vehicleManagementNumber__c, ' +
+                             'carPlatformNo__c, RecordType.Name, initialRegistrationDate__c, brand__c ' +
+                             'FROM VehicleInfo__c ' +
+                             'WHERE (RecordTypeId = :vehicleRecordTypeId OR RecordTypeId = :customerRegisteredRecordTypeId) ';
+                             
+        if (adminFlag) {
+            queryString += 'AND userAccountCode__c = :accountId ';
+        }
+        
+        if (!CarModel.isEmpty() || !brandModel.isEmpty()) {
+            queryString += 'AND (';
+            
+            if (!CarModel.isEmpty()) {
+                queryString += 'carModelFormatName__c IN :CarModel ';
+            }
+            
+            if (!CarModel.isEmpty() && !brandModel.isEmpty()) {
+                queryString += 'AND ';
+            }
+            
+            if (!brandModel.isEmpty()) {
+                queryString += 'brand__c IN :brandModel ';
+            }
+            
+            queryString += ') ';
+        }
+                       
+        List<VehicleInfo__c> vehicleInfoList = Database.query(queryString);
+        System.debug(vehicleInfoList);
+        return vehicleInfoList;
+    } catch (Exception e) {
+        CCP2_HandlerForException.LogException(e);
+        throw new AuraHandledException('An error occurred while fetching vehicle info: ' + e.getMessage());
+    }
+	}
+    
+    @AuraEnabled(cacheable=true)
+    public static List<VehicleInfo__c> getVehicleById(String vehicleId) {
+        List<VehicleInfo__c> newList = new List<VehicleInfo__c>();
+        try {
+            newList = [SELECT Id, Name, VehicleBrandName__c, type__c, brand__c, mileage__c, vehicleManagementNumber__c,
+                               exteriorColorSymbol__c, carPlatformNo__c, fullModel__c, lastArrivalDateTime__c, registeredDate__c, 
+                               BodyMakerNo__c, bodyShape__c, initialRegistrationDate__c FROM VehicleInfo__c WHERE Id = :vehicleId];
+        } catch (Exception e) {
+            CCP2_HandlerForException.LogException(e);
+            System.debug('An error occurred while fetching vehicle details: ' + e.getMessage());
+        }
+        //System.debug(newList);
+        return newList;
+    }
 }

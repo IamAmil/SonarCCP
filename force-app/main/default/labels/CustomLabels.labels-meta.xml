@@ -180,7 +180,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CCP2_BranchAddCompleted</shortDescription>
-        <value>拠点追加完了</value>
+        <value>勤務地追加完了</value>
     </labels>
     <labels>
         <fullName>CCP2_BranchAdded</fullName>

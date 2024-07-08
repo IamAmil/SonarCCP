@@ -6,6 +6,17 @@
     gap: 5px;
 }
 
+.top {
+    height: 96vh;
+    background-color: #f4f4f4;
+    background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
+  }
+
+  .half {
+    width: 100%;
+    left: 0;
+  }
+
 :host {
     --spViewport: 390;
     --breakSpMin: 374px;
@@ -46,6 +57,8 @@
 }
 
 .body {
+
+    /* margin: -26px -16px 0px -16px; */
     width: 100%;
     min-height: 100vh;
     font-size: 16px;
@@ -146,10 +159,12 @@ h4 {
 --------------------------------------------------*/
 .hero {
     position: relative;
+    background: linear-gradient(to bottom, #bfbfbf, #f4f4f4);
 }
 
 .hero .hero__wrapper {
     position: relative;
+   
 }
 
 @media (min-width: 768px) {
@@ -227,6 +242,7 @@ h4 {
     margin-left: auto;
     padding-right: var(--sidePaddingPc1);
     padding-left: var(--sidePaddingPc1);
+    background-color: #F4F4F4;
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {
@@ -270,7 +286,7 @@ h4 {
     width: 100%;
     position: relative;
     background-color: rgba(251, 251, 251, 0.8);
-    margin-top: -28.5vw;
+    margin-top: -38vw;
     border-radius: 10px;
     padding: 64px 60px 120px;
 }
@@ -345,7 +361,7 @@ h4 {
 --------------------------------------------------*/
 .step {
     text-align: center;
-    margin-bottom: 64px;
+    margin-bottom: 40px;
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {
@@ -676,7 +692,7 @@ h4 {
 }
 
 .form-main{
-    width:85%;
+    width:86%;
     display: block;
     margin: auto;
 }
@@ -686,6 +702,7 @@ h4 {
     .form-item {
         padding-bottom: 4.4444444444vw;
     }
+    
 }
 
 @media (max-width: 767px) {
@@ -1145,13 +1162,29 @@ label.required::after {
     border-radius: 15px;
     color: #FFF;
     margin-left: 16px;
+    position: relative;
     font-size: 14px;
 }
+
+.reqtxt{
+    color: white;
+    font-size: 10px;
+    background-color: #E10202;
+    padding: 5px 6px;
+    width: 45px;
+    height: 22px;
+    border-radius: 15px;
+    display: flex;
+    font-weight: normal;
+    align-items: center;
+    justify-content: center;
+    /* margin-left: 4px; */
+ }
 
 @media (min-width: 768px) and (max-width: 1440px) {
     label.required::after {
         margin-left: 1.1111111111vw;
-        font-size: 0.9722222222vw;
+        font-size: 10px;
     }
 }
 
@@ -1159,7 +1192,7 @@ label.required::after {
     label.required::after {
         padding: 0.5333333333vw 1.0666666667vw;
         margin-left: 4.2666666667vw;
-        font-size: 3.7333333333vw;
+        font-size: 10px;
     }
 }
 
@@ -1396,7 +1429,8 @@ input.input-checkbox {
 /* error
 --------------------------------------------------*/
 ._error {
-    width: 100%;
+    width: 80%;
+    margin-left: 2%;
     font-size: 16px;
     line-height: 1.5;
     font-size: 16px;

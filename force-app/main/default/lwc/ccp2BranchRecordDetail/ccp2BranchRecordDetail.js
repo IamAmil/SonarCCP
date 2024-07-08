@@ -49,6 +49,7 @@ import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
 
 const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
 const  arrowicon = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/arrow_under.png';
+const  searchicon = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/search.png';
 
 export default class Ccp2BranchRecordDetail extends LightningElement {
 
@@ -81,6 +82,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
 
 
     backgroundImagePC = BACKGROUND_IMAGE_PC;
+    searchIcons = searchicon ;
     @track showDetails = true;
     @api branchId;
     @track showlist = false;
@@ -276,11 +278,8 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     }
 
     handleChange() {
-        this.showSpinner = true;
-        setTimeout(() => {
+       // this.showSpinner = true;
             this.showDetails = !this.showDetails;
-            this.showSpinner = false;
-        }, 1000); 
     }
     // checks(){
     //     console.log('dvid:', JSON.stringify(this.deletedVehicleIds));
@@ -449,20 +448,30 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         if (!this.searchTerm) {
             return this.vehicles;
         }
-        return this.vehicles.filter(veh => {
-            return veh.label.toLowerCase().includes(this.searchTerm);
+        const filtered = this.vehicles.filter(veh => {
+            return veh.label.toLowerCase().includes(this.searchTerm.toLowerCase());
         });
+        if (filtered.length === 0) {
+            return [{ label: '見つかりません', value: 'no_results' }];
+        }
+        return filtered;
     }
+
+    searchTermCon;
     handleSearchCon(event) {
-        this.searchTerm = event.target.value.toLowerCase();
+        this.searchTermCon = event.target.value.toLowerCase();
     }
     get filteredContacts() {
-        if (!this.searchTerm) {
+        if (!this.searchTermCon) {
             return this.optcontacts;
         }
-        return this.optcontacts.filter(veh => {
-            return veh.label.toLowerCase().includes(this.searchTerm);
+        const filtered = this.optcontacts.filter(contact => {
+            return contact.label.toLowerCase().includes(this.searchTermCon.toLowerCase());
         });
+        if (filtered.length === 0) {
+            return [{ label: '見つかりません', value: 'no_results' }];
+        }
+        return filtered;
     }
 
      //on adding of vehicles 
@@ -575,14 +584,24 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     deletebranch(){
         deletebranch({ branchId: this.branchId })
         .then(() => {
-            this.goToMain();
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    //title: 'Success',
-                    message: 'ブランチが正常に削除されました',
-                    variant: 'success',
-                })
-            );
+            try {
+                this.goToMain();
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        //title: 'Success',
+                        message: 'ブランチが正常に削除されました',
+                        variant: 'success',
+                    })
+                );
+            } catch (error) {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        //title: 'Error',
+                        message: 'ブランチの削除中にエラーが発生しました:' + error.message,
+                        variant: 'error',
+                    })
+                );
+            }
         })
         .catch(error => {
             this.dispatchEvent(

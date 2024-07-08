@@ -1,6 +1,5 @@
 public with sharing class CCP2_UpdatePermissionAssignment {
     @AuraEnabled
-    
     public static Void createAndAssociateBranch(CCP2_Access_Control__c con){
         Id userId = con.Name;  
             Boolean bsChecked = con.Basic_Service_EC_Flag__c;

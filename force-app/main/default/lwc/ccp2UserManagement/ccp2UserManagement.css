@@ -4,6 +4,9 @@
 input::placeholder {
   color: #BBBBBB; /* Change placeholder color to gray */
 }
+input {
+  background-color: #FFFFFF; /* Change placeholder color to gray */
+}
 input{
     padding:14px 20px 14px 20px;
     border: 1px solid #d9d9d9;
@@ -764,6 +767,7 @@ button.btn-no:hover {
 
 .branchrecords{
   width: 50%;
+  max-width: 216px;
   min-height: 50px;
   max-height: 232px;
   border-radius: 10px;
@@ -817,6 +821,7 @@ button.btn-no:hover {
 .icon{
   padding-left: 40px; /* Adjust padding to make space for the icon */
   background: var(--dropdown-icon) no-repeat;
+  background-color: #ffffff;
   background-position: 160px 50%; /* Adjust position as needed */
   background-size: 20px; /* Adjust size as needed */
 }
