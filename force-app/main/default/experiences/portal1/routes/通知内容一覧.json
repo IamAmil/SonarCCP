@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "787ccab7-e3b5-402e-8f13-c96ed346e348",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_notifications__c",
+  "id" : "be0132a9-f038-42ed-89ed-820c5d2d8034",
+  "label" : "通知内容一覧",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-notifications",
+  "type" : "route",
+  "urlPrefix" : "notifications"
+}

@@ -1,0 +1,72 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:sldsTwoCol84SidebarFeaturedLayout",
+  "dataProviders" : [ ],
+  "id" : "ba0e13fb-c46f-4607-8c94-8c8a6e67a2ee",
+  "label" : "Home",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp_Home",
+      "id" : "936cc2e7-5484-4025-93cc-2429d5316605",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8e16e88d-e015-4aab-aae0-d083a01c52ca",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "4cbe370b-375b-4638-8333-385c251184b3",
+    "regionName" : "featured",
+    "type" : "region"
+  }, {
+    "id" : "667f25bd-5851-4a74-9d45-711f678a21fe",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "display" : "LEVELS_POINTS",
+        "excludeInternalUsers" : false,
+        "knowledgeLabel" : "Knows about",
+        "numberOfUsers" : 5,
+        "showContextUser" : false,
+        "showTooltip" : false,
+        "showUserRank" : false,
+        "title" : "Leaderboard",
+        "tooltipText" : "Earn points and climb to new levels when you contribute in the experience!"
+      },
+      "componentName" : "forceCommunity:reputationLeaderboard42",
+      "id" : "55947025-eab7-45ee-b175-e3c5746d6050",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "52794bfc-3ca8-46b8-a5fb-8eb733c82b26",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "291fcd2f-449c-4e32-8989-fb53e6d9c293",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "トップページ"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "43d7e6d1-a0a5-4027-ac1f-fe720d527f8c",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "27cb6bd7-1477-4bcb-8d6a-4d4a7780c211",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "home"
+}

@@ -1,0 +1,46 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "d6ed474e-6f9f-419a-9a3e-7467f40c1d4c",
+  "label" : "vehicleHistory",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp_VehicleHistory",
+      "id" : "f3d72e25-2af7-49f3-a395-2bc72e81a6f4",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4f1bcd09-f3b4-4f10-8cab-c0a210c80fbd",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "a12ef6a0-1f56-4a6e-905e-957e25aab816",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "02aa5f24-f324-48c6-9883-378651bff5ad",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "整備実績"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "a488a005-afa8-4202-853a-b45a155aa88f",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0ec6bc74-074b-4561-973a-e4f408cc3477",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-vehicle-history"
+}

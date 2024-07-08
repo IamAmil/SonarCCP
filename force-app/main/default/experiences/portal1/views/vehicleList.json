@@ -1,0 +1,54 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "f6c8cf13-9915-48db-b8b8-31e2dd7ca053",
+  "label" : "vehicleList",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp_VehicleAdd",
+      "id" : "deee2c1c-efc5-46c6-bc23-430d3c7d60d5",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "eb79956f-c872-43e4-b30d-810c4ac0b0e2",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp2_VehicleListNew",
+      "id" : "b97faba3-853c-47a5-a324-4a100bdde88f",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3b28d6ea-557a-4b62-b316-fe1ba8aaebb4",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "4f428c77-5e19-42a0-aabb-8d64daaa6320",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "保有車情報"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "35441cab-7309-403e-9498-380685bfedaa",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9dbb0fec-5cf2-4bbf-a2af-a4f4d2c5ff8e",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-vehiclelist"
+}

@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "65cf86f1-144b-40b8-9c85-dec11e8f394a",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_booking_detail__c",
+  "id" : "68c81b8b-5a28-415a-82f1-21c0a2706daa",
+  "label" : "予約内容詳細",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-booking-detail",
+  "type" : "route",
+  "urlPrefix" : "bookingDetail"
+}

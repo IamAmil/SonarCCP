@@ -1,0 +1,46 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "787ccab7-e3b5-402e-8f13-c96ed346e348",
+  "label" : "notifications",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp_Notifications",
+      "id" : "09f2439b-fbc1-46aa-a9fa-a2fa6475eeed",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fd8921b2-ed05-40ff-8eab-443e0fb5c729",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "18156b31-c53d-465a-8cbf-ba7e2ff5b0f5",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "a7db201e-c5fe-4a1b-81cd-cea7c266dc12",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "通知内容一覧"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "f79036fb-65bd-49ad-9b71-5f21febf1a52",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3bebd3cb-6ec5-428b-93b7-ed610eb817b8",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-notifications"
+}

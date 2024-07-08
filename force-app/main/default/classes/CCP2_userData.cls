@@ -13,6 +13,8 @@
 //accId
 //associateBranchtoUser
 //BranchVehicleCount
+//getVehicleInfo
+//getVehicleById
 public with sharing class CCP2_userData {
     @AuraEnabled(cacheable=true)
     public static List<Contact> userList()

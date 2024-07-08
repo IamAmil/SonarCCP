@@ -6,13 +6,13 @@ const BACKGROUND_IMAGE_PC =
   "/CCP_StaticResource_Vehicle/images/Main_Background.png";
 import getAllUser from "@salesforce/apex/CCP2_userData.userList";
 // import getUserServices from "@salesforce/apex/ccp2_userPermissionSet.permissionValues";
-import getUserServices from "@salesforce/apex/ccp2_UIpermissionList.uiPermissionList";
-import getUserAllServicesList from "@salesforce/apex/CCP2_ServicesList.permissionValues";
-import deleteUser from "@salesforce/apex/CCP2_UserDeleteController.deleteUser";
+import getUserServices from "@salesforce/apex/CCP2_userController.uiPermissionList";
+import getUserAllServicesList from "@salesforce/apex/CCP2_userController.permissionValuesAccessControl";
+import deleteUser from "@salesforce/apex/CCP2_userController.deleteUser";
 import USER_ID from "@salesforce/user/Id";
 import getbranchdetails from "@salesforce/apex/CCP2_userData.UnAssociatedBranch";
-import branchContactAdd from "@salesforce/apex/ccp2_userupdate.branchContactAdd";
-import branchContactDelete from "@salesforce/apex/ccp2_userupdate.branchContactDelete";
+import branchContactAdd from "@salesforce/apex/CCP2_userController.branchContactAdd";
+import branchContactDelete from "@salesforce/apex/CCP2_userController.branchContactDelete";
 
 import updatepermission from "@salesforce/apex/CCP2_UpdatePermissionAssignment.createAndAssociateBranch";
 import branchdetails from "@salesforce/apex/CCP2_userData.userBranchDtl";
@@ -50,9 +50,9 @@ import CCP2_SurnameFurigana from "@salesforce/label/c.CCP2_SurnameFurigana";
 const arrowicon =
   Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/arrow_under.png";
 
-import updateUser from "@salesforce/apex/ccp2_userupdate.updateRecords";
+import updateUser from "@salesforce/apex/CCP2_userController.updateRecords";
 // import updateUserServices from "@salesforce/apex/ccp2_UIpermissionList.updateRecords";
-import updateUserServices from "@salesforce/apex/ContactUpdate.updateAccessControl";
+import updateUserServices from "@salesforce/apex/CCP2_userController.updateAccessControl";
 // import testPermissionSet from "@salesforce/apex/CCP_AddUserCtrl.setPermissionSetforUser";
 import getUserDetail from "@salesforce/apex/CCP2_userData.userDtl";
 export default class Ccp2UserManagement extends LightningElement {

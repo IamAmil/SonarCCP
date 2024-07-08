@@ -1,0 +1,11 @@
+{
+  "cmsSettings" : { },
+  "currentThemeId" : "6f8257da-5d42-4ee1-8856-492e848126b0",
+  "headMarkup" : "<link rel=\"shortcut icon\" href=\"/faq/favicon.ico?v=2\" />",
+  "id" : "e1ca7953-fc41-4ab8-be9f-0410135c9879",
+  "isLockerServiceEnabled" : true,
+  "isRelaxedCSPLevel" : true,
+  "label" : "main",
+  "templateName" : "Help Center Template",
+  "type" : "appPage"
+}

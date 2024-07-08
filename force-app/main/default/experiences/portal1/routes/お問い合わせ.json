@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "2ada5640-137a-4a4d-9e54-d793c88d28f2",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_inquiry__c",
+  "id" : "afd23e7f-b581-40a2-a83d-c3c27f53ae09",
+  "label" : "お問い合わせ",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-inquiry",
+  "type" : "route",
+  "urlPrefix" : "inquiry"
+}

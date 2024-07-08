@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "930dd038-2bf2-470d-9993-db5b32adee8b",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_add_user__c",
+  "id" : "900a018e-c2a3-4af7-8015-88059e3d4879",
+  "label" : "会員追加",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-add-user",
+  "type" : "route",
+  "urlPrefix" : "addUser"
+}

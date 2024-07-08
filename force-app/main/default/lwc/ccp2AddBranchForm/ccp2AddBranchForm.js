@@ -112,7 +112,6 @@ export default class Ccp2AddBranchForm extends LightningElement {
     @track selectedVehicleId; // Selected vehicle Id
     @track users = []; // Array to hold users for combobox
     @track moreusers = [];// Selected user Id
-    @track selectedUser = ''; // Selected user (will hold the name)
     @track selectedUserId;
 
     @track isNextDisabled = true;
@@ -430,15 +429,6 @@ export default class Ccp2AddBranchForm extends LightningElement {
         });
     }
 
-    showToast(title, message, variant) {
-        const evt = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant
-        });
-        this.dispatchEvent(evt);
-    
-    }
 
 
     handleCompanyNameChange(event) {

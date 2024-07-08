@@ -1,0 +1,46 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "dataProviders" : [ ],
+  "id" : "2ada5640-137a-4a4d-9e54-d793c88d28f2",
+  "label" : "inquiry",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp_Inquiry",
+      "id" : "ae9cc820-dc28-497d-a3e3-df626a18b3ce",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "39cca8f3-66ba-4488-9518-d45ce1e5f1cb",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "61ae9a5f-82d4-4b90-bb5e-b54044be81b4",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "f9ac0b8a-0157-473d-ad38-98e766cca331",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "お問い合わせ"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "0a43730d-4b14-4b2b-a0c1-b4abff063e87",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "34120471-51e5-4284-a1bf-5580c3faa4a7",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-inquiry"
+}

@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "20fad59c-8542-4ee2-b457-58b2b48283f1",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_direct_booking__c",
+  "id" : "059b0b5a-2b67-4e13-bd00-8f86b8fdb17a",
+  "label" : "車検・入庫予約",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-direct-booking",
+  "type" : "route",
+  "urlPrefix" : "directBooking"
+}

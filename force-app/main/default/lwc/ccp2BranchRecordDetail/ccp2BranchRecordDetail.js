@@ -1,6 +1,5 @@
 import { LightningElement,track,api,wire } from 'lwc';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
-//import { refreshApex } from '@salesforce/apex';
 import getBranchData from '@salesforce/apex/CCP2_userData.NewBranchDetails';
 import getNullVehicles from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociationDtl';
 import deleteVehicles from '@salesforce/apex/CCP2_userData.unassociateVehicle';
@@ -12,7 +11,6 @@ import deleteUser from '@salesforce/apex/CCP2_userData.unassociateUser';
 import UpdateFields from '@salesforce/apex/CCP2_branchController.updateBranchById';
 import deletebranch from '@salesforce/apex/CCP2_branchController.deleteBranchById';
 
-//import Arrows from '@salesforce/resourceUrl/arrownew';
 
 
 //labels 
@@ -117,7 +115,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     @track opts = true;
     @track main = true;
     outsideClickHandlerAdded = false;
-    //@track dropdownVisible = false;
     @track selectedLabels = '';
     searchTerm = '';
     imgdrop = arrowicon;
@@ -128,17 +125,12 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         if(data){
             console.log("mine",data);
             const branch = data.BranchDetails;
-           // console.log("BrDATA",data);
            // console.log('Branch Details:', JSON.stringify(data));
             this.CompanyName = branch.Company ? branch.Company : "-";
-            //this.TipNumber = branch.Tip_Number__c;
-           // this.BranchNumber = branch.Branch_Number__c;
            this.Address = branch.Address ? branch.Address : null;
-           // this.MentionName = branch.Mention_Name__c;
            this.Contact = branch.ContactNo ? branch.ContactNo : null;
-            //this.vehicle = branch.vehicleBranch__r;
-            //this.contacts = branch.Contact__r;
             this.branchName = branch.Name ? branch.Name : "-";
+
             //comparison variables
             this.originalBranchName = branch.Name;
             this.OriginalAddress = branch.Address;
@@ -161,9 +153,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         }
     }
 
-    // refreshData() {
-    //     refreshApex(this.BranchDataResult);
-    // }
     handlevehChange(event){
         event.stopPropagation();
         this.showlist = !this.showlist;
@@ -182,9 +171,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     handleInsideClick(event) {
         event.stopPropagation();
     }
-    // toggleDropdown() {
-    //     this.showlist = false;
-    // }
+
 
     get hasContacts() {
         return this.contacts.length > 0 || this.moreContacts.length > 0;
@@ -209,13 +196,9 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     }
     @wire(UserList,{branchId: '$branchId'}) wiredUsers({ data, error }) {
         if (data) {
-            // console.log("")
-            //  console.log("userdata",data);
             this.optcontacts = data.map(contact => {
                 return { label: contact.Name, value: contact.Id };
             });
-           // console.log("vehmapata",this.vehicles);
-            //  this.optcontacts = JSON.parse(JSON.stringify(this.optcontacts));
         } else if (error) {
             console.error(error);
         }
@@ -230,12 +213,9 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         requestAnimationFrame(() => {
             this.addCustomStyles();
         });
-        //document.addEventListener('click', this.handleOutsideClick.bind(this));
+       
         this.showSpinner = true;
     }
-    // disconnectedCallback() {
-    //     document.removeEventListener('click', this.handleOutsideClick.bind(this));
-    // }
     handleOutsideClick = (event) => {
         const dataDropElement = this.template.querySelector('.dataDrop');
         const listsElement = this.template.querySelector('.lists');
@@ -247,7 +227,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             !listsElement.contains(event.target)
         ) {
             this.showlist = false;
-            //console.log("Clicked outside");
         }
     };
     handleOutsideClick2 = (event) => {
@@ -261,7 +240,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             !listsElement.contains(event.target)
         ) {
             this.showList = false;
-            //console.log("Clicked outside");
         }
     };
    
@@ -278,27 +256,20 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     }
 
     handleChange() {
-       // this.showSpinner = true;
             this.showDetails = !this.showDetails;
     }
-    // checks(){
-    //     console.log('dvid:', JSON.stringify(this.deletedVehicleIds));
-    //     console.log('dcid:', JSON.stringify(this.deletedContactIds));
-    // }
+
     handleDeleteVehicle(event) {
         const vehicleId = event.currentTarget.dataset.id;
-   // console.log("Deleting vehicle with ID:", vehicleId);
 
     const deletedVehicleFromVehicleArray = this.vehicle.find(veh => veh.Id === vehicleId);
     if (deletedVehicleFromVehicleArray) {
         this.vehicles = [...this.vehicles, { label: deletedVehicleFromVehicleArray.Name, value: deletedVehicleFromVehicleArray.Id }];
-       // console.log("Vehicle re-added to selection list from `vehicle` array:", JSON.stringify(this.vehicles));
     }
 
     const deletedVehicleFromMoreVehiclesArray = this.morevehicles.find(veh => veh.Id === vehicleId);
     if (deletedVehicleFromMoreVehiclesArray && !deletedVehicleFromVehicleArray) {
         this.vehicles = [...this.vehicles, { label: deletedVehicleFromMoreVehiclesArray.Name, value: deletedVehicleFromMoreVehiclesArray.Id }];
-        //console.log("Vehicle re-added to selection list from `morevehicles` array:", JSON.stringify(this.vehicles));
     }
 
     this.deletedVehicleIds.push(vehicleId);
@@ -420,14 +391,14 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             this.goTodetail();
         } else {
             console.log("going");
-            // this.dispatchEvent(
-            //     new ShowToastEvent({
-            //         //title: 'No Changes',
-            //         message: '保存する変更はありません',
-            //         variant: 'info',
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    //title: 'No Changes',
+                    message: '保存する変更はありません',
+                    variant: 'info',
 
-            //     }),
-            // );
+                }),
+            );
             this.goTodetail(); 
         }
 
@@ -552,7 +523,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             this.contactClass = this.Contact ? '' : 'invalid-input';
             console.log("Contact:", this.Contact);
         } else {
-            // If input length exceeds 10, truncate it
             this.Contact = numericValue.slice(0, 10);
             this.contactClass = this.Contact ? '' : 'invalid-input';
             console.log("Contact (truncated):", this.Contact);

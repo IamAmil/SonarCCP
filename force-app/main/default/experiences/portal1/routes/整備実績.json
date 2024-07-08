@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "d6ed474e-6f9f-419a-9a3e-7467f40c1d4c",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_vehicle_history__c",
+  "id" : "688322d4-bcb9-4859-aa03-26a4a1a4d68d",
+  "label" : "整備実績",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-vehicle-history",
+  "type" : "route",
+  "urlPrefix" : "vehicleHistory"
+}

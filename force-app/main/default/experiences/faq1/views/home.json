@@ -1,0 +1,88 @@
+{
+  "appPageId" : "e1ca7953-fc41-4ab8-be9f-0410135c9879",
+  "componentName" : "siteforce:sldsThreeCol363Layout",
+  "dataProviders" : [ ],
+  "id" : "b8270089-744e-4ce8-9856-e2364945e9b6",
+  "label" : "Home",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "maxWidth" : 100,
+        "overlayColor" : "rgba(0, 0, 0, 0)",
+        "overlayHoverColor" : "rgba(104, 76, 67, 0)",
+        "radius" : 0,
+        "showTitle" : true,
+        "textAlignment" : "center",
+        "textBgColor" : "rgba(0,0,0,0)",
+        "textBgHoverColor" : "rgba(0,0,0,0)",
+        "textColor" : "rgba(49, 44, 44, 0)",
+        "textHoverColor" : "rgba(255, 255, 255, 0)",
+        "textPosition" : "top center",
+        "title" : "FAQ カテゴリー"
+      },
+      "componentName" : "forceTopic:featuredTopics",
+      "id" : "014755d7-acc1-4b95-ab63-1fdc7dd3d65d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "numberOfArticles" : 5,
+        "showTitle" : true,
+        "title" : "よく閲覧されているFAQ",
+        "topicList" : [ {
+          "isPublic" : true,
+          "name" : "0TO5i000000DcayGAC"
+        }, {
+          "isPublic" : true,
+          "name" : "0TO5i000000HyMjGAK"
+        }, {
+          "isPublic" : true,
+          "name" : "0TO5i000000Dcb8GAC"
+        } ]
+      },
+      "componentName" : "forceCommunity:topArticleList",
+      "id" : "24d2333b-1c8e-4452-8218-e7f0704b77ca",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8cd07aa9-9d0b-418d-a9fe-ad07cff11813",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "1643d11f-8826-4588-8f16-a0e655959238",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "6219c76b-c4f0-45e9-a588-ff721a35fa12",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "dc6a57a6-0ac9-40db-b839-1c84c838b2c4",
+    "regionName" : "sidebarAlt",
+    "type" : "region"
+  }, {
+    "id" : "72e4adf6-7319-4ccd-b00d-a5c5a5951c85",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "よくあるご質問 "
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "dda86d7f-de88-47ee-a437-c19ddbde935b",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "62d3ac42-6e71-466b-82d4-418672e30414",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Home",
+  "type" : "view",
+  "viewType" : "home"
+}

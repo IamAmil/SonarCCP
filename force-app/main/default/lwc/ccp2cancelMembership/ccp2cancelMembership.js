@@ -12,7 +12,7 @@ import CONTACT_ID_FIELD from '@salesforce/schema/User.ContactId';
 import USER_ACCOUNT_ID_FIELD from '@salesforce/schema/User.AccountId';
 import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
 import ACCOUNT_TYPE_FIELD from '@salesforce/schema/Account.Type';
-import deleteadmin from '@salesforce/apex/CCP2_UserDeleteController.deleteUser';
+import deleteadmin from '@salesforce/apex/CCP2_userController.deleteUser';
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
 // import ACCOUNT_NAME from '@salesforce/schema/User.Account.Name'
 import CCP2_Withdraw from '@salesforce/label/c.CCP2_Withdraw';
@@ -331,8 +331,6 @@ export default class Ccp2CancelMembership extends LightningElement {
                   })
                 );
                 return;
-            
-           
           }
         else if(this.selectedReason == 'その他'){
             if(this.otherReason == ''){

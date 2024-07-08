@@ -11,12 +11,10 @@
   }
   .top {
     height: 96vh;
-    background-color: #f4f4f4;
     background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
   }
    
   .bottom {
-    /* height: 60%; */
     position: relative;
     height: max-content;
     background-color: #f4f4f4;
@@ -28,17 +26,11 @@
         position: relative;
         height: 100%;
         margin-top: -80.5vh;
-        /* left: 2.5vh; */
         width: 90%;
         background-color: rgba(251, 251, 251, 0.9);
         border-radius: 10px;
         margin-bottom: 50px;
   }
-/* @media (max-width: 768px) {
-    .center-content {
-        width: 50%;
-    }
-} */
 
 .overlay {
     position: absolute;

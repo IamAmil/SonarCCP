@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "6bdc5c30-bbfa-4134-9786-7a647da40a16",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "custom_vehicleupdate__c",
+  "id" : "ecf702f1-4e40-4eb9-a8bc-43be5d20a761",
+  "label" : "保有車情報更新",
+  "pageAccess" : "RequiresLogin",
+  "routeType" : "custom-vehicleupdate",
+  "type" : "route",
+  "urlPrefix" : "vehicleUpdate"
+}
