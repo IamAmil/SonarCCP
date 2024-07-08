@@ -42,6 +42,7 @@ static void setup() {
         Name = 'Vehicle 1',
         RecordTypeId = vehicleRecordType.Id,
         brand__c = 'FUSO',
+        //carModelFormatName__c = 'Model X',
         userAccountCode__c = account.Id,
         vehicleInspectionExpiryDate__c = Date.newInstance(2024, 1, 15)
     );

@@ -9,8 +9,8 @@ import AddVehicle from '@salesforce/apex/CCP2_userData.associateVehicle';
 import UserList from '@salesforce/apex/CCP2_userData.userListDtl';
 import AddUser from '@salesforce/apex/CCP2_userData.associateUser';
 import deleteUser from '@salesforce/apex/CCP2_userData.unassociateUser';
-import UpdateFields from '@salesforce/apex/CCP2_branchUpdate.updateBranchById';
-import deletebranch from '@salesforce/apex/CCP2_BranchDeleteController.deleteBranchById';
+import UpdateFields from '@salesforce/apex/CCP2_branchController.updateBranchById';
+import deletebranch from '@salesforce/apex/CCP2_branchController.deleteBranchById';
 
 //import Arrows from '@salesforce/resourceUrl/arrownew';
 

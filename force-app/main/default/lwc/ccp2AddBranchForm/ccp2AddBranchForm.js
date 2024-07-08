@@ -2,7 +2,7 @@ import { LightningElement, track, wire } from 'lwc';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
 import getVehicleWithoutAssociation from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociation';
 import getUsersWithoutAssociation from '@salesforce/apex/CCP2_userData.userList';
-import AddBranch from '@salesforce/apex/CCP2_branchManagement.createAndAssociateBranch';
+import AddBranch from '@salesforce/apex/CCP2_branchController.createBranch';
 import getAccount from '@salesforce/apex/CCP2_userData.accountDetails';
 import Img1 from '@salesforce/resourceUrl/ccp2HeaderImg1';
 import Img2 from '@salesforce/resourceUrl/ccp2HeaderImg2';
@@ -415,14 +415,14 @@ export default class Ccp2AddBranchForm extends LightningElement {
             // this.showToast('Success', '新規勤務地が追加されました。', 'success');
             this.Step2 = false;
             this.Step3 = true;
-            this.currentStep = 3;
+             this.currentStep = 3;
         })
         .catch(error => {
             console.error('Error inserting branch record:', error);
             this.dispatchEvent(
                 new ShowToastEvent({
                     //title: 'error',
-                    message: 'ブランチレコードの挿入中にエラーが発生しました。もう一度試してください。',
+                    message: 'ブランチレコードの挿入中にエラーが発生しました。もう一度試してください' + error.body.message,
                     variant: 'error',
                 })
             );

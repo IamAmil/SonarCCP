@@ -318,7 +318,8 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
     System.debug(detailsMap);
     return detailsMap;
 }
-      @AuraEnabled(cacheable=true)
+    
+    @AuraEnabled(cacheable=true)
     public static List<contact> UserWithoutAssociation()
     {
         //List<CCP2_Branch__c> branch;

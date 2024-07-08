@@ -1,7 +1,7 @@
 import { LightningElement,track,wire } from 'lwc';
 import backgroundImage from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { getRecord,getFieldValue } from 'lightning/uiRecordApi';
+import { getRecord} from 'lightning/uiRecordApi';
 import truckcancel from '@salesforce/resourceUrl/truckcancel1';
 import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
 import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
@@ -401,9 +401,6 @@ export default class Ccp2CancelMembership extends LightningElement {
 
         
     }
-
-    
-
     get getRadioClasscheck(){
         return this.deletecheckbox ? 'selected2' : '';
     }

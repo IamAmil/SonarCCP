@@ -112,6 +112,7 @@
     margin-top: 4px;
     display: flex;
     cursor: pointer;
+    height: 30%;
 }
 .deletetxt{
     color: #ea0202;
@@ -641,7 +642,6 @@ img {
     .form_container {
         width: 90%;
         padding: 20px;
-        height: max-content; 
     }
 
     .btn {
@@ -768,7 +768,7 @@ img {
     }
 
     .form_footer {
-        width: 80%;
+        width: 90%;
         margin-bottom: 20px;
     }
 }

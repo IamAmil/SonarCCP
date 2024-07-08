@@ -6,9 +6,7 @@ input::placeholder {
 }
 input {
   background-color: #FFFFFF; /* Change placeholder color to gray */
-}
-input{
-    padding:14px 20px 14px 20px;
+  padding:14px 20px 14px 20px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
 }
@@ -27,12 +25,10 @@ input{
 }
 .top {
   height: 90vh;
-  background-color: #f4f4f4;
   background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
 }
 
 .bottom {
-  /* height: 60%; */
   position: relative;
   height: max-content;
   background-color: #f4f4f4;
@@ -76,13 +72,16 @@ input{
 }
 
 .heading {
-  font-weight: 600;
-  font-size: 1.5em;
   text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .list-container {
   min-height: 250px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .list-element {
@@ -213,7 +212,6 @@ input{
   margin-bottom: 8px;
 }
 .data {
-  /* margin-left: 80px; */
   margin-top: 1px;
   font-size: 14px;
   margin-bottom: 2px;
@@ -233,7 +231,6 @@ input{
 }
 .data-cell-item{
     width: 100%;
-    /* padding:16px, 24px, 16px, 24px */
 }
 
 .dataBranch{
@@ -284,36 +281,23 @@ input{
   background: white;
   border: 1px solid #D9D9D9;
   border-radius: 8px;
-  width: 189px; /* Matches the input width */
-  max-height: 200px; /* Maximum height for the dropdown */
+  width: 189px; 
+  max-height: 200px; 
   overflow-y: auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  margin-top: 5px; /* Space between input and dropdown */
-  padding: 10px;
+  margin-top: 5px;  padding: 10px;
  }
 .buttonEdit {
-  /* width: 100%; */
   display: flex;
-  /* flex-direction: column; */
   align-items: flex-end;
   justify-content: center;
-  /* height: 70px; */
-  /* margin-top: 30px; */
   position: absolute;
   top: 2%;
   right: 2%;
   border-radius: 10px;
 }
-/* .btn:hover {
-  background-color: white;
-  border: 1px solid #e10202;
-  cursor: pointer;
-  color: #0a0a0a;
-}
-.btn:hover .toedit {
-  color: red;
-} */
+
 .btn1 {
   display: flex;
   flex-direction: column;
@@ -370,7 +354,6 @@ input{
     display: flex;
     align-items: center;
     justify-content: center;
-    /* margin-left: 4px; */
  }
 
  .checkboxContainer{
@@ -380,16 +363,6 @@ input{
     align-items:center;
  }
 
- /* .btn-no{
-    width: 176px;
-    height: 48px;
-    border-radius: 10px;
-}
-.btn-yes{
-    width:176px;
-    height: 48px;
-    border-radius: 10px;
-} */
  
 .content-modal{
     height: 7rem;
@@ -400,9 +373,8 @@ input{
     text-align: center;
     font-size: medium;
     font-weight: 500;
-    /* padding: 2%; */
     font-family: 'Noto Sans JP', sans-serif;
-    /* margin-top: 20%; */
+
 }
 .content-modal .btn-modal{
     display: flex;
@@ -410,7 +382,6 @@ input{
     margin-top: 5%;
     margin-left: 20%;
     margin-right: 20%;
-    /* align-items: center; */
     justify-content: space-between;
     gap: 56px;
 }
@@ -422,8 +393,6 @@ input{
 .content-modal .btn-modal button{
     border: none;
     border-radius: none;
-    /* color: black;
-    background-color:#D9D9D9; */
 }
  
 .record-item{
@@ -436,84 +405,6 @@ input{
 }
 
 
- /* .checkboxContainer input{
-    width: 24px;
-    height: 24px;
- }
- .checkboxContainer input:active{
-  background-color:#EB5A5A;
- } */
-/* 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.centered-text {
-    color: white; 
-    font-size: 2.5em; 
-    font-weight: bolder;
-    margin-bottom: 30px;
-}
-
-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
-.record-item lightning-icon {
-    cursor: pointer;
-}
-.filtericn{
-    --sds-c-icon-color-foreground-default: #E10202; 
-    --sds-c-icon-color-foreground: #E10202; 
-    --sds-c-icon-color-background: #ffffff; 
-    margin-right: 7px;
- }
-
- lightning-spinner {
-    display: block;
-    margin: auto;
-}
-
-.slds-spinner__dot-a, .slds-spinner__dot-b {
-    background-color: #E10202; 
-}
-
-.combo{
-    --slds-c-input-radius-border : 3px;
-    --slds-c-input-color-border : #d4d4d4;
-    --slds-c-input-color-background : #ffffff;
-    width: 350px;
- }
-
-@media (max-width: 768px) {
-    .center-content {
-        width: 90%; 
-        top: 50%; 
-    }
-
-    .form_container {
-        width: 90%; 
-        height: 60vh; 
-    }
-
-    .btn, .btn1 {
-        width: 100px; 
-        height: 40px; 
-    }
-
-} */
-
-
 
 @media (min-width: 768px) and (max-width: 1440px) {
     .input-checkbox {
@@ -522,7 +413,7 @@ img {
     }
 }
 
-/*Adding Heading in detail page also*/
+
 .centered-text-inside {
   color: black;
   font-size: 2em;
@@ -532,7 +423,6 @@ img {
   justify-content: center;
 }
 
-/*Edited Top and Add Member button*/
 button.return-button:hover {
   background-color: white;
   border-color: #F4F4F4;
@@ -548,7 +438,6 @@ button.submit-button {
   background-color: #E10202; color:white;
 }
 
-/* Delete User */
 button.btn-yes {
   background-color:#E10202; 
   color: white;
@@ -616,7 +505,6 @@ button.btn-no {
   box-shadow: 0px 0px 10px 0px #00000026;
   font-family: 'Noto Sans JP', sans-serif;
   border-radius: 8px;
-    /* padding: 0.5rem 1rem; */
   cursor: pointer;
 }
 
@@ -655,7 +543,7 @@ button.btn-no:hover {
 }
 
 .btn-save:hover .txt-save {
-  color: #E10202; /* This will affect text inside child elements with class txt-save */
+  color: #E10202;
 }
 
 .form_container.form_container_save {
@@ -680,36 +568,26 @@ button.btn-no:hover {
   padding-top: 1 !important;
 }
 
-/*Testing*/
 
-/* Heading styling */
-.heading {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
 
-/* List container styling */
-.list-container {
-  margin-top: 20px;
-  text-align: center;
-}
 
-/* Text paragraph styling */
+
+
+
 .text-para {
   font-size: 1em;
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Button container styling */
+
 .button-container {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-/* Add user button styling */
+
 .button.add-user-button {
   background-color: #E10202;
   color: white;
@@ -719,7 +597,7 @@ button.btn-no:hover {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .delete-page{
@@ -742,25 +620,21 @@ button.btn-no:hover {
   border-radius: 10px;
 }
 
-/* Footer buttons container styling */
-.footer-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
+
+
 
 .list-container-new {
   margin-top: 100px;
 }
 
-/* Media Queries */
+
 .main-content {
   padding: 50px calc(256px - 15%) 64px calc(256px - 15%);
 }
 
 @media (max-width: 900px) {
   .main-content {
-      padding: 50px 5% !important; /* Custom padding for smaller screens */
+      padding: 50px 5% !important;
   }
 }
 
@@ -777,23 +651,24 @@ button.btn-no:hover {
   overflow-y: auto;
 }
 
-/* width */
+
 .branchrecords::-webkit-scrollbar {
   width: 7px;
   margin-right: 3px;
 }
-/* Track */
+
+
 .branchrecords::-webkit-scrollbar-track {
   background: #f1f1f1; 
 }
  
-/* Handle */
+
 .branchrecords::-webkit-scrollbar-thumb {
   background: #888; 
   border-radius:50px;
 }
 
-/* Handle on hover */
+
 .branchrecords::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }

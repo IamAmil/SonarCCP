@@ -10,7 +10,6 @@ import getUserServices from "@salesforce/apex/ccp2_UIpermissionList.uiPermission
 import getUserAllServicesList from "@salesforce/apex/CCP2_ServicesList.permissionValues";
 import deleteUser from "@salesforce/apex/CCP2_UserDeleteController.deleteUser";
 import USER_ID from "@salesforce/user/Id";
-import { refreshApex } from "@salesforce/apex";
 import getbranchdetails from "@salesforce/apex/CCP2_userData.UnAssociatedBranch";
 import branchContactAdd from "@salesforce/apex/ccp2_userupdate.branchContactAdd";
 import branchContactDelete from "@salesforce/apex/ccp2_userupdate.branchContactDelete";

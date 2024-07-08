@@ -1,6 +1,6 @@
 import { LightningElement, wire, track } from 'lwc';
 import BranchList from '@salesforce/apex/CCP2_userData.BranchList';
-import BranchVehicleCount from '@salesforce/apex/CCP2_branchManagement.getBranchList';
+import BranchVehicleCount from '@salesforce/apex/CCP2_branchController.getBranchList';
 import { NavigationMixin } from 'lightning/navigation';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
 
