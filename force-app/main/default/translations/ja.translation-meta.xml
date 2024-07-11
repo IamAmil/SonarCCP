@@ -696,12 +696,4 @@
         <label>はい</label>
         <name>CCP2_Yes</name>
     </customLabels>
-    <flowDefinitions>
-        <flows/>
-        <fullName>ContactFlagUpdate</fullName>
-    </flowDefinitions>
-    <flowDefinitions>
-        <flows/>
-        <fullName>userAdminFlow</fullName>
-    </flowDefinitions>
 </Translations>

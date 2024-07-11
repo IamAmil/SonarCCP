@@ -92,266 +92,272 @@
             <div class="main">
                 <div class="top">
                     <img src={backgroundImagePC} class="imghead" alt="">
-                    <div >
-                        <!-- <h1 class="centered-text">{labels.CCP2_ApplicationDiscontinuation}</h1> -->
-                    </div>
+                    <!-- <div >
+                        <h1 class="centered-text">{labels.CCP2_ApplicationDiscontinuation}</h1>
+                    </div> -->
                 </div>
-                <div class="bottom"></div>
-                <div class="center-content">
+                <!-- <div class="bottom"></div>
+                 -->
 
                     <template if:true={showstep1}>
-                    <div class="main-content">
-
-
-                            <div class="form">
-                                <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
-                                <img src={truckpic1}>
-                                <div class="heading-over-info">下記のアカウントの退会申請を提出します。退会申請フォームを入力してください。</div>
-    
-                                <div class="form_container">
-                                    <div class="data-rec">
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_CompanyName}</div>
-                                            <div class="data">{userDetailData.account.name}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_CustomerId}</div>
-                                            <div class="data">{userDetailData.account.SiebelAccountCode__c}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_FullName}</div>
-                                            <div class="data">{userDetailData.Name}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_NameFurigana}</div>
-                                            <div class="data">{userDetailData.firstNameKana__c} {userDetailData.lastNameKana__c}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_EmployeeNumber}</div>
-                                            <div class="data">{userDetailData.Employee_Code__c}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_WorkLocation}</div>
-                                            <div class="databranch">
-
-                                                <template for:each={branchfromjunction} for:item="branch">
-    
-                                                    <div key={branch.Name}>
-                                                        <div class="data">{branch.Name}</div>
+                        <div class="center-content">
+                            <div class="main-content">
+        
+        
+                                    <div class="form">
+                                        <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
+                                        <img src={truckpic1}>
+                                        <div class="heading-over-info">下記のアカウントの退会申請を提出します。退会申請フォームを入力してください。</div>
+            
+                                        <div class="form_container">
+                                            <div class="data-rec">
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_CompanyName}</div>
+                                                    <div class="data">{userDetailData.account.name}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_CustomerId}</div>
+                                                    <div class="data">{userDetailData.account.SiebelAccountCode__c}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_FullName}</div>
+                                                    <div class="data">{userDetailData.Name}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_NameFurigana}</div>
+                                                    <div class="data">{userDetailData.firstNameKana__c} {userDetailData.lastNameKana__c}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_EmployeeNumber}</div>
+                                                    <div class="data">{userDetailData.Employee_Code__c}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_WorkLocation}</div>
+                                                    <div class="databranch">
+        
+                                                        <template for:each={branchfromjunction} for:item="branch">
+            
+                                                            <div key={branch.Name}>
+                                                                <div class="data">{branch.Name}</div>
+                                                            </div>
+                                                        </template>
                                                     </div>
-                                                </template>
-                                            </div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_Department}</div>
-                                            <div class="data">{userDetailData.Department}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_Position}</div>
-                                            <div class="data">{userDetailData.Title}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_EmailAddress}</div>
-                                            <div class="data">{userDetailData.email}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_TelephoneNo}</div>
-                                            <div class="data">{userDetailData.Phone}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">{labels.CCP2_MobileNo}</div>
-                                            <div class="data">{userDetailData.MobilePhone}</div>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                <div class="card">
-                                    <div class="heading-radio">
-                                        <!-- <label> -->
-                                            <div>
-                                                <h1>
-                                                    <!-- {labels.CCP2_CancellationRequest} -->
-                                                    以下の退会理由を選択してください。
-                                                </h1>
-                                            </div>
-                                            <div>
-                                                <span class="reqtxt">{labels.CCP2_Required}</span>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_Department}</div>
+                                                    <div class="data">{userDetailData.Department}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_Position}</div>
+                                                    <div class="data">{userDetailData.Title}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_EmailAddress}</div>
+                                                    <div class="data">{userDetailData.email}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_TelephoneNo}</div>
+                                                    <div class="data">{userDetailData.Phone}</div>
+                                                </div>
+                                                <div class="records">
+                                                    <div class="head">{labels.CCP2_MobileNo}</div>
+                                                    <div class="data">{userDetailData.MobilePhone}</div>
+                                                </div>
                                             </div>
                                             
-                                        <!-- </label> -->
-                                        
-                                        
-                                    </div>
-                                    
-                                    <div class="radio-btns">
-                                        <label>
-                                            <input type="radio" name="reason" value="使用頻度が低い" onchange={handleReasonChange} class="selected"> {labels.CCP2_LowFrequency}
-                                        </label>
-                                        
-                                        <label>
-                                            <input type="radio" name="reason" value="操作性が悪い" onchange={handleReasonChange} class="selected"> {labels.CCP2_PoorUsability}
-                                        </label>
-                                        
-                                        <label>
-                                            <input type="radio" name="reason" value="データ精度に不満がある" onchange={handleReasonChange} class="selected"> {labels.CCP2_DataAccuracyDissatisfaction}
-                                        </label>
-
-                                        <label>
-                                            <input type="radio" name="reason" value="会員向けの特典・サービスが少ない" onchange={handleReasonChange} class="selected"> {labels.CCP2_FewMemberBenefits}
-                                        </label>
-
-                                        <label>
-                                            <input type="radio" name="reason" value="他によい商品を見つけた" onchange={handleReasonChange} class="selected"> {labels.CCP2_FoundBetterProduct}
-                                        </label>
-
-                                        <label>
-                                            <input type="radio" name="reason" value="廃業の為" onchange={handleReasonChange} class="selected"> {labels.CCP2_BusinessClosure}
-                                        </label>
-
-                                        <label>
-                                            <input type="radio" name="reason" value="その他" onchange={handleReasonChange} class="selected"> {labels.CCP2_Other}
-                                        </label>
-
-                                        <div>
-                                            <input type="text" value={otherReason} class="other-input" size="50" onchange={handleOtherReasonChange} placeholder="内容を記入してください。" disabled={isInputDisabled}>
+                                        </div>
+                                        <div class="card">
+                                            <div class="heading-radio">
+                                                <!-- <label> -->
+                                                    <div>
+                                                        <h1>
+                                                            <!-- {labels.CCP2_CancellationRequest} -->
+                                                            以下の退会理由を選択してください。
+                                                        </h1>
+                                                    </div>
+                                                    <div>
+                                                        <span class="reqtxt">{labels.CCP2_Required}</span>
+                                                    </div>
+                                                    
+                                                <!-- </label> -->
+                                                
+                                                
+                                            </div>
+                                            
+                                            <div class="radio-btns">
+                                                <label>
+                                                    <input type="radio" name="reason" value="使用頻度が低い" onchange={handleReasonChange} class="selected"> {labels.CCP2_LowFrequency}
+                                                </label>
+                                                
+                                                <label>
+                                                    <input type="radio" name="reason" value="操作性が悪い" onchange={handleReasonChange} class="selected"> {labels.CCP2_PoorUsability}
+                                                </label>
+                                                
+                                                <label>
+                                                    <input type="radio" name="reason" value="データ精度に不満がある" onchange={handleReasonChange} class="selected"> {labels.CCP2_DataAccuracyDissatisfaction}
+                                                </label>
+        
+                                                <label>
+                                                    <input type="radio" name="reason" value="会員向けの特典・サービスが少ない" onchange={handleReasonChange} class="selected"> {labels.CCP2_FewMemberBenefits}
+                                                </label>
+        
+                                                <label>
+                                                    <input type="radio" name="reason" value="他によい商品を見つけた" onchange={handleReasonChange} class="selected"> {labels.CCP2_FoundBetterProduct}
+                                                </label>
+        
+                                                <label>
+                                                    <input type="radio" name="reason" value="廃業の為" onchange={handleReasonChange} class="selected"> {labels.CCP2_BusinessClosure}
+                                                </label>
+        
+                                                <label>
+                                                    <input type="radio" name="reason" value="その他" onchange={handleReasonChange} class="selected"> {labels.CCP2_Other}
+                                                </label>
+        
+                                                <div>
+                                                    <input type="text" value={otherReason} class="other-input" size="50" onchange={handleOtherReasonChange} placeholder="内容を記入してください。" disabled={isInputDisabled}>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="check-btn">
+                                            <div class="check-label">このアカウントの情報の扱い方法をチェックしてください。</div>
+                                            <div class="checkbox-div">
+                                                <label>
+                                                    <input type="checkbox" name="deletedata" value="アカウントのデータを永久に削除する" class={getRadioClasscheck} oninput={handleCheckbox} onchange={handleCheckbox}> {labels.CCP2_DeleteData}
+                                                </label>
+                                                <div class="month">
+                                                    <label><h1 style="color:red;">
+                                                        <!-- {labels.CCP2_DataDeletionNote} -->
+                                                        チェックしない場合、6ヶ月内に再入会しないと、アカウントとデータを永久に削除します。
+                                                    </h1></label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    
+                                    <button onclick={handlestep1} class="next-button">{labels.CCP2_Next}</button>
                                 </div>
-                                <div class="check-btn">
-                                    <div class="check-label">このアカウントの情報の扱い方法をチェックしてください。</div>
-                                    <div class="checkbox-div">
-                                        <label>
-                                            <input type="checkbox" name="deletedata" value="アカウントのデータを永久に削除する" class={getRadioClasscheck} oninput={handleCheckbox} onchange={handleCheckbox}> {labels.CCP2_DeleteData}
-                                        </label>
-                                        <div class="month">
-                                            <label><h1 style="color:red;">
-                                                <!-- {labels.CCP2_DataDeletionNote} -->
-                                                チェックしない場合、6ヶ月内に再入会しないと、アカウントとデータを永久に削除します。
-                                            </h1></label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button onclick={handlestep1} class="next-button">{labels.CCP2_Next}</button>
                         </div>
                     </template>
 
                     <template if:true={showstep2}>
-                    <div class="main-content">
-                            <div class="form">
-                                <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
-                                <img src={truckpic2}>
-                            <!-- <div class="form_container"> -->
-                            <div class="form2-cont">
-                                <div class="form2-head">申請内容をご確認ください。</div>
-                                <div>
-                                    <h1 class="part1">退会アカウント</h1>
-                                    <hr class="hr-class">
-                                </div>
-                                <div class="data-rec">
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_CompanyName}</div>
-                                        <div class="data">{userDetailData.account.name}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_CustomerId}</div>
-                                        <div class="data">{userDetailData.account.SiebelAccountCode__c}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_FullName}</div>
-                                        <div class="data">{userDetailData.Name}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_NameFurigana}</div>
-                                        <div class="data">{userDetailData.firstNameKana__c} {userDetailData.lastNameKana__c}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_EmployeeNumber}</div>
-                                        <div class="data">{userDetailData.Employee_Code__c}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_WorkLocation}</div>
+                        <div class="center-content">
+                            <div class="main-content">
+                                    <div class="form">
+                                        <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
+                                        <img src={truckpic2}>
+                                    <!-- <div class="form_container"> -->
+                                    <div class="form2-cont">
+                                        <div class="form2-head">申請内容をご確認ください。</div>
                                         <div>
-                                            <template for:each={userDetailData.Branchs} for:item="branch">
-                                                <div key={branch.Name}>
-                                                    <div class="data">{branch.Name}</div>
+                                            <h1 class="part1">退会アカウント</h1>
+                                            <hr class="hr-class">
+                                        </div>
+                                        <div class="data-rec">
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_CompanyName}</div>
+                                                <div class="data">{userDetailData.account.name}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_CustomerId}</div>
+                                                <div class="data">{userDetailData.account.SiebelAccountCode__c}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_FullName}</div>
+                                                <div class="data">{userDetailData.Name}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_NameFurigana}</div>
+                                                <div class="data">{userDetailData.firstNameKana__c} {userDetailData.lastNameKana__c}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_EmployeeNumber}</div>
+                                                <div class="data">{userDetailData.Employee_Code__c}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_WorkLocation}</div>
+                                                <div>
+                                                    <template for:each={userDetailData.Branchs} for:item="branch">
+                                                        <div key={branch.Name}>
+                                                            <div class="data">{branch.Name}</div>
+                                                        </div>
+                                                    </template>
                                                 </div>
-                                            </template>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_Department}</div>
+                                                <div class="data">{userDetailData.Department}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_Position}</div>
+                                                <div class="data">{userDetailData.Title}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_EmailAddress}</div>
+                                                <div class="data">{userDetailData.email}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_TelephoneNo}</div>
+                                                <div class="data">{userDetailData.Phone}</div>
+                                            </div>
+                                            <div class="records">
+                                                <div class="head">{labels.CCP2_MobileNo}</div>
+                                                <div class="data">{userDetailData.MobilePhone}</div>
+                                            </div>
+        
+                                            <div class="step2-input">
+                                                <div class="head-input">
+                                                    <!-- {labels.CCP2_ReasonForDiscontinuation} -->
+                                                    退会理由
+                                                </div>
+                                                <hr class="hrclass2">
+                                                <div class="data-input">{selectedReasonMessage}</div>
+                                            </div>
+        
+                                            <div class="step2-input">
+                                                <div class="head-input">アカウント情報の扱い方法</div>
+                                                <hr class="hrclass2">
+                                                <div class="data-input">{deletecheckbox}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_Department}</div>
-                                        <div class="data">{userDetailData.Department}</div>
+                                        
+                                        
+                                    <!-- </div> -->
+                                    <div class="step2-btns">
+                                        <button class="prev-btn" onclick={handlePrevstep2}>{labels.CCP2_Previous}</button>
+                                        <button class="next-button" onclick={handlestep2}>{labels.CCP2_Next}</button>
                                     </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_Position}</div>
-                                        <div class="data">{userDetailData.Title}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_EmailAddress}</div>
-                                        <div class="data">{userDetailData.email}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_TelephoneNo}</div>
-                                        <div class="data">{userDetailData.Phone}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">{labels.CCP2_MobileNo}</div>
-                                        <div class="data">{userDetailData.MobilePhone}</div>
-                                    </div>
-
-                                    <div class="step2-input">
-                                        <div class="head-input">
-                                            <!-- {labels.CCP2_ReasonForDiscontinuation} -->
-                                            退会理由
-                                        </div>
-                                        <hr class="hrclass2">
-                                        <div class="data-input">{selectedReasonMessage}</div>
-                                    </div>
-
-                                    <div class="step2-input">
-                                        <div class="head-input">アカウント情報の扱い方法</div>
-                                        <hr class="hrclass2">
-                                        <div class="data-input">{deletecheckbox}</div>
                                     </div>
                                 </div>
-                            </div>
-                                
-                                
-                            <!-- </div> -->
-                            <div class="step2-btns">
-                                <button class="prev-btn" onclick={handlePrevstep2}>{labels.CCP2_Previous}</button>
-                                <button class="next-button" onclick={handlestep2}>{labels.CCP2_Next}</button>
-                            </div>
-                            </div>
                         </div>
                     </template>
                     
                     <template if:true={showstep3}>
-                    <div class="main-content">
-                            <div class="form">
-                                <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
-                                <img src={truckpic3}>
-
-                                <div class="step3-div">
-                                    <div>
-                                        <h1>
-                                            <!-- {labels.CCP2_ContactManagement} -->
-                                            ご申請内容を確認の上、運営よりご連絡いたします。
-                                        </h1>
+                        <div class="center-content">
+                            <div class="main-content">
+                                    <div class="form">
+                                        <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
+                                        <img src={truckpic3}>
+        
+                                        <div class="step3-div">
+                                            <div>
+                                                <h1>
+                                                    <!-- {labels.CCP2_ContactManagement} -->
+                                                    ご申請内容を確認の上、運営よりご連絡いたします。
+                                                </h1>
+                                            </div>
+                                            <!-- <div style="text-align:center;">
+                                                <button class="next-button" onclick={handleTop}>{labels.CCP2_TOPPage}</button>
+        
+                                            </div> -->
+                                        </div>
                                     </div>
-                                    <!-- <div style="text-align:center;">
-                                        <button class="next-button" onclick={handleTop}>{labels.CCP2_TOPPage}</button>
-
-                                    </div> -->
                                 </div>
-                            </div>
                         </div>
                     </template>
                     
 
-                </div>
+               
             </div>
         </template>
 

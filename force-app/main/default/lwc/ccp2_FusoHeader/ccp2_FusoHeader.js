@@ -3,12 +3,11 @@ import Vehicle_StaticResource from "@salesforce/resourceUrl/CCP_StaticResource_V
 import getLogoutURL from "@salesforce/apex/CCP_HeaderController.getLogoutURL";
 import basePath from "@salesforce/community/basePath";
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
-import getAllServices from "@salesforce/apex/CCP2_ServicesList.permissionValues";
+import getAllServices from "@salesforce/apex/CCP2_userController.permissionValuesAccessControl";
 import Id from "@salesforce/user/Id";
 
 import checkGuestUser from "@salesforce/apex/CCP_HeaderController.checkGuestUser";
 import getLoginURL from "@salesforce/apex/CCP_HeaderController.getLoginURL";
-// import getBaseInfoByUserId from "@salesforce/apex/CCP_HeaderController.getBaseInfoByUserId";
 
 //labels
 import CCP2_Home from "@salesforce/label/c.CCP2_Home";
@@ -121,24 +120,17 @@ export default class Ccp2_FusoHeader extends LightningElement {
     document.head.appendChild(link);
     this.getAllUrl();
 
-    // console.log("info of user api id:- ", Id);
-    getAllServices({ userId: this.uid })
+    getAllServices({ userId: this.uid, refresh: 0})
       .then((res) => {
-         //console.log("info of user api:- ", res);
-
         res.forEach((elm) => {
-          if (elm.apiName == "E_invoice_Flag__c") {
+          if (elm.apiName == "Financial_service_Flag__c") {
             this.eInvoice = elm.isActive;
-          } else if (elm.apiName == "Financial_service_Flag__c") {
+          } else if (elm.apiName == "E_invoice_Flag__c") {
             this.directBook = elm.isActive;
           } else if (elm.apiName == "Vehicle_management_Flag__c") {
             this.vehicleList = elm.isActive;
           }
         });
-
-        // this.eInvoice = true;
-        // this.directBook = true;
-        // this.vehicleList = true;
       })
       .catch((error) => {
         this.errors = JSON.stringify(error);

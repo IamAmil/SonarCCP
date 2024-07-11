@@ -12,7 +12,7 @@ import getContactData from "@salesforce/apex/CCP_AddUserCtrl.getContactData";
 import checkUserEmail from "@salesforce/apex/CCP_AddUserCtrl.checkUserEmail";
 import checkManageUser from "@salesforce/apex/CCP_AddUserCtrl.checkManageUser";
 import createContact from "@salesforce/apex/CCP_AddUserCtrl.createContact";
-import createBranch from "@salesforce/apex/ccp2_branchAddMember.addBranch";
+import createBranch from "@salesforce/apex/CCP2_branchController.addBranch";
 import createUser from "@salesforce/apex/CCP_AddUserCtrl.createUser";
 import getUserPermissionSet from "@salesforce/apex/CCP_AddUserCtrl.getUserPermissionSet";
 import userTypeJudgment from "@salesforce/apex/CCP_AddUserCtrl.userTypeJudgment";

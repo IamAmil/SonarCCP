@@ -1,0 +1,212 @@
+<!--
+ * @Author: Huanghao Tu
+ * @Date: 2022-10-12 12:48:43
+ * @LastEditTime: 2023-01-06 11:28:13
+ * @Description: Contact Basic Information 
+-->
+<template>
+    <div class="body body-vw">
+        <div class="profile">
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                </lightning-spinner>
+            </template>
+            <div class="hero">
+                <div class="hero__wrapper">
+                    <picture class="hero__image">
+                        <source media="(max-width: 767px)" srcset={backgroundImageMobile}>
+                        <img src={backgroundImagePC} alt="" style="width: 100vw; height:40vw">
+                    </picture>
+                </div>
+                <div class="container container--sp-no-padding">
+                    <div class="container__inner">
+
+                        <div class="contents-box contents-box--inner">
+                            <!-- <template if:true={errors}>
+                                <div style="color:red">an error occurs: {errors}</div>
+                            </template> -->
+                            <!-- 基本情報  -->
+                            <!-- <p class="text-main text-main--profile-title">基本情報の変更をご希望の際は、「<a onclick={toInquiryPage}
+                                    class="underline-decoration">お問い合わせ</a>」よりご連絡をお願い致します。</p> -->
+                            <div class="section profile">
+                                <h3 class="profile-section__title">基本情報</h3>
+                                <template for:each={contactData} for:item="cd">
+                                    <dl key={cd.id} class="section__outline">
+                                        <div class="section__definition-list">
+                                            <dt>会社名</dt>
+                                            <dd>{cd.accountName}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>お客様番号</dt>
+                                            <dd>{cd.accountCode}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>氏名</dt>
+                                            <dd>{cd.lastName}&ensp;{cd.firstName}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>氏名（フリガナ）</dt>
+                                            <dd>{cd.lastNameKana}&ensp;{cd.firstNameKana}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>部署</dt>
+                                            <dd>{cd.department}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>役職</dt>
+                                            <dd>{cd.title}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>メールアドレス</dt>
+                                            <dd>{cd.email}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>電話番号</dt>
+                                            <dd>{cd.phone}</dd>
+                                        </div>
+                                        <div class="section__definition-list">
+                                            <dt>携帯番号</dt>
+                                            <dd>{cd.mobilePhone}</dd>
+                                        </div>
+                                        <!-- <div class="section__definition-list">
+                                            <dt class = "aligntop">利用するサービス</dt>
+                                            <div class="form-item__wrapper _tell padtop">
+                                                <template if:true={isFDPShow}>
+                                                    <div class="checkbox-wrapper">
+                                                        <label class="label-box" for="1"><input class="input-checkbox" type="checkbox" name="baseService1"
+                                                        disabled checked>
+                                                        <a href="javascript:void(0);" target="_blank">
+                                                            基本サービス（三菱ふそう_ショップ）
+                                                        </a></label>
+                                                    </div>
+                                                </template>
+                                                <template if:true={vehicleShow}>
+                                                    <div class="checkbox-wrapper">
+                                                        <label class="label-box" for="1"><input class="input-checkbox" type="checkbox" name="vehiclereservation1"
+                                                        disabled checked={vehiclereservation}>
+                                                        <a href="javascript:void(0);" target="_blank">
+                                                            車検・入庫予約
+                                                        </a></label>
+                                                    </div>
+                                                </template>
+                                                <div class="checkbox-wrapper">
+                                                    <label class="label-box" for="1"><input class="input-checkbox" type="checkbox" name="requestbook1"
+                                                    disabled checked={requestbook}>
+                                                    <a href="javascript:void(0);" target="_blank">
+                                                        部整月次請求書（電子版）
+                                                    </a></label>
+                                                </div>
+                                                <template if:true={isFDPShow}>
+                                                    <div class="checkbox-wrapper">
+                                                        <label >※基本サービス（三菱ふそう_ショップ）は、すべての会員がご利用可能です。</label>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </div> -->
+
+                                    </dl>
+                                </template>
+                            </div>
+
+                            <!-- button edit and change administrator -->
+                            <div class="step2-btns">
+                                <button class="prev-btn">管理者変更</button>
+                                <button class="prev-btn">編集する</button>
+                            </div>
+
+                            <!-- Time Selection -->
+                            <!-- <h3 class="profile-section__title _second">アンケート</h3> -->
+                            <fieldset class="form-item _time-wrapper">
+                                <label class="form-label">
+                                    <span class="label-title">アンケート</span>
+                                    <br>
+                                    <span class="label-body">ご連絡の取りやすい時間帯
+                                    </span>
+                                </label>
+                                <div class="select-time__block">
+                                    <div class="select-time__list-wrapper">
+                                        <label class="time-label-text" for="time">平日</label>
+                                        <div class="select-time__block__list">
+                                            <div class="select-time__wrapper">
+                                                <select class="select-time" name="workdayStart" onchange={handleTimeSelection}>
+                                                    <option value="" disabled></option>
+                                                    <template for:each={options} for:item="op">
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                            <span>時</span>
+                                        </div>
+                                        <span>〜</span>
+                                        <div class="select-time__block__list _right">
+                                            <div class="select-time__wrapper">
+                                                <select class="select-time" name="workdayEnd" onchange={handleTimeSelection}>
+                                                    <option value="" disabled></option>
+                                                    <template for:each={options} for:item="op">
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                            <span>時</span>
+                                        </div>
+                                    </div>
+                                    <div class="select-time__list-wrapper">
+                                        <label class="time-label-text" for="time">土日祝</label>
+                                        <div class="select-time__block__list">
+                                            <div class="select-time__wrapper">
+                                                <select class="select-time" name="holidayStart" onchange={handleTimeSelection}>
+                                                    <option value="" disabled></option>
+                                                    <template for:each={options} for:item="op">
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                            <span>時</span>
+                                        </div>
+                                        <span>〜</span>
+                                        <div class="select-time__block__list _right">
+                                            <div class="select-time__wrapper">
+                                                <select class="select-time" name="holidayEnd" onchange={handleTimeSelection}>
+                                                    <option value="" disabled></option>
+                                                    <template for:each={options} for:item="op">
+                                                        <option key={op.value} value={op.value}>{op.label}</option>
+                                                    </template>
+                                                </select>
+                                            </div>
+                                            <span>時</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- Checkbox Section -->
+                            <!-- <fieldset class="form-item form-item--checkbox">
+                                <label class="form-label" for="">FUSOからのご案内</label>
+                                <div class="checkbox-block">
+                                    <ul class="checkbox-block__list">
+                                        <li class="checkbox-block__list-item">
+                                            <label class="label-box" for="1">
+                                                <input class="input-checkbox" type="checkbox" name="isNotReceiveByPhone" onchange={handleCheckboxChange} value="1">
+                                                電話でのご案内を希望しない
+                                            </label>
+                                        </li>
+                                        <li class="checkbox-block__list-item">
+                                            <label class="label-box" for="2">
+                                                <input class="input-checkbox" type="checkbox" name="isNotReceiveByPostcard" onchange={handleCheckboxChange} value="1">
+                                                ハガキでのご案内を希望しない
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </fieldset> -->
+                            <!-- Button Section -->
+                            <div class="button__wrapper">
+                                <button class="return_btn--m" onclick={navigateToHome}>TOPページへ戻る</button>
+                                <button class="primary_btn--m disabled" onclick={saveClick} name="saveButton">保存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

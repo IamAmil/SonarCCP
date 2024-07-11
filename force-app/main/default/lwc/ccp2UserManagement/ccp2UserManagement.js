@@ -14,7 +14,7 @@ import getbranchdetails from "@salesforce/apex/CCP2_userData.UnAssociatedBranch"
 import branchContactAdd from "@salesforce/apex/CCP2_userController.branchContactAdd";
 import branchContactDelete from "@salesforce/apex/CCP2_userController.branchContactDelete";
 
-import updatepermission from "@salesforce/apex/CCP2_UpdatePermissionAssignment.createAndAssociateBranch";
+import updatepermission from "@salesforce/apex/CCP2_userController.createAndAssociateBranch";
 import branchdetails from "@salesforce/apex/CCP2_userData.userBranchDtl";
 
 import CCP2_MembershipManagement from "@salesforce/label/c.CCP2_MembershipManagement";
@@ -511,6 +511,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleReturnClick() {
+    window.scrollTo(0,0);
     this.showUserList = true;
     this.showUserDetails = false;
     this.showEditUserDetails = false;
@@ -522,6 +523,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleEditChange() {
+    window.scrollTo(0,0);
     this.showUserList = false;
     this.showUserDetails = false;
     this.showEditUserDetails = true;
@@ -628,6 +630,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleYes() {
+    window.scrollTo(0,0);
     this.deleteUser(this.selectedUserId);
     this.getAllUser();
     this.showDeleteScreen = true;
@@ -723,6 +726,7 @@ export default class Ccp2UserManagement extends LightningElement {
           this.showEditUserDetails = false;
           this.userDetailsLoader = true;
           this.showUserDetails = true;
+          window.scrollTo(0,0);
           await this.updateUser(filteredData);
           await this.updateUserServices(filteredCheck);
           await this.branchdeleteAdd();

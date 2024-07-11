@@ -213,7 +213,7 @@ public with sharing class CCP2_userData {
         return vehicle;
     }
     
-    @AuraEnabled(cacheable=true)
+    /*@AuraEnabled(cacheable=true)
     public static List<CCP2_Branch__c> BranchDetails(Id branchId)
     {
         //List<CCP2_Branch__c> branch;
@@ -227,7 +227,7 @@ public with sharing class CCP2_userData {
        
         //System.debug('branchDetails:'+branchDetails);
         return branchDetails;
-    }
+    }*/
 @AuraEnabled(cacheable=true)
 public static Map<String, Object> NewBranchDetails(Id branchId) {
     // Assuming accId is hardcoded for this example
@@ -530,7 +530,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
         return contactBranchDetail;
     }
     
-    @AuraEnabled(cacheable=true)
+    /*@AuraEnabled(cacheable=true)
     public static List<AggregateResult> BranchVehicleCount() {
     //Id accId = '001Io000003ITP2IAO';  
 	Id accId=accId();
@@ -559,9 +559,9 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
     //System.debug(debugInfo);
     //return debugInfo;
      
-    System.debug(vehicleCounts);
+   /* System.debug(vehicleCounts);
     return vehicleCounts;
-	}
+	}*/
 
     @AuraEnabled
 	public static List<VehicleInfo__c> getVehicleInfo(List<String> CarModel, List<String> brandModel) {

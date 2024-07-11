@@ -638,6 +638,14 @@ img {
 
 @media (max-width: 768px) {
 
+    .top{
+        height: 60vh;
+    }
+
+    .center-content{
+        margin-top: -42.5vh;
+    }
+
     .form_container {
         width: 90%;
         padding: 20px;
@@ -773,6 +781,24 @@ img {
 }
 
 @media (max-width: 820px) and (min-width: 769px){
+
+    .main{
+        width: 100vw;
+        margin: -16px 0 0 -16px;
+    }
+    .bottom{
+        width: 100vw;
+    }
+
+    .top{
+        height: 40vh;
+    }
+    .center-content{
+        width: 88%;
+        right: 1vh;
+        margin-top: -32.5vh;
+    }
+
     .btn {
         width: 130px; 
         height: 40px;

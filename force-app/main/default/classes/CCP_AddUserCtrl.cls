@@ -109,14 +109,7 @@ public with sharing class CCP_AddUserCtrl {
         Contact contact = new Contact();
         // These variables are required for the page
         contact.AccountId = accountId;
-		//contact.Branch__c = contactInputData.branch;
-		//contact.Basic_Service_EC__c = contactInputData.basicservice;
-		//contact.E_invoice__c = contactInputData.invoice;
-		//contact.Financial_service__c = contactInputData.financialservice;
-		//contact.Online_maintenance_booking__c = contactInputData.onlinemaintenancebooking;
-		//contact.Vehicle_management__c = contactInputData.vehiclemanagement;
-		//contact.Cost_management__c = contactInputData.costmanagement;
-        contact.LastName = contactInputData.lastName;
+		contact.LastName = contactInputData.lastName;
         contact.FirstName = contactInputData.firstName;
         contact.lastNameKana__c = contactInputData.lastNameKana;
         contact.firstNameKana__c = contactInputData.firstNameKana;
@@ -144,7 +137,7 @@ public with sharing class CCP_AddUserCtrl {
             List<Contact> contactList = [SELECT Id, Email FROM Contact WHERE Email = :contactInputData.email];
             if(contactList.size() == 1){
                 contact.Id = contactList[0].Id;
-                //update contact;
+                update contact;
             } else{
                 insert contact;
             }
@@ -165,8 +158,7 @@ public with sharing class CCP_AddUserCtrl {
     * @return {userId} - return the id of the newly created User
     */
     @AuraEnabled
-    public static Id createUser(Id contactId, String accountCode, String contactInputDataStr,Boolean vrChecked, Boolean rbChecked, 
-	//Boolean bsChecked, Boolean eiChecked, 
+    public static Id createUser(Id contactId, String accountCode, String contactInputDataStr,Boolean vrChecked, Boolean rbChecked,
 	Boolean fsChecked, Boolean ombChecked, Boolean vmChecked, Boolean cmChecked){
         Id userId = CCP_UserUtil.createCustomerCommonUser(contactId, accountCode, contactInputDataStr);
         // if(userId != null){
@@ -174,7 +166,6 @@ public with sharing class CCP_AddUserCtrl {
         //     sendEmailToUser(userId, contactId);
         // }
         setPermissionSetforUser(userId,vrChecked,rbChecked,
-		//bsChecked,eiChecked,
 		fsChecked,ombChecked,vmChecked,cmChecked);
         return userId;
     }
@@ -186,9 +177,7 @@ public with sharing class CCP_AddUserCtrl {
     * @param {Boolean} rbChecked - The requestbook service
     */
     @AuraEnabled
-    public static void setPermissionSetforUser(Id userId, Boolean vrChecked, Boolean rbChecked, 
-	//Boolean bsChecked, Boolean eiChecked, 
-	Boolean fsChecked, Boolean ombChecked, Boolean vmChecked, Boolean cmChecked){
+    public static void setPermissionSetforUser(Id userId, Boolean vrChecked, Boolean rbChecked,Boolean fsChecked, Boolean ombChecked, Boolean vmChecked, Boolean cmChecked){
         try{
             if(vrChecked){
                 PermissionSetAssignment vsa = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.DIRECTBOOKINGID, AssigneeId = userId);
@@ -198,18 +187,10 @@ public with sharing class CCP_AddUserCtrl {
                 PermissionSetAssignment psa = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.EINVOICEID, AssigneeId = userId);
                 insert psa;
             }
-			/*if(eiChecked){
-               PermissionSetAssignment eia = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.EINVOICENEWID, AssigneeId = userId);
-                insert eia;
-            }*/
 			if(fsChecked){
                 PermissionSetAssignment fsa = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.FINANCIALSERVICEID, AssigneeId = userId);
                 insert fsa;
             }
-			/*if(bsChecked){
-                PermissionSetAssignment bsa = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.BASICSERVICEID, AssigneeId = userId);
-                insert bsa;
-            }*/
 			if(cmChecked){
                 PermissionSetAssignment cma = new PermissionSetAssignment(PermissionSetId = CCP_CommonConstants.COSTMANAGEMENTID, AssigneeId = userId);
                 insert cma;
@@ -375,13 +356,10 @@ public with sharing class CCP_AddUserCtrl {
     public static Boolean checkUserNumber(){
         try{
             Id conId = getContactId();
-            //Id conId='003Io000005BTj0IAG';
             String code = [SELECT Id, Account.siebelAccountCode__c FROM Contact WHERE Id = :conId LIMIT 1].Account.siebelAccountCode__c;
             Integer count = [SELECT count()  FROM Contact WHERE Account.siebelAccountCode__c = :code AND ccpUseFlag__c = true ];
             System.debug('count'+count);
             if(count > 2){
-               
-                System.debug('msg i am here');
                  return false;
             }
             return true;

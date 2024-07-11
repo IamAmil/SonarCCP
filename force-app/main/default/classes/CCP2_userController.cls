@@ -51,7 +51,7 @@ public with sharing class CCP2_userController {
 
         Contact contactToUpdate;
         try {
-            contactToUpdate = [SELECT Id, FirstName, LastName, Email, Title, Employee_Code__c, MobilePhone, Phone, firstNameKana__c, lastNameKana__c, Branch__c, Department
+            contactToUpdate = [SELECT Id, FirstName, LastName, Email, Title, Employee_Code__c, MobilePhone, Phone, firstNameKana__c, lastNameKana__c, Department
                                FROM Contact 
                                WHERE Id = :contactId 
                                LIMIT 1];
@@ -82,9 +82,9 @@ public with sharing class CCP2_userController {
         if (updatedFieldMap.containsKey('firstNameKana__c')) {
             contactToUpdate.firstNameKana__c = updatedFieldMap.get('firstNameKana__c');
         }
-        if (updatedFieldMap.containsKey('Branch__c')) {
+        /*if (updatedFieldMap.containsKey('Branch__c')) {
             contactToUpdate.Branch__c = updatedFieldMap.get('Branch__c');
-        }
+        }*/
         if (updatedFieldMap.containsKey('Title')) {
             contactToUpdate.Title = updatedFieldMap.get('Title');
         }

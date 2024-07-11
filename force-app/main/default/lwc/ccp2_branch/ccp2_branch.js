@@ -55,17 +55,6 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         }
     }
 
-    // @wire(BranchList)
-    // wiredBranches({ data,error }) {
-    //     if (data) {
-    //         console.log("hello");
-    //         console.log('Branch List', data)
-    //         this.branches = data;
-    //     } else if (error) {
-    //         console.error('Error fetching branches:', error);
-    //     }
-    // }
-
     
     handleBranchClick(event) {
         const branchId = event.target.dataset.idd;
@@ -85,6 +74,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.branchId = event.currentTarget.dataset.id;
         console.log("branchId",this.branchId);
         this.branchA = true;
+        window.scrollTo(0, 0);
         this.branch = false;
     }
     
@@ -94,6 +84,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         console.log("working");
     }
 
+    //@future reference
 
     // navigateToNewBranch() {
     //     this[NavigationMixin.Navigate]({
@@ -110,5 +101,12 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         let addBranchUrl = baseUrl.split("/s/")[0] + "/s/";;
         window.location.href = addBranchUrl;
     }
+    }
+    goToCreateBranch(){
+        let baseUrl = window.location.href;
+            if(baseUrl.indexOf("/s/") !== -1) {
+            let addBranchUrl = baseUrl.split("/s/")[0] + "/s/createbranch";
+            window.location.href = addBranchUrl;
+        }
     }
 }

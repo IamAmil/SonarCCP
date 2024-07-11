@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "63e8b9fe-75b1-4a68-b8a6-0e3caa3d3c91",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "createbranch__c",
+  "id" : "9ddc8a95-1277-4c7c-95b2-cfcaf97abf0d",
+  "label" : "createBranch",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-createbranch",
+  "type" : "route",
+  "urlPrefix" : "createbranch"
+}

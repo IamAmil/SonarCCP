@@ -5,7 +5,7 @@
         <label>Access Control</label>
         <locationX>308</locationX>
         <locationY>492</locationY>
-        <actionName>CCP2_callPermissionSet</actionName>
+        <actionName>CCP2_userController</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -14,13 +14,13 @@
                 <elementReference>UserId</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>CCP2_callPermissionSet</nameSegment>
+        <nameSegment>CCP2_userController</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <environments>Default</environments>
-    <interviewLabel>ContactFlagUpdate {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>ContactFlagUpdate</label>
+    <interviewLabel>CCP2_ContactUpdateFlow2 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CCP2_ContactUpdateFlow2</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -54,7 +54,7 @@
             <field>AssigneeId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$User.Id</elementReference>
+                <elementReference>$Record.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -97,18 +97,14 @@
         <object>User</object>
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
-            <name>Run_Asynchrously</name>
             <connector>
                 <targetReference>Update_Record</targetReference>
             </connector>
-            <label>Run Asynchrously</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Minutes</offsetUnit>
-            <timeSource>RecordTriggerEvent</timeSource>
+            <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <variables>
         <name>Contact_Id</name>
         <dataType>String</dataType>

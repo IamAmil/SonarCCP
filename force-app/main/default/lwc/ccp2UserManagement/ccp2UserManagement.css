@@ -269,7 +269,6 @@ input {
   border-radius: 8px;
   width: 190px;
   height: 40px;
-  padding-left: 22px;
   background-color: #ffffff;
  }
 .Inputs1:hover{
@@ -281,7 +280,7 @@ input {
   background: white;
   border: 1px solid #D9D9D9;
   border-radius: 8px;
-  width: 189px; 
+  width: 100%; 
   max-height: 200px; 
   overflow-y: auto;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -472,10 +471,10 @@ button.btn-yes:hover {
   border-radius: 10px;
   width: 176px;
   height: 40px;
-  margin-left: 44%;
   text-align: center;
   align-content: center;
   cursor: pointer;
+  margin-bottom: 40px;
 }
 
 .btn-top:hover{
@@ -603,6 +602,8 @@ button.btn-no:hover {
 .delete-page{
   display:flex;
   flex-direction: column;
+  align-items:center;
+  justify-content: space-between;
 }
 
 .delete-text{
@@ -640,11 +641,12 @@ button.btn-no:hover {
 
 
 .branchrecords{
-  width: 50%;
-  max-width: 216px;
+  width: 100%;
+  /* max-width: 216px; */
   min-height: 50px;
   max-height: 232px;
   border-radius: 10px;
+  background-color:white;
   border: 1px solid lightgrey;
   --slds-c-icon-color-foreground-default: #E10202;
   padding: 2%;
@@ -689,36 +691,22 @@ button.btn-no:hover {
   font-size: 14px;
   margin-bottom: 2px;
   font-family: Helvetica, Arial, sans-serif;
-  width: 60%;
-  
+  width: 100%;
+  position: relative;
 }
 
 .icon{
-  padding-left: 40px; /* Adjust padding to make space for the icon */
   background: var(--dropdown-icon) no-repeat;
   background-color: #ffffff;
-  background-position: 160px 50%; /* Adjust position as needed */
+  background-position: 94% 50%; /* Adjust position as needed */
   background-size: 20px; /* Adjust size as needed */
 }
 
-/* @media (max-width: 768px) {
-  .main-content {
-      padding: 50px 8% !important; /* Custom padding for smaller screens 
+@media (max-width: 1024px) {
+  .top {
+    height: 35vh;
+  }
+  .center-content {
+    margin-top: -26.5vh;
   }
 }
-
-/* Media query for even smaller screens (example for mobile devices) 
-@media (max-width: 480px) {
-  .main-content {
-      padding: 30px 5% !important; /* Custom padding for even smaller screens 
-  }
-}
-
-/* Media query for very small screens (example for small mobile devices) 
-@media (max-width: 320px) {
-  .main-content {
-      padding: 20px 3% !important; /* Custom padding for very small screens 
-  }
-} */
-
-/* CSS For Combobox */

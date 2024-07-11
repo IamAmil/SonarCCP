@@ -6,7 +6,6 @@ import truckcancel from '@salesforce/resourceUrl/truckcancel1';
 import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
 import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
 import userData from '@salesforce/apex/CCP2_userData.userDtl';
-import ccpoptout from '@salesforce/apex/CCP_Inquiry.CCPOptOut';
 import USER_ID from '@salesforce/user/Id';
 import CONTACT_ID_FIELD from '@salesforce/schema/User.ContactId';
 import USER_ACCOUNT_ID_FIELD from '@salesforce/schema/User.AccountId';
@@ -14,7 +13,6 @@ import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
 import ACCOUNT_TYPE_FIELD from '@salesforce/schema/Account.Type';
 import deleteadmin from '@salesforce/apex/CCP2_userController.deleteUser';
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
-// import ACCOUNT_NAME from '@salesforce/schema/User.Account.Name'
 import CCP2_Withdraw from '@salesforce/label/c.CCP2_Withdraw';
 import CCP2_DiscontinueMembership from '@salesforce/label/c.CCP2_DiscontinueMembership';
 import CCP2_No from '@salesforce/label/c.CCP2_No';
@@ -261,6 +259,7 @@ export default class Ccp2CancelMembership extends LightningElement {
 
 
     handleYes() {
+        window.scrollTo(0,0);
         this.showstep2 = false;
         this.showconfModal = false;
         this.showstep3 = true;
@@ -268,30 +267,30 @@ export default class Ccp2CancelMembership extends LightningElement {
        // const ne34 = this.userDetailData.account.name;
         // console.log("acc name",this.selectedReasonMessage);
         // (ccpoptout,{inquiryType: 'CCP opt out ticket',description: this.selectedReasonMessage,accountName: this.accountName,accountId: this.accountId})
-        try {
-            // Assuming this is an asynchronous call with separate parameters
-            ccpoptout({
-                inquiryType: 'CCP opt out ticket',
-                description: this.selectedReasonMessage,
-                accountName: this.accountName,
-                accountId: this.accountId
-            })
-            .then(result => {
-                // Handle success
-                console.log('Operation successful:', result);
-            })
-            .catch(error => {
-                // Handle error
-                console.error('Error occurred:', error);
-            });
-        } catch (error) {
-            // Handle any unexpected errors
-            console.error('Unexpected error:', error);
-        }
+        // try {
+        //     // Assuming this is an asynchronous call with separate parameters
+        //     ccpoptout({
+        //         inquiryType: 'CCP opt out ticket',
+        //         description: this.selectedReasonMessage,
+        //         accountName: this.accountName,
+        //         accountId: this.accountId
+        //     })
+        //     .then(result => {
+        //         // Handle success
+        //         console.log('Operation successful:', result);
+        //     })
+        //     .catch(error => {
+        //         // Handle error
+        //         console.error('Error occurred:', error);
+        //     });
+        // } catch (error) {
+        //     // Handle any unexpected errors
+        //     console.error('Unexpected error:', error);
+        // }
     }
 
     handleYesmodal2(){
-
+        window.scrollTo(0,0);
         this.showServiceModal = false;
         this.hidebasicInfo = false;
         this.showConformpage = true;
@@ -320,7 +319,8 @@ export default class Ccp2CancelMembership extends LightningElement {
     }
 
     handlestep1(){
-        console.log("selected reason message",this.selectedReasonMessage)
+        // console.log("selected reason message",this.selectedReasonMessage)
+        window.scrollTo(0,0);
         if (this.selectedReason == '') {
             this.dispatchEvent(
                   new ShowToastEvent({
@@ -370,6 +370,7 @@ export default class Ccp2CancelMembership extends LightningElement {
     }
 
     handlePrevstep2(){
+        window.scrollTo(0,0);
         this.showstep1 = true;
         this.selectedReason = '';
         this.selectedReasonMessage = '';
