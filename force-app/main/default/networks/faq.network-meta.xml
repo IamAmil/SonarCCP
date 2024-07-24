@@ -7,6 +7,7 @@
     <disableReputationRecordConversations>false</disableReputationRecordConversations>
     <emailSenderAddress>pwc.hatada@daimlertruck.com</emailSenderAddress>
     <emailSenderName>faq</emailSenderName>
+    <embeddedLoginEnabled>true</embeddedLoginEnabled>
     <enableApexCDNCaching>false</enableApexCDNCaching>
     <enableCustomVFErrorPageOverrides>false</enableCustomVFErrorPageOverrides>
     <enableDirectMessages>true</enableDirectMessages>
@@ -35,7 +36,7 @@
     <headlessRegistrationTemplate>unfiled$public/CommunityHeadlessRegistrationTemplate</headlessRegistrationTemplate>
     <maxFileSizeKb>51200</maxFileSizeKb>
     <networkMemberGroups>
-        <profile>Admin</profile>
+        <profile>admin</profile>
         <profile>fuso customer community plus login user</profile>
     </networkMemberGroups>
     <networkPageOverrides>

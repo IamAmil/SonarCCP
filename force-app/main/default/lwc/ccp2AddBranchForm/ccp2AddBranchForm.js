@@ -113,11 +113,28 @@ export default class Ccp2AddBranchForm extends LightningElement {
     @track users = []; // Array to hold users for combobox
     @track moreusers = [];// Selected user Id
     @track selectedUserId;
+    @track showCancelModal = false;
+    branchError = false;
+    MunicipalitiesError = false;
+    prefecturesError = false;
+    streetError = false;
+    branchErrorText;
+    streetErrorText;
+    prefecturesErrorText;
+    MunicipalitiesErrorText;
+    buildingErrorText;
 
     @track isNextDisabled = true;
     searchTerm = '';
     outsideClickHandlerAdded = false;
+    @track postalCode = '';
+    @track prefectures = '';
+    @track municipalities = '';
+    @track streetAddress = '';
+    @track buildingName = '';
 
+    // Initialize combinedAddress
+    @track combinedAddress = '';
   
     
     connectedCallback() {
@@ -308,6 +325,13 @@ export default class Ccp2AddBranchForm extends LightningElement {
     //     }
     // }
     handleNext() {
+        const MAX_CHARS = 10;
+
+        // let branchList = this.template.querySelector('[name="branchss"]');
+        // let prefectureList = this.template.querySelector('[name="prefucturesss"]');
+        // let municipalitiesList = this.template.querySelector('[name="municipalitiesss"]');
+        // let buildingList = this.template.querySelector('[name="buildingsss"]');
+
         try {
             let isValid = true;
             
@@ -316,7 +340,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
                     this.dispatchEvent(
                         new ShowToastEvent({
                             //title: 'Error',
-                            message: '勤務地名を入力してください',
+                            message: '所属名を入力してください',
                             variant: 'error',
                         })
                     );
@@ -335,7 +359,46 @@ export default class Ccp2AddBranchForm extends LightningElement {
                     );
                     // this.showToast('Error', 'Please enter a valid 10-digit phone number.', 'error');
                     return false; // Validation failed
-                }
+                }// Validate branchName
+                    // if (this.branchName.length > 24) {
+                    //     branchList.className = "Inputs1 hello-class  form-input _error slds-form-element__control slds-input";
+                    //     this.branchError = true;
+                    //     this.branchErrorText = "24桁以内に入力してください";
+                    //     return false; // Exit validation if there's an error
+                    // } else {
+                    //     this.branchErrorText = '';
+                    //     this.branchError = false;
+                    //     // Reset or modify classes as needed for valid state
+                    // }
+
+                    // Validate prefectures
+                    // if (this.prefectures.length > MAX_CHARS) {
+                    //     prefectureList.className = "Inputs1 hello-class  form-input _error slds-form-element__control slds-input";
+                    //     this.prefecturesError = true;
+                    //     console.log("inside pre error");
+                    //     this.prefecturesErrorText = "24桁以内に入力してください";
+                    //     return false; // Exit validation if there's an error
+                    // } else {
+                    //     this.prefecturesErrorText = '';
+                    //     this.prefecturesError = false;
+                    //     // Reset or modify classes as needed for valid state
+                    // }
+
+                //   if (this.municipalities.length >24) {
+                  
+                //     municipalitiesList.className = "Inputs1 hello-class  form-input _error slds-form-element__control slds-input";
+                //     this.MunicipalitiesError = true;
+                //     this.MunicipalitiesErrorText = "24桁以内に入力してください";
+                //     return false;
+                //   }
+                //   else if(this.municipalities.length < 24){
+                //     this.MunicipalitiesErrorText = '';
+                //     this.MunicipalitiesError = false;
+                //     // branchList.className = "Inputs1 icon slds-form-element__control slds-input";
+                //   }
+                
+                
+
 
             }
     
@@ -374,7 +437,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
     handleInput(event){
         const input = event.target;
-        input.value = input.value.replace(/\D/g, '').slice(0, 10); 
+        input.value = input.value.replace(/\D/g, '').slice(0, 16); 
         this.validatePhone(input.value);
     }
  
@@ -392,12 +455,16 @@ export default class Ccp2AddBranchForm extends LightningElement {
         vehicleIds: vehicleIds,
         contactIds: contactIds,
         accId: this.accountId,
-        address: this.address,
         branchName: this.branchName,
         telephoneNo: this.phone,
         cellPhoneNo: this.fax,
         companyName: this.AccountName,
         // branchNumber: '0003'
+        postalCode: this.postalCode,
+        Prefecture: this.prefectures,
+        municipalities: this.municipalities,
+        streetAddress: this.streetAddress,
+        BuldingName: this.buildingName
     };
     console.log(JSON.stringify(params));
 
@@ -406,8 +473,8 @@ export default class Ccp2AddBranchForm extends LightningElement {
             console.log('Record inserted successfully:', result);
             this.dispatchEvent(
                 new ShowToastEvent({
-                    //title: 'Success',
-                    message: '新規勤務地が追加されました。',
+                    //title: 'Success', Branch is added Successfully
+                    message: '親所属が登録完了しました。',
                     variant: 'success',
                 })
             );
@@ -457,10 +524,10 @@ export default class Ccp2AddBranchForm extends LightningElement {
     // }
     handlePhoneChange(event) {
         const input = event.target;
-        console.log("212wsw",input);
+        // console.log("212wsw",input);
         const cleanedPhone = input.value.replace(/\D/g, '').slice(0, 10); // Clean input to allow only digits and limit to 10 characters
         this.phone = cleanedPhone; // Update phone number in component state
-        console.log("212wsw",cleanedPhone);
+        // console.log("212wsw",cleanedPhone);
         if(cleanedPhone !== ''){
         this.validatePhone(); // Validate the cleaned phone number
         }
@@ -495,7 +562,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
     goToMain(){
         let baseUrl = window.location.href;
     if(baseUrl.indexOf("/s/") !== -1) {
-        let addBranchUrl = baseUrl.split("/s/")[0] + "/s/addbranch";
+        let addBranchUrl = baseUrl.split("/s/")[0] + "/s/branchmangement";
         window.location.href = addBranchUrl;
     }
     }
@@ -539,6 +606,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
 //             this.template.querySelector('.phone').classList.add('error'); 
 //         }
 //     }
+
 
 validatePhone() {
     const phoneRegex = /^\d{10}$/;
@@ -614,4 +682,40 @@ validatePhone() {
     }
 
     
+
+    // Handle input change event
+    handleInputChange(event) {
+        const field = event.target.dataset.field;
+        if (field === 'postalCode') {
+            this.postalCode = event.target.value.trim();
+        } else if (field === 'prefectures') {
+            this.prefectures = event.target.value.trim();
+        } else if (field === 'municipalities') {
+            this.municipalities = event.target.value.trim();
+        } else if (field === 'streetAddress') {
+            this.streetAddress = event.target.value.trim();
+        } else if (field === 'buildingName') {
+            this.buildingName = event.target.value.trim();
+        }
+
+        // Update combined address
+        this.updateCombinedAddress();
+    }
+
+    // Update combined address method
+    updateCombinedAddress() {
+        this.combinedAddress = `${this.postalCode} ${this.prefectures} ${this.municipalities} ${this.streetAddress} ${this.buildingName}`;
+    }
+    handleCancel(){
+        this.showCancelModal = true;
+    }
+    handleNo(){
+        this.showCancelModal = false;
+        this.addbranchpage = true;
+    }
+    handleYes(){
+        this.showCancelModal = false;
+        this.addbranchpage = false;
+        this.callMain = true;
+    }
 }

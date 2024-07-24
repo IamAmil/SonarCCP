@@ -155,7 +155,8 @@ input {
   height: 100%;
   display: flex;
   flex-direction: column;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #b1a8a8;
+  border-radius: 8px;
   padding: 25px 25px 25px 20px;
   position: relative;
 }
@@ -246,7 +247,9 @@ input {
   border: #8f98aa;
   border-radius: 10px;
 }
-
+.custom-modal-container2{
+  margin-left: 32%;
+}
 
 .btn {
   display: flex;
@@ -256,7 +259,7 @@ input {
   width: 180px;
   height: 40px;
   background-color: white;
-  border: 1px solid #8f98aa;
+  /* border: 1px solid #8f98aa; */
   border-radius: 10px;
   cursor: pointer;
   transition:
@@ -305,7 +308,7 @@ input {
   justify-content: center;
   width: 180px;
   height: 40px;
-  background-color: #f4f4f4;
+  background-color: #e4e3e3;
   border-radius: 10px;
   transition:
     background-color 0.3s ease,
@@ -339,6 +342,7 @@ input {
   cursor: pointer;
   caret-color: red;
   align-items: center;
+  font-size: 16px;
 }
 
 
@@ -357,15 +361,15 @@ input {
 
  .checkboxContainer{
     display: flex;
-    gap: 14px;
+    gap: 7px;
     margin-bottom: 10px;
     align-items:center;
  }
 
  
 .content-modal{
-    height: 7rem;
-    margin: 40px 30px;
+    height: 8rem;
+    margin: 7px 9px;
 }
 .content-modal h1{
     margin-top: 10%;
@@ -373,6 +377,7 @@ input {
     font-size: medium;
     font-weight: 500;
     font-family: 'Noto Sans JP', sans-serif;
+    margin-bottom: 7%;
 
 }
 .content-modal .btn-modal{
@@ -553,6 +558,13 @@ button.btn-no:hover {
   width: 360px !important;
   display: flex !important;
   justify-content: space-between !important;
+  margin-top: 4px;
+}
+.head-save-branch{
+  width: 285px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+
 }
 
 .head-save-cnt {
@@ -610,7 +622,7 @@ button.btn-no:hover {
   text-align: center;
   font-size: medium;
   margin-top: 10%;
-  margin-bottom: 20%;
+  margin-bottom: 17%;
 }
 
 
@@ -702,6 +714,54 @@ button.btn-no:hover {
   background-size: 20px; /* Adjust size as needed */
 }
 
+.button2{
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+}
+.btn2:hover{
+  background-color: white;
+  border: 1px solid grey;
+  cursor: pointer;
+  color: #0A0A0A;
+}
+.btn2{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 180px;
+  height: 40px;
+  margin-top: 10px;
+  background-color:  #ededed;
+  color: black;
+  transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.toedit2{
+   color:black;
+  transition: color 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+.btn2:hover .toedit2 {
+  color: #8f98aa;
+}
+.form-footer {
+  /* border: #007bff solid 1px; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  /* margin-left: 160px; */
+  gap: 12px; 
+}
+
+
+
+
 @media (max-width: 1024px) {
   .top {
     height: 35vh;
@@ -709,4 +769,149 @@ button.btn-no:hover {
   .center-content {
     margin-top: -26.5vh;
   }
+}
+
+.buttonYes{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  margin-right: 60px;
+
+}
+/* .btnYes:hover{
+  background-color: white;
+  border: 1px solid #e10202;
+  cursor: pointer;
+  color: #0A0A0A;
+} */
+.btnYes{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 130px;
+  height: 35px;
+  border-radius: 8px;
+  background-color: #e10202;
+  color: white;
+  transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.toeditYes{
+  color: rgb(255, 255, 255); 
+ transition: color 0.3s ease;
+ font-size: 14px;
+ font-family: Helvetica, Arial, sans-serif;
+}
+/* .btnYes:hover .toeditYes {
+ color: #e10202;
+} */
+
+.button2No{
+  width: 100%;
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+}
+/* .btn2No:hover{
+  background-color: white;
+  border: 1px solid grey;
+  cursor: pointer;
+  color: #0A0A0A;
+} */
+.btn2No{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  width: 130px;
+  height: 35px;
+  background-color: #ededed;
+  color: black;
+  transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+.toedit2No{
+   color:black;
+   font-size: 14px;
+  transition: color 0.3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+/* .btn2No:hover .toedit2No {
+  color: #8f98aa;
+} */
+
+.modal-title{
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+}
+/* .btn-modal {
+  bottom: 0;
+  left: 16%;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 10px;
+  position: absolute;
+
+} */
+.form-footer-modal{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 40px;
+      /* width: 400px;
+      margin-left: 50px;
+      margin-top: 80px; */
+}
+.custom-modal-content-cancel {
+  padding: 20px;
+  /* border: 1px dashed #ccc; */
+  background-color: white;
+  border-radius: 8px;
+  width: 500px; /* Adjust the width as needed */
+  height: 250px;
+
+}
+
+.modal-background-last{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 109; /* Ensure it is on top */
+}
+.modal-window-loader{
+  background-color: rgba(251, 251, 251, 1);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: var(--modal-width, 40%); /* Default width: 50% */
+  height: var(--modal-height, 20%); /* Default height: 50% */
+  max-width: 90%; /* Max width to ensure it fits on screen */
+  max-height: 90%; /* Max height to ensure it fits on screen */
+  overflow: auto; /* Add scroll if content overflows */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.warntxt{
+  font-size: 14px;
+  color: #0A0A0A;
+  font-family: 'Noto Sans JP', sans-serif;
 }

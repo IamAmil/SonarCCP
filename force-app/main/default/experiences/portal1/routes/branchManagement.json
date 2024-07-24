@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "d8ac50a5-755a-4482-9ae1-c8fd204fef8a",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "addBranch__c",
+  "id" : "b8773114-8116-47b5-be9d-f8652445a061",
+  "label" : "Branch Management",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-addbranch",
+  "type" : "route",
+  "urlPrefix" : "branchmangement"
+}

@@ -1,10 +1,10 @@
 import { LightningElement,track,wire } from 'lwc';
-import backgroundImage from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
+import backgroundImage from '@salesforce/resourceUrl/CCP2_Resources';
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord} from 'lightning/uiRecordApi';
-import truckcancel from '@salesforce/resourceUrl/truckcancel1';
-import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
-import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
+// import truckcancel from '@salesforce/resourceUrl/truckcancel1';
+// import truckcancel2 from '@salesforce/resourceUrl/truckcancel2';
+// import truckcancel3 from '@salesforce/resourceUrl/truckcancel3';
 import userData from '@salesforce/apex/CCP2_userData.userDtl';
 import USER_ID from '@salesforce/user/Id';
 import CONTACT_ID_FIELD from '@salesforce/schema/User.ContactId';
@@ -53,7 +53,11 @@ import CCP2_Previous from '@salesforce/label/c.CCP2_Previous';
 import CCP2_TOPPage from '@salesforce/label/c.CCP2_TOPPage';
 import branchdetails from '@salesforce/apex/CCP2_userData.userBranchDtl';
 
-const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
+const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP2_Resources/Common/Main_Background.png';
+
+const truckcancel = backgroundImage + '/CCP2_Resources/Cancelmembership/truckcancel1.png';
+const truckcancel2 = backgroundImage + '/CCP2_Resources/Cancelmembership/truckcancel2.png';
+const truckcancel3 = backgroundImage + '/CCP2_Resources/Cancelmembership/truckcancel3.png';
 
 export default class Ccp2CancelMembership extends LightningElement {
     @track showWithdraw = false;
@@ -102,8 +106,10 @@ export default class Ccp2CancelMembership extends LightningElement {
     truckpic2 = truckcancel2;
     truckpic3 = truckcancel3;
     backgroundImagePC = BACKGROUND_IMAGE_PC;
+    @track showCancelModal = false;
+
     @track branchfromjunction = [];
-    @track hidebasicInfo = true;
+    @track hidebasicInfo = false;
     @track showConformpage = false;
     @track showconfModal = false;
     @track showstep1 = true;
@@ -113,7 +119,9 @@ export default class Ccp2CancelMembership extends LightningElement {
     @track showServiceModal = false;
     @track isInputDisabled = true;
     @track UserDetails = []; 
+
     @track CompanyName = '';
+    @track selectedReasons = []; // Array to store selected reasons
     @track selectedReason = '';  // Initialize with the pre-selected value
     @track otherReason = '';
     @track showOtherInput = false;
@@ -150,6 +158,13 @@ export default class Ccp2CancelMembership extends LightningElement {
         link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
         link.rel = 'stylesheet';
         document.head.appendChild(link);
+
+        let baseUrl = window.location.href;
+        this.basicInfo = baseUrl.split("/s/")[0] + "/s/profile";
+    }
+    onclose(){
+        const closeEvent = new CustomEvent('closemodal');
+        this.dispatchEvent(closeEvent);
     }
 
     checkManagerUser() {
@@ -259,11 +274,11 @@ export default class Ccp2CancelMembership extends LightningElement {
 
 
     handleYes() {
-        window.scrollTo(0,0);
-        this.showstep2 = false;
-        this.showconfModal = false;
-        this.showstep3 = true;
-        this.deleteadmin(this.contactId);
+        // window.scrollTo(0,0);
+        // this.showstep2 = false;
+        // this.showconfModal = false;
+        // this.showstep3 = true;
+        // this.deleteadmin(this.contactId);
        // const ne34 = this.userDetailData.account.name;
         // console.log("acc name",this.selectedReasonMessage);
         // (ccpoptout,{inquiryType: 'CCP opt out ticket',description: this.selectedReasonMessage,accountName: this.accountName,accountId: this.accountId})
@@ -291,11 +306,12 @@ export default class Ccp2CancelMembership extends LightningElement {
 
     handleYesmodal2(){
         window.scrollTo(0,0);
+        const events = new CustomEvent("closem")
+        this.dispatchEvent(events);
         this.showServiceModal = false;
-        this.hidebasicInfo = false;
+        this.showWithdraw = false;
         this.showConformpage = true;
         this.showstep1 = true;
-        
     }
 
     handleNomodal2(){
@@ -318,72 +334,130 @@ export default class Ccp2CancelMembership extends LightningElement {
         
     }
 
-    handlestep1(){
-        // console.log("selected reason message",this.selectedReasonMessage)
-        window.scrollTo(0,0);
-        if (this.selectedReason == '') {
-            this.dispatchEvent(
-                  new ShowToastEvent({
-                    title: "エラー",
-                    message:
-                      "退会理由を選択してください。",
-                    variant: "error"
-                  })
-                );
-                return;
-          }
-        else if(this.selectedReason == 'その他'){
-            if(this.otherReason == ''){
-                this.dispatchEvent(
-                            new ShowToastEvent({
-                              title: "エラー",
-                              message:
-                                "コメント欄に理由を述べてください。",
-                              variant: "error"
-                            })
-                          );
-                return;
-            }
-            else{
-                this.showstep1 = false;
-                this.showstep2 = true;
-                this.selectedReasonMessage = this.selectedReason;
-                if (this.selectedReason === 'その他') {
-                    this.selectedReasonMessage = this.otherReason;
-                    console.log("other reason 2",this.otherReason)
-                }
-          }
-        }
-        else{
-            this.showstep1 = false;
-            this.showstep2 = true;
-            this.selectedReasonMessage = this.selectedReason;
-        }
+    // handlestep1(){
+    //     // console.log("selected reason message",this.selectedReasonMessage)
+    //     window.scrollTo(0,0);
+    //     if (this.selectedReason == '') {
+    //         this.dispatchEvent(
+    //               new ShowToastEvent({
+    //                 title: "エラー",
+    //                 message:
+    //                   "退会理由を選択してください。",
+    //                 variant: "error"
+    //               })
+    //             );
+    //             return;
+    //       }
+    //     else if(this.selectedReason == 'その他'){
+    //         if(this.otherReason == ''){
+    //             this.dispatchEvent(
+    //                         new ShowToastEvent({
+    //                           title: "エラー",
+    //                           message:
+    //                             "コメント欄に理由を述べてください。",
+    //                           variant: "error"
+    //                         })
+    //                       );
+    //             return;
+    //         }
+    //         else{
+    //             this.showstep1 = false;
+    //             this.showstep2 = true;
+    //             this.selectedReasonMessage = this.selectedReason;
+    //             if (this.selectedReason === 'その他') {
+    //                 this.selectedReasonMessage = this.otherReason;
+    //                 console.log("other reason 2",this.otherReason)
+    //             }
+    //       }
+    //     }
+    //     else{
+    //         this.showstep1 = false;
+    //         this.showstep2 = true;
+    //         this.selectedReasonMessage = this.selectedReason;
+    //     }
 
+    // }
+    handlestep1() {
+        window.scrollTo(0, 0);
+    
+        // Check if any reason is selected
+        if (this.selectedReasons.length === 0) {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: "エラー",
+                    message: "退会理由を選択してください。",
+                    variant: "error"
+                })
+            );
+            return;
+        }
+    
+        // Check if 'その他' reason is selected and otherReason is empty
+        if (this.selectedReasons.includes('その他') && this.otherReason.trim() === '') {
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: "エラー",
+                    message: "コメント欄に理由を述べてください。",
+                    variant: "error"
+                })
+            );
+            return;
+        }
+    
+        // Proceed to step 2 and prepare selected reasons messages
+        this.showstep1 = false;
+        this.showstep2 = true;
+    
+        // Prepare array of selected reason messages
+        this.selectedReasonMessages = this.selectedReasons.map(reason => {
+            if (reason === 'その他') {
+                return this.otherReason; // Display 'other' reason if selected
+            }
+            return reason;
+        });
     }
+    
+
     handlestep2(){
         this.showstep1 = false;
         this.showstep2 = true;
-        this.showconfModal = true;
+        // this.showconfModal = true;
         this.showServiceModal = false;
         // this.showstep3 = true;
+        window.scrollTo(0,0);
+        this.showstep2 = false;
+        // this.showconfModal = false;
+        this.showstep3 = true;
+        this.deleteadmin(this.contactId);
     }
 
     handlePrevstep2(){
         window.scrollTo(0,0);
         this.showstep1 = true;
-        this.selectedReason = '';
-        this.selectedReasonMessage = '';
-        this.otherReason = '';
+        // this.selectedReason = '';
+        // this.selectedReasonMessage = '';
+        // this.selectedReasons = [];
+        // this.selectedReasonMessages = [];
+        // this.otherReason = '';
         this.showstep2 = false;
         this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」';
         console.log("selected reason on prev",this.selectedReason);
     }
 
+    // handleReasonChange(event) {
+    //     this.selectedReason = event.target.value;
+    //     this.isInputDisabled = event.target.value !== 'その他';
+    //     console.log("selected reason",this.selectedReason)
+    // }
     handleReasonChange(event) {
-        this.selectedReason = event.target.value;
-        this.isInputDisabled = event.target.value !== 'その他';
-        console.log("selected reason",this.selectedReason)
+        let selectedValue = event.target.value;
+        if (event.target.checked) {
+            this.selectedReasons = [...this.selectedReasons, selectedValue]; // Add selected reason to array
+        } else {
+            this.selectedReasons = this.selectedReasons.filter(reason => reason !== selectedValue); // Remove deselected reason from array
+        }
+        this.isInputDisabled = !this.selectedReasons.includes('その他');
+        console.log("Selected reasons:", this.selectedReasons);
     }
 
     handleOtherReasonChange(event) {
@@ -403,5 +477,28 @@ export default class Ccp2CancelMembership extends LightningElement {
     get getRadioClasscheck(){
         return this.deletecheckbox ? 'selected2' : '';
     }
+    
 
+    navigateToHome() {
+        let baseUrl = window.location.href;
+        let homeUrl;
+        if(baseUrl.indexOf("/s/") != -1) {
+            homeUrl = baseUrl.split("/s/")[0] + '/s/';
+        }
+        window.location.href = homeUrl;
+    }
+    handleCancel(){
+        this.showCancelModal = true;
+    }
+    handleCancelNo(){
+        this.showCancelModal = false;
+        // this.showConformpage = true;
+    }
+    handleCancelYes(){
+        this.showCancelModal = false;
+        // this.showWithdraw = true;
+
+
+    }
+   
 }

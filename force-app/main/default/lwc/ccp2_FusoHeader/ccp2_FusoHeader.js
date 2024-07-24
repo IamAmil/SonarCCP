@@ -1,5 +1,5 @@
 import { LightningElement, track, api, wire } from "lwc";
-import Vehicle_StaticResource from "@salesforce/resourceUrl/CCP_StaticResource_Vehicle";
+import Vehicle_StaticResource from "@salesforce/resourceUrl/CCP2_Resources";
 import getLogoutURL from "@salesforce/apex/CCP_HeaderController.getLogoutURL";
 import basePath from "@salesforce/community/basePath";
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
@@ -21,15 +21,15 @@ import CCP2_Logout from "@salesforce/label/c.CCP2_Logout";
 import CCP2_BranchManage from "@salesforce/label/c.CCP2_BranchManagementHeader";
 
 const Logo =
-  Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/Header_Logo.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/Header_Logo.png";
 const UserIcon =
-  Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/CCP2_Icon1.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/CCP2_Icon1.png";
 const MessageIcon =
-  Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/CCP_Icon2.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/CCP_Icon2.png";
 const QuesIcon =
-  Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/CCP2_Icon3.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/CCP2_Icon3.png";
 const shoplink =
-  Vehicle_StaticResource + "/CCP_StaticResource_Vehicle/images/Outlink.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/Outlink.png";
 
 export default class Ccp2_FusoHeader extends LightningElement {
   FusoLogo = Logo;
@@ -143,13 +143,13 @@ export default class Ccp2_FusoHeader extends LightningElement {
     let baseUrl = window.location.href;
     if (baseUrl.indexOf("/s/") != -1) {
       this.directBookingUrl = baseUrl.split("/s/")[0] + "/s/directBooking";
-      this.vehicleListUrl = baseUrl.split("/s/")[0] + "/s/vehicle";
+      this.vehicleListUrl = baseUrl.split("/s/")[0] + "/s/vehiclemanagement";
       this.notificationsUrl = baseUrl.split("/s/")[0] + "/s/notifications";
       this.requestBookUrl = baseUrl.split("/s/")[0] + "/s/requestBook";
       this.profileUrl = baseUrl.split("/s/")[0] + "/s/profile";
       this.addUserUrl = baseUrl.split("/s/")[0] + "/s/addUser";
       this.UserManagementUrl = baseUrl.split("/s/")[0] + "/s/usermanagement";
-      this.addBranchUrl = baseUrl.split("/s/")[0] + "/s/addbranch";
+      this.addBranchUrl = baseUrl.split("/s/")[0] + "/s/branchmangement";
       this.inquiryUrl = baseUrl.split("/s/")[0] + "/s/inquiry";
       this.faqUrl = baseUrl.split("/s/")[0] + "/faq/s/";
       this.homeUrl = baseUrl.split("/s/")[0] + "/s/";

@@ -1,0 +1,12 @@
+{
+  "activeViewId" : "a6391b41-65ad-484f-ad10-f3b60dcd7e7c",
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "configurationTags" : [ ],
+  "devName" : "registervehicle__c",
+  "id" : "fc40dfbc-9047-41c8-8161-683546f42e73",
+  "label" : "Register Vehicle",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-registervehicle",
+  "type" : "route",
+  "urlPrefix" : "registervehicle"
+}

@@ -94,6 +94,90 @@ public with sharing class CCP2_userController {
         if (updatedFieldMap.containsKey('lastNameKana__c')) {
             contactToUpdate.lastNameKana__c = updatedFieldMap.get('lastNameKana__c');
         }
+        if (updatedFieldMap.containsKey('mostLikelyWeekdayStartTimesForAppoint__c')) {
+            String timeString = updatedFieldMap.get('mostLikelyWeekdayStartTimesForAppoint__c');
+            
+            // Convert the string to an integer representing milliseconds
+            Long milliseconds = Long.valueOf(timeString);
+
+            // Calculate hours, minutes, seconds, and milliseconds
+            Integer hours = (Integer)(milliseconds / (1000 * 60 * 60));
+            Long remainingMillisAfterHours = milliseconds - (hours * 1000 * 60 * 60);
+
+            Integer minutes = (Integer)(remainingMillisAfterHours / (1000 * 60));
+            Long remainingMillisAfterMinutes = remainingMillisAfterHours - (minutes * 1000 * 60);
+
+            Integer seconds = (Integer)(remainingMillisAfterMinutes / 1000);
+            Integer millis = (Integer)(remainingMillisAfterMinutes - (seconds * 1000));
+            // Create the Time object
+            Time timeValue = Time.newInstance(hours, minutes, seconds, millis);
+
+            // Assign the Time object to the contact field
+            contactToUpdate.mostLikelyWeekdayStartTimesForAppoint__c = timeValue;
+        }
+        if (updatedFieldMap.containsKey('mostLikelyWeekdayEndTimesForAppoint__c')) {
+            String timeString = updatedFieldMap.get('mostLikelyWeekdayEndTimesForAppoint__c');
+            
+            // Convert the string to an integer representing milliseconds
+            Long milliseconds = Long.valueOf(timeString);
+
+            // Calculate hours, minutes, seconds, and milliseconds
+            Integer hours = (Integer)(milliseconds / (1000 * 60 * 60));
+            Long remainingMillisAfterHours = milliseconds - (hours * 1000 * 60 * 60);
+
+            Integer minutes = (Integer)(remainingMillisAfterHours / (1000 * 60));
+            Long remainingMillisAfterMinutes = remainingMillisAfterHours - (minutes * 1000 * 60);
+
+            Integer seconds = (Integer)(remainingMillisAfterMinutes / 1000);
+            Integer millis = (Integer)(remainingMillisAfterMinutes - (seconds * 1000));
+            // Create the Time object
+            Time timeValue = Time.newInstance(hours, minutes, seconds, millis);
+
+            // Assign the Time object to the contact field
+            contactToUpdate.mostLikelyWeekdayEndTimesForAppoint__c = timeValue;
+        }
+        if (updatedFieldMap.containsKey('mostLikelyHolidayStartTimesForAppoint__c')) {
+			String timeString = updatedFieldMap.get('mostLikelyHolidayStartTimesForAppoint__c');
+            
+            // Convert the string to an integer representing milliseconds
+            Long milliseconds = Long.valueOf(timeString);
+
+            // Calculate hours, minutes, seconds, and milliseconds
+            Integer hours = (Integer)(milliseconds / (1000 * 60 * 60));
+            Long remainingMillisAfterHours = milliseconds - (hours * 1000 * 60 * 60);
+
+            Integer minutes = (Integer)(remainingMillisAfterHours / (1000 * 60));
+            Long remainingMillisAfterMinutes = remainingMillisAfterHours - (minutes * 1000 * 60);
+
+            Integer seconds = (Integer)(remainingMillisAfterMinutes / 1000);
+            Integer millis = (Integer)(remainingMillisAfterMinutes - (seconds * 1000));
+            // Create the Time object
+            Time timeValue = Time.newInstance(hours, minutes, seconds, millis);
+
+            // Assign the Time object to the contact field
+            contactToUpdate.mostLikelyHolidayStartTimesForAppoint__c = timeValue;
+        }
+        if (updatedFieldMap.containsKey('mostLikelyHolidayEndTimesForAppoint__c')) {
+			String timeString = updatedFieldMap.get('mostLikelyHolidayEndTimesForAppoint__c');
+            
+            // Convert the string to an integer representing milliseconds
+            Long milliseconds = Long.valueOf(timeString);
+
+            // Calculate hours, minutes, seconds, and milliseconds
+            Integer hours = (Integer)(milliseconds / (1000 * 60 * 60));
+            Long remainingMillisAfterHours = milliseconds - (hours * 1000 * 60 * 60);
+
+            Integer minutes = (Integer)(remainingMillisAfterHours / (1000 * 60));
+            Long remainingMillisAfterMinutes = remainingMillisAfterHours - (minutes * 1000 * 60);
+
+            Integer seconds = (Integer)(remainingMillisAfterMinutes / 1000);
+            Integer millis = (Integer)(remainingMillisAfterMinutes - (seconds * 1000));
+            // Create the Time object
+            Time timeValue = Time.newInstance(hours, minutes, seconds, millis);
+
+            // Assign the Time object to the contact field
+            contactToUpdate.mostLikelyHolidayEndTimesForAppoint__c = timeValue;
+        }
 
         try {
             System.debug('Final Contact to Update: ' + contactToUpdate);
@@ -201,9 +285,9 @@ public with sharing class CCP2_userController {
             if (!accessList.isEmpty()) {
                 CCP2_Access_Control__c accessControl = accessList[0];
                 
-                if (accessControl.Basic_Service_EC_Flag__c) {
+                /*if (accessControl.Basic_Service_EC_Flag__c) {
                     activePermissions.add('Basic_Service_EC_Flag__c');
-                }
+                }*/
                 if (accessControl.Cost_management_Flag__c) {
                     activePermissions.add('Cost_management_Flag__c');
                 }
@@ -223,7 +307,7 @@ public with sharing class CCP2_userController {
 
             List<Map<String, Object>> permissionStatusList = new List<Map<String, Object>>();
             Map<String, String> permissionMap = new Map<String, String>{
-                'Basic_Service_EC_Flag__c' => '基本サービス（ふそうショップ）',
+                //'Basic_Service_EC_Flag__c' => '基本サービス（ふそうショップ）',
                 'Cost_management_Flag__c' => '費用管理',
                 'E_invoice_Flag__c' => '部整月次請求書（電子版）',
                 'Financial_service_Flag__c' => '金融サービス',
@@ -385,7 +469,7 @@ public with sharing class CCP2_userController {
             if (result != null) {
                 result.E_invoice_flag__c = con.E_invoice_flag__c;
                 result.Financial_service_Flag__c = con.Financial_service_Flag__c;
-                result.Basic_Service_EC_Flag__c = con.Basic_Service_EC_Flag__c;
+                //result.Basic_Service_EC_Flag__c = con.Basic_Service_EC_Flag__c;
                 result.Online_maintenance_booking_Flag__c = con.Online_maintenance_booking_Flag__c;
                 result.Vehicle_management_Flag__c = con.Vehicle_management_Flag__c;
                 result.Cost_management_Flag__c = con.Cost_management_Flag__c;
@@ -570,4 +654,110 @@ public with sharing class CCP2_userController {
             throw new DmlException('setPermissionSetforUser error :'+e.getMessage());
         }
      }
+     @AuraEnabled
+     public static Id getAccountId(){
+        Id returnValue = null;
+        User portalUser = [SELECT ContactId, Contact.AccountId FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+        if (portalUser != null && portalUser.ContactId != null) {
+            returnValue = portalUser.Contact.AccountId;
+        }
+        return returnValue;
+    }
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> adminUser() {
+    Id accId = getAccountId();
+    //Id accId='001Io000003ITP2IAO';
+    List<Contact> adminList = [SELECT Id, Name FROM Contact WHERE ccpUseFlag__c = true and canManageMember__c = false AND AccountId = :accId];
+    System.debug(adminList);
+        return adminList;
+}
+    
+	@AuraEnabled(cacheable=true)
+	public static Map<String, Object> userBasicInfo(String ContactId,Integer refresh) {
+    Map<String, Object> userInfo = new Map<String, Object>();
+	/*List<User> userList = [SELECT ContactId FROM User WHERE Id = :UserId];
+        String reqId = userList[0].ContactId;
+        System.debug('ContactId: ' + reqId);*/
+    List<Contact> contactInfoList = [SELECT Id, FirstName, LastName, firstNameKana__c, lastNameKana__c, Department, Title, Email, Phone, MobilePhone,
+                                     Account.Name, Account.siebelAccountCode__c, mostLikelyWeekdayStartTimesForAppoint__c, mostLikelyWeekdayEndTimesForAppoint__c, 
+                                     mostLikelyHolidayStartTimesForAppoint__c, mostLikelyHolidayEndTimesForAppoint__c, Employee_Code__c
+                                     FROM Contact WHERE Id = :ContactId];
+
+    if (!contactInfoList.isEmpty()) {
+        Contact contactInfo = contactInfoList[0];
+        
+        // Add contact information to userInfo map
+        userInfo.put('Id', String.valueOf(contactInfo.Id));
+        userInfo.put('FirstName', String.valueOf(contactInfo.FirstName));
+        userInfo.put('LastName', String.valueOf(contactInfo.LastName));
+        userInfo.put('FirstNameKana', String.valueOf(contactInfo.firstNameKana__c));
+        userInfo.put('LastNameKana', String.valueOf(contactInfo.lastNameKana__c));
+        userInfo.put('Department', String.valueOf(contactInfo.Department));
+        userInfo.put('Title', String.valueOf(contactInfo.Title));
+        userInfo.put('Email', String.valueOf(contactInfo.Email));
+        userInfo.put('Phone', String.valueOf(contactInfo.Phone));
+        userInfo.put('MobilePhone', String.valueOf(contactInfo.MobilePhone));
+        userInfo.put('AccountName', String.valueOf(contactInfo.Account.Name));
+        userInfo.put('AccountSiebelAccountCode', String.valueOf(contactInfo.Account.siebelAccountCode__c));
+        userInfo.put('MostLikelyWeekdayStartTimesForAppoint', contactInfo.mostLikelyWeekdayStartTimesForAppoint__c);
+        userInfo.put('MostLikelyWeekdayEndTimesForAppoint', contactInfo.mostLikelyWeekdayEndTimesForAppoint__c);
+        userInfo.put('MostLikelyHolidayStartTimesForAppoint', contactInfo.mostLikelyHolidayStartTimesForAppoint__c);
+        userInfo.put('MostLikelyHolidayEndTimesForAppoint', contactInfo.mostLikelyHolidayEndTimesForAppoint__c);
+        userInfo.put('EmployeeCode', String.valueOf(contactInfo.Employee_Code__c));
+    }
+
+    List<CCP2_BranchContact_Junction__c> branchIds = [SELECT BranchId__c FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :ContactId];
+    List<Id> branchIdList = new List<Id>();
+
+    for (CCP2_BranchContact_Junction__c branchContact : branchIds) {
+        branchIdList.add(branchContact.BranchId__c);
+    }
+    List<CCP2_Branch__c> branchNameList = [SELECT Name FROM CCP2_Branch__c WHERE Id IN :branchIdList];
+    List<String> branchNames = new List<String>();
+    for (CCP2_Branch__c branch : branchNameList) {
+        branchNames.add(String.valueOf(branch.Name));
+    }
+    userInfo.put('BranchNames', branchNames);
+
+    System.debug(userInfo);
+    return userInfo;
+}
+    @AuraEnabled
+    public static void createAdmin(String oldAdmin, String newAdmin) {
+    try {
+        List<Contact> oldAdminList = [SELECT Id, canManageMember__c FROM Contact WHERE Id = :oldAdmin LIMIT 1];
+        System.debug(oldAdminList);
+        if (!oldAdminList.isEmpty()) {
+            Contact oldAdminUpdate = oldAdminList[0];
+            oldAdminUpdate.canManageMember__c = false;
+            try {
+                update oldAdminUpdate;
+            } catch (DmlException e) {
+                System.debug('Error updating old admin: ' + e.getMessage());
+            }
+        }
+        
+        List<Contact> newAdminList = [SELECT Id, canManageMember__c FROM Contact WHERE Id = :newAdmin LIMIT 1];
+        if (!newAdminList.isEmpty()) {
+            Contact newAdminUpdate = newAdminList[0];
+            newAdminUpdate.canManageMember__c = true;
+            try {
+                update newAdminUpdate;
+            } catch (DmlException e) {
+                System.debug('Error updating new admin: ' + e.getMessage());
+            }
+        }
+        
+        List<CCP2_BranchContact_Junction__c> oldAdminBranchDeleteJunction = [SELECT Id FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :oldAdmin];
+        if (!oldAdminBranchDeleteJunction.isEmpty()) {
+            try {
+                delete oldAdminBranchDeleteJunction;
+            } catch (DmlException e) {
+                System.debug('Error deleting old admin branch junction: ' + e.getMessage());
+            }
+        }
+    } catch (Exception e) {
+        System.debug('Error in createAdmin method: ' + e.getMessage());
+    }
+}
 }

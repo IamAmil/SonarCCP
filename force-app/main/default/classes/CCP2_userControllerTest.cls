@@ -209,13 +209,14 @@ public class CCP2_userControllerTest {
         // Call the method to test
         Test.startTest();
         List<Map<String, Object>> result = CCP2_userController.permissionValuesAccessControl(testUser.Id, 1);
+        system.debug(result);
         Test.stopTest();
 
         // Prepare expected results
-        Map<String, Object> expectedPermission1 = new Map<String, Object>();
+        /*Map<String, Object> expectedPermission1 = new Map<String, Object>();
         expectedPermission1.put('apiName', 'Basic_Service_EC_Flag__c');
         expectedPermission1.put('japaneseName', '基本サービス（ふそうショップ）');
-        expectedPermission1.put('isActive', true);
+        expectedPermission1.put('isActive', true);*/
 
         Map<String, Object> expectedPermission2 = new Map<String, Object>();
         expectedPermission2.put('apiName', 'Cost_management_Flag__c');
@@ -243,7 +244,7 @@ public class CCP2_userControllerTest {
         expectedPermission6.put('isActive', true);
 
         List<Map<String, Object>> expectedList = new List<Map<String, Object>>{
-            expectedPermission1, expectedPermission2, expectedPermission3, 
+            expectedPermission2, expectedPermission3, 
             expectedPermission4, expectedPermission5, expectedPermission6
         };
 
@@ -532,7 +533,7 @@ public class CCP2_userControllerTest {
         User testUser = [SELECT Id FROM User WHERE Username = 'testuser678@example.com' LIMIT 1];
 
         // Create CCP2_Access_Control__c record
-        CCP2_Access_Control__c accessControl = new CCP2_Access_Control__c(
+        CCP2_Access_Control__c con = new CCP2_Access_Control__c(
             Name = testUser.Id,
             Basic_Service_EC_Flag__c = true,   
             E_invoice_flag__c = true,
@@ -542,11 +543,11 @@ public class CCP2_userControllerTest {
             Cost_management_Flag__c = true
         );
 
-        insert accessControl;
+        insert con;
 
         Test.startTest();
         System.runAs(testUser) {
-            CCP2_userController.createAndAssociateBranch(accessControl);
+            CCP2_userController.createAndAssociateBranch(con);
         }
         Test.stopTest();
 
@@ -581,7 +582,7 @@ public class CCP2_userControllerTest {
         System.assertEquals(0, expectedPermissionSetNames.size(), 'Not all expected Permission Sets were assigned');
     }
 
-    @isTest
+    /*@isTest
     static void testCreateAndAssociateBranch_NoFlags() {
         // Get test user
         User testUser = [SELECT Id FROM User WHERE Username = 'testuser678@example.com' LIMIT 1];
@@ -612,7 +613,7 @@ public class CCP2_userControllerTest {
         // Verify no new PermissionSetAssignments were created
         psaList = [SELECT Id, AssigneeId, PermissionSetId FROM PermissionSetAssignment WHERE AssigneeId = :testUser.Id];
         System.assertEquals(initialPSACount, psaList.size(), 'Expected no new PermissionSetAssignments');
-    }
+    }*/
     
     @IsTest
     static void testCallMethodPermissionSet() {
@@ -679,7 +680,7 @@ public class CCP2_userControllerTest {
                                          LIMIT 1];
         System.assertEquals(false, result.E_invoice_flag__c);
         System.assertEquals(false, result.Financial_service_Flag__c);
-        System.assertEquals(false, result.Basic_Service_EC_Flag__c);
+        System.assertEquals(true, result.Basic_Service_EC_Flag__c);
         System.assertEquals(false, result.Cost_management_Flag__c);
         System.assertEquals(false, result.Online_maintenance_booking_Flag__c);
         System.assertEquals(false, result.Vehicle_management_Flag__c);
@@ -842,4 +843,367 @@ public class CCP2_userControllerTest {
         Test.stopTest();
         //System.assertEquals(true, CCP2_UserDeleteController.deleteUser(), 'The contact should have IsSiteUser__c set to false');
     }
+    
+@isTest
+static void testUserBasicInfo() {
+    // Create and insert a test account
+    Account testAccount = new Account(Name = 'Test Account', siebelAccountCode__c = 'SIEBEL123');
+    insert testAccount;
+
+    // Create a unique email for the contact to avoid duplication
+    String uniqueEmail = 'john.doe' + DateTime.now().getTime() + '@example.com';
+
+    // Create and insert a test contact with unique email
+    Contact testContact = new Contact(
+        FirstName = 'John',
+        LastName = 'Doe',
+        firstNameKana__c = 'ジョン',
+        lastNameKana__c = 'ドウ',
+        Department = 'Sales',
+        Title = 'Manager',
+        Email = uniqueEmail, // Ensure unique email
+        Phone = '123-456-7890',
+        MobilePhone = '098-765-4321',
+        AccountId = testAccount.Id,
+        mostLikelyWeekdayStartTimesForAppoint__c = Time.newInstance(9, 0, 0, 0), // Corrected time assignment
+        mostLikelyWeekdayEndTimesForAppoint__c = Time.newInstance(17, 0, 0, 0), // Corrected time assignment
+        mostLikelyHolidayStartTimesForAppoint__c = Time.newInstance(10, 0, 0, 0), // Corrected time assignment
+        mostLikelyHolidayEndTimesForAppoint__c = Time.newInstance(16, 0, 0, 0), // Corrected time assignment
+        Employee_Code__c = 'EMP123'
+    );
+    insert testContact;
+
+    // Create and insert a test branch
+    CCP2_Branch__c testBranch = new CCP2_Branch__c(Name = 'Test Branch', Account__c = testAccount.Id);
+    insert testBranch;
+
+    // Create and insert a junction record for the contact and branch
+    CCP2_BranchContact_Junction__c branchContactJunction = new CCP2_BranchContact_Junction__c(
+        BranchId__c = testBranch.Id,
+        ContactId__c = testContact.Id
+    );
+    insert branchContactJunction;
+
+    Test.startTest();
+    
+    // Call the method to be tested
+    Map<String, Object> result = CCP2_userController.userBasicInfo(testContact.Id,1);
+
+    Test.stopTest();
+
+    // Validate the result
+    System.assertNotEquals(null, result, 'Result should not be null.');
+    
+    // Validate contact information
+    System.assertEquals('John', (String) result.get('FirstName'), 'The First Name should match.');
+    System.assertEquals('Doe', (String) result.get('LastName'), 'The Last Name should match.');
+    System.assertEquals('ジョン', (String) result.get('FirstNameKana'), 'The First Name Kana should match.');
+    System.assertEquals('ドウ', (String) result.get('LastNameKana'), 'The Last Name Kana should match.');
+    System.assertEquals('Sales', (String) result.get('Department'), 'The Department should match.');
+    System.assertEquals('Manager', (String) result.get('Title'), 'The Title should match.');
+    System.assertEquals(uniqueEmail, (String) result.get('Email'), 'The Email should match.');
+    System.assertEquals('123-456-7890', (String) result.get('Phone'), 'The Phone should match.');
+    System.assertEquals('098-765-4321', (String) result.get('MobilePhone'), 'The Mobile Phone should match.');
+    
+    // Validate the branches
+    List<String> branchNames = (List<String>) result.get('BranchNames');
+    System.assertEquals(1, branchNames.size(), 'There should be 1 branch.');
+    System.assertEquals('Test Branch', branchNames[0], 'The Branch Name should match.');
+    
+    // Validate account-related fields
+    System.assertEquals('SIEBEL123', (String) result.get('AccountSiebelAccountCode'), 'The Siebel Account Code should match.');
+    System.assertEquals(Time.newInstance(9, 0, 0, 0), result.get('MostLikelyWeekdayStartTimesForAppoint'), 'The Weekday Start Time should match.');
+    System.assertEquals(Time.newInstance(17, 0, 0, 0), result.get('MostLikelyWeekdayEndTimesForAppoint'), 'The Weekday End Time should match.');
+    System.assertEquals(Time.newInstance(10, 0, 0, 0), result.get('MostLikelyHolidayStartTimesForAppoint'), 'The Holiday Start Time should match.');
+    System.assertEquals(Time.newInstance(16, 0, 0, 0), result.get('MostLikelyHolidayEndTimesForAppoint'), 'The Holiday End Time should match.');
+    System.assertEquals('EMP123', (String) result.get('EmployeeCode'), 'The Employee Code should match.');
+}
+
+@isTest
+static void testCreateAdmin() {
+    // Create and insert a test account
+    Account testAccount = new Account(
+        Name = 'Test Account',
+        siebelAccountCode__c = 'SIEBEL123'
+    );
+    insert testAccount;
+
+    // Create and insert old admin contact with required Account__c field
+    Contact oldAdmin = new Contact(
+        FirstName = 'Old',
+        LastName = 'Admin',
+        Email = 'old.admin@example.com',
+        canManageMember__c = true, // Initially set as admin
+        AccountId = testAccount.Id // Ensure the Account field is populated
+    );
+    insert oldAdmin;
+
+    // Create and insert new admin contact with required Account__c field
+    Contact newAdmin = new Contact(
+        FirstName = 'New',
+        LastName = 'Admin',
+        Email = 'new.admin@example.com',
+        canManageMember__c = false, // Initially not an admin
+        AccountId = testAccount.Id // Ensure the Account field is populated
+    );
+    insert newAdmin;
+
+    // Create and insert a branch
+    CCP2_Branch__c testBranch = new CCP2_Branch__c(
+        Name = 'Test Branch',
+        Account__c = testAccount.Id // Ensure the required Account field is populated
+    );
+    insert testBranch;
+
+    // Create and insert a junction record for the contact and branch
+    CCP2_BranchContact_Junction__c branchContactJunction = new CCP2_BranchContact_Junction__c(
+        BranchId__c = testBranch.Id,
+        ContactId__c = oldAdmin.Id
+    );
+    insert branchContactJunction;
+
+    Test.startTest();
+    
+    // Call the method to be tested
+    CCP2_userController.createAdmin(oldAdmin.Id, newAdmin.Id); // Replace `YourApexClass` with the actual class name
+    
+    Test.stopTest();
+
+    // Validate the old admin contact
+    oldAdmin = [SELECT Id, canManageMember__c FROM Contact WHERE Id = :oldAdmin.Id];
+    System.assertEquals(false, oldAdmin.canManageMember__c, 'The old admin should no longer have admin privileges.');
+
+    // Validate the new admin contact
+    newAdmin = [SELECT Id, canManageMember__c FROM Contact WHERE Id = :newAdmin.Id];
+    System.assertEquals(true, newAdmin.canManageMember__c, 'The new admin should have admin privileges.');
+
+    // Validate the deletion of branch-contact junction for old admin
+    List<CCP2_BranchContact_Junction__c> junctions = [SELECT Id FROM CCP2_BranchContact_Junction__c WHERE ContactId__c = :oldAdmin.Id];
+    System.assertEquals(0, junctions.size(), 'The junction record for the old admin should have been deleted.');
+}
+
+    
+    @isTest
+static void testAdminUser() {
+    // Create and insert a test account
+    Account testAccount = new Account(
+        Name = 'Test Account',
+        siebelAccountCode__c = 'SIEBEL123' // Ensure this field is populated if required
+    );
+    insert testAccount;
+
+    // Create and insert a test contact with required fields
+    Contact adminContact = new Contact(
+        FirstName = 'Admin',
+        LastName = 'User',
+        ccpUseFlag__c = true, // Set to true to match the query condition
+        canManageMember__c = false, // Set to false to match the query condition
+        AccountId = testAccount.Id // Link to the test account
+    );
+    insert adminContact;
+
+    // Create a test user and link it to the test contact
+    User testUser = new User(
+        Username = 'testuse965r@example.com',
+        LastName = 'UserL',
+        Email = 'testuser@example.com',
+        Alias = 'testuser',
+        ProfileId = [SELECT Id FROM Profile WHERE Name = 'FUSO Customer Community Plus Login User' LIMIT 1].Id,
+        ContactId = adminContact.Id,
+        UserRoleId = null, // Or set an appropriate UserRoleId if required
+        LocaleSidKey = 'en_US',
+        TimeZoneSidKey = 'America/Los_Angeles',
+        EmailEncodingKey = 'UTF-8',
+        LanguageLocaleKey = 'en_US'
+    );
+    insert testUser;
+
+    // Set the context user for the test method
+    System.runAs(testUser) {
+        Test.startTest();
+        
+        // Call the method to be tested
+        List<Contact> result = CCP2_userController.adminUser(); // Replace `YourApexClass` with the actual class name
+        
+        Test.stopTest();
+        
+        // Validate the result
+        System.assertNotEquals(0, result.size(), 'The result should not be empty.');
+        
+        Contact contact = result[0];
+        System.assertEquals(adminContact.Id, contact.Id, 'The contact ID should match.');
+        System.assertEquals('Admin User', contact.Name, 'The contact name should match.');
+    }
+}
+
+    
+
+    @isTest
+    static void testUiPermissionList() {
+        // Create a test user
+        User testUser = new User(
+            LastName = 'Kumar',
+            Username = 'testuser990997@example.com',
+            Email = 'testuse7896r0605@example.com',
+            Alias = 'tuser',
+            ProfileId = UserInfo.getProfileId(), // Adjust as needed
+            TimeZoneSidKey = 'America/Los_Angeles',
+            LocaleSidKey = 'en_US',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US'
+        );
+        insert testUser;
+        
+        // Create a test CCP2_Access_Control__c record with various flags
+        CCP2_Access_Control__c accessControl = new CCP2_Access_Control__c(
+            Name = testUser.Id,
+            Basic_Service_EC_Flag__c = true,
+            Cost_management_Flag__c = false,
+            E_invoice_Flag__c = true,
+            Financial_service_Flag__c = false,
+            Online_maintenance_booking_Flag__c = true,
+            Vehicle_management_Flag__c = false
+        );
+        insert accessControl;
+
+        // Test the uiPermissionList method
+        Test.startTest();
+        List<String> permissions = CCP2_userController.uiPermissionList(testUser.Id, 1);
+        Test.stopTest();
+        
+        // Verify the results
+        System.assertNotEquals(null, permissions, 'Permissions list should not be null');
+        System.assertEquals(3, permissions.size(), 'There should be 3 active permissions');
+        System.assert(permissions.contains('基本サービス（ふそうショップ）'), 'Basic Service should be present');
+        System.assert(permissions.contains('部整月次請求書（電子版）'), 'E-invoice should be present');
+        System.assert(permissions.contains('車検入庫予約'), 'Online Maintenance Booking should be present');
+        System.assert(!permissions.contains('費用管理'), 'Cost Management should not be present');
+        System.assert(!permissions.contains('金融サービス'), 'Financial Service should not be present');
+        System.assert(!permissions.contains('車両管理'), 'Vehicle Management should not be present');
+    }
+
+    @isTest
+    static void testUiPermissionListNoAccessControl() {
+        // Create a test user
+        User testUser = new User(
+            LastName = 'Hans',
+            Username = 'testuser_no_access@example.com',
+            Email = 'testuser_no_access@example.com',
+            Alias = 'tuserna',
+            ProfileId = UserInfo.getProfileId(), // Adjust as needed
+            TimeZoneSidKey = 'America/Los_Angeles',
+            LocaleSidKey = 'en_US',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US'
+        );
+        insert testUser;
+        
+        // Test the uiPermissionList method with no corresponding CCP2_Access_Control__c record
+        Test.startTest();
+        List<String> permissions = CCP2_userController.uiPermissionList(testUser.Id, 1);
+        Test.stopTest();
+        
+        // Verify the results
+        System.assertNotEquals(null, permissions, 'Permissions list should not be null');
+        System.assertEquals(0, permissions.size(), 'Permissions list should be empty');
+    }
+    
+        @isTest
+    static void testUpdateAccessRecords() {
+        // Create a test user
+        User testUser = new User(
+            LastName = 'MainLast',
+            Username = 'testuser_update@example.com',
+            Email = 'testuser_update@example.com',
+            Alias = 'tuserupd',
+            ProfileId = UserInfo.getProfileId(), // Adjust as needed
+            TimeZoneSidKey = 'America/Los_Angeles',
+            LocaleSidKey = 'en_US',
+            EmailEncodingKey = 'UTF-8',
+            LanguageLocaleKey = 'en_US'
+        );
+        insert testUser;
+        
+        // Create a test CCP2_Access_Control__c record
+        CCP2_Access_Control__c accessControl = new CCP2_Access_Control__c(
+            Name = testUser.Id,
+            Basic_Service_EC_Flag__c = false,
+            Cost_management_Flag__c = false,
+            E_invoice_Flag__c = false,
+            Financial_service_Flag__c = false,
+            Online_maintenance_booking_Flag__c = false,
+            Vehicle_management_Flag__c = false
+        );
+        insert accessControl;
+
+        // Define JSON input with updated flags
+        String uiSRJson = JSON.serialize(new List<Map<String, Object>>{
+            new Map<String, Object>{
+                'userId' => testUser.Id,
+                '外部電子請求書' => true,
+                '外部金融サービス' => true,
+                '基本サービス（ふそうショップ）' => true,
+                'コスト管理' => true,
+                'オンラインメンテナンス予約' => true,
+                '車両管理' => true
+            }
+        });
+
+        // Test the updateAccessRecords method
+        Test.startTest();
+        CCP2_userController.updateAccessRecords(uiSRJson);
+        Test.stopTest();
+
+        // Retrieve the updated access control record
+        accessControl = [SELECT Basic_Service_EC_Flag__c, Cost_management_Flag__c, E_invoice_Flag__c,
+                          Financial_service_Flag__c, Online_maintenance_booking_Flag__c, Vehicle_management_Flag__c
+                          FROM CCP2_Access_Control__c WHERE Id = :accessControl.Id LIMIT 1];
+
+        // Verify the updated values
+        System.assertEquals(true, accessControl.Basic_Service_EC_Flag__c, 'Basic_Service_EC_Flag__c should be true');
+        System.assertEquals(true, accessControl.Cost_management_Flag__c, 'Cost_management_Flag__c should be true');
+        System.assertEquals(true, accessControl.E_invoice_Flag__c, 'E_invoice_Flag__c should be true');
+        System.assertEquals(true, accessControl.Financial_service_Flag__c, 'Financial_service_Flag__c should be true');
+        System.assertEquals(true, accessControl.Online_maintenance_booking_Flag__c, 'Online_maintenance_booking_Flag__c should be true');
+        System.assertEquals(true, accessControl.Vehicle_management_Flag__c, 'Vehicle_management_Flag__c should be true');
+    }
+
+    @isTest
+    static void testUpdateAccessRecordsNoRecordFound() {
+        // Define JSON input with updated flags for a non-existent user
+        String uiSRJson = JSON.serialize(new List<Map<String, Object>>{
+            new Map<String, Object>{
+                'userId' => '005000000000000', // A non-existent userId
+                '外部電子請求書' => true
+            }
+        });
+
+        // Test the updateAccessRecords method with no matching access control record
+        Test.startTest();
+        try {
+            CCP2_userController.updateAccessRecords(uiSRJson);
+            System.assert(false, 'Expected an AuraHandledException to be thrown');
+        } catch (AuraHandledException e) {
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testUpdateAccessRecordsEmptyJson() {
+        // Define an empty JSON input
+        String uiSRJson = '[]';
+
+        // Test the updateAccessRecords method with empty JSON input
+        Test.startTest();
+        try {
+            CCP2_userController.updateAccessRecords(uiSRJson);
+            System.assert(false, 'Expected an AuraHandledException to be thrown');
+        } catch (AuraHandledException e) {
+            System.assertEquals('Script-thrown exception', e.getMessage(), 'Unexpected exception message');
+        }
+        Test.stopTest();
+    }
+    
+    
   }

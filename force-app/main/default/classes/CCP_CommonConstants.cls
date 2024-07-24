@@ -65,9 +65,9 @@ public without sharing class CCP_CommonConstants {
     //権限セットE_invoiceId
     public final static Id EINVOICEID = [SELECT Id FROM permissionset WHERE Name = 'E_invoice'].Id;
 	
-	public final static Id EINVOICENEWID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_E_invoice_new'].Id;
+	//public final static Id EINVOICENEWID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_E_invoice_new'].Id;
 	public final static Id FINANCIALSERVICEID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Financial_service'].Id;
-	public final static Id BASICSERVICEID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Basic_Service_EC'].Id;
+	//public final static Id BASICSERVICEID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Basic_Service_EC'].Id;
 	public final static Id COSTMANAGEMENTID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Cost_management'].Id;
 	public final static Id MAINTENANCEBOOKINGID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Online_maintenance_booking'].Id;
 	public final static Id VEHICLEMANAGEMENTID = [SELECT Id FROM permissionset WHERE Name = 'FUSO_CCP_External_Vehicle_management'].Id;

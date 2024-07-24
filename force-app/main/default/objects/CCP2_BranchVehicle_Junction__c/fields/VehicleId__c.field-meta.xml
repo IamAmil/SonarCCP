@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>VehicleId__c</fullName>
-    <description>Vehicle Id from VehicleInfo__c</description>
-    <externalId>false</externalId>
     <label>Vehicle Id</label>
-    <referenceTo>VehicleInfo__c</referenceTo>
+    <referenceTo>ccp2_Registered_Vehicle__c</referenceTo>
     <relationshipLabel>Branch Vehicle Junctions</relationshipLabel>
     <relationshipName>Branch_Vehicle_Junctions</relationshipName>
     <relationshipOrder>1</relationshipOrder>

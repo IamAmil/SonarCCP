@@ -32,7 +32,88 @@ public with sharing class CCP2_userData {
         System.debug('user ' +user);
         return user;
     }
+ @AuraEnabled(cacheable=true)
+public static List<Map<String, Object>> userListwithbranch() {
+    Id accId = accId();
+    //Id accId = '001Io000003ITP2IAO';
+    System.debug(accId);
+
+    List<Map<String, Object>> combinedData = new List<Map<String, Object>>();
     
+    // Check if accId is not null
+    if (accId == null) {
+        return combinedData;
+    }
+    
+    // Query to get the contact details
+    List<Contact> contactDetails = [
+        SELECT Id, Name, UserId__c, Account.siebelAccountCode__c 
+        FROM Contact 
+        WHERE AccountId = :accId 
+          AND canManageMember__c = false 
+          AND ccpUseFlag__c = true
+    ];
+    System.debug(contactDetails);
+
+    if (contactDetails.isEmpty()) {
+        return combinedData;
+    }
+
+    // Collect Contact IDs
+    Set<Id> contactIds = new Set<Id>();
+    for (Contact contact : contactDetails) {
+        contactIds.add(contact.Id);
+    }
+
+    // Query to get the branch contact junctions
+    List<CCP2_BranchContact_Junction__c> branchContactJunctions = [
+        SELECT ContactId__c, BranchId__c 
+        FROM CCP2_BranchContact_Junction__c 
+        WHERE ContactId__c IN :contactIds
+    ];
+    System.debug(branchContactJunctions);
+
+    // Collect Branch IDs
+    Set<Id> branchIds = new Set<Id>();
+    for (CCP2_BranchContact_Junction__c bcj : branchContactJunctions) {
+        branchIds.add(bcj.BranchId__c);
+    }
+
+    // Query to get the branch details
+    List<CCP2_Branch__c> branchDetails = [
+        SELECT Id, Name 
+        FROM CCP2_Branch__c 
+        WHERE Id IN :branchIds
+    ];
+    System.debug(branchDetails);
+
+    // Map to hold Branch Id to Branch details
+    Map<Id, CCP2_Branch__c> branchMap = new Map<Id, CCP2_Branch__c>();
+    for (CCP2_Branch__c branch : branchDetails) {
+        branchMap.put(branch.Id, branch);
+    }
+
+    // Combine contact and branch data
+    for (Contact contact : contactDetails) {
+        Map<String, Object> contactData = new Map<String, Object>();
+        contactData.put('contact', contact);
+
+        List<CCP2_Branch__c> associatedBranches = new List<CCP2_Branch__c>();
+        for (CCP2_BranchContact_Junction__c bcj : branchContactJunctions) {
+            if (bcj.ContactId__c == contact.Id) {
+                if (branchMap.containsKey(bcj.BranchId__c)) {
+                    associatedBranches.add(branchMap.get(bcj.BranchId__c));
+                }
+            }
+        }
+
+        contactData.put('branches', associatedBranches);
+        combinedData.add(contactData);
+    }
+    System.debug(combinedData);
+
+    return combinedData;
+} 
     @AuraEnabled(cacheable=true)
     public static List<Contact> userListDtl(Id branchId)
     {
@@ -190,24 +271,25 @@ public with sharing class CCP2_userData {
     }
     
     @AuraEnabled(cacheable=true)
-    public static List<VehicleInfo__c> VehicleWithoutAssociation()
+    public static List<ccp2_Registered_Vehicle__c> VehicleWithoutAssociation()
     {
         //List<CCP2_Branch__c> branch;
         Id accId=accId();
         //Id accId = '001Io000003ITP2IAO';
-        List<VehicleInfo__c> vehicle= [select id, name from VehicleInfo__c where userAccountCode__c=:accId ];
+        List<ccp2_Registered_Vehicle__c	> vehicle= [select id, Name from ccp2_Registered_Vehicle__c where Account__c=:accId ];
         System.debug(vehicle);
         return vehicle;
     }
     
      @AuraEnabled(cacheable=true)
-    public static List<VehicleInfo__c> VehicleWithoutAssociationDtl(Id branchId)
+    public static List<ccp2_Registered_Vehicle__c> VehicleWithoutAssociationDtl(Id branchId)
     {
         //List<CCP2_Branch__c> branch;
         Id accId=accId();
         //Id accId = '001Io000003ITP2IAO';
-        List<VehicleInfo__c> vehicle= [SELECT Id, Name FROM VehicleInfo__c WHERE UserAccountCode__c = :accId AND
-                                       Id NOT IN (SELECT VehicleId__c FROM CCP2_BranchVehicle_Junction__c WHERE BranchId__c = :branchId)];
+        List<ccp2_Registered_Vehicle__c> vehicle= [SELECT Id, Name FROM ccp2_Registered_Vehicle__c WHERE Account__c = :accId 
+                                                   AND Id NOT IN (SELECT VehicleId__c FROM CCP2_BranchVehicle_Junction__c WHERE BranchId__c = :branchId)
+                                                   ];
         //List<VehicleInfo__c> vehicle= [select id, name from VehicleInfo__c where userAccountCode__c=:accId ];
         System.debug(vehicle);
         return vehicle;
@@ -240,7 +322,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
     Map<String, Object> detailsMap = new Map<String, Object>();
 
     // Query to get branch details
-    List<CCP2_Branch__c> branchDetails = [SELECT Id, Name, Company_Name__c, Tip_Number__c, Branch_Number__c, Contact_No__c, Mention_Name__c, Address__c, Account__c, Account__r.siebelAccountCode__c 
+    List<CCP2_Branch__c> branchDetails = [SELECT Id, Name, Company_Name__c, Tip_Number__c, Branch_Number__c, Contact_No__c, Mention_Name__c, Address__c,Postal_Code__c,Prefecture__c,Minicipalities__c,Street_Address__c,Building_Name_Company_name__c, Account__c, Account__r.siebelAccountCode__c 
                                           FROM CCP2_Branch__c 
                                           WHERE Account__c = :accId AND Id = :branchId ];
 
@@ -261,9 +343,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
                                     WHERE Id IN :contactIds];
 
     // Query to get vehicle IDs associated with the branch
-    List<CCP2_BranchVehicle_Junction__c> vehicleJunctions = [SELECT VehicleId__c 
-                                                             FROM CCP2_BranchVehicle_Junction__c 
-                                                             WHERE BranchId__c = :branchId];
+    List<CCP2_BranchVehicle_Junction__c> vehicleJunctions = [SELECT VehicleId__c FROM CCP2_BranchVehicle_Junction__c WHERE BranchId__c = :branchId];
 
     // Set to store unique vehicle IDs
     Set<Id> vehicleIds = new Set<Id>();
@@ -272,8 +352,8 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
     }
 
     // Query to get vehicle details
-    List<VehicleInfo__c> vehicleDetails = [SELECT Id, Name 
-                                           FROM VehicleInfo__c 
+    List<ccp2_Registered_Vehicle__c> vehicleDetails = [SELECT Id, Name 
+                                           FROM ccp2_Registered_Vehicle__c 
                                            WHERE Id IN :vehicleIds];
 
     // Add branch details to the map
@@ -287,6 +367,11 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
         branchMap.put('ContactNo', branch.Contact_No__c);
         branchMap.put('Mention', branch.Mention_Name__c);
         branchMap.put('Address', branch.Address__c);
+        branchMap.put('PostalCode', branch.Postal_Code__c);
+        branchMap.put('Prefecture', branch.Prefecture__c);
+        branchMap.put('municipalities', branch.Minicipalities__c);
+        branchMap.put('streetAddress', branch.Street_Address__c);
+        branchMap.put('BuldingName', branch.Building_Name_Company_name__c);
 
         Map<String, Object> accountMap = new Map<String, Object>();
         accountMap.put('siebelAccountCode__c', branch.Account__r.siebelAccountCode__c);
@@ -309,7 +394,7 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
 
     // Add vehicle details to the map
     List<Map<String, Object>> vehicleList = new List<Map<String, Object>>();
-    for (VehicleInfo__c vehicle : vehicleDetails) {
+    for (ccp2_Registered_Vehicle__c vehicle : vehicleDetails) {
         Map<String, Object> vehicleMap = new Map<String, Object>();
         vehicleMap.put('Id', vehicle.Id);
         vehicleMap.put('Name', vehicle.Name);
@@ -496,8 +581,8 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
     
     @AuraEnabled(cacheable=true)
     public static List<CCP2_BranchContact_Junction__c> userbranchList() {
-        Id accId = '001Io000003ITP2IAO';
-        //Id accId=accId();
+        //Id accId = '001Io000003ITP2IAO';
+        Id accId=accId();
         List<CCP2_BranchContact_Junction__c> contactBranchDetail = new List<CCP2_BranchContact_Junction__c>();
 
         try {
@@ -618,12 +703,13 @@ public static Map<String, Object> NewBranchDetails(Id branchId) {
 	}
     
     @AuraEnabled(cacheable=true)
-    public static List<VehicleInfo__c> getVehicleById(String vehicleId) {
-        List<VehicleInfo__c> newList = new List<VehicleInfo__c>();
+    public static List<ccp2_Registered_Vehicle__c> getVehicleById(String vehicleId) {
+        List<ccp2_Registered_Vehicle__c> newList = new List<ccp2_Registered_Vehicle__c>();
         try {
-            newList = [SELECT Id, Name, VehicleBrandName__c, type__c, brand__c, mileage__c, vehicleManagementNumber__c,
-                               exteriorColorSymbol__c, carPlatformNo__c, fullModel__c, lastArrivalDateTime__c, registeredDate__c, 
-                               BodyMakerNo__c, bodyShape__c, initialRegistrationDate__c FROM VehicleInfo__c WHERE Id = :vehicleId];
+            newList = [SELECT Id, Name, Body_Shape__c,Capacity__c,Vehicle_Name__c, Vehicle_Type__c,Chassis_number__c,Delivery_Date__c,
+                       Displacement__c,First_Registration_Date__c,Fuel_Type__c,fullModel__c,Model_Prime_Mover__c,Payload__c,
+                       Private_Business_use__c,Registration_Number__c,Use__c,Vehicle_Expiration_Date__c,Work_Location__c,vehicleWeight__c
+                       FROM ccp2_Registered_Vehicle__c WHERE Id = :vehicleId];
         } catch (Exception e) {
             CCP2_HandlerForException.LogException(e);
             System.debug('An error occurred while fetching vehicle details: ' + e.getMessage());

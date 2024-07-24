@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Translations xmlns="http://soap.sforce.com/2006/04/metadata">
     <customLabels>
-        <label>拠点追加</label>
+        <label>所属追加</label>
         <name>CCP2_AddBranch</name>
     </customLabels>
     <customLabels>
@@ -9,15 +9,15 @@
         <name>CCP2_AddMember</name>
     </customLabels>
     <customLabels>
-        <label>会員追加</label>
+        <label>所属会員</label>
         <name>CCP2_AddUsers</name>
     </customLabels>
     <customLabels>
-        <label>車両追加</label>
+        <label>所属車両</label>
         <name>CCP2_AddVehicles</name>
     </customLabels>
     <customLabels>
-        <label>勤務地追加</label>
+        <label>所属追加</label>
         <name>CCP2_AddWorkLocation</name>
     </customLabels>
     <customLabels>
@@ -33,7 +33,7 @@
         <name>CCP2_AffiliatedVehicles</name>
     </customLabels>
     <customLabels>
-        <label>勤務地</label>
+        <label>所属</label>
         <name>CCP2_Affiliation</name>
     </customLabels>
     <customLabels>
@@ -49,7 +49,7 @@
         <name>CCP2_ApplicationDiscontinuation</name>
     </customLabels>
     <customLabels>
-        <label>会員を該当拠点に配属する</label>
+        <label>会員を該当所属に配属する</label>
         <name>CCP2_AssignMemberRelevant</name>
     </customLabels>
     <customLabels>
@@ -61,11 +61,11 @@
         <name>CCP2_AssignNewVehicle</name>
     </customLabels>
     <customLabels>
-        <label>車両を該当拠点に配属する</label>
+        <label>車両を該当所属に配属する</label>
         <name>CCP2_AssignVehicleRelevant</name>
     </customLabels>
     <customLabels>
-        <label>勤務地管理へ</label>
+        <label>所属管理へ</label>
         <name>CCP2_BackToBranchManagement</name>
     </customLabels>
     <customLabels>
@@ -101,11 +101,11 @@
         <name>CCP2_Branch</name>
     </customLabels>
     <customLabels>
-        <label>勤務地追加完了</label>
+        <label>所属追加完了</label>
         <name>CCP2_BranchAddCompleted</name>
     </customLabels>
     <customLabels>
-        <label>この勤務地が追加完成しました。</label>
+        <label>登録完了しました。</label>
         <name>CCP2_BranchAdded</name>
     </customLabels>
     <customLabels>
@@ -117,15 +117,15 @@
         <name>CCP2_BranchList</name>
     </customLabels>
     <customLabels>
-        <label>勤務地管理</label>
+        <label>所属管理</label>
         <name>CCP2_BranchManagement</name>
     </customLabels>
     <customLabels>
-        <label>勤務地管理</label>
+        <label>所属管理</label>
         <name>CCP2_BranchManagementHeader</name>
     </customLabels>
     <customLabels>
-        <label>勤務地名</label>
+        <label>所属名</label>
         <name>CCP2_BranchName</name>
     </customLabels>
     <customLabels>
@@ -181,7 +181,7 @@
         <name>CCP2_CompanyName</name>
     </customLabels>
     <customLabels>
-        <label>追加する拠点の基本情報をご確認ください</label>
+        <label>追加する所属の基本情報をご確認ください</label>
         <name>CCP2_ConfirmDetails</name>
     </customLabels>
     <customLabels>
@@ -193,7 +193,7 @@
         <name>CCP2_ContactDetails</name>
     </customLabels>
     <customLabels>
-        <label>勤務地追加</label>
+        <label>所属追加</label>
         <name>CCP2_CreateBranch</name>
     </customLabels>
     <customLabels>
@@ -349,7 +349,7 @@
         <name>CCP2_LoadingPlatformInformation</name>
     </customLabels>
     <customLabels>
-        <label>勤務地情報</label>
+        <label>所属情報</label>
         <name>CCP2_LocationInformation</name>
     </customLabels>
     <customLabels>
@@ -421,7 +421,7 @@
         <name>CCP2_MonthlyRequestLetter</name>
     </customLabels>
     <customLabels>
-        <label>氏名（フリガナ）</label>
+        <label>氏名（カタカナ）</label>
         <name>CCP2_NameFurigana</name>
     </customLabels>
     <customLabels>
@@ -473,7 +473,7 @@
         <name>CCP2_PleaseEnter</name>
     </customLabels>
     <customLabels>
-        <label>追加する勤務地の基本情報をご入力ください</label>
+        <label>追加する所属の基本情報をご入力ください</label>
         <name>CCP2_PleaseEnterBasicInfo</name>
     </customLabels>
     <customLabels>

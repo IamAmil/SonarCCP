@@ -1,5 +1,6 @@
 import { LightningElement,track,api,wire } from 'lwc';
-import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
+import { refreshApex } from '@salesforce/apex';
+import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
 import getBranchData from '@salesforce/apex/CCP2_userData.NewBranchDetails';
 import getNullVehicles from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociationDtl';
 import deleteVehicles from '@salesforce/apex/CCP2_userData.unassociateVehicle';
@@ -45,9 +46,9 @@ import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
 
 
 
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
-const  arrowicon = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/arrow_under.png';
-const  searchicon = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/search.png';
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.png';
+const  arrowicon = Vehicle_StaticResource + '/CCP2_Resources/Common/arrow_under.png';
+//const  searchicon = Vehicle_StaticResource + '/CCP2_Resources/images/search.png';
 
 export default class Ccp2BranchRecordDetail extends LightningElement {
 
@@ -80,8 +81,8 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
 
 
     backgroundImagePC = BACKGROUND_IMAGE_PC;
-    searchIcons = searchicon ;
     @track showDetails = true;
+    @track showCancelModal = false;
     @api branchId;
     @track showlist = false;
     @track CompanyName = '';
@@ -93,6 +94,11 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     @track Contact = '';
     @track OriginalAddress = '';
     @track OriginalContact = '';
+    @track originalMunicipalities = '';
+    @track originalBuildingName = '';
+    @track originalPostalCode = '';
+    @track originalPrefecture = '';
+    @track originalStreetAddress = '';
     @track vehicle = [];
     @track contacts = [];
     @track branchName = '';
@@ -119,39 +125,79 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     searchTerm = '';
     imgdrop = arrowicon;
     @track showList = false;
-    
-    
-    @wire(getBranchData,{branchId: '$branchId'})BranchData({data,error}){
-        if(data){
-            console.log("mine",data);
-            const branch = data.BranchDetails;
-           // console.log('Branch Details:', JSON.stringify(data));
-            this.CompanyName = branch.Company ? branch.Company : "-";
-           this.Address = branch.Address ? branch.Address : null;
-           this.Contact = branch.ContactNo ? branch.ContactNo : null;
-            this.branchName = branch.Name ? branch.Name : "-";
+    @track showsure = false;
+    @track combinedAddress = '';
+    @track postalCode = '';
+    @track prefectures = '';
+    @track municipalities = '';
+    @track streetAddress = '';
+    @track buildingName = '';
+    @track showModal = false;
+    @track showerrorbranch = false;
+    @track showerrorbranchNull = false;
 
-            //comparison variables
-            this.originalBranchName = branch.Name;
-            this.OriginalAddress = branch.Address;
-            this.OriginalContact = branch.ContactNo;
-            this.contacts = data.Contacts.map(contact => ({
-                Name: contact.Name,
-                Id: contact.Id
-            }));
-            console.log("con",JSON.stringify(this.contacts));
-            this.vehicle = data.Vehicles.map(vehicle => ({
-                Name: vehicle.Name,
-                Id: vehicle.Id
-            }));
-           // console.log("ve",JSON.stringify(this.vehicle));
-            this.showSpinner = false; 
-        }
-        else if(error){
-            console.log(error);
-            this.showSpinner = false; 
+    @wire(getBranchData, { branchId: '$branchId' })
+    wiredBranchData(result) {
+        this.branchData = result;
+        if (result.data) {
+            this.processBranchData(result.data);
+            this.showSpinner = false;
+        } else if (result.error) {
+            console.error(result.error);
+            this.showSpinner = false;
         }
     }
+
+    processBranchData(data) {
+        const branch = data.BranchDetails;
+
+        this.CompanyName = branch.Company || '-';
+        this.Address = branch.Address || null;
+        this.Contact = branch.ContactNo || null;
+        this.branchName = branch.Name || '-';
+        this.postalCode = branch.PostalCode || null;
+        this.prefectures = branch.Prefecture || null;
+        this.municipalities = branch.municipalities || null;
+        this.streetAddress = branch.streetAddress || null;
+        this.buildingName = branch.BuldingName || null;
+
+        this.combinedAddress = [
+            this.postalCode,
+            this.prefectures,
+            this.municipalities,
+            this.streetAddress,
+            this.buildingName
+        ].filter(part => part).join(' ');
+
+        this.originalBranchName = branch.Name;
+       // this.OriginalAddress = branch.Address;
+        this.OriginalContact = branch.ContactNo;
+        this.originalBuildingName = branch.BuldingName;
+        this.originalMunicipalities = branch.municipalities;
+        this.originalPostalCode = branch.PostalCode;
+        this.originalPrefecture = branch.Prefecture;
+        this.originalStreetAddress = branch.streetAddress;
+
+        this.contacts = data.Contacts.map(contact => ({
+            Name: contact.Name,
+            Id: contact.Id
+        }));
+        console.log("con", JSON.stringify(this.contacts));
+
+        this.vehicle = data.Vehicles.map(vehicle => ({
+            Name: vehicle.Name,
+            Id: vehicle.Id
+        }));
+    }
+
+    showModalAndRefresh() {
+        this.showModal = true;
+        setTimeout(() => {
+            this.showModal = false;
+            refreshApex(this.branchData);
+        }, 2000);
+    }
+
 
     handlevehChange(event){
         event.stopPropagation();
@@ -171,6 +217,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     handleInsideClick(event) {
         event.stopPropagation();
     }
+
 
 
     get hasContacts() {
@@ -256,7 +303,9 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     }
 
     handleChange() {
+             refreshApex(this.branchData);
             this.showDetails = !this.showDetails;
+            
     }
 
     handleDeleteVehicle(event) {
@@ -303,9 +352,15 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         this.selectedContactId = ''; 
     }
 
+    callbranchDelete(){
+        this.main = false;
+        this.showsure = false;
+        window.scrollTo(0, 0);
+    }
+
 
  //on Saving the data on edit page
-  async handleSave() {
+   handleSave(event) {
     try {
         const branchInput = this.template.querySelector('input[name="branch"]');
         let allValid = true;
@@ -315,11 +370,22 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             branchInput.classList.add('invalid-input');
             branchInput.setCustomValidity('この項目は必須です');
             branchInput.reportValidity();
+            this.showerrorbranchNull = true;
+            this.showerrorbranch = false;
+            allValid = false;
+        } else if (branchInput.value.length > 24) {
+            branchInput.classList.add('invalid-input');
+            branchInput.setCustomValidity('ブランチ名は20文字以内でなければなりません');
+            branchInput.reportValidity();
+            this.showerrorbranch = true;
+            this,showerrorbranchNull = false;
             allValid = false;
         } else {
             branchInput.classList.remove('invalid-input');
             branchInput.setCustomValidity('');
             branchInput.reportValidity();
+            this.showerrorbranch = false;
+            this.showerrorbranchNull = false;
         }
             // if (this.Contact.length !== 0 && this.Contact.length < 10) {
             //     const contactInput = this.template.querySelector('input[name="contactNumber"]');
@@ -355,7 +421,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         }
 
         if (actions.length > 0) {
-            await Promise.all(actions);
+            Promise.all(actions);
         }
 
         if (this.morevehicles.length > 0) {
@@ -368,27 +434,41 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             actions.push(AddUser({ Contact: ContactIdsToAdd, branch: this.branchId }));
         }
 
-        if (this.branchName !== this.originalBranchName ||
+        if (
+            this.branchName !== this.originalBranchName ||
             this.Address !== this.originalAddress ||
-            this.Contact !== this.originalContact) {
+            this.Contact !== this.originalContact ||
+            this.municipalities !== this.originalMunicipalities ||
+            this.streetAddress !== this.originalStreetAddress ||
+            this.buildingName !== this.originalBuildingName ||
+            this.prefecture !== this.originalPrefecture ||
+            this.postalCode !== this.originalPostalCode
+        ) {
             actions.push(UpdateFields({
                 branchId: this.branchId,
                 branchName: this.branchName,
-                address: this.Address,
-                contactNo: this.Contact
+                contactNo: this.Contact,
+                postalCode: this.postalCode,
+                prefecture: this.prefecture,
+                municipalities: this.municipalities,
+                streetAddress: this.streetAddress,
+                buildingName: this.buildingName
             }));
         }
         if (actions.length > 0) {
             console.log('Actions length:', actions.length);
-            await Promise.all(actions);
+            Promise.all(actions);
             this.dispatchEvent(
                 new ShowToastEvent({
                    // title: 'Success',
-                    message: 'ブランチが正常に編集されました',
+                    message: '所属管理の編集が保存しました。',
                     variant: 'success',
                 }),
             );
             this.goTodetail();
+            this.moreContacts = [];
+            this.morevehicles = [];
+            this.showModalAndRefresh();
         } else {
             console.log("going");
             this.dispatchEvent(
@@ -454,6 +534,12 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     closeList(){
         this.showlist = false;
     }
+    suremodal(){
+        this.showsure = true;
+    }
+    closesure(){
+        this.showsure = false;
+    }
 
        
      handleVehicleChange() {
@@ -501,13 +587,51 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     //for edit page Inputs 
     handleBranchChange(event) {
         this.branchName = event.target.value;
+        
         //this.branchNameClass = this.branchName ? '' : 'invalid-input';@not used but in future if need
         console.log("1br",this.branchName);
     }
-    handleAddressChange(event) {
-        this.Address = event.target.value;
+    // handleAddressChange(event) {
+    //     this.Address = event.target.value;
+    //    // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+    //     console.log("2br",this.Address);
+    // }
+    handlevalidationpostal(event) {
+        this.postalCode= event.target.value;
        // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
-        console.log("2br",this.Address);
+        if (this.postalCode.length > 6) {
+             this.postalCode = this.postalCode.slice(0, 6);
+        } 
+    }
+    onInputValidationAll(event) {
+        if (event.target.value.length > 12) {
+            value = value.slice(0, 12);
+        } 
+    } 
+    
+    
+
+    handlePrefectureChange(event) {
+        this.prefectures = event.target.value;
+       // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+    }
+    handlemunicipalitiesChange(event) {
+        this.municipalities = event.target.value;
+       // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+    }
+    handleStreetChange(event) {
+        this.streetAddress = event.target.value;
+       // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+        
+    }
+    handlebuildingChange(event) {
+        this.buildingName = event.target.value;
+       // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+    }
+
+    closesystem(){
+        this.main = true;
+        window.scrollTo(0, 0);
     }
     
     
@@ -539,7 +663,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     goToMain(){
         let baseUrl = window.location.href;
     if(baseUrl.indexOf("/s/") !== -1) {
-        let addBranchUrl = baseUrl.split("/s/")[0] + "/s/addbranch";
+        let addBranchUrl = baseUrl.split("/s/")[0] + "/s/branchmangement";
         window.location.href = addBranchUrl;
     }
     }
@@ -610,4 +734,32 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         this.updateSelectedLabels();
         this.toggleDropdown();
     }
+    handleCancel(){
+        this.showCancelModal = true;
+    }
+    handleNo(){
+        this.showCancelModal = false;
+    }
+    handleYes(){
+        this.branchName = '';
+        this.postalCode = '';
+        this.Contact = '';
+        this.prefectures = '';
+        this.municipalities = '';
+        this.streetAddress = '';
+        this.buildingName = '';
+        this.morevehicles = [];
+        this.moreContacts = [];
+        this.branchName = this.originalBranchName ? this.originalBranchName : null;
+        this.Contact = this.OriginalContact ? this.OriginalContact : null;
+        this.postalCode = this.originalPostalCode ? this.originalPostalCode : null;
+        this.prefectures = this.originalPrefecture ? this.originalPrefecture : null;
+        this.municipalities = this.originalMunicipalities ? this.originalMunicipalities : null;
+        this.streetAddress = this.originalStreetAddress ? this.originalStreetAddress : null;
+        this.buildingName = this.originalBuildingName ? this.originalBuildingName : null;
+        this.showCancelModal = false;
+        this.showDetails = true;  
+    }
+
+    //validations
 }

@@ -5,7 +5,7 @@
 //deleteBranchById
 public with sharing class CCP2_branchController {
     @AuraEnabled
-    public static String createBranch(Id accId, String companyName, String branchName, String address, String telephoneNo, String cellPhoneNo, List<Id> contactIds, List<Id> vehicleIds) {
+    public static String createBranch(Id accId,String postalCode,String Prefecture,String municipalities,String streetAddress,String BuldingName, String companyName, String branchName, String telephoneNo, String cellPhoneNo, List<Id> contactIds, List<Id> vehicleIds) {
         List<CCP2_Branch__c> existingBranches = [SELECT Id FROM CCP2_Branch__c WHERE Account__c = :accId AND Name = :branchName];
         
         if (!existingBranches.isEmpty()) {
@@ -15,9 +15,14 @@ public with sharing class CCP2_branchController {
             newBranch.Account__c = accId;
             newBranch.Company_Name__c = companyName;
             newBranch.Name = branchName;
-            newBranch.Address__c = address;
+            //newBranch.Address__c = address;
             newBranch.Contact_No__c = telephoneNo;
             newBranch.cellPhone_No__c = cellPhoneNo;
+            newBranch.Postal_Code__c = postalCode;
+            newBranch.Prefecture__c = Prefecture;
+            newBranch.Minicipalities__c = municipalities;
+            newBranch.Street_Address__c = streetAddress;
+            newBranch.Building_Name_Company_name__c = BuldingName;
             
             try {
                 insert newBranch;
@@ -91,12 +96,24 @@ public with sharing class CCP2_branchController {
     }
     
     @AuraEnabled
-    public static void updateBranchById(Id branchId, String address, String contactNo, String branchName) {
+    public static void updateBranchById(Id branchId,String postalCode,String Prefecture,String municipalities,String streetAddress,String BuldingName, String contactNo, String branchName) {
         try {
             CCP2_Branch__c queryList = [SELECT Id, Address__c, Contact_No__c, Name FROM CCP2_Branch__c WHERE Id = :branchId];
             
-            if (address != null) {
-                queryList.Address__c = address;
+            if (postalCode != null) {
+                queryList.Postal_Code__c = postalCode;
+            }
+            if (Prefecture != null) {
+                queryList.Prefecture__c = Prefecture;
+            }
+            if (municipalities != null) {
+                queryList.Minicipalities__c = municipalities;
+            }
+            if (streetAddress != null) {
+                queryList.Street_Address__c = streetAddress;
+            }
+            if (BuldingName != null) {
+                queryList.Building_Name_Company_name__c = BuldingName;
             }
             if (contactNo != null) {
                 queryList.Contact_No__c = contactNo;
@@ -115,10 +132,6 @@ public with sharing class CCP2_branchController {
     
     @AuraEnabled
     public static void addBranch(String accountId, String contactId, List<Id> branches) {
-        // Input validation
-        /*if (String.isBlank(accountId)) {
-            throw new IllegalArgumentException('Account ID cannot be null or empty');
-        }*/
         if (String.isBlank(contactId)) {
             throw new IllegalArgumentException('Contact ID cannot be null or empty');
         }
@@ -128,12 +141,10 @@ public with sharing class CCP2_branchController {
 
         List<CCP2_BranchContact_Junction__c> branchRecords = new List<CCP2_BranchContact_Junction__c>();
 
-        // Iterate through the branches list and create Branch records
         for (String branchId : branches) {
             CCP2_BranchContact_Junction__c branch = new CCP2_BranchContact_Junction__c();
             branch.BranchId__c = branchId;
             branch.ContactId__c = contactId;
-            //branch.Name = branchName;
             branchRecords.add(branch);
         }
 
@@ -151,8 +162,6 @@ public with sharing class CCP2_branchController {
     public static void deleteBranchById(Id branchId) { 
         try {
            CCP2_Branch__c branchesToDelete = [SELECT Id FROM CCP2_Branch__c WHERE Id = :branchId];
-           //List<CCP2_BranchContact_Junction__c> branchesToDelete = [SELECT Id FROM CCP2_BranchContact_Junction__c WHERE BranchId__c =:branchId];
-
             delete branchesToDelete;
             System.debug('Branch record deleted successfully for branch ID: ' + branchId);
         } catch(Exception e) {

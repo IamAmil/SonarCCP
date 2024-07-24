@@ -53,28 +53,73 @@
 }
 
 
-.imghead{
+/* .imghead{
     object-fit: fill;
-}
+} */
 
- .main{
+.newmain{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
+    padding: 1rem;
+}
+.headings2{
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+.headings1{
+    font-size: 0.8rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 8rem 0rem;
+}
+.headings{
+    font-size: 1.5rem;
+}
+.headsempty{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centersempty{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.lastempty{
+    height: 10%;
+}
+.main {
     position: relative;
     width: calc(100vw - 16px);
     margin: -16px 0 0 -16px;
-    height: 130vh;
-}
-.half {
+    height: max-content;
+  }
+   
+  .half {
     width: 100%;
-    position: absolute;
     left: 0;
-}
-.top {
-    height: 40%;
-    top: 0;
-    background-color: lightblue;
-    background: linear-gradient(to bottom, #BFBFBF, #F4F4F4); /* Gradient effect */
-    z-index: 1;
-}
+  }
+  .top {
+    height: 96vh;
+    background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
+  }
+   
+  .bottom {
+    /* height: 60%; */
+    position: relative;
+    height: max-content;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    width: calc(100vw - 16px);
+  }
+
 .form_header{
     display: flex;
     width: 100%;
@@ -83,23 +128,18 @@
     align-items: center;
     margin-bottom: 30px;
 }
-.bottom {
-    height: 60%;
-    bottom: 0;
-    background-color: #f4f4f4;
-    z-index: 0;
-}
 .center-content {
-    position: absolute;
-    height: max-content;
+    position: relative;
+    height: 100%;
+    margin-top: -80.5vh;
     width: 90%;
-    top: 42%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: rgba(251, 251, 251, 0.9);
-    padding: 20px;
-    z-index: 2;
-    border-radius: 8px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+img {
+    width: 100%;
+    height: 100%;
 }
 .form{
     display: flex;
@@ -147,9 +187,15 @@ width: 20%;
 align-items: center;
 justify-content: center;
 }
+.pageNumber{
+    display: flex;
+    width: 61%;
+    margin-bottom: 1rem;
+
+}
 
 .branch-name-main{
-height: 100%;
+/* height: 100%; */
 width: 50%;
 font-weight: bolder;
 margin-left: 60px;
@@ -162,7 +208,7 @@ margin-left: 60px;
     }
 }
 .third-div{
-height: 100%;
+/* height: 100%; */
 width: 30%;
 margin-left: 280px;
 }
@@ -173,33 +219,51 @@ margin-left: 280px;
         width: 190px;
     }
 }
-
-
-.BranchList{
+.BranchList {
     margin-left: 198px;
     margin-top: 40px;
     margin-bottom: 20px;
     font-size: medium;
     font-weight: bolder;
 }
+
 @media (max-width: 768px) {
     .BranchList {
         margin-left: 50px;
-
     }
 }
-.cards-gap{
+
+.cards-gap {
     gap: 10px;
     display: flex;
     flex-direction: column;
-    height: 200px;
-    overflow-y: scroll;
+    height: fit-content;
     border-radius: 8px;
+    max-width: 100%; /* Ensures the card width does not exceed the container */
+    word-wrap: break-word; /* Ensures long words break to fit within the container */
+    overflow-wrap: break-word; /* Ensures long words break to fit within the container */
 }
+
 .no-scroll::-webkit-scrollbar {
     display: none;
-  }
- 
+}
+
+/* Ensure any text-containing element within the card also respects the wrapping rules */
+.cards-gap .text-content {
+    max-width: 100%; /* Ensures the text does not overflow the card */
+    word-wrap: break-word; /* Breaks long words */
+    overflow-wrap: break-word; /* Breaks long words */
+    overflow: hidden; /* Hides overflow if needed */
+    text-overflow: ellipsis; /* Adds ellipsis to long text */
+}
+
+@media (max-width: 768px) {
+    .cards-gap {
+        max-width: 90%; /* Adjusts max-width for smaller screens */
+    }
+}
+
+
   .no-scroll {
     -ms-overflow-style: none; 
     scrollbar-width: none;  
@@ -246,19 +310,41 @@ margin-left: 280px;
 .form-footer {
     /* border: #0A0A0A solid 1px; */
     text-align: center;
-    width: 938px;
+   
     display: flex;
     flex-direction: row;
-    margin-top: 20px;
-    
+    /* margin-top: 20px; */
+    /* width: 82%; */
+    /* margin-left: 9%; */
+        
+}
+@media screen and (max-width: 768px) {
+    .form-footer {
+        /* Styles for zoomed out */
+        width: 94%;
+
+    }
+}
+
+/* Media query for zoomed in */
+@media screen and (min-width: 1200px) {
+    .form-footer {
+        /* Styles for zoomed in */
+        width: 82%;    }
 }
 
 @media (max-width: 768px) {
     .form-footer {
-        width: 640px;
+        width: 94%;
     }
 }
-
+.fullData{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
 
 .button{
     width: 100%;
@@ -268,6 +354,7 @@ margin-left: 280px;
     justify-content: center;
     color: #0A0A0A;
     height: 70px;
+    padding: 15px;
 }
 .btn:hover{
     background-color: white;
@@ -299,5 +386,67 @@ margin-left: 280px;
    color: black;
 }
 
+/* .pagination {
+}
 
-/*Changes For Responsiveness*/
+.page-button {
+    margin: 0 5px;
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+}
+
+.page-button.selected {
+    background-color: rgb(247,247,247);
+    color: black;
+}
+
+.page-button:hover {
+    cursor: pointer;
+} */
+
+.pagination {
+    margin-left: auto;
+}
+
+
+.page-button {
+    /* padding: 10px 15px; */
+    /* border: 1px solid #ddd; */
+    /* border-radius: 5px; */
+    border: none;
+    cursor: pointer;
+    background-color: #fafafa;
+    color: black;
+    font-weight: bolder;
+    font-size: 16px;
+    /* text-align: center; */
+}
+
+/* .page-button:hover {
+    background-color: #f0f0f0;
+} */
+
+/* .page-button[disabled] {
+    cursor: not-allowed;
+    color: #ccc;
+} */
+
+/* .page-button.selected {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border-color: red;
+}  */
+.selected {
+    background-color: red;
+    color: white;
+
+}
+
+.selected:focus {
+    box-shadow: none;
+    outline: none;
+    border: none;
+}

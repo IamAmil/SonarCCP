@@ -11,7 +11,11 @@ public with sharing class ccp2_filedmap {
          '姓（フリガナ）' => 'lastNameKana__c',//contact
          '所属' => 'Branch__c',//contact
          'ContactId' => 'ContactId',//contact
-         '部署' => 'Department'//contact
+         '部署' => 'Department',//contact
+         '平日s'=> 'mostLikelyWeekdayStartTimesForAppoint__c',
+         '平日e'=> 'mostLikelyWeekdayEndTimesForAppoint__c',
+         '土日祝s' => 'mostLikelyHolidayStartTimesForAppoint__c',
+         '土日祝e' => 'mostLikelyHolidayEndTimesForAppoint__c'
     };
         @AuraEnabled(cacheable=true)
         public static String uiFieldInput(String uiField) {

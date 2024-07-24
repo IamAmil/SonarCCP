@@ -1,0 +1,68 @@
+{
+  "appPageId" : "8607c2ed-9d98-403e-a06a-0a03af8e1830",
+  "componentName" : "siteforce:dynamicLayout",
+  "dataProviders" : [ ],
+  "id" : "a6391b41-65ad-484f-ad10-f3b60dcd7e7c",
+  "label" : "Register Vehicle",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "background" : "background: rgba(0,0,0,0)",
+        "backgroundOverlay" : "rgba(0,0,0,0.5)",
+        "contentAreaWidth" : 100,
+        "sectionConfig" : {
+          "UUID" : "52349435-bfeb-4c3b-a25e-27d20117bdfa",
+          "columns" : [ {
+            "UUID" : "09c14216-4f3a-46ed-aee1-292f5fde812e",
+            "columnKey" : "1",
+            "columnName" : "Column 1",
+            "columnWidth" : "12",
+            "seedComponents" : [ ]
+          } ]
+        },
+        "sectionHeight" : 300
+      },
+      "componentName" : "forceCommunity:section",
+      "id" : "52349435-bfeb-4c3b-a25e-27d20117bdfa",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : { },
+          "componentName" : "c:ccp2_ManualInput",
+          "id" : "688c0a5d-b7ad-4115-8c1b-535051fe40bb",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "09c14216-4f3a-46ed-aee1-292f5fde812e",
+        "regionLabel" : "Column 1",
+        "regionName" : "1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c3490cf9-075e-4fae-8bd9-a5a8150abe4e",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Register Vehicle"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "38041e16-c696-4936-bbdb-ecf7a39f113f",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5dc4e508-9d23-4743-832b-a97163ee5607",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-registervehicle"
+}

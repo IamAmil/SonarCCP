@@ -5,18 +5,18 @@
   "id" : "2f13283e-d29e-4aa3-bb33-cb6e2eb541d8",
   "label" : "profile",
   "regions" : [ {
-    "components" : [ {
-      "componentAttributes" : { },
-      "componentName" : "c:ccp2cancelMembership",
-      "id" : "defe4031-1523-4e6f-8916-9eea6efb0095",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "e906ae53-9bf1-4abd-aaff-8ad42cc5010c",
     "regionName" : "header",
     "type" : "region"
   }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:ccp2_BasicInfo",
+      "id" : "75b06b27-be2f-46ca-83a7-6b3af3e8934b",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
     "id" : "c7544acd-ce09-4757-af41-ed73236f4609",
     "regionName" : "content",
     "type" : "region"
