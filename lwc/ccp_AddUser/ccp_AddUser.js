@@ -128,6 +128,23 @@ export default class Ccp_AddUser extends LightningElement {
     employeeCode: null
   };
 
+  handlephoneInput(event) {
+    // const input = event.target;
+    // input.value = input.value.replace(/\D/g, '');
+    // input.value = input.value.replace(/[^\d０-９]/g, '');
+    const input = event.target;
+    // This regex matches any digit (0-9) or full-width digit (０-９)
+    const filteredValue = input.value.replace(/[^\d０-９]/g, '');
+    
+    // Limit input to 11 characters
+    if (filteredValue.length > 11) {
+        input.value = filteredValue.slice(0, 11);
+    } else {
+        input.value = filteredValue;
+    }
+       
+  }
+
   handleAllInputChange(event){
     this.contactInputData[event.target.name] = event.target.value;
     console.log("contactinput input",this.contactInputData)
@@ -265,6 +282,16 @@ export default class Ccp_AddUser extends LightningElement {
   //     this.contactData = event.target.value;
   //     console.log("sample",this.contactData );
   // }
+
+  handleInput(event){
+    const input = event.target;
+    input.value = input.value.replace(/\D/g, '').slice(0, 16); 
+    this.validatePhone(input.value);
+}
+validatePhone() {
+  const phoneRegex = /^\d{11}$/;
+  return phoneRegex.test(this.phone);
+}
   handlebranChange(event) {
     console.log('employee', JSON.stringify(this.contactInputData));
     event.stopPropagation();
@@ -481,7 +508,7 @@ export default class Ccp_AddUser extends LightningElement {
     if (!lastNameKana.value) {
       lastNameKana.className = "form-input _error slds-input";
       this.lastNameKanaError = true;
-      this.lastNameKanaErrorText = "名を入力してください";
+      this.lastNameKanaErrorText = "姓を入力してください";
     } else if (lastNameKana.value.length > MAX_CHARS) {
       lastNameKana.className = "form-input _error slds-input";
       this.lastNameKanaError = true;
@@ -543,7 +570,7 @@ export default class Ccp_AddUser extends LightningElement {
                 mobilePhone.className = 'form-input _error slds-form-element__control slds-input'; 
             }
             this.phoneError = true;
-            this.phoneErrorText = '電話番号・携帯番号は数字（ハイフンなし）でご入力ください';
+            this.phoneErrorText = '電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください';
         } else{
             phone.className = 'form-input slds-form-element__control slds-input';
             mobilePhone.className = 'form-input slds-form-element__control slds-input';
@@ -560,7 +587,7 @@ export default class Ccp_AddUser extends LightningElement {
       //     variant: "error"
       //   })
       // )
-      branchList.className = "Inputs1 hello-class icon form-input _error slds-form-element__control slds-input";
+      branchList.className = "Inputs1 invalid-input icon";
       this.branchError = true;
       this.branchErrorText = "所属を選択してください";
     }
@@ -1015,7 +1042,7 @@ const checkName = event.currentTarget.getAttribute('data-checkbox');
   returnTop() {
     let baseUrl = window.location.href;
     if (baseUrl.indexOf("/s/") != -1) {
-      window.location.href = baseUrl.split("/s/")[0] + "/s/";
+      window.location.href = baseUrl.split("/s/")[0] + "/s/usermanagement";
     }
   }
   saveSelections() {
@@ -1058,7 +1085,6 @@ handleNo(){
 }
 handleYes(){
   this.showCancelModal = false;
-
 }
 handleOk(){
   this.showCheckboxModal = false;

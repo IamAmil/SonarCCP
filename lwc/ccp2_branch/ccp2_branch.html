@@ -22,7 +22,6 @@
                                     <P class="toedit2 Text">{labels.CCP2_CreateBranch}</P>
                                 </div>
                             </div> 
-                          
                         </div>
                         <div class="form">
                         
@@ -30,7 +29,7 @@
                                 <template for:each={paginatedBranchData} for:item="branch">
                                     <div key={branch.BranchId} data-id={branch.BranchId} onclick={handleclick2} class="card">
                                         <div class="first">
-                                            <div class="branchNumber"><p class="textbranch">BR{branch.BranchNO}</p></div>
+                                            <div class="branchNumber"><p class="textbranch">{branch.SiebelAccountCode} - 00{branch.BranchNO}</p></div>
                                             <div class="branch-name-main">
                                                 <span class="Text">{branch.BranchName}</span>
                                             </div>
@@ -56,18 +55,22 @@
                             </div> -->
                             <div class="pageNumber">
                             <div class="pagination">
-                                <div class="slds-m-around_medium">
-                                    <button class="slds-button slds-button_neutral page-button" onclick={handlePreviousPage} disabled={isPreviousDisabled}>
-                                        &lt;
+                                <div class="big-div-page">
+                                    <button class="nav-button" onclick={handlePreviousPage} disabled={isPreviousDisabled}>
+                                        <!-- &lt; -->
+                                        <lightning-icon icon-name="utility:chevronleft" alternative-text="Previous"
+                                        size="xx-small"></lightning-icon>
                                     </button>
                                     <template for:each={visiblePageNumbers} for:item="pageNum">
                                         <button key={pageNum} data-id={pageNum} onclick={handlePageChange}
-                                                class="slds-button slds-button_neutral page-button">
+                                                class="page-button">
                                             {pageNum}
                                         </button>
                                     </template>
-                                    <button class="slds-button slds-button_neutral page-button" onclick={handleNextPage} disabled={isNextDisabled}>
-                                        &gt;
+                                    <button class="nav-button" onclick={handleNextPage} disabled={isNextDisabled}>
+                                        <!-- &gt; -->
+                                        <lightning-icon icon-name="utility:chevronright" alternative-text="Next"
+                                        size="xx-small"></lightning-icon>
                                     </button>
                                 </div>
                             </div>

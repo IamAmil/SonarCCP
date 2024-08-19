@@ -94,6 +94,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     @track MentionName = '';
     @track Address = '';
     @track Contact = '';
+    @track fullwidthnum = false;
     @track OriginalAddress = '';
     @track OriginalContact = '';
     @track originalMunicipalities = '';
@@ -136,6 +137,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     @track municipalities = '';
     @track streetAddress = '';
     @track buildingName = '';
+    @track siebelcode = '';
     @track showModal = false;
     @track showerrorbranch = false;
     @track showerrorbranchNull = false;
@@ -165,6 +167,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         this.municipalities = branch.municipalities || null;
         this.streetAddress = branch.streetAddress || null;
         this.buildingName = branch.BuldingName || null;
+        this.siebelcode = branch.Account.siebelAccountCode__c;
         this.BranchNumber = this.formatBranchNumber(branch.BranchNo) || '-';
 
         this.combinedAddress = [
@@ -436,8 +439,12 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
    async handleSave(event) {
     try {
         const branchInput = this.template.querySelector('input[name="branch"]');
+        
+        const phoneInput = this.template.querySelector('input[name="contactNumber"]');
         let allValid = true;
 
+        const onlyHalfWidthNumber = /^[0-9]*$/;
+        const fullWidthDigitsRegex = /[０-９]/;
         // Validate the branch input
         if (!branchInput.value) {
             branchInput.classList.add('invalid-input');
@@ -455,11 +462,19 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             this.showerrorbranch = true;
             this.showerrorbranchNull = false;
             allValid = false;
-        } else {
+        } 
+        else if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
+            allValid = false;
+            phoneInput.classList.add('invalid-input');
+            this.fullwidthnum = true;
+        }
+        else {
             branchInput.classList.remove('invalid-input');
+            phoneInput.classList.remove('invalid-input');
             // branchInput.setCustomValidity('');
             // branchInput.reportValidity();
             this.showerrorbranch = false;
+            this.fullwidthnum = false;
             this.showerrorbranchNull = false;
         }
             // if (this.Contact.length !== 0 && this.Contact.length < 10) {
@@ -714,26 +729,32 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     
     handleContactNoChange(event) {
         this.Contact = event.target.value;
-       // this.contactClass = this.Contact ? '' : 'invalid-input'; @not used but in future if need
-        //console.log("3br",this.Contact);
-        const input = event.target.value;
-        const numericValue = input.replace(/\D/g, ''); // Remove non-numeric characters
+    //    // this.contactClass = this.Contact ? '' : 'invalid-input'; @not used but in future if need
+    //     //console.log("3br",this.Contact);
+    //     const input = event.target.value;
+    //     const numericValue = input.replace(/\D/g, ''); // Remove non-numeric characters
     
-        if (numericValue.length <= 11) {
-            this.Contact = numericValue;
-            this.contactClass = this.Contact ? '' : 'invalid-input';
-            console.log("Contact:", this.Contact);
-        } else {
-            this.Contact = numericValue.slice(0, 11);
-            this.contactClass = this.Contact ? '' : 'invalid-input';
-            console.log("Contact (truncated):", this.Contact);
-        }
+    //     if (numericValue.length <= 11) {
+    //         this.Contact = numericValue;
+    //         this.contactClass = this.Contact ? '' : 'invalid-input';
+    //         console.log("Contact:", this.Contact);
+    //     } else {
+    //         this.Contact = numericValue.slice(0, 11);
+    //         this.contactClass = this.Contact ? '' : 'invalid-input';
+    //         console.log("Contact (truncated):", this.Contact);
+    //     }
+        const input = event.target;
+        const cleanedPhone = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
+        this.Contact = cleanedPhone; 
     }
 
     //contact input validation
     handleInput(event) {
+        // const input = event.target;
+        // input.value = input.value.replace(/\D/g, '').slice(0, 11);
         const input = event.target;
-        input.value = input.value.replace(/\D/g, '').slice(0, 11);
+        input.value = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
+        this.Contact = input.value; 
     }
 
     //function to redirect to branch page

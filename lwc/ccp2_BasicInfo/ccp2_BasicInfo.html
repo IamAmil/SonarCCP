@@ -3,6 +3,6 @@
         <c-ccp-_-user-profile onclosemember={handleCloseMember} onopenmember={handleopenmember}></c-ccp-_-user-profile>
     </template>
     <template if:true={showwithdraw}>
-        <c-ccp2cancel-membership onclosem={closeShow}></c-ccp2cancel-membership>
+        <c-ccp2cancel-membership onclosem={closeShow} onopenbasic={handleopenbasic}></c-ccp2cancel-membership>
     </template>
 </template>

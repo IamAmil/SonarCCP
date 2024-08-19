@@ -3,6 +3,7 @@ import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_V
 import getVehicleWithoutAssociation from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociation';
 import getUsersWithoutAssociation from '@salesforce/apex/CCP2_userData.userList';
 import AddBranch from '@salesforce/apex/CCP2_branchController.createBranch';
+import checkBranch from '@salesforce/apex/CCP2_branchController.checkBranch';
 import getAccount from '@salesforce/apex/CCP2_userData.accountDetails';
 import Img1 from '@salesforce/resourceUrl/ccp2HeaderImg1';
 import Img2 from '@salesforce/resourceUrl/ccp2HeaderImg2';
@@ -97,6 +98,8 @@ export default class Ccp2AddBranchForm extends LightningElement {
     @track showList = false;
     @track showListUser = false;
     @track companyName = ''; 
+    @track alreadybranch = false;
+    @track fullwidthnum = false;
     // @track branchId = '';
     @track branchName = '';
     @track selectedVehicle = '';
@@ -323,7 +326,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
     }
     
   
-    handleNext() {
+    async handleNext() {
 
         // let branchList = this.template.querySelector('[name="branchss"]');
         // let prefectureList = this.template.querySelector('[name="prefucturesss"]');
@@ -332,80 +335,207 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
         try {
             const branchInput = this.template.querySelector('input[name="branchss"]');
+            const phoneInput = this.template.querySelector('input[name="phone"]');
 
             let isValid = true;
+            // const onlyNumber = /^[0-9]*$/;
+            const onlyHalfWidthNumber = /^[0-9]*$/;
+            const fullWidthDigitsRegex = /[０-９]/;
+            // if (this.currentStep === 1) {
+                
+            //     this.showerrorbranch = false;
+            //     this.showerrorbranchNull = false;
+            //     this.alreadybranch = false;
+            //     if (!branchInput.value) {
+            //         branchInput.classList.add('invalid-input');
+            //         // branchInput.setCustomValidity('この項目は必須です');
+            //         // branchInput.reportValidity();
+            //         this.showerrorbranchNull = true;
+            //         this.showerrorbranch = false;
+            //         window.scrollTo(0, 0);
+            //         isValid = false;
+            //     } else if (branchInput.value.length > 24) {
+            //         branchInput.classList.add('invalid-input');
+            //         // branchInput.setCustomValidity('ブランチ名は20文字以内でなければなりません');
+            //         // branchInput.reportValidity();
+            //         this.showerrorbranch = true;
+            //         this.showerrorbranchNull = false;
+            //         window.scrollTo(0, 0);
+            //         isValid = false;
+            //     }
+            //     else if(phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)){
+            //         phoneInput.classList.add('invalid-input');
+            //             this.fullwidthnum = true;
+            //             isValid = false;
+            //        }
+            //     else if (branchInput.value) {
+                    
+            //         try {
+            //             const result = await checkBranch({ accId: this.accountId, branchName: this.branchName });
+            //             console.log("result branch name class", result);
+            //         } 
+            //         catch (error) {
+            //             console.log('checkkkk name:', JSON.stringify(error));
+            //             isValid = false;
+            //             branchInput.classList.add('invalid-input');
+            //             this.alreadybranch = true;
+            //             window.scrollTo(0,0);
+            //             this.dispatchEvent(
+            //                 new ShowToastEvent({
+            //                     message: error.body.message,
+            //                     variant: 'error',
+            //                 })
+            //             );
+            //             // return false;
+            //         }
+            //     }
+               
+                
+            //     else {
+            //         branchInput.classList.remove('invalid-input');
+            //         console.log("in else branch remove classssss")
+            //         // phoneInput.classList.remove('invalid-input');
+            //         branchInput.setCustomValidity('');
+            //         // branchInput.reportValidity();
+            //         this.showerrorbranch = false;
+            //         this.showerrorbranchNull = false;
+            //         this.alreadybranch = false;
+                    
+            //         //    else{
+            //         //     phoneInput.classList.remove('invalid-input');
+            //         //     this.fullwidthnum = false;
+            //         //    }
+            //     }
+            //     // else{
+            //     //     phoneInput.classList.remove('invalid-input');
+            //     //     this.fullwidthnum = false;
+            //     // }
+            //     // if (!this.branchName) {
+            //     //     this.dispatchEvent(
+            //     //         new ShowToastEvent({
+            //     //             //title: 'Error',
+            //     //             message: '所属名を入力してください',
+            //     //             variant: 'error',
+            //     //         })
+            //     //     );
+            //     //     //Please fill in branch name.
+            //     //     // this.showToast('Error', '勤務地名を入力してください', 'error');
+            //     //     return false; // Validation failed
+            //     // }
+    
+            //     // if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
+            //         // this.dispatchEvent(
+            //         //     new ShowToastEvent({
+            //         //         //title: 'Error',
+            //         //         message: '有効な 10 桁の電話番号を入力してください.',
+            //         //         variant: 'error',
+            //         //     })
+            //         // );
+            //         // this.showToast('Error', 'Please enter a valid 10-digit phone number.', 'error');
+            //         // return false; // Validation failed
+            //     //     phoneInput.classList.add('invalid-input');
+            //     //     this.fullwidthnum = true;
+            //     //     isValid = false;
+            //     // }// Validate branchName
+            //         // if (!this.branchName) {
+            //         //     branchList.className = "Inputs1 hello-class  form-input _error slds-form-element__control slds-input";
+            //         //     this.branchError = true;
+            //         //     this.branchErrorText = "24桁以内に入力してください";
+            //         //     this.template.querySelector('.product-name').classList.add('error');
 
+            //         //     return false; // Exit validation if there's an error
+            //         // } else {
+            //         //     this.branchErrorText = '';
+            //         //     this.branchError = false;
+            //         //     // Reset or modify classes as needed for valid state
+            //         // }
+                  
+            // }
             if (this.currentStep === 1) {
+                this.showerrorbranch = false;
+                this.showerrorbranchNull = false;
+                this.alreadybranch = false;
+                this.fullwidthnum = false;
+            
+                // Validate branch input
                 if (!branchInput.value) {
                     branchInput.classList.add('invalid-input');
-                    // branchInput.setCustomValidity('この項目は必須です');
-                    // branchInput.reportValidity();
                     this.showerrorbranchNull = true;
                     this.showerrorbranch = false;
                     window.scrollTo(0, 0);
                     isValid = false;
                 } else if (branchInput.value.length > 24) {
                     branchInput.classList.add('invalid-input');
-                    // branchInput.setCustomValidity('ブランチ名は20文字以内でなければなりません');
-                    // branchInput.reportValidity();
                     this.showerrorbranch = true;
                     this.showerrorbranchNull = false;
                     window.scrollTo(0, 0);
                     isValid = false;
                 } else {
+                    // Clear branch input errors if branch name is corrected
                     branchInput.classList.remove('invalid-input');
-                    branchInput.setCustomValidity('');
-                    // branchInput.reportValidity();
                     this.showerrorbranch = false;
                     this.showerrorbranchNull = false;
+                    this.alreadybranch = false;
+            
+                    // Check branch availability if branch input is valid
+                    try {
+                        const result = await checkBranch({ accId: this.accountId, branchName: this.branchName });
+                        console.log("result branch name class", result);
+            
+                        // Additional handling based on result can be done here
+                    } catch (error) {
+                        console.log('checkkkk name:', JSON.stringify(error));
+                        isValid = false;
+                        branchInput.classList.add('invalid-input');
+                        this.alreadybranch = true;
+                        window.scrollTo(0, 0);
+                        this.dispatchEvent(
+                            new ShowToastEvent({
+                                message: error.body.message,
+                                variant: 'error',
+                            })
+                        );
+                        return; 
+                    }
                 }
-                // if (!this.branchName) {
-                //     this.dispatchEvent(
-                //         new ShowToastEvent({
-                //             //title: 'Error',
-                //             message: '所属名を入力してください',
-                //             variant: 'error',
-                //         })
-                //     );
-                //     //Please fill in branch name.
-                //     // this.showToast('Error', '勤務地名を入力してください', 'error');
-                //     return false; // Validation failed
-                // }
-    
-                if (this.phone !== '' && !this.validatePhone(this.phone)) {
-                    this.dispatchEvent(
-                        new ShowToastEvent({
-                            //title: 'Error',
-                            message: '有効な 10 桁の電話番号を入力してください.',
-                            variant: 'error',
-                        })
-                    );
-                    // this.showToast('Error', 'Please enter a valid 10-digit phone number.', 'error');
-                    return false; // Validation failed
-                }// Validate branchName
-                    // if (!this.branchName) {
-                    //     branchList.className = "Inputs1 hello-class  form-input _error slds-form-element__control slds-input";
-                    //     this.branchError = true;
-                    //     this.branchErrorText = "24桁以内に入力してください";
-                    //     this.template.querySelector('.product-name').classList.add('error');
-
-                    //     return false; // Exit validation if there's an error
-                    // } else {
-                    //     this.branchErrorText = '';
-                    //     this.branchError = false;
-                    //     // Reset or modify classes as needed for valid state
-                    // }
-                  
+            
+                // Validate phone input after branch input validation
+                if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
+                    phoneInput.classList.add('invalid-input');
+                    this.fullwidthnum = true;
+                    isValid = false;
+                } else {
+                    // Clear phone input errors if phone number is corrected
+                    phoneInput.classList.remove('invalid-input');
+                    this.fullwidthnum = false;
+                }
+            
+                // Scroll to the top if there are any errors
+                if (!isValid) {
+                    window.scrollTo(0, 0);
+                }
             }
-    
+            
+            
+            // if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
+            //     isValid = false;
+            //     phoneInput.classList.add('invalid-input');
+            //     this.fullwidthnum = true;
+            // }else{
+            //     console.log("elseeeeeee ")
+            // }
             if (isValid) {
                 this.Step1 = false;
                 this.Step2 = true;
                 this.currentStep = 2;
+                this.showerrorbranch = false;
+                this.showerrorbranchNull = false;
+                this.alreadybranch = false;
             }
         } catch (error) {
            console.log(error);
         }
+        
     }   
     
 
@@ -432,9 +562,12 @@ export default class Ccp2AddBranchForm extends LightningElement {
     }
 
     handleInput(event){
+        // const input = event.target;
+        // input.value = input.value.replace(/\D/g, '').slice(0, 16); 
+        // this.validatePhone(input.value);
         const input = event.target;
-        input.value = input.value.replace(/\D/g, '').slice(0, 16); 
-        this.validatePhone(input.value);
+    input.value = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
+    this.phone = input.value; 
     }
  
 
@@ -469,17 +602,17 @@ export default class Ccp2AddBranchForm extends LightningElement {
     AddBranch(params)
         .then(result => {
             console.log('Record inserted successfully:', result);
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    //title: 'Success', Branch is added Successfully
-                    message: '親所属が登録完了しました。',
-                    variant: 'success',
-                })
-            );
+            // this.dispatchEvent(
+            //     new ShowToastEvent({
+            //         //title: 'Success', Branch is added Successfully
+            //         message: '親所属が登録完了しました。',
+            //         variant: 'success',
+            //     })
+            // );
             // this.showToast('Success', '新規勤務地が追加されました。', 'success');
             this.Step2 = false;
             this.Step3 = true;
-             this.currentStep = 3;
+            this.currentStep = 3;
         })
         .catch(error => {
             console.error('Error inserting branch record:', error);
@@ -512,17 +645,41 @@ export default class Ccp2AddBranchForm extends LightningElement {
 
     handleBranchNameChange(event) {
         this.branchName = event.target.value;
+        console.log("branch name outside",this.branchName)
+        const regexJapanese = /^[一-龠ぁ-ゔァ-ヴー々〆〤ヶ]*$/;
+        let input = event.target.value;
+    
+        if (regexJapanese.test(input)) {
+            if (input.length > 24) {
+                // Truncate the input if it exceeds 24 characters
+                input = input.slice(0, 24);
+                event.target.value = input;
+            }
+            this.branchName = input;
+            console.log("branch name inside if",this.branchName)
+            this.errorMessage = '';
+        } else {
+            this.errorMessage = 'Invalid input: Only Japanese characters are allowed, and the length should be up to 24 characters.';
+        }
+    
         this.validateBranchName();
     }
+    
+    
+    
 
    
     handlePhoneChange(event) {
-        const input = event.target;
-        // console.log("212wsw",input);
-        const cleanedPhone = input.value.replace(/\D/g, '').slice(0, 11); // Clean input to allow only digits and limit to 10 characters
-        this.phone = cleanedPhone; // Update phone number in component state
+        // const input = event.target;
+        // // console.log("212wsw",input);
+        // const cleanedPhone = input.value.replace(/\D/g, '').slice(0, 11); // Clean input to allow only digits and limit to 10 characters
+        // this.phone = cleanedPhone; // Update phone number in component state
         // console.log("212wsw",cleanedPhone);
+        const input = event.target;
+    const cleanedPhone = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
+    this.phone = cleanedPhone; 
     }
+    
 
     
 

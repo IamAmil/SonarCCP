@@ -544,12 +544,24 @@ export default class Ccp2CancelMembership extends LightningElement {
         // this.showConformpage = true;
     }
     handleCancelYes(){
-        this.reloadPage();
+        // this.reloadPage();
+        window.scrollTo(0,0);
+        this.open();
         this.showCancelModal = false;
+        this.showWithdraw = true;
+        this.showConformpage = false;
         // this.showWithdraw = true;
     }
     reloadPage() {
         location.reload();
       }
-   
+      open() {
+    
+        const openEvent = new CustomEvent('openbasic', {
+            bubbles: true,
+            composed: true
+        });
+        console.log('Dispatching openmember event');
+        this.dispatchEvent(openEvent);
+      }
 }

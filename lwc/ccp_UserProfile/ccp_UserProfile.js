@@ -59,7 +59,7 @@ export default class Ccp_UserProfile extends LightningElement {
     truckpic3 = truck3;
     @track branchData = [];
     @track branch = [];
-    @track allUserLoader = false;
+    // @track allUserLoader = false;
     @track showcancelModaledit = false;
     @track showstep2 = false;
     @track showcanceledit = false;
@@ -67,6 +67,7 @@ export default class Ccp_UserProfile extends LightningElement {
     @track showeditscreen = false;
     @track showcancelModal = false;
     @track agreeChange = false;
+    @track fullwidthnum = false;
     @track isDropdownOpen = false;
     @track selectedValue = '';
     @track selectedId = '';
@@ -100,10 +101,14 @@ export default class Ccp_UserProfile extends LightningElement {
     selectedContactId; 
     contactId;
     contactData;
-    workdayStart;
-    workdayEnd;
-    holidayStart;
-    holidayEnd;
+    @track workdayStart = '';
+    @track startwork = '';
+    @track endwork = '';
+    @track startholiday = '';
+    @track endholiday = '';
+    @track workdayEnd = '';
+    @track holidayStart = '';
+    @track holidayEnd = '';
     // isNotReceiveByPhone;
     // isNotReceiveByPostcard;
     defaultDisplay;
@@ -318,17 +323,22 @@ export default class Ccp_UserProfile extends LightningElement {
                 console.log("userrrrhelllooooodata",this.userDetailData);
                 // the time field return the milliseconds so the time need divided by 3600000
                 this.workdayStart = data.MostLikelyWeekdayStartTimesForAppoint == null ? '' : this.getTime(data.MostLikelyWeekdayStartTimesForAppoint);
+                this.startwork = data.MostLikelyWeekdayStartTimesForAppoint == null ? '-' : this.getTime(data.MostLikelyWeekdayStartTimesForAppoint);
                 console.log("math floor in save week start",data.MostLikelyWeekdayStartTimesForAppoint)
                 console.log("start start inside user user",this.workdayStart);
                 this.workdayEnd = data.MostLikelyWeekdayEndTimesForAppoint == null ? '' : this.getTime(data.MostLikelyWeekdayEndTimesForAppoint);
+                this.endwork = data.MostLikelyWeekdayEndTimesForAppoint == null ? '-' : this.getTime(data.MostLikelyWeekdayEndTimesForAppoint);
                 console.log("math floor in save week end",data.MostLikelyWeekdayEndTimesForAppoint)
                 console.log("end week start inside user user",this.workdayEnd);
                 this.holidayStart = data.MostLikelyHolidayStartTimesForAppoint == null ? '' : this.getTime(data.MostLikelyHolidayStartTimesForAppoint);
+                this.startholiday = data.MostLikelyHolidayStartTimesForAppoint == null ? '-' : this.getTime(data.MostLikelyHolidayStartTimesForAppoint);
                 console.log("math floor in save holi start",data.MostLikelyHolidayStartTimesForAppoint)
                 console.log("start holi start inside user user",this.holidayStart);
                 this.holidayEnd = data.MostLikelyHolidayEndTimesForAppoint == null ? '' : this.getTime(data.MostLikelyHolidayEndTimesForAppoint);
+                this.endholiday = data.MostLikelyHolidayEndTimesForAppoint == null ? '-' : this.getTime(data.MostLikelyHolidayEndTimesForAppoint);
                 console.log("math floor in save holi end",data.MostLikelyHolidayEndTimesForAppoint)
                 console.log("end holi inside user user",this.holidayEnd);
+                
 
 
                 this.InputFirstName = data.FirstName == null ? '' : data.FirstName;
@@ -394,6 +404,7 @@ export default class Ccp_UserProfile extends LightningElement {
             if(this.InputPost === '-'){
               this.InputPost = '';
             }
+            
         }else if(error){
             console.log("error,userrrsss",error);
         }
@@ -442,19 +453,19 @@ export default class Ccp_UserProfile extends LightningElement {
                     accountCode: accountData.siebelAccountCode__c
                 }];
                 // the time field return the milliseconds so the time need divided by 3600000
-                this.workdayStart = this.getTime(data.mostLikelyWeekdayStartTimesForAppoint__c);
-                console.log("start start",this.workdayStart);
-                this.workdayEnd = this.getTime(data.mostLikelyWeekdayEndTimesForAppoint__c);
-                this.holidayStart = this.getTime(data.mostLikelyHolidayStartTimesForAppoint__c);
-                this.holidayEnd = this.getTime(data.mostLikelyHolidayEndTimesForAppoint__c);
-                this.defaultDisplay = {
-                    workdayStart: this.workdayStart,
-                    workdayEnd: this.workdayEnd,
-                    holidayStart: this.holidayStart,
-                    holidayEnd: this.holidayEnd,
-                    // isNotReceiveByPhone: false,
-                    // isNotReceiveByPostcard: false
-                };
+                // this.workdayStart = this.getTime(data.mostLikelyWeekdayStartTimesForAppoint__c);
+                // console.log("start start",this.workdayStart);
+                // this.workdayEnd = this.getTime(data.mostLikelyWeekdayEndTimesForAppoint__c);
+                // this.holidayStart = this.getTime(data.mostLikelyHolidayStartTimesForAppoint__c);
+                // this.holidayEnd = this.getTime(data.mostLikelyHolidayEndTimesForAppoint__c);
+                // this.defaultDisplay = {
+                //     workdayStart: this.workdayStart,
+                //     workdayEnd: this.workdayEnd,
+                //     holidayStart: this.holidayStart,
+                //     holidayEnd: this.holidayEnd,
+                //     // isNotReceiveByPhone: false,
+                //     // isNotReceiveByPostcard: false
+                // };
     //             // if(this.defaultDisplay.workdayStart != null){
     //             //     this.template.querySelector('[name="workdayStart"]').selectedIndex = Number(this.defaultDisplay.workdayStart) + 1;
     //             // } else {
@@ -515,7 +526,7 @@ export default class Ccp_UserProfile extends LightningElement {
         let baseUrl = window.location.href;
         let homeUrl;
         if(baseUrl.indexOf("/s/") != -1) {
-            homeUrl = baseUrl.split("/s/")[0] + '/s/';
+            homeUrl = baseUrl.split("/s/")[0] + '/s/profile';
         }
         window.location.href = homeUrl;
     }
@@ -643,6 +654,7 @@ export default class Ccp_UserProfile extends LightningElement {
           composed: true
       });
       console.log('Dispatching openmember event');
+      this.dispatchEvent(openEvent);
     }
     handleYes(){
         this.showconfModal = false;
@@ -760,7 +772,9 @@ export default class Ccp_UserProfile extends LightningElement {
         this.showcancelModal = true;
     }
     handleYesCancel(){
-      this.reloadPage();
+      // this.reloadPage();
+      window.scrollTo(0,0);
+        this.open();
         this.showcancelModal = false;
         this.showchangeAdmin = false;
         this.showBasicinfo = true;
@@ -846,10 +860,12 @@ export default class Ccp_UserProfile extends LightningElement {
         console.log("con id and selected user",this.contactId,this.selectedUserId)
     }
     handlelastbutton(){
-      this.showchangeAdmin = false;
-        this.showstep3 = false;
-        this.reloadPage();
-        this.showBasicinfo = true;
+      // this.showchangeAdmin = false;
+        // this.showstep3 = false;
+        // this.open();
+        // this.reloadPage();
+        this.navigateToHome();
+        // this.showBasicinfo = true;
     }
 
     checkManagerUser() {
@@ -867,6 +883,20 @@ export default class Ccp_UserProfile extends LightningElement {
       handleEdit(){
         this.close();
         this.showeditscreen = true;
+        console.log("workday stsrtaaasdnhvjs in edit",this.workdayEnd,this.workdayStart,this.holidayStart,this.holidayEnd);
+        if(this.workdayStart == '-'){
+          this.workdayStart = '';
+          console.log("inside work day",this.workdayStart);
+        }
+        if(this.workdayEnd == '-'){
+          this.workdayEnd = '';
+        }
+        if(this.holidayStart == '-'){
+          this.holidayStart = '';
+        }
+        if(this.holidayEnd == '-'){
+          this.holidayEnd = '';
+        }
         console.log("shoewwwwww cell phone",this.InputCellPhone);
         this.refreshTokenInt = ++this.refreshTokenInt;
         this.showBasicinfo = false;
@@ -877,12 +907,20 @@ export default class Ccp_UserProfile extends LightningElement {
     if (field) {
       let value = event.target.value;
 
-      // Original value for display purposes
       let displayValue = value;
+
+      const onlyDigitsRegex = /^[0-9０-９]*$/;
+
+      // if (field === "電話番号" || field === "携帯番号") {
+      //     // Check if the value contains only allowed characters
+      //     if (!onlyDigitsRegex.test(value)) {
+      //         // If not, remove invalid characters
+      //         value = value.replace(/[^0-9０-９]/g, '');
+      //     }
+      // }
       
-      // Convert hours to milliseconds for specific fields when storing
       if (field === "平日s" || field === "平日e" || field === "土日祝s" || field === "土日祝e") {
-          value = parseFloat(value) * 60 * 60 * 1000; // hours to milliseconds
+          value = parseFloat(value) * 60 * 60 * 1000; 
           if (isNaN(value)) {
               console.error("Invalid value for field:", field);
               return;
@@ -922,21 +960,18 @@ export default class Ccp_UserProfile extends LightningElement {
               break;
           case "電話番号":
               const onlyNumber = /^[0-9]*$/;
-              let isOk = displayValue.length > 0 && onlyNumber.test(displayValue);
+              // let isOk = displayValue.length > 0 && onlyNumber.test(displayValue);
               this.InputTelephone = displayValue;
-              // this.contactClassTelephone = isOk ? "" : "invalid-input";
               break;
           case "携帯番号":
               const onlyNumberCell = /^[0-9]*$/;
-              // isOk = displayValue.length > 0 && onlyNumberCell.test(displayValue);
               this.InputCellPhone = displayValue;
-              // this.contactClassCellPhone = isOk ? "" : "invalid-input";
               break;
           case "平日s":
-              this.workdayStart = displayValue;  // Store display value
+              this.workdayStart = displayValue;
               break;
           case "平日e":
-              this.workdayEnd = displayValue;  // Store display value
+              this.workdayEnd = displayValue;
               break;
           case "土日祝s":
               this.holidayStart = displayValue;  
@@ -954,6 +989,7 @@ export default class Ccp_UserProfile extends LightningElement {
       this.formData[field] = value;  // Store converted value
       console.log("form dataaaa updatesssss", JSON.stringify(this.formData));
   }
+  
         // const field = event.target.dataset.field;
         // if (field) {
         //   let value = event.target.value;
@@ -1171,7 +1207,8 @@ export default class Ccp_UserProfile extends LightningElement {
     this.showcancelModaledit = false;
   }
   handleYesCanceledit(){
-    this.reloadPage();
+    this.open();
+    // this.reloadPage();
     window.scrollTo(0,0);
     this.showcancelModaledit = false;
     this.showeditscreen = false;
@@ -1367,6 +1404,7 @@ export default class Ccp_UserProfile extends LightningElement {
     let onlyNumber = /^[0-9]*$/;
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let isFormValid = true; // Flag to track overall form validity
+    const fullWidthDigitsRegex = /[０-９]/;
 
     // Reset all error messages and CSS classes
     this.contactClassFirstName = "";
@@ -1384,40 +1422,48 @@ export default class Ccp_UserProfile extends LightningElement {
     this.contactClassCellPhone = "";
     this.contactClassTelephone = "";
     this.cellPhoneErrorText = "";
+    this.telephoneErrorText = "";
 
     if (this.InputFirstName == "") {
         this.contactClassFirstName = "invalid-input";
         this.Fnameerror = "名を入力してください";
         isFormValid = false;
+        this.handleError();
     }
     if (this.InputLastName == "") {
         this.contactClassLastName = "invalid-input";
         this.Lnameerror = "姓を入力してください";
         isFormValid = false;
+        this.handleError();
     }
     if (this.InputFKanaName == "") {
         this.contactClassFKanaName = "invalid-input";
         this.Fkanaerror = "名を入力してください";
         isFormValid = false;
+        this.handleError();
     }
     if (this.InputLKanaName == "") {
         this.contactClassLKanaName = "invalid-input";
         this.Lkanaerror = "姓を入力してください";
         isFormValid = false;
+        this.handleError();
     }
     if (this.branchfromjunction.length == 0 && this.branch.length == 0) {
         this.ErrorText = "所属を選択してください";
         this.contactClassBranch = "Inputs12 icon invalid-input";
         isFormValid = false;
+        this.handleError();
     }
     if (this.InputEmail == "") {
         this.contactClassEmail = "invalid-input";
         this.emailerrorText = "メールアドレスを入力してください";
         isFormValid = false;
+        this.handleError();
     } else if (!emailPattern.test(this.InputEmail)) {
         this.contactClassEmail = "invalid-input";
         this.emailerrorText = "メールアドレスの形式は不正です";
         isFormValid = false;
+        window.scrollTo(0,0);
     }
     const emailValidationPromise = new Promise((resolve, reject) => {
       if (this.InputEmail != this.initialmail) {
@@ -1427,6 +1473,7 @@ export default class Ccp_UserProfile extends LightningElement {
                       this.contactClassEmail = "invalid-input";
                       this.emailerrorText = "入力されたメールアドレスはすでに使われています";
                       isFormValid = false;
+                      window.scrollTo(0,0);
                   }
                   resolve();
               })
@@ -1435,6 +1482,7 @@ export default class Ccp_UserProfile extends LightningElement {
                   this.emailerrorText = "メールアドレスの検証中にエラーが発生しました";
                   this.contactClassEmail = "invalid-input";
                   isFormValid = false;
+                  window.scrollTo(0,0);
                   reject();
               });
       } else {
@@ -1468,23 +1516,32 @@ export default class Ccp_UserProfile extends LightningElement {
         this.cellPhoneErrorText = "電話番号か携帯番号かいずれかをご入力ください。";
         this.contactClassCellPhone = "invalid-input";
         this.contactClassTelephone = "invalid-input";
+        this.handleError();
         isFormValid = false;
     } 
     else if (this.InputTelephone == "" && !onlyNumber.test(this.InputCellPhone)) {
         this.contactClassCellPhone = "invalid-input";
-        this.telephoneErrorText = "電話番号・携帯番号は数字（ハイフンなし）でご入力ください";
+        this.telephoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
         isFormValid = false;
+        window.scrollTo(0,0);
     } else if ( this.InputCellPhone == "" && !onlyNumber.test(this.InputTelephone)) {
         this.contactClassTelephone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は数字（ハイフンなし）でご入力ください";
+        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
         isFormValid = false;
+        window.scrollTo(0,0);
     } 
     else if (this.InputTelephone != "" && this.InputCellPhone != "" && (!onlyNumber.test(this.InputTelephone) || !onlyNumber.test(this.InputCellPhone))) {
         this.contactClassTelephone = "invalid-input";
         this.contactClassCellPhone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は数字（ハイフンなし）でご入力ください";
+        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
         isFormValid = false;
+        window.scrollTo(0,0);
     }
+  //   else if (this.InputCellPhone != "" && !onlyNumber.test(this.InputCellPhone) && fullWidthDigitsRegex.test(this.InputCellPhone)) {
+  //     isFormValid = false;
+  //     this.contactClassCellPhone = "invalid-input";
+  //     this.fullwidthnum = true;
+  // }
 
     // If form is valid, proceed with the form submission
     emailValidationPromise.then(() => {
@@ -1498,7 +1555,7 @@ export default class Ccp_UserProfile extends LightningElement {
               try {
                   this.showeditscreen = false;
                   // this.isLoading = true;
-                  this.allUserLoader = true;
+                  // this.allUserLoader = true;
                   this.showBasicinfo = false;
                   console.log("loading", this.isLoading);
                   this.showBasicinfo = true;
@@ -1517,7 +1574,7 @@ export default class Ccp_UserProfile extends LightningElement {
                       this.refreshTokenInt = ++this.refreshTokenInt;
                       this.refreshTokenInt2 = ++this.refreshTokenInt2;
                       // this.isLoading = false;
-                      this.allUserLoader = false;
+                      // this.allUserLoader = false;
                       this.showBasicinfo = true;
                       console.log("loading", this.isLoading);
                   }, 2000);
@@ -1531,7 +1588,7 @@ export default class Ccp_UserProfile extends LightningElement {
           asyncFunction();
       } else {
           // Display all accumulated errors
-          this.handleError();
+          // this.handleError();
       }
     })
 }
@@ -1712,7 +1769,7 @@ export default class Ccp_UserProfile extends LightningElement {
     this.showModal = true;
     setTimeout(() => {
         this.showModal = false;
-        this.reloadPage();
+        // this.reloadPage();
     }, 2000);
 }
 reloadPage() {
@@ -1732,5 +1789,24 @@ reloadPage() {
 get branchPlaceholder() {
   return this.branchfromjunction.length === 0 && this.branch.length === 0;
 }
+
+handleInputValidation(event) {
+  const field = event.target.dataset.field;
+  if (field === "電話番号" || field === "携帯番号") {
+      let value = event.target.value;
+      const onlyDigitsRegex = /^[0-9０-９]*$/;
+
+      if (!onlyDigitsRegex.test(value)) {
+          value = value.replace(/[^0-9０-９]/g, '');
+      }
+
+      if (value.length > 11) {
+          value = value.slice(0, 11);
+      }
+
+      event.target.value = value;
+  }
+}
+
 
 }

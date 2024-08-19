@@ -209,13 +209,13 @@
                                                 <div class="conv-times">
                                                     <div class="inside-time">
                                                         <div class="weektime">
-                                                            <p style="font-size: 18px; width: 55px; height: 27px;">平日</p>
-                                                            <dd>{workdayStart}時~{workdayEnd}時</dd>
+                                                            <p class = "time-inside">平日</p>
+                                                            <p class="values-inside">{startwork} 時 ~ {endwork} 時</p>
                                                             
                                                         </div>
-                                                        <div class="time-val">
-                                                            <p style="font-size: 18px; width: 55px; height: 27px;">土日祝</p>
-                                                            <dd>{holidayStart}時~{holidayEnd}時</dd>
+                                                        <div class="weektime">
+                                                            <p class="time-inside">土日祝</p>
+                                                            <p class="values-inside">{startholiday} 時 ~ {endholiday} 時</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -893,52 +893,55 @@
                                         <div class="">電話番号あるいは携帯番号のいずれかをハイフンなしで入力してください</div>
                                         <div class="records_number" style="margin-top: 15px;">
                                             <div class="phn-label">電話番号</div>
-                                            <div class="phn"><input type="text" class={contactClassTelephone}
+                                            <div class="phn"><input type="tel" class={contactClassTelephone}
                                                     onchange={handleInputChange} data-field="電話番号"
-                                                    value={InputTelephone} maxlength="11" pattern="\d*" required
+                                                    value={InputTelephone} oninput={handleInputValidation} maxlength="11" pattern="\d*" required
                                                     placeholder="03621268002">
-                                                    <div if:true={telephoneErrorText} class="error-text">{telephoneErrorText}</div>
+                                                    
                                                 </div>
                                         </div>
                                         <div class="records_number">
                                             <div class="phn-label">携帯番号</div>
-                                            <div class="phn"><input type="text" class={contactClassCellPhone}
-                                                    onchange={handleInputChange} data-field="携帯番号"
+                                            <div class="phn"><input type="tel" class={contactClassCellPhone}
+                                                    onchange={handleInputChange} oninput={handleInputValidation} data-field="携帯番号"
                                                     value={InputCellPhone} maxlength="11" required
                                                     placeholder="03621268002">
-                                                    <div if:true={cellPhoneErrorText} class="error-text">{cellPhoneErrorText}</div>
+                                                    
                                                 </div>
                                         </div>
+                                        <div if:true={cellPhoneErrorText} class="error-text">{cellPhoneErrorText}</div>
+                                        <div if:true={telephoneErrorText} class="error-text">{telephoneErrorText}</div>
                                     </div>
                                 </div>
 
                                 <div class="records">
                                     <div class="head head-save2 head-save-align">連絡の取りやすい時間帯
                                     </div>
-                                    <div class="data2 data-align-time-label">
-                                        <label>平日</label>
-                                        <label>土日祝</label>
-                                    </div>
-                                    <div class="align-time-outer">
-                                        <div class="data2 data-align-time">
-                                            <input type="text" onchange={handleInputChange}  data-field="平日s" name="workdaystart"
-                                                value={workdayStart} placeholder="9" maxlength="2">
-                                                <label class="btw-label">時 ~</label>
-                                            <input type="text" onchange={handleInputChange} data-field="平日e"
-                                                value={workdayEnd} placeholder="10" maxlength="2">
-                                                <label class="btw-label">時</label>
+                                    <div class="data" style="display: flex;">
+                                        <div class="data2 data-align-time-label">
+                                            <label>平日</label>
+                                            <label>土日祝</label>
                                         </div>
-                                        <div class="data2 data-align-time">
-                                            <input type="text" onchange={handleInputChange} data-field="土日祝s"
-                                                value={holidayStart} placeholder="9" maxlength="2">
-                                                <label class="btw-label">時 ~</label>
-                                            <input type="text" onchange={handleInputChange} data-field="土日祝e"
-                                                value={holidayEnd} placeholder="10" maxlength="2">
-                                                <label class="btw-label">時</label>
+                                        <div class="align-time-outer">
+                                            <div class="data2 data-align-time">
+                                                <input type="text" onchange={handleInputChange}  data-field="平日s" name="workdaystart"
+                                                    value={workdayStart} placeholder="9" maxlength="2">
+                                                    <label class="btw-label">時 ~</label>
+                                                <input type="text" onchange={handleInputChange} data-field="平日e"
+                                                    value={workdayEnd} placeholder="10" maxlength="2">
+                                                    <label class="btw-label">時</label>
+                                            </div>
+                                            <div class="data2 data-align-time">
+                                                <input type="text" onchange={handleInputChange} data-field="土日祝s"
+                                                    value={holidayStart} placeholder="9" maxlength="2">
+                                                    <label class="btw-label">時 ~</label>
+                                                <input type="text" onchange={handleInputChange} data-field="土日祝e"
+                                                    value={holidayEnd} placeholder="10" maxlength="2">
+                                                    <label class="btw-label">時</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-            
                                 <div class="form-footer">
                                 <div class="button2">
                                     <div class="btn2" onclick={handleCanceledit}>
@@ -959,53 +962,46 @@
             </div>
     </template>
     <template if:true={showconfModal}>
-        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="background-color: #ffffff0d;">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-text-heading_medium" style="border-radius: 8px; background-color: rgba(255, 255, 255); height:40vh;">
-                    <div class="content-modal">
-                        <h1>管理者を変更しますか？</h1>
-                        <div class="btn-modal">
-                            <button class="btn-no" onclick={handleNo}>いいえ</button>
-                            <button class="btn-yes" onclick={handleYes}>はい</button>
-
-                        </div>
-                    </div>
-
+        <div class="modal-background-last">
+            <div class="modal-window-small">
+                <div class="warning">
+                    <p class="warntxt">管理者を変更しますか？</p>
                 </div>
-
-
+                <div class="buttons-small">
+                    <div class="cancelbutton btn" onclick={handleNo}>
+                        <p class="buttontxt">いいえ</p>
+                    </div>
+                    <div class="searchbutton btn" onclick={handleYes}>
+                        <p class="buttontxt2">はい</p>
+                    </div>
+                </div>
             </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
     </template>
 
     <template if:true={showcancelModal}>
-        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="background-color: #ffffff0d;">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-text-heading_medium" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9); height:40vh;">
-                    <div class="content-modal">
-                        <h1>入力された内容が保存していませんが、<br>
-                            終了しますか？
-                        </h1>
-                        <div class="btn-modal-edit">
-                            <button class="btn-no" onclick={handleNoCancel}>いいえ</button>
-                            <button class="btn-yes" onclick={handleYesCancel}>はい</button>
-
-                        </div>
-                    </div>
-
+        <div class="modal-background-last">
+            <div class="modal-window-small">
+                <div class="warning">
+                    <p class="warntxt">入力された内容が保存していませんが、</p>
+                       <p class="warntxt more"> 終了しますか？</p>
                 </div>
-
-
+                <div class="buttons-small">
+                    <div class="cancelbutton btn" onclick={handleNoCancel}>
+                        <p class="buttontxt">いいえ</p>
+                    </div>
+                    <div class="searchbutton btn" onclick={handleYesCancel}>
+                        <p class="buttontxt2">はい</p>
+                    </div>
+                </div>
             </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
     </template>
 
     <template if:true={showagreeModal}>
         <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="background-color: #ffffff0d;">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-text-heading_medium" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9); height:30vh;">
+            <div class="modal-background-last2">
+                <div class="modal-window-small2" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9); height:max-content;">
                     <div class="content-modal">
                         <h1>「管理者変更を同意します」<br>
                             をチェックしてください
@@ -1023,26 +1019,22 @@
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
     <template if:true={showcancelModaledit}>
-        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="background-color: #ffffff0d;">
-            <div class="slds-modal__container">
-                <div class="slds-modal__content slds-text-heading_medium" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9); height:35vh;">
-                    <div class="content-modal">
-                        <h1>入力された内容が保存していませんが、<br>
-                            終了しますか？
-                        </h1>
-                        <div class="btn-modal3">
-                            <button class="btn-no" onclick={handleNoCanceledit}>いいえ</button>
-                            <button class="btn-yes" onclick={handleYesCanceledit}>はい</button>
-
-                        </div>
-                    </div>
-
+        <div class="modal-background-last">
+            <div class="modal-window-small">
+                <div class="warning">
+                    <p class="warntxt">入力された内容が保存していませんが、</p>
+                       <p class="warntxt more"> 終了しますか？</p>
                 </div>
-
-
+                <div class="buttons-small">
+                    <div class="cancelbutton btn" onclick={handleNoCanceledit}>
+                        <p class="buttontxt">いいえ</p>
+                    </div>
+                    <div class="searchbutton btn" onclick={handleYesCanceledit}>
+                        <p class="buttontxt2">はい</p>
+                    </div>
+                </div>
             </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
     </template>
     <template if:true={showModal}>
         <div class="modal-background-last">

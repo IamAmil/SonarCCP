@@ -1,4 +1,5 @@
 import { LightningElement, track, api, wire } from "lwc";
+import i18nextStaticResource from '@salesforce/resourceUrl/i18next';
 import Vehicle_StaticResource from "@salesforce/resourceUrl/CCP2_Resources";
 import getLogoutURL from "@salesforce/apex/CCP_HeaderController.getLogoutURL";
 import basePath from "@salesforce/community/basePath";
@@ -8,6 +9,7 @@ import Id from "@salesforce/user/Id";
 
 import checkGuestUser from "@salesforce/apex/CCP_HeaderController.checkGuestUser";
 import getLoginURL from "@salesforce/apex/CCP_HeaderController.getLoginURL";
+import labelResource from "@salesforce/resourceUrl/ccp2_FusoHeaderLabels";
 
 //labels
 import CCP2_Home from "@salesforce/label/c.CCP2_Home";
@@ -44,6 +46,8 @@ export default class Ccp2_FusoHeader extends LightningElement {
   @track UserManagment = true;
   @track BranchManagment = true;
   @track IsUserLogin = true;
+  
+  FusoShop = "https://login.b2b-int.daimlertruck.com/corptbb2cstaging.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1A_signup_signin&client_id=4d21e801-db95-498f-8cc5-1363af53d834&nonce=defaultNonce&redirect_uri=https://jsapps.c3sf1r8zlh-daimlertr2-s1-public.model-t.cc.commerce.ondemand.com/mftbc/ja&scope=openid&response_type=code&ui_locales=ja";
 
   @track uid = Id;
   loginLink;
@@ -60,6 +64,7 @@ export default class Ccp2_FusoHeader extends LightningElement {
     CCP2_Logout,
     CCP2_BranchManage
   };
+  labels2 ={};
 
   //links variables
   homeUrl;
@@ -94,6 +99,56 @@ export default class Ccp2_FusoHeader extends LightningElement {
       });
   }
 
+
+loadI18nextLibrary() {
+  return new Promise((resolve, reject) => {
+      if (!window.i18next) {
+          const script = document.createElement("script");
+          script.src = i18nextStaticResource; // Load i18next from the static resource
+          script.onload = () => {
+              resolve();
+          };
+          script.onerror = () => {
+              reject(new Error("Failed to load i18next script"));
+          };
+          document.head.appendChild(script);
+      } else {
+          resolve();
+      }
+  });
+}
+
+  loadLabels() {
+    fetch(labelResource)
+      .then((response) => response.json())
+      .then((data) => {
+        const userLocale = this.getLocale(); // Method to determine user locale (e.g., 'en', 'jp')
+        
+        // Initialize i18next with the fetched labels
+        i18next.init({
+            lng: userLocale,
+            resources: {
+                [userLocale]: {
+                    translation: data[userLocale]
+                }
+            }
+        }).then(() => {
+            this.labels = i18next.store.data[userLocale].translation;
+            console.log("User Locale: ", userLocale);
+            console.log("User Labels: ", this.labels);
+        });
+      })
+      .catch((error) => {
+        console.error("Error loading labels: ", error);
+      });
+}
+
+
+  getLocale() {
+    const region = Intl.DateTimeFormat().resolvedOptions().locale;
+    return region === "ja" ? "jp" : "en";
+  }
+
   loadCheckGuestUser() {
     checkGuestUser().then((result) => {
       this.amIGuestUser = result;
@@ -109,9 +164,20 @@ export default class Ccp2_FusoHeader extends LightningElement {
       }
     });
   }
-
+  timeZone;
+  region;
   connectedCallback() {
+    this.loadI18nextLibrary().then(() => {
+      this.loadLabels(); // Now you can safely load the labels after i18next is loaded
+  }).catch((error) => {
+      console.error("Error loading i18next library: ", error);
+  });
     this.loadCheckGuestUser();
+
+    this.region = Intl.DateTimeFormat().resolvedOptions().locale;
+    this.timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("Time zone is: ", this.timeZone);
+    console.log("Region: ", this.region);
     //importing the font (@Noto Sans JP)
     const link = document.createElement("link");
     link.href =
@@ -119,6 +185,7 @@ export default class Ccp2_FusoHeader extends LightningElement {
     link.rel = "stylesheet";
     document.head.appendChild(link);
     this.getAllUrl();
+    // this.loadI18next();
 
     getAllServices({ userId: this.uid, refresh: 0})
       .then((res) => {
@@ -136,7 +203,59 @@ export default class Ccp2_FusoHeader extends LightningElement {
         this.errors = JSON.stringify(error);
        // console.log("checkManagerUser errors:" + JSON.stringify(error));
       });
+      
   }
+
+  // loadI18next() {
+  //   const script = document.createElement("script");
+  //   script.src = i18nextStaticResource; // Load i18next from static resource
+  //   script.onload = () => {
+  //       this.initializeI18next();
+  //   };
+  //   document.head.appendChild(script);
+  // }
+
+// initializeI18next() {
+//   let defaultLanguage;
+//   if (this.region === 'ja') {
+//       defaultLanguage = 'jp';
+//   } else {
+//       defaultLanguage = 'en';
+//   }
+//     i18next.init({
+//         lng: defaultLanguage,
+//         resources: {
+//           en: {
+//             translation: {
+//                 "home": "Home",
+//                 "vehicles": "Vehicles",
+//                 "fusoshop": "Fuso Shop",
+//                 "finance": "Finance"
+//             }
+//         },
+//             jp: {
+//                 translation: {
+//                     "home": "ホーム",
+//                     "vehicles": "車両",
+//                     "fusoshop": "フーゾショップ",
+//                     "finance": "ファイナンス"
+//                 }
+//             }
+//         }
+//     }).then(() => {
+//         this.updateLabels();
+//         console.log("worked");
+//     });
+// }
+
+// updateLabels() {
+//     this.labels2 = {
+//         Home: i18next.t('home'),
+//         Vehicles: i18next.t('vehicles'),
+//         FusoShop: i18next.t('fusoshop'),
+//         Finance: i18next.t('finance')
+//     };
+// }
 
   //links for href
   getAllUrl() {

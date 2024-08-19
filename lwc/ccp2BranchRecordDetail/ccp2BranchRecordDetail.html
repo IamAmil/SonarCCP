@@ -20,7 +20,7 @@
                                     <div class="b">
                                         <div class="delete" onclick={suremodal}>
                                             <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" class="filtericn"></lightning-icon>
-                                            <p class="deletetxt">{labels.CCP2_DeleteThisBranch}</p>
+                                            <p class="deletetxt">この所属を削除する</p>
                                         </div>
                                         <div class="button">
                                             <div class="btn" onclick={handleChange}>
@@ -38,7 +38,7 @@
                                         <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
                                             <div class="records">
                                                 <div class="head">所属番号</div>
-                                                <div class="data">{BranchNumber}</div>
+                                                <div class="data">{siebelcode} - {BranchNumber}</div>
                                             </div>
                                          </div>
                                          <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-3">
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="records">
                                         <div class="headH">{labels.CCP2_BranchNumber}</div>
-                                        <div class="data">{BranchNumber}</div>
+                                        <div class="data">{siebelcode} - {BranchNumber}</div>
                                     </div>
                                     <div class="recordsI">
                                         <div class="field">
@@ -134,7 +134,7 @@
                                             <div class="req"><p class="reqtxt">{labels.CCP2_Required}</p></div>
                                         </div>
                                         <div class="errors">
-                                            <div class="dataI"><input type="text" value={branchName} name="branch" oninput={handlevalidation} onchange={handleBranchChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs {branchNameClass}" required></div>
+                                            <div class="dataI"><input type="text" value={branchName} name="branch" oninput={handlevalidation} onchange={handleBranchChange} placeholder={labels.CCP2_PleaseEnter} maxlength="24" class="Inputs {branchNameClass}" required></div>
                                             <template if:true={showerrorbranch}><p class="txterror">名前は 24 文字未満にする必要があります</p></template>
                                             <template if:true={showerrorbranchNull}><p class="txterror">この項目は必須です</p></template>
                                         </div>
@@ -177,7 +177,8 @@
                                         <div class="dataCon">
                                             <div class="ins">{labels.CCP2_WithoutHyphen}</div>
 
-                                         <input type="text" name="contactNumber" value={Contact} onchange={handleContactNoChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {contactClass}" oninput={handleInput}  maxlength="11" pattern="\d*">
+                                         <input type="text" name="contactNumber" value={Contact} onchange={handleContactNoChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {contactClass}" maxlength="11" pattern="\d*">
+                                         <template if:true={fullwidthnum}><p class="txterror">電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください</p></template>
                                          <!-- <div class="ins">{labels.CCP2_WithoutHyphen}</div> -->
                                         </div>
                                     </div>
@@ -297,7 +298,7 @@
                     <div class="modal-background-last">
                         <div class="modal-window-small">
                             <div class="warning">
-                                <p class="warntxt">この所属を削除しますか？</p>
+                                <p class="warntxt more">この所属を削除しますか？</p>
                             </div>
                             <div class="buttons-small">
                                 <div class="cancelbutton btn" onclick={closesure}>
@@ -326,7 +327,8 @@
         <div class="modal-background-last">
             <div class="modal-window-small">
                 <div class="warning">
-                    <p class="warntxt">入力された内容が保存していませんが、終了しますか？</p>
+                    <p class="warntxt clone">入力された内容が保存していませんが、</p>
+                        <p class="warntxt more">終了しますか？</p>
                 </div>
                 <div class="buttons-small">
                     <div class="cancelbutton btn" onclick={handleNo}>

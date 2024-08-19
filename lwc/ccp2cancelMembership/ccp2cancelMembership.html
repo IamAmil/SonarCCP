@@ -1,12 +1,14 @@
 <template>
 
     <template if:true={showWithdraw}>
-        <div class="half bottom2">
-            <div class="withdraw-div">
-                <button class="withdraw-btn-side" onclick={navigateToHome}>トップに戻る</button>
-                <button class="withdraw-btn" onclick={handlewithdraw}>{labels.CCP2_Withdraw}</button>
-            </div>
-        </div>
+      <div class="half-bottom2">
+          <div class="half bottom2">
+              <div class="withdraw-div">
+                  <button class="withdraw-btn-side" onclick={navigateToHome}>トップに戻る</button>
+                  <button class="withdraw-btn" onclick={handlewithdraw}>{labels.CCP2_Withdraw}</button>
+              </div>
+          </div>
+      </div>
     </template>
     <!-- <template if:true={hidebasicInfo}>
         <c-ccp-_-user-profile></c-ccp-_-user-profile>
@@ -425,24 +427,22 @@
     </template> -->
 
     <template if:true={showCancelModal}>
-        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open custom-modal">
-        <div class="slds-modal__container custom-modal-container2" style="height: 35vh;">
-            <!-- <div class="slds-modal__content slds-text-heading_medium"> -->
-                <div class="content-modal2-cancel">
-                    <div class="modal-h1-2">
-                       <p>入力された内容が保存していませんが、</p>
-                            <p>終了しますか？</p>
+        <div class="modal-background-last">
+            <div class="modal-window-small">
+                <div class="warning">
+                    <p class="warntxt">入力された内容が保存していませんが、</p>
+                    <p class="warntxt more"> 終了しますか？</p>
+                </div>
+                <div class="buttons-small">
+                    <div class="cancelbutton btn21" onclick={handleCancelNo}>
+                        <p class="buttontxt">{labels.CCP2_No}</p>
                     </div>
-                    <div class="btn-modal">
-                        <button class="btn-no" onclick={handleCancelNo}>{labels.CCP2_No}</button>
-                        <button class="btn-yes" onclick={handleCancelYes}>{labels.CCP2_Yes}</button>
+                    <div class="searchbutton btn21" onclick={handleCancelYes}>
+                        <p class="buttontxt2">{labels.CCP2_Yes}</p>
                     </div>
                 </div>
-            <!-- </div> -->
+            </div>
         </div>
-    </section>
-    <div class="slds-backdrop slds-backdrop_open custom-backdrop"></div>
-
     </template>
     
 </template>

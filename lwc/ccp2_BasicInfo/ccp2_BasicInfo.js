@@ -14,6 +14,11 @@ export default class Ccp_BasicInfo extends LightningElement {
         console.log("working 2");
     }
     handleopenmember(){
+        this.showUppInfo = true;
         this.showwithdraw = true;
+        console.log("inside opennnnnn")
+    }
+    handleopenbasic(){
+        this.showUppInfo = true;
     }
 }

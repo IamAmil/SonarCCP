@@ -106,22 +106,41 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.updateVisiblePageNumbers();
     }
 
+    // updateVisiblePageNumbers() {
+    //     const totalVisiblePages = 5;
+    //     const startIdx = Math.max(this.currentPage - Math.ceil(totalVisiblePages / 2), 0);
+    //     const endIdx = Math.min(startIdx + totalVisiblePages, this.pageNumbers.length);
+
+    //     if (endIdx - startIdx < totalVisiblePages) {
+    //         const diff = totalVisiblePages - (endIdx - startIdx);
+    //         const newStartIdx = Math.max(startIdx - diff, 0);
+    //         this.visiblePageNumbers = this.pageNumbers.slice(newStartIdx, endIdx);
+    //     } else {
+    //         this.visiblePageNumbers = this.pageNumbers.slice(startIdx, endIdx);
+    //     }
+    //     this.isPreviousDisabled = this.currentPage === 1;
+    //     this.isNextDisabled = this.currentPage === this.pageNumbers.length;
+    // }
+
     updateVisiblePageNumbers() {
         const totalVisiblePages = 5;
-        const startIdx = Math.max(this.currentPage - Math.ceil(totalVisiblePages / 2), 0);
-        const endIdx = Math.min(startIdx + totalVisiblePages, this.pageNumbers.length);
-
+        const totalPages = this.pageNumbers.length;
+    
+        let startIdx = Math.max(this.currentPage - Math.ceil(totalVisiblePages / 2), 0);
+        let endIdx = Math.min(startIdx + totalVisiblePages, totalPages);
+    
         if (endIdx - startIdx < totalVisiblePages) {
             const diff = totalVisiblePages - (endIdx - startIdx);
-            const newStartIdx = Math.max(startIdx - diff, 0);
-            this.visiblePageNumbers = this.pageNumbers.slice(newStartIdx, endIdx);
-        } else {
-            this.visiblePageNumbers = this.pageNumbers.slice(startIdx, endIdx);
+            startIdx = Math.max(startIdx - diff, 0);
+            endIdx = Math.min(startIdx + totalVisiblePages, totalPages);
         }
-
+    
+        this.visiblePageNumbers = this.pageNumbers.slice(startIdx, endIdx);
+    
         this.isPreviousDisabled = this.currentPage === 1;
-        this.isNextDisabled = this.currentPage === this.pageNumbers.length;
+        this.isNextDisabled = this.currentPage === totalPages;
     }
+    
 
     handlePreviousPage() {
         if (this.currentPage > 1) {
@@ -185,6 +204,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     handlePageChange(event) {
         this.currentPage = Number(event.target.dataset.id);
         this.fetchItems(this.currentPage);
+        this.updateVisiblePageNumbers();
     }
     
     branchesName;
@@ -204,6 +224,9 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
             console.error('Error loading branches:', error);
         }
     }
+    // get Islength() {
+    //     return this.branchData.length < 9;
+    // }
 
     handleBranchClick(event) {
         const branchId = event.target.dataset.idd;
