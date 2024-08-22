@@ -47,8 +47,10 @@ import updateUser from "@salesforce/apex/CCP2_userController.updateRecords";
 import updateUserServices from "@salesforce/apex/CCP2_userController.updateAccessControl";
 import getUserDetail from "@salesforce/apex/CCP2_userData.userDtl";
 
-const arrowicon = Vehicle_StaticResource + "/CCP2_Resources/Common/arrow_under.png";
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.png";
+const arrowicon =
+  Vehicle_StaticResource + "/CCP2_Resources/Common/arrow_under.png";
+const BACKGROUND_IMAGE_PC =
+  Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.png";
 
 export default class Ccp2UserManagement extends LightningElement {
   labels = {
@@ -100,7 +102,9 @@ export default class Ccp2UserManagement extends LightningElement {
   @track customerId;
   @track showconfModal = false;
   @track userServicesData;
+  @track tempUserServicesData;
   @track userDetailData;
+  @track tempUserDetailData;
   @track allServicesListData;
   @track allServicesListDataForClass;
   @track allUserLoader = true;
@@ -116,6 +120,7 @@ export default class Ccp2UserManagement extends LightningElement {
   @track usercount;
   @track IsUsercountZero = false;
   @track branchfromjunction = [];
+  @track tempBranchfromjunction = [];
   @track branchoptions = [];
   @track searchTerm = "";
   @track branch = [];
@@ -144,76 +149,76 @@ export default class Ccp2UserManagement extends LightningElement {
   @track contactName = "";
   @track contactlist = [];
   @track brnach = [];
-  @track ErrorText = '';
-    @track emailerrorText = ''
-    @track cellPhoneErrorText = '';
-    @track telephoneErrorText = '';
-    @track Fnameerror = '';
-    @track Lnameerror = '';
-    @track Fkanaerror = '';
-    @track Lkanaerror = '';
-    @track initialmail = '';
-
+  @track ErrorText = "";
+  @track emailerrorText = "";
+  @track cellPhoneErrorText = "";
+  @track telephoneErrorText = "";
+  @track Fnameerror = "";
+  @track Lnameerror = "";
+  @track Fkanaerror = "";
+  @track Lkanaerror = "";
+  @track initialmail = "";
 
   @wire(userListwithbranch)
-  userlistbran({data,error}){
-    if(data){
-      console.log("brnach user list data",data);
+  userlistbran({ data }) {
+    if (data) {
+      console.log("brnach user list data", data);
 
-    //   this.contactlist = data.map((branch)=> ({
+      //   this.contactlist = data.map((branch)=> ({
 
-    //     brnach: branch.branches.map((bran) => (
-    //       {
-    //       branhesname: bran.Name,
-    //       branchesId: bran.Id
-    //       }
-    //   )),
+      //     brnach: branch.branches.map((bran) => (
+      //       {
+      //       branhesname: bran.Name,
+      //       branchesId: bran.Id
+      //       }
+      //   )),
 
-    //     contactss: branch.contact.Name,
-    //     contactssId: branch.contact.Id
-        
+      //     contactss: branch.contact.Name,
+      //     contactssId: branch.contact.Id
 
-    //   }));
+      //   }));
 
-      
-    //   console.log("contact branch",JSON.stringify(this.contactlist));
-    // }
-    this.contactlist = data.map((branch) => {
-      
-      const firstBranch = branch.branches.length > 0 ? branch.branches[0] : {};
+      //   console.log("contact branch",JSON.stringify(this.contactlist));
+      // }
+      this.contactlist = data.map((branch) => {
+        const firstBranch =
+          branch.branches.length > 0 ? branch.branches[0] : {};
 
-      return {
-        branchName: firstBranch.Name,
-        branchId: firstBranch.Id,
-        contactName: branch.contact.Name,
-        contactssId: branch.contact.Id,
-        usercontactId: branch.contact.UserId__c
-      };
-    });
+        return {
+          branchName: firstBranch.Name,
+          branchId: firstBranch.Id,
+          contactName: branch.contact.Name,
+          contactssId: branch.contact.Id,
+          usercontactId: branch.contact.UserId__c
+        };
+      });
 
-    console.log("contact branch", JSON.stringify(this.contactlist));
-  }
+      console.log("contact branch", JSON.stringify(this.contactlist));
+    }
   }
   @wire(getUserServices, {
     userId: "$selectedContactUserId",
-    refresh: "$refreshTokenInt2"})
+    refresh: "$refreshTokenInt2"
+  })
   userServicesFun({ data, error }) {
     if (data) {
-      if (data.length == 0) {
+      if (data.length === 0) {
         this.userServicesData = ["Null"];
-    } else {
+      } else {
         const serviceOrder = [
-            "基本サービス（ふそうショップ）",
-            "部整月次請求書（電子版）",
-            "金融サービス",
-            "車検入庫予約",
-            "車両管理",
-            "費用管理"
+          "基本サービス（ふそうショップ）",
+          "部整月次請求書（電子版）",
+          "金融サービス",
+          "車検入庫予約",
+          "車両管理",
+          "費用管理"
         ];
 
-        this.userServicesData = serviceOrder.map(service => data.find(item => item === service));
+        this.userServicesData = serviceOrder.map((service) =>
+          data.find((item) => item === service)
+        );
         console.log("userServicesData", JSON.stringify(this.userServicesData));
-    }
+      }
 
       // console.log('getUserServices wire:-',data,this.refreshTokenInt)
       // console.log("selected con id service",this.selectedContactUserId);
@@ -232,50 +237,50 @@ export default class Ccp2UserManagement extends LightningElement {
     this.refreshUserDetailWireData = data;
     if (data) {
       this.userDetailData = {
-        Name: data[0].Name == null ? "-" : data[0].Name,
-        id: data[0].Id == null ? "-" : data[0].Id,
-        email: data[0].Email == null ? "-" : data[0].Email,
+        Name: data[0].Name === null ? "-" : data[0].Name,
+        id: data[0].Id === null ? "-" : data[0].Id,
+        email: data[0].Email === null ? "-" : data[0].Email,
         account: {
-          name: data[0].Account.Name == null ? "-" : data[0].Account.Name,
+          name: data[0].Account.Name === null ? "-" : data[0].Account.Name,
           siebelAccountCode__c:
-            data[0].Account.siebelAccountCode__c == null
+            data[0].Account.siebelAccountCode__c === null
               ? "-"
               : data[0].Account.siebelAccountCode__c
         },
-        Department: data[0].Department == null ? "-" : data[0].Department,
-        MobilePhone: data[0].MobilePhone == null ? "-" : data[0].MobilePhone,
-        Phone: data[0].Phone == null ? "-" : data[0].Phone,
+        Department: data[0].Department === null ? "-" : data[0].Department,
+        MobilePhone: data[0].MobilePhone === null ? "-" : data[0].MobilePhone,
+        Phone: data[0].Phone === null ? "-" : data[0].Phone,
         Title:
-          !data[0].Title || data[0].Title == undefined ? "-" : data[0].Title,
+          !data[0].Title || data[0].Title === undefined ? "-" : data[0].Title,
         firstNameKana__c:
-          data[0].firstNameKana__c == null ? "-" : data[0].firstNameKana__c,
+          data[0].firstNameKana__c === null ? "-" : data[0].firstNameKana__c,
         lastNameKana__c:
-          data[0].lastNameKana__c == null ? "-" : data[0].lastNameKana__c,
+          data[0].lastNameKana__c === null ? "-" : data[0].lastNameKana__c,
         Employee_Code__c:
-          data[0].Employee_Code__c == null ? "-" : data[0].Employee_Code__c
+          data[0].Employee_Code__c === null ? "-" : data[0].Employee_Code__c
       };
       this.firstName = data[0].Name.split(" ")[1];
       this.lastName = data[0].Name.split(" ")[0];
 
-      this.InputFirstName = this.firstName == undefined ? "" : this.firstName;
-      this.InputLastName = this.lastName == undefined ? "" : this.lastName;
+      this.InputFirstName = this.firstName === undefined ? "" : this.firstName;
+      this.InputLastName = this.lastName === undefined ? "" : this.lastName;
       this.InputFKanaName =
-        data[0].firstNameKana__c == undefined ? "" : data[0].firstNameKana__c;
+        data[0].firstNameKana__c === undefined ? "" : data[0].firstNameKana__c;
       this.InputLKanaName =
-        data[0].lastNameKana__c == undefined ? "" : data[0].lastNameKana__c;
-      this.InputEmail = data[0].Email == undefined ? "" : data[0].Email;
-      this.initialmail = data[0].Email == undefined ? "" : data[0].Email;
-      this.InputTelephone = data[0].Phone == undefined ? "" : data[0].Phone;
+        data[0].lastNameKana__c === undefined ? "" : data[0].lastNameKana__c;
+      this.InputEmail = data[0].Email === undefined ? "" : data[0].Email;
+      this.initialmail = data[0].Email === undefined ? "" : data[0].Email;
+      this.InputTelephone = data[0].Phone === undefined ? "" : data[0].Phone;
       this.InputCellPhone =
-        data[0].MobilePhone == undefined ? "" : data[0].MobilePhone;
+        data[0].MobilePhone === undefined ? "" : data[0].MobilePhone;
 
       this.InputDepartment =
-        data[0].Department == undefined ? "" : data[0].Department;
-      this.InputPost = data[0].Title == undefined ? "" : data[0].Title;
+        data[0].Department === undefined ? "" : data[0].Department;
+      this.InputPost = data[0].Title === undefined ? "" : data[0].Title;
       this.InputEmpCode =
-        data[0].Employee_Code__c == undefined ? "" : data[0].Employee_Code__c;
+        data[0].Employee_Code__c === undefined ? "" : data[0].Employee_Code__c;
       this.userDetailsLoader = false;
-    } else if(error) {
+    } else if (error) {
       console.error(
         "User Detail Fetching error: in wire" + JSON.stringify(error)
       );
@@ -303,7 +308,7 @@ export default class Ccp2UserManagement extends LightningElement {
     error
   }) {
     if (data) {
-      console.log("branch data branch options",data)
+      console.log("branch data branch options", data);
       this.branchoptions = data.map((vehicle) => {
         return { label: vehicle.Name, value: vehicle.Id };
       });
@@ -311,13 +316,12 @@ export default class Ccp2UserManagement extends LightningElement {
       console.error(error);
     }
   }
-  
+
   getAllUser() {
     getAllUser()
       .then((result) => {
-        // this.allUserData = result;
-        this.usercount = result != [] ? result.length : 0;
-        if (this.usercount == 0) {
+        this.usercount = result?.length || 0;
+        if (this.usercount === 0) {
           this.IsUsercountZero = true;
           this.showUserList = false;
         }
@@ -352,7 +356,7 @@ export default class Ccp2UserManagement extends LightningElement {
     deleteUser({ contactId: this.selectedUserId })
       .then((result) => {
         // this.handleDeleteSuccess();
-        console.log("del result",result);
+        console.log("del result", result);
       })
       .catch((error) => {
         console.error("delete User Fetching error:" + JSON.stringify(error));
@@ -361,15 +365,13 @@ export default class Ccp2UserManagement extends LightningElement {
 
   updateUserServices(filteredCheckData) {
     updateUserServices({ con: filteredCheckData })
-      .then((result) => {
-      })
+      .then(() => {})
       .catch((error) => {
         console.error("updateUserServices:" + JSON.stringify(error));
       });
 
     updatepermission({ con: filteredCheckData })
-      .then((result) => {
-      })
+      .then(() => {})
       .catch((error) => {
         console.log(
           "updatepermission input" + JSON.stringify(filteredCheckData)
@@ -381,23 +383,46 @@ export default class Ccp2UserManagement extends LightningElement {
   getUserAllServicesList(id) {
     getUserAllServicesList({ userId: id, refresh: this.refreshTokenInt })
       .then((result) => {
-        console.log("resut setv",result)
-        if (result == undefined || result.length == 0) {
+        console.log("resut setv", result);
+        if (result === undefined || result.length === 0) {
           this.allServicesListData = ["Null"];
         } else {
           const orderedServices = [
-            { name: '部整月次請求書（電子版）', apiName: 'E_invoice_Flag__c', ...result[1] },
-            { name: '金融サービス', apiName: 'Financial_service_Flag__c', ...result[2] },
-            { name: '車検入庫予約', apiName: 'Online_maintenance_booking_Flag__c', ...result[3] },
-            { name: '車両管理', apiName: 'Vehicle_management_Flag__c', ...result[4] },
-            { name: '費用管理', apiName: 'Cost_management_Flag__c', ...result[0] }
+            {
+              name: "部整月次請求書（電子版）",
+              apiName: "E_invoice_Flag__c",
+              ...result[1]
+            },
+            {
+              name: "金融サービス",
+              apiName: "Financial_service_Flag__c",
+              ...result[2]
+            },
+            {
+              name: "車検入庫予約",
+              apiName: "Online_maintenance_booking_Flag__c",
+              ...result[3]
+            },
+            {
+              name: "車両管理",
+              apiName: "Vehicle_management_Flag__c",
+              ...result[4]
+            },
+            {
+              name: "費用管理",
+              apiName: "Cost_management_Flag__c",
+              ...result[0]
+            }
           ];
           this.allServicesListData = orderedServices.map((service, index) => ({
             ...service,
             sequence: index + 1
           }));
 
-          console.log("allServicesListData", JSON.stringify(this.allServicesListData));
+          console.log(
+            "allServicesListData",
+            JSON.stringify(this.allServicesListData)
+          );
 
           this.checkboxFormData = {
             E_invoice_Flag__c: result[1].isActive,
@@ -466,7 +491,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleReturnClick() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.showUserList = true;
     this.showUserDetails = false;
     this.showEditUserDetails = false;
@@ -479,24 +504,29 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleEditChange() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
+    
+    this.tempUserDetailData = this.userDetailData;
+    this.tempBranchfromjunction = this.branchfromjunction;
+    this.tempUserServicesData = this.userServicesData;
+
     this.showUserList = false;
     this.showUserDetails = false;
     this.showEditUserDetails = true;
     this.userDetailsLoader = true;
-    if(this.InputCellPhone == "-"){
-      this.InputCellPhone = ""
+    if (this.InputCellPhone === "-") {
+      this.InputCellPhone = "";
     }
-    if(this.InputTelephone == "-"){
+    if (this.InputTelephone === "-") {
       this.InputTelephone = "";
     }
-    if(this.InputEmpCode == "-"){
+    if (this.InputEmpCode === "-") {
       this.InputEmpCode = "";
     }
-    if(this.InputPost == "-"){
+    if (this.InputPost === "-") {
       this.InputPost = "";
     }
-    if(this.InputDepartment == "-"){
+    if (this.InputDepartment === "-") {
       this.InputDepartment = "";
     }
   }
@@ -507,61 +537,59 @@ export default class Ccp2UserManagement extends LightningElement {
       if (event.target.type === "checkbox") {
         this.formData[field] = event.target.checked; // Use checked property for checkboxes
       } else {
-        if (field == "姓") {
+        if (field === "姓") {
           this.InputLastName = event.target.value;
           // this.contactClassLastName = this.InputLastName ? "" : "invalid-input";
-        } else if (field == "名") {
+        } else if (field === "名") {
           this.InputFirstName = event.target.value;
           // this.contactClassFirstName = this.InputFirstName
           //   ? ""
           //   : "invalid-input";
-        } else if (field == "姓（フリガナ）") {
+        } else if (field === "姓（フリガナ）") {
           this.InputLKanaName = event.target.value;
           // this.contactClassLKanaName = this.InputLKanaName
           //   ? ""
           //   : "invalid-input";
-        } else if (field == "名（フリガナ）") {
+        } else if (field === "名（フリガナ）") {
           this.InputFKanaName = event.target.value;
           // this.contactClassFKanaName = this.InputFKanaName
           //   ? ""
           //   : "invalid-input";
-        } else if (field == "部署") {
+        } else if (field === "部署") {
           this.InputDepartment = event.target.value;
-        } else if (field == "役職") {
+        } else if (field === "役職") {
           this.InputPost = event.target.value;
-        } else if (field == "社員番号") {
+        } else if (field === "社員番号") {
           this.InputEmpCode = event.target.value;
-        } else if (field == "メールアドレス") {
+        } else if (field === "メールアドレス") {
           this.InputEmail = event.target.value;
           // this.contactClassEmail = this.InputEmail ? "" : "invalid-input";
-          
-          
-        } else if (field == "電話番号") {
-          const onlyNumber = /^[0-9]*$/;
+        } else if (field === "電話番号") {
+          // const onlyNumber = /^[0-9]*$/;
           const input = event.target;
-          let isOk =
-            input.value.length > 0 && onlyNumber.test(input.value)
-              ? true
-              : false;
+          // let isOk =
+          //   input.value.length > 0 && onlyNumber.test(input.value)
+          //     ? true
+          //     : false;
           this.InputTelephone = input.value;
 
           // this.contactClassTelephone = isOk == true ? "" : "invalid-input";
-        } else if (field == "携帯番号") {
-          const onlyNumber = /^[0-9]*$/;
+        } else if (field === "携帯番号") {
+          // const onlyNumber = /^[0-9]*$/;
           const input = event.target;
-          let isOk =
-            input.value.length > 0 && onlyNumber.test(input.value)
-              ? true
-              : false;
-        this.InputCellPhone = input.value;
+          // let isOk =
+          //   input.value.length > 0 && onlyNumber.test(input.value)
+          //     ? true
+          //     : false;
+          this.InputCellPhone = input.value;
 
           // this.contactClassCellPhone = isOk == true ? "" : "invalid-input";
         }
-      this.formData[field] = event.target.value;
-      console.log("outside error mail", JSON.stringify(this.formData));
+        this.formData[field] = event.target.value;
+        console.log("outside error mail", JSON.stringify(this.formData));
+      }
     }
   }
-}
 
   handleCheckInputChange(event) {
     const field = event.target.dataset.field;
@@ -581,7 +609,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleYes() {
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.deleteUser(this.selectedUserId);
     this.getAllUser();
     this.showDeleteScreen = true;
@@ -723,150 +751,165 @@ export default class Ccp2UserManagement extends LightningElement {
     this.contactClassTelephone = "";
     this.cellPhoneErrorText = "";
 
-    if (this.InputFirstName == "") {
-        this.contactClassFirstName = "invalid-input";
-        this.Fnameerror = "名を入力してください";
-        this.handleError();
-        isFormValid = false;
+    if (this.InputFirstName === "") {
+      this.contactClassFirstName = "invalid-input";
+      this.Fnameerror = "名を入力してください";
+      this.handleError();
+      isFormValid = false;
     }
-    if (this.InputLastName == "") {
-        this.contactClassLastName = "invalid-input";
-        this.Lnameerror = "姓を入力してください";
-        this.handleError();
-        isFormValid = false;
+    if (this.InputLastName === "") {
+      this.contactClassLastName = "invalid-input";
+      this.Lnameerror = "姓を入力してください";
+      this.handleError();
+      isFormValid = false;
     }
-    if (this.InputFKanaName == "") {
-        this.contactClassFKanaName = "invalid-input";
-        this.Fkanaerror = "名を入力してください";
-        this.handleError();
-        isFormValid = false;
+    if (this.InputFKanaName === "") {
+      this.contactClassFKanaName = "invalid-input";
+      this.Fkanaerror = "名を入力してください";
+      this.handleError();
+      isFormValid = false;
     }
-    if (this.InputLKanaName == "") {
-        this.contactClassLKanaName = "invalid-input";
-        this.Lkanaerror = "姓を入力してください";
-        this.handleError();
-        isFormValid = false;
+    if (this.InputLKanaName === "") {
+      this.contactClassLKanaName = "invalid-input";
+      this.Lkanaerror = "姓を入力してください";
+      this.handleError();
+      isFormValid = false;
     }
-    if (this.branchfromjunction.length == 0 && this.branch.length == 0) {
-        this.ErrorText = "所属を選択してください";
-        this.contactClassBranch = "Inputs1 icon invalid-input";
-        this.handleError();
-        isFormValid = false;
+    if (this.branchfromjunction.length === 0 && this.branch.length === 0) {
+      this.ErrorText = "所属を選択してください";
+      this.contactClassBranch = "Inputs1 icon invalid-input";
+      this.handleError();
+      isFormValid = false;
     }
-    if (this.InputEmail == "") {
-        this.contactClassEmail = "invalid-input";
-        this.emailerrorText = "メールアドレスを入力してください";
-        this.handleError();
-        isFormValid = false;
+    if (this.InputEmail === "") {
+      this.contactClassEmail = "invalid-input";
+      this.emailerrorText = "メールアドレスを入力してください";
+      this.handleError();
+      isFormValid = false;
     } else if (!emailPattern.test(this.InputEmail)) {
-        this.contactClassEmail = "invalid-input";
-        this.emailerrorText = "メールアドレスの形式は不正です";
-        isFormValid = false;
-        window.scrollTo(0,0);
+      this.contactClassEmail = "invalid-input";
+      this.emailerrorText = "メールアドレスの形式は不正です";
+      isFormValid = false;
+      window.scrollTo(0, 0);
     }
-    const emailValidationPromise = new Promise((resolve, reject) => {
-      if (this.InputEmail != this.initialmail) {
-          checkUserEmail({ email: this.InputEmail })
-              .then((data) => {
-                  if (data && data[0] == "true") {
-                      this.contactClassEmail = "invalid-input";
-                      this.emailerrorText = "入力されたメールアドレスはすでに使われています";
-                      isFormValid = false;
-                      window.scrollTo(0,0);
-                  }
-                  resolve();
-              })
-              .catch((error) => {
-                  console.error("Error checking email:", error);
-                  this.emailerrorText = "メールアドレスの検証中にエラーが発生しました";
-                  this.contactClassEmail = "invalid-input";
-                  isFormValid = false;
-                  window.scrollTo(0,0);
-                  resolve();
-              });
+    const emailValidationPromise = new Promise((resolve) => {
+      if (this.InputEmail !== this.initialmail) {
+        checkUserEmail({ email: this.InputEmail })
+          .then((data) => {
+            if (data && data[0] == "true") {
+              this.contactClassEmail = "invalid-input";
+              this.emailerrorText =
+                "入力されたメールアドレスはすでに使われています";
+              isFormValid = false;
+              window.scrollTo(0, 0);
+            }
+            resolve();
+          })
+          .catch((error) => {
+            console.error("Error checking email:", error);
+            this.emailerrorText =
+              "メールアドレスの検証中にエラーが発生しました";
+            this.contactClassEmail = "invalid-input";
+            isFormValid = false;
+            window.scrollTo(0, 0);
+            resolve();
+          });
       } else {
-          resolve();
+        resolve();
       }
-  });
+    });
 
-    if (this.InputTelephone == "" && this.InputCellPhone == "") {
-        this.cellPhoneErrorText = "電話番号か携帯番号かいずれかをご入力ください。";
-        this.contactClassCellPhone = "invalid-input";
-        this.contactClassTelephone = "invalid-input";
-        this.handleError();
-        isFormValid = false;
-    } 
-    else if (this.InputTelephone == "" && !onlyNumber.test(this.InputCellPhone)) {
-        this.contactClassCellPhone = "invalid-input";
-        this.telephoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
-        window.scrollTo(0,0);
-        isFormValid = false;
-    } else if ( this.InputCellPhone == "" && !onlyNumber.test(this.InputTelephone)) {
-        this.contactClassTelephone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
-        window.scrollTo(0,0);
-        isFormValid = false;
-    } 
-    else if (this.InputTelephone != "" && this.InputCellPhone != "" && (!onlyNumber.test(this.InputTelephone) || !onlyNumber.test(this.InputCellPhone))) {
-        this.contactClassTelephone = "invalid-input";
-        this.contactClassCellPhone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
-        window.scrollTo(0,0);
-        isFormValid = false;
+    if (this.InputTelephone === "" && this.InputCellPhone === "") {
+      this.cellPhoneErrorText =
+        "電話番号か携帯番号かいずれかをご入力ください。";
+      this.contactClassCellPhone = "invalid-input";
+      this.contactClassTelephone = "invalid-input";
+      this.handleError();
+      isFormValid = false;
+    } else if (
+      this.InputTelephone === "" &&
+      !onlyNumber.test(this.InputCellPhone)
+    ) {
+      this.contactClassCellPhone = "invalid-input";
+      this.telephoneErrorText =
+        "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
+      window.scrollTo(0, 0);
+      isFormValid = false;
+    } else if (
+      this.InputCellPhone === "" &&
+      !onlyNumber.test(this.InputTelephone)
+    ) {
+      this.contactClassTelephone = "invalid-input";
+      this.cellPhoneErrorText =
+        "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
+      window.scrollTo(0, 0);
+      isFormValid = false;
+    } else if (
+      this.InputTelephone !== "" &&
+      this.InputCellPhone !== "" &&
+      (!onlyNumber.test(this.InputTelephone) ||
+        !onlyNumber.test(this.InputCellPhone))
+    ) {
+      this.contactClassTelephone = "invalid-input";
+      this.contactClassCellPhone = "invalid-input";
+      this.cellPhoneErrorText =
+        "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください。";
+      window.scrollTo(0, 0);
+      isFormValid = false;
     }
 
     // If form is valid, proceed with the form submission
     emailValidationPromise.then(() => {
       if (isFormValid) {
         this.formDataArray = [];
-            this.formData["ContactId"] = this.selectedUserId;
-            this.formDataArray.push(this.formData);
-            let filteredData = JSON.stringify(this.formDataArray);
-            this.checkboxFormData["Name"] = this.selectedContactUserId;
-            let filteredCheck = this.checkboxFormData;
-  
-          const asyncFunction = async () => {
-              try {
-                  this.showEditUserDetails = false;
-                  // this.userDetailsLoader = true;
-                  this.showUserDetails = true;
-                  window.scrollTo(0,0);
-                  await this.updateUser(filteredData);
-                  await this.updateUserServices(filteredCheck);
-                  await this.branchdeleteAdd();
-        
-                  this.refreshTokenInt = ++this.refreshTokenInt;
-                  this.refreshTokenInt2 = ++this.refreshTokenInt2;
-        
-                  this.branch = [];
-                  console.log(
-                    "refresh1 ,refresh2, selectedUserId in save form",
-                    this.refreshTokenInt,
-                    this.refreshTokenInt2,
-                    this.selectedUserId
-                  );
-                  setTimeout(async () => {
-                    // this.handleSuccess();
-                    this.showModalAndRefresh();
-                    this.refreshTokenInt = ++this.refreshTokenInt;
-                    this.refreshTokenInt2 = ++this.refreshTokenInt2;
-                    this.showUserList = false;
-                    // this.userDetailsLoader = false;
-                    this.getUserAllServicesList(this.selectedContactUserId);
-                  }, 1000);
-              } catch (error) {
-                  console.error("Error updating user:", error);
-                  this.handleValidationError();
-              }
-          };
-  
-          asyncFunction();
+        this.formData["ContactId"] = this.selectedUserId;
+        this.formDataArray.push(this.formData);
+        let filteredData = JSON.stringify(this.formDataArray);
+        this.checkboxFormData["Name"] = this.selectedContactUserId;
+        let filteredCheck = this.checkboxFormData;
+
+        const asyncFunction = async () => {
+          try {
+            this.showEditUserDetails = false;
+            // this.userDetailsLoader = true;
+            this.showUserDetails = true;
+            window.scrollTo(0, 0);
+            await this.updateUser(filteredData);
+            await this.updateUserServices(filteredCheck);
+            await this.branchdeleteAdd();
+
+            this.refreshTokenInt = ++this.refreshTokenInt;
+            this.refreshTokenInt2 = ++this.refreshTokenInt2;
+
+            this.branch = [];
+            console.log(
+              "refresh1 ,refresh2, selectedUserId in save form",
+              this.refreshTokenInt,
+              this.refreshTokenInt2,
+              this.selectedUserId
+            );
+            setTimeout(async () => {
+              // this.handleSuccess();
+              this.showModalAndRefresh();
+              this.refreshTokenInt = ++this.refreshTokenInt;
+              this.refreshTokenInt2 = ++this.refreshTokenInt2;
+              this.showUserList = false;
+              // this.userDetailsLoader = false;
+              this.getUserAllServicesList(this.selectedContactUserId);
+            }, 1000);
+          } catch (error) {
+            console.error("Error updating user:", error);
+            this.handleValidationError();
+          }
+        };
+
+        asyncFunction();
       } else {
-          // Display all accumulated errors
-          // this.handleError();
+        // Display all accumulated errors
+        // this.handleError();
       }
-    })
-}
+    });
+  }
 
   handleSuccess() {
     const evt = new ShowToastEvent({
@@ -895,7 +938,7 @@ export default class Ccp2UserManagement extends LightningElement {
     this.dispatchEvent(evt);
   }
 
-  handleemailerror(){
+  handleemailerror() {
     const evt = new ShowToastEvent({
       title: "エラー",
       message: "入力されたメールアドレスはすでに使われています",
@@ -917,11 +960,10 @@ export default class Ccp2UserManagement extends LightningElement {
     this.searchTerm = event.target.value.toLowerCase();
   }
 
-
   handlebranChange(event) {
     event.stopPropagation();
     this.showlist = !this.showlist;
-    if (this.branchoptions.length == 0) {
+    if (this.branchoptions.length === 0) {
       this.showlist = false;
     }
   }
@@ -940,7 +982,7 @@ export default class Ccp2UserManagement extends LightningElement {
   }
 
   handleBranchSelect(event) {
-    if (this.branchoptions.length == 1) {
+    if (this.branchoptions.length === 1) {
       this.showlist = false;
     }
     this.selectbranchId = event.currentTarget.dataset.id;
@@ -960,7 +1002,7 @@ export default class Ccp2UserManagement extends LightningElement {
           value: deletedVehicleFromVehicleArray.Id
         }
       ];
-   }
+    }
 
     const deletedVehicleFromMoreVehiclesArray = this.branchfromjunction.find(
       (veh) => veh.Id === vehicleId
@@ -977,11 +1019,11 @@ export default class Ccp2UserManagement extends LightningElement {
         }
       ];
     }
-    
+
     this.deletedBranchIds.push(vehicleId);
-    
+
     this.branch = this.branch.filter((veh) => veh.Id !== vehicleId);
-   
+
     this.branchfromjunction = this.branchfromjunction.filter(
       (veh) => veh.Id !== vehicleId
     );
@@ -1032,53 +1074,58 @@ export default class Ccp2UserManagement extends LightningElement {
       this.branchDataForClass.push(selectedBranch.label);
     }
     this.selectbranchId = null;
-    if (this.branchoptions.length == 0) {
+    if (this.branchoptions.length === 0) {
       this.showlist = false;
     }
   }
-  handleCancel(){
+  handleCancel() {
     this.showCancelModal = true;
   }
-  CancelhandleNo(){
+  CancelhandleNo() {
     this.showEditUserDetails = true;
     this.showCancelModal = false;
   }
-  CancelhandleYes(){
+  CancelhandleYes() {
+
+        
+    this.userDetailData = this.tempUserDetailData;
+    this.branchfromjunction = this.tempBranchfromjunction;
+    this.userServicesData = this.tempUserServicesData;
+
+
     this.showCancelModal = false;
     this.showUserDetails = true;
     this.userDetailsLoader = false;
-    console.log("cancek user detail",this.showUserDetails);
-    console.log("selected id",this.selectedUserId);
+    console.log("cancek user detail", this.showUserDetails);
+    console.log("selected id", this.selectedUserId);
     this.showEditUserDetails = false;
   }
-  
+
   showModalAndRefresh() {
     this.showModal = true;
     setTimeout(() => {
-        this.showModal = false;
+      this.showModal = false;
     }, 2000);
-}
-get branchPlaceholder() {
-  return this.branchfromjunction.length === 0 && this.branch.length === 0;
-}
+  }
+  get branchPlaceholder() {
+    return this.branchfromjunction.length === 0 && this.branch.length === 0;
+  }
 
-handleInputValidation(event) {
-  const field = event.target.dataset.field;
-  if (field === "電話番号" || field === "携帯番号") {
+  handleInputValidation(event) {
+    const field = event.target.dataset.field;
+    if (field === "電話番号" || field === "携帯番号") {
       let value = event.target.value;
       const onlyDigitsRegex = /^[0-9０-９]*$/;
 
       if (!onlyDigitsRegex.test(value)) {
-          value = value.replace(/[^0-9０-９]/g, '');
+        value = value.replace(/[^0-9０-９]/g, "");
       }
 
       if (value.length > 11) {
-          value = value.slice(0, 11);
+        value = value.slice(0, 11);
       }
 
       event.target.value = value;
+    }
   }
-}
-
-
 }

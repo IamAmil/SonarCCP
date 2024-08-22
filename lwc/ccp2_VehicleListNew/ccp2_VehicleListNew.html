@@ -11,15 +11,15 @@
                 <template if:true={showVehicleList}>
                     <div class="mainveh">
                         <div class="Header">
-                            <div class="VehCount"><p style="color: #0A0A0A; font-weight: bold;">Vehicle Count ({VehicleCount} Trucks)</p></div>
+                            <div class="VehCount"><p style="color: #0A0A0A; font-weight: bold;">車両一覧 ({VehicleCount}台)</p></div>
                             <div class="right">
                                 <div class="search">
                                     <lightning-icon icon-name='utility:search' alternative-text='search' size='xx-small'  class="srch-icn" style="color: #0A0A0A;" title='filterList'></lightning-icon>
-                                    <input type="text" class="search-box" placeholder="Search Vehicle">
+                                    <input type="text" class="search-box" placeholder="登録番号やドアナンバーを入力">
                                 </div>
                                 <div class="filter">
-                                    <lightning-icon icon-name='utility:filterList' alternative-text='filterList' size='xx-small'  class="filter-icn" style="color: #0A0A0A;" title='filterList'></lightning-icon>
-                                    <p class="ftext">Filter</p>
+                                    <img src={filtericon} alt="filter vehicle" class="imgs1new">
+                                    <p class="ftextNew">詳細検索</p>
                                 </div>
                             </div>
                         </div>
@@ -28,12 +28,21 @@
                                 <div class="container-list">
                                     <template if:true={vehicleData}>
                                         <template for:each={vehicleData} for:item="vehicle">
-                                            <div key={vehicle.Id} class="card" data-id={vehicle.Id} onclick={handlecardClick}>
+                                            <div key={vehicle.Id} class="card" data-id={vehicle.Id}>
                                                 <div class="notifications"></div>
-                                                <div class="headerno"></div>
-                                                <div class="details">
-                                                    <div class="image data">
-                                                        <img src="https://tfltruck.com/wp-content/uploads/2013/12/38504_1_1.jpg" alt="vehicle"/>
+                                                <div class="headerno">
+                                                    <div class="VehNo">
+                                                        <lightning-icon icon-name={starIcon} class="back-icon" alternative-text="Star"
+                                                        size="x-small" onclick={toggleStar}></lightning-icon>
+                                                        <h2 class="vehnotext">{vehicle.Name}</h2>
+                                                    </div>
+                                                    <div class="branches">
+                                                        <p class="totext">{vehicle.branchNames}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="details" onclick={handlecardClick} data-id={vehicle.Id}>
+                                                    <div class="image data" style="height: 50px;">
+                                                        <img src="https://tfltruck.com/wp-content/uploads/2013/12/38504_1_1.jpg" alt="vehicle" class="data-image">
                                                         <!-- {vehicle.TruckImg__c} -->
                                                     </div>
                                                     <div class="regno data">
@@ -79,17 +88,17 @@
                                      <p class="ftext" style="font-weight: 0px;" >Edit</p>
                                 </div>
                                 <div class="print">
-                                    <lightning-icon icon-name='utility:print' alternative-text='print' size='xx-small'  class="filter0-icn" style="color: #0A0A0A;" title='filterList'></lightning-icon>
-                                    <p class="ftext" style="font-weight: 0px;" >Print</p>
-                                </div>
-                                <div class="download">
                                     <img src={DownloadIcon} alt="download vehicle list" class="imgs2">
                                     <p class="ftext" style="font-weight: 0px;">Download</p>
                                 </div>
+                                <div class="download">
+                                    <div class="btn" onclick={showVehicleRegistration}>
+                                        <img src={addvehicleIcon} alt="download vehicle list" class="imgsnew">
+                                        <p style="color: #0A0A0A;">車両登録</p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="btn" onclick={showVehicleRegistration}>
-                                <p style="color: #0A0A0A;font-weight: bold;">車両登録</p>
-                            </div>
+                            
                         </div>
                     </div>
                 </template>

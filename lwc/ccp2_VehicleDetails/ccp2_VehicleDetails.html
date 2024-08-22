@@ -298,6 +298,13 @@
                         class="close-button">
                     </lightning-icon>
                 </div>
+                    <template if:true={vehicleByIdLoader3}>
+                        <div class="loader-container">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Loading...</p>
+                        </div>
+                    </template>
+                    <template if:false={vehicleByIdLoader3}>
                         <template if:true={imagesAval}>
                                 <div class="upload-image-list">
                                     <template for:each={uploadImagesArray} for:item="elm">
@@ -319,8 +326,7 @@
                         <template if:false={imagesAval}>
                             <p>No images available.</p>
                         </template>
-           
-             
+                    </template>      
             </div>
         </div>
     </template>

@@ -816,6 +816,7 @@ validatePhone() {
     // Handle input change event
     handleInputChange(event) {
         const field = event.target.dataset.field;
+        
         if (field === 'postalCode') {
             this.postalCode = event.target.value.trim();
         } else if (field === 'prefectures') {

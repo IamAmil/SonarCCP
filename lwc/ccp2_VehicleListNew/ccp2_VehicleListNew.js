@@ -6,6 +6,7 @@ const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Mai
 const Filter = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/filter_alt.png';
 const Deleteveh = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/delete-vehicle.png';
 const download = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/file_download.png';
+const AddVehicle = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/add_vehicle.png';
 
 export default class Ccp2_VehicleListNew extends LightningElement {
     
@@ -13,6 +14,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     filtericon = Filter;
     DelVehIcon = Deleteveh;
     DownloadIcon = download;
+    addvehicleIcon = AddVehicle;
 
     vehicleData =[];
     CarModel =[];
@@ -24,15 +26,33 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     @track vehicleId;
     @track showVehicleModal = false;
     @track showSpinner = false;
-
+    @track isStarFilled;
 
 @wire(getVehicleData)vehicledata({data,error}){
 
     if(data){
-        this.vehicleData=data;
-        this.VehicleCount = data.length;
+        this.vehicleData = data.map(item => {
+            const { vehicle, branches } = item;
+    
+            // Map branch names
+            let branchNames = branches.map(branch => branch.Name);
+    
+            // Handle more than two branches
+            if (branchNames.length > 2) {
+                branchNames = `${branchNames.slice(0, 2).join('・')} 等`;
+            } else {
+                branchNames = branchNames.join('・');
+            }
+    
+            return {
+                ...vehicle,
+                branchNames // Store the concatenated branch names
+            };
+        });
+    
+        this.VehicleCount = this.vehicleData.length;
         this.showSpinner = false;
-        console.log("redata",this.vehicleData);
+        console.log("redata",JSON.stringify(this.vehicleData));
     }
     else if(error){
         console.log(error);
@@ -72,4 +92,12 @@ handleCloseModal(){
 handlemoveModal(){
     this.showVehicleList = false;
 }
+//star store
+get starIcon() {
+    return this.isStarFilled ? "utility:favorite" : "utility:favorite_alt";
+  }
+
+  toggleStar() {
+    this.isStarFilled = !this.isStarFilled;
+  }
 }

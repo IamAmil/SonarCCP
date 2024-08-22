@@ -242,67 +242,70 @@ export default class Ccp2_VehicleDetails extends LightningElement {
 
   @track allCertificates = [];
   @track vehicleByIdLoader2 = false;
-  @track vehicleByIdLoader3 = false;
+  @track vehicleByIdLoader3 = true;
 
-  @wire(getImagesAsBase64, { chassisNumber: "$currentChassisNumber" }) 
-  handleImages({ data, error }) {
-      console.log("Chassis Number for Image", this.currentChassisNumber);
-      
-      // Start loaders
-      this.vehicleByIdLoader2 = true;
-      this.vehicleByIdLoader3 = true;
-      this.imagesAvailable = false;
-      this.certificatesAvailable = false;
-  
-      if (data) {
-          console.log("Getting images and certificates from vehicle by Chassis Number: ", this.currentChassisNumber);
-          console.log("Data from Chassis Number", data);
-          
-          try {
-              data = JSON.parse(data);
-              console.log("Parsed Data", data);
-  
-              // Handle Images
-              if (Array.isArray(data.Images) && data.Images.length > 0) {
-                  this.allImages = data.Images;
-                  this.totalPages = data.Images.length;
-                  console.log("Total Pages: ", this.totalPages);
-                  this.imagesAvailable = true; // Images are available
+  handleImages() {
+    console.log("Chassis Number for Image", this.currentChassisNumber);
 
-              } else {
-                  this.allImages = [];
-                  this.imagesAvailable = false; // No images available
-              }
-  
-              // Handle Certificates
-              if (Array.isArray(data.Certificates) && data.Certificates.length > 0) {
-                  this.allCertificates = data.Certificates;
-                  this.certificatesAvailable = true; // Certificates are available
-              } else {
-                  this.allCertificates = [];
-                  this.certificatesAvailable = false; // No certificates available
-              }
-  
-              console.log("All images from Chassis Number stored: ", JSON.stringify(this.allImages));
-              console.log("All certificates from Chassis Number stored: ", JSON.stringify(this.allCertificates));
-          } catch (e) {
-              console.error("Error parsing data:", e);
-              this.imagesAvailable = false;
-              this.certificatesAvailable = false;
-          } finally {
-              this.vehicleByIdLoader2 = false; // Images loading complete
-              this.vehicleByIdLoader3 = false; // Certificates loading complete
-              this.isLastPage = this.currentImageIndex === this.totalPages-1;
-          }
-      } else if (error) {
-          // handle error
-          this.imagesAvailable = false;
-          this.certificatesAvailable = false;
-          this.vehicleByIdLoader2 = false; // Images loading complete with error
-          this.vehicleByIdLoader3 = false; // Certificates loading complete with error
-          console.error("Error getting data from vehicle by Chassis Number API: ", error);
-      }
-  }
+    // Start loaders
+    this.vehicleByIdLoader2 = true;
+    this.vehicleByIdLoader3 = true;
+    this.imagesAvailable = false;
+    this.certificatesAvailable = false;
+
+    // Call the Apex method
+    getImagesAsBase64({ chassisNumber: this.currentChassisNumber })
+        .then(data => {
+            console.log("Getting images and certificates from vehicle by Chassis Number: ", this.currentChassisNumber);
+            console.log("Data from Chassis Number", data);
+
+            try {
+                data = JSON.parse(data);
+                console.log("Parsed Data", data);
+
+                // Handle Images
+                if (Array.isArray(data.Images) && data.Images.length > 0) {
+                    this.allImages = data.Images;
+                    this.totalPages = data.Images.length;
+                    console.log("Total Pages: ", this.totalPages);
+                    this.imagesAvailable = true; // Images are available
+                } else {
+                    this.allImages = [];
+                    this.imagesAvailable = false; // No images available
+                }
+
+                // Handle Certificates
+                if (Array.isArray(data.Certificates) && data.Certificates.length > 0) {
+                    this.allCertificates = data.Certificates;
+                    this.certificatesAvailable = true; // Certificates are available
+                    this.imagesAval = true;
+                } else {
+                    this.allCertificates = [];
+                    this.certificatesAvailable = false; // No certificates available
+                }
+
+                console.log("All images from Chassis Number stored: ", JSON.stringify(this.allImages));
+                console.log("All certificates from Chassis Number stored: ", JSON.stringify(this.allCertificates));
+            } catch (e) {
+                console.error("Error parsing data:", e);
+                this.imagesAvailable = false;
+                this.certificatesAvailable = false;
+            } finally {
+                this.vehicleByIdLoader2 = false; // Images loading complete
+                this.vehicleByIdLoader3 = false; // Certificates loading complete
+                console.log("Variable After class for certificates: ", this.vehicleByIdLoader3);
+                this.isLastPage = this.currentImageIndex === this.totalPages - 1;
+            }
+        })
+        .catch(error => {
+            // Handle error
+            this.imagesAvailable = false;
+            this.certificatesAvailable = false;
+            this.vehicleByIdLoader2 = false; // Images loading complete with error
+            this.vehicleByIdLoader3 = false; // Certificates loading complete with error
+            console.error("Error getting data from vehicle by Chassis Number API: ", error);
+        });
+}
   
   
 
@@ -314,7 +317,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track uploadImagesArray = [];
   @track isModalOpen = false;
   @track noImagesAvailable = false;
-  @track imagesAval = false;
+  @track imagesAval = true;
 
   @api openModalWithImages(imageData) {
     if (Array.isArray(imageData) && imageData.length > 0) {
@@ -340,18 +343,29 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }
 
   handleCertificateClick() {
-    if (Array.isArray(this.allCertificates) && this.allCertificates.length > 0) {
-      this.uploadImagesArray = this.allCertificates.map((certificate) => ({
-        fileName: certificate.fileName,
-        fileURL: certificate.fileURL,
-      }));
-      this.imagesAval = true;
-    } else {
-      this.uploadImagesArray = [];
-      this.imagesAval = false;
-    }
+    // Open the modal immediately
     this.isModalOpen = true;
-  }
+
+    // Poll for vehicleByIdLoader3 to become false
+    const checkLoader = setInterval(() => {
+        if (!this.vehicleByIdLoader3) {
+            clearInterval(checkLoader); // Stop polling once loader is false
+            
+            console.log("All Certificates on clicking Modal: ", this.allCertificates);
+            if (Array.isArray(this.allCertificates) && this.allCertificates.length > 0) {
+                this.uploadImagesArray = this.allCertificates.map((certificate) => ({
+                    fileName: certificate.fileName,
+                    fileURL: certificate.fileURL,
+                }));
+                this.imagesAval = true;
+            } else {
+                this.uploadImagesArray = [];
+                this.imagesAval = false;
+            }
+        }
+    }, 100); // Check every 100 milliseconds
+}
+
 
   
   // @wire(getVehicleCertificates, { vehicleId: "$vehicleId" }) handledata2({
@@ -496,7 +510,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             ? data.titles[0] + "など" + data.count + "枚"
             : "-";
         }
-
+        this.handleImages();
         console.log("Fetching from vehicle Certificate API: ", data);
         this.vehicleByIdLoader = false;
       })
@@ -584,5 +598,4 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }
 
 
-  // not in use
 }

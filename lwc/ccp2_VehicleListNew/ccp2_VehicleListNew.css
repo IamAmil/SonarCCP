@@ -53,9 +53,9 @@
  display: flex;
  flex-direction: row;
  height: 10%;
- width: 98%;
+ width: 96%;
  align-items: center;
- padding: 0px 10px;
+ padding: 0px 10px 0px 0px;
 }
 .Vehicle_list{
  display: flex;
@@ -90,7 +90,7 @@
 }
 .filter{
     display: flex;
-    flex-direction: row;
+    align-items: center;
 }
 .buttons{
 display: flex;
@@ -110,13 +110,11 @@ padding: 0px 10px;
 }
 .btn{
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
     color: black;
     margin-left: auto;
-    border: 1px solid #d7d7d7;
-    padding: 8px;
+    gap: 0.2rem;
 }
 .btn:hover{
     cursor: pointer;
@@ -126,6 +124,11 @@ padding: 0px 10px;
     margin-bottom: 1px;
     color: #0A0A0A; 
     margin-top: 4px;
+}
+.ftextNew{
+    margin-bottom: 1px;
+    color: #0A0A0A; 
+    white-space: nowrap;
 }
 
 
@@ -153,27 +156,28 @@ padding: 0px 10px;
 }
 .btngrp{
     display: flex;
-    flex-direction: row;
     align-items: center;
     margin-right: auto;
+    gap: 0.6rem;
 }
 .write{
     display: flex;
- margin-right:25px;
  align-items: center;
 }
 .print{
     display: flex;
-margin-right:25px;
 }
 .download{
     display: flex;
-    margin-right:25px;
     align-items: center;
 }
 
 .write:hover {
     cursor: pointer; 
+}
+.imgsnew{
+    width: 28%;
+    height: 40%;
 }
 
 .write:hover .filter0-icn {
@@ -231,7 +235,6 @@ margin-right:25px;
     color: #888888;        
 }
  .search{
-    margin-right: 25px;
     padding: 0.5rem;
     background-color: white;
     border: 1px solid #D9D9D9;
@@ -246,7 +249,7 @@ margin-right:25px;
  }
  .right{
     display: flex;
-    gap: 10px;
+    gap: 1rem;
     margin-left: auto;
     align-items: center;
  }
@@ -261,6 +264,11 @@ margin-right:25px;
     height: 40%;
     margin-top: 2px;
     
+}
+.imgs1new{
+    width: 25%;
+    height: 40%;
+    margin-top: 2px;
 }
 .imgs2{
     width: 20%;
@@ -280,6 +288,7 @@ margin-right:25px;
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: 0.8rem;
     /* height: max-content; */
     background-color: white;
     margin-right: 15px;
@@ -288,7 +297,7 @@ margin-right:25px;
     /* align-items: center;
     justify-content: center; */
     transition: border-color 0.5s ease;
-    padding: 8px 8px 15px 8px;
+    padding: 8px 8px 0px 8px;
     border-radius: 8px;
     box-shadow: 1px 1px 12px 0px rgba(224, 224, 224, 1);
  }
@@ -331,14 +340,32 @@ margin-right:25px;
  .headerno{
     display: flex;
     height: 15%;
+    padding: 0rem 1rem 0rem 0.5rem;;
  }
- .image{
+ /* .image{
     justify-content: center;
+ } */
+ .data-image{
+    height: -webkit-fill-available;
  }
  .notifications{
     display: flex;
-    height: 15%;
  }
+ .vehnotext{
+    font-weight: bolder;
+    color: #7B7B7B;
+    font-size: 20px;
+ }
+ .VehNo{
+    display: flex;
+    gap: 0.2rem;
+    margin-right: auto;
+    align-items: center;
+ }
+ .back-icon {
+    --sds-c-icon-color-foreground-default: #7B7B7B;
+    color: #7B7B7B;
+  }
 
  
 @media screen and (max-width: 1400px) and (min-width: 1025px) {
@@ -379,11 +406,17 @@ margin-right:25px;
         margin-top: -88.5vh;
         width: 76%;
     }
+    .main{
+        margin: -16px 0 0 -33px;
+    }
 }
 @media (max-width: 1920px) {
     .center-content{
         margin-top: -85.5vh;
         width: 79%;
+    }
+    .main{
+        margin: -16px 0 0 -25px;
     }
 }
 @media (max-width: 1707px) {
@@ -391,17 +424,24 @@ margin-right:25px;
         margin-top: -84.5vh;
         width: 82%;
     }
+    .main{
+        margin: -16px 0 0 -23px;
+    }
 }
 @media (max-width: 1686px) {
     .center-content{
         margin-top: -84vh;
         width: 84%;
     }
+
 }
 @media (max-width: 1600px) {
     .center-content{
         margin-top: -83.5vh;
         width: 85%;
+    }
+    .main{
+        margin: -16px 0 0 -21px;
     }
 }
 
@@ -410,6 +450,9 @@ margin-right:25px;
         margin-top: -82.5vh;
         width: 87%;
     }
+    .main{
+        margin: -16px 0 0 -19px;
+    }
 }
 
 @media (max-width: 1280px) {
@@ -417,10 +460,16 @@ margin-right:25px;
         margin-top: -81.5vh;
         width: 90%;
     }
+    .main{
+        margin: -16px 0 0 -17px;
+    }
 }
 @media (max-width: 1170px) {
     .center-content{
         margin-top: -80.5vh;
+    }
+    .main{
+      width:calc(100vw - 14px);
     }
 }
 @media (max-width: 1000px) {
@@ -432,20 +481,32 @@ margin-right:25px;
     .center-content{
         margin-top: -79vh;
     }
+    .main{
+        width:calc(100vw - 13px);
+    }
 }
 @media (max-width: 864px) {
     .center-content{
         margin-top: -76vh;
     } 
+    .main{
+        width: calc(100vw - 10px);
+    }
 }
 @media (max-width: 768px) {
     .center-content{
         margin-top: -75vh;
     }
+    .main{
+       
+    }
 }
 @media (max-width: 640px) {
     .center-content{
         margin-top: -73vh;
+    }
+    .main{
+       
     }
 }
 @media only screen and (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {

@@ -85,7 +85,7 @@
                                 <p class="detail">
                                     郵便番号を入力すると、住所の一部が自動的表示されます。</p>
                                 <div class="symbol">〒
-                                <input type="text" id="postalCode"  value={postalCode} onchange={handleInputChange} class="addressPostal" data-field="postalCode" placeholder="郵便番号を入力してください" maxlength="8">
+                                <input type="number" id="postalCode"  value={postalCode} onchange={handleInputChange} class="addressPostal" data-field="postalCode" placeholder="郵便番号を入力してください" maxlength="8">
                                 </div>
                                 <div class="error24">
                                 <p class="detail">都道府県</p>
@@ -138,7 +138,8 @@
                         <div class="form-group1">
                             <div class="contact-reqd">
                             <label  for="address" class="addMain"><strong>
-                                {labels.CCP2_ContactDetails}
+                                <!-- {labels.CCP2_ContactDetails} -->
+                                連絡先
                                 <!-- 電話番号 -->
                             </strong></label>
                             </div>

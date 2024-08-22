@@ -9,73 +9,40 @@
     <div class="bottom">
       <div class="center-content">
         <template if:true={showUserList}>
-          <div
-            class="main-content"
-            style="padding: 64px calc(256px - 10%) 64px calc(256px - 10%)"
-          >
-            <h2 class="heading">会員管理</h2>
-            <div class="footer-buttons">
-              <a href={homeUrl} style="color: white"
-                ><button class="button return-button">トップに戻る</button></a
-              >
-              <a href={addUserUrl} style="color: white"
-                ><button class="button submit-button">会員追加</button></a
-              >
+          <div class="main-content">
+            <h2 class="heading padded">会員管理</h2>
+            <div class="footer-buttons padded">
+              <a href={homeUrl} style="color: white"><button class="button return-button">トップに戻る</button></a>
+              <a href={addUserUrl} style="color: white"><button class="button submit-button">会員追加</button></a>
             </div>
             <template if:true={allUserLoader}>
-              <div
-                style="
+              <div style="
                   position: relative;
-                  width: 100%;
                   height: 350px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                "
-              >
-                <lightning-spinner
-                  alternative-text="Loading"
-                  size="small"
-                ></lightning-spinner>
+                  margin: 0 7vw;
+                ">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
               </div>
             </template>
             <template if:false={allUserLoader}>
-              <div class="list-container">
+              <div class="list-container padded">
                 <template for:each={contactlist} for:item="elm">
-                  <div
-                    class="list-element"
-                    key={elm.contactssId}
-                    data-idd={elm.contactssId}
-                    data-user={elm.usercontactId}
-                    onclick={handleUserClick}
-                  >
-                    <div
-                      class="list-data"
-                      data-idd={elm.contactssId}
-                      data-user={elm.usercontactId}
-                    >
+                  <div class="list-element" key={elm.contactssId} data-idd={elm.contactssId}
+                    data-user={elm.usercontactId} onclick={handleUserClick}>
+                    <div class="list-data" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                       <!-- <p style="font-weight:600; width:150px; color: #E10202;" data-idd={elm.Id}
                                                 data-user={elm.UserId__c}>{elm.Account.siebelAccountCode__c}</p> -->
-                      <p
-                        style="width: 150px; display: flex"
-                        data-idd={elm.contactssId}
-                        data-user={elm.usercontactId}
-                      >
+                      <p style="width: 150px; display: flex" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                         {elm.contactName}
                       </p>
                     </div>
-                    <div
-                      class="list-data"
-                      data-idd={elm.contactssId}
-                      data-user={elm.usercontactId}
-                    >
+                    <div class="list-data" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                       <!-- <p style="font-weight:600; width:150px; color: #E10202;" data-idd={elm.Id}
                                                 data-user={elm.UserId__c}>{elm.Account.siebelAccountCode__c}</p> -->
-                      <p
-                        style="min-width: 150px"
-                        data-idd={elm.contactssId}
-                        data-user={elm.usercontactId}
-                      >
+                      <p style="min-width: 150px" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                         {elm.branchName}
                       </p>
                     </div>
@@ -105,20 +72,15 @@
 
         <template if:true={showUserDetails}>
           <template if:true={userDetailsLoader}>
-            <div
-              style="
+            <div style="
                 position: relative;
                 width: 100%;
                 height: 350px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-              "
-            >
-              <lightning-spinner
-                alternative-text="Loading"
-                size="small"
-              ></lightning-spinner>
+              ">
+              <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
             </div>
           </template>
           <template if:false={userDetailsLoader}>
@@ -127,14 +89,9 @@
               <div class="form">
                 <div class="form_container">
                   <div class="deleteUser" onclick={handleDeleteUser}>
-                    <lightning-icon
-                      icon-name="utility:close"
-                      size="x-small"
-                      variant="container"
-                      alternative-text="Delete User"
-                      class="slds-m-left_small Abtn icon-red"
-                      title="Delete User"
-                    ></lightning-icon>
+                    <lightning-icon icon-name="utility:close" size="x-small" variant="container"
+                      alternative-text="Delete User" class="slds-m-left_small Abtn icon-red"
+                      title="Delete User"></lightning-icon>
                     <p>この会員を削除する</p>
                   </div>
                   <div class="datarec">
@@ -288,29 +245,15 @@
                     </div>
                     <div class="dataCellName">
                       <div class="name-div">
-                        <input
-                          type="text"
-                          class={contactClassLastName}
-                          onchange={handleInputChange}
-                          data-field="姓"
-                          value={InputLastName}
-                          placeholder="森下"
-                          maxlength="10"
-                        />
+                        <input type="text" class={contactClassLastName} onchange={handleInputChange} data-field="姓"
+                          value={InputLastName} placeholder="森下" maxlength="10" />
                         <div if:true={Lnameerror} class="error-text">
                           {Lnameerror}
                         </div>
                       </div>
                       <div class="name-div">
-                        <input
-                          type="text"
-                          class={contactClassFirstName}
-                          onchange={handleInputChange}
-                          data-field="名"
-                          value={InputFirstName}
-                          placeholder="○○"
-                          maxlength="10"
-                        />
+                        <input type="text" class={contactClassFirstName} onchange={handleInputChange} data-field="名"
+                          value={InputFirstName} placeholder="○○" maxlength="10" />
                         <div if:true={Fnameerror} class="error-text">
                           {Fnameerror}
                         </div>
@@ -332,29 +275,15 @@
                     </div>
                     <div class="dataCellName">
                       <div class="name-div">
-                        <input
-                          type="text"
-                          class={contactClassFKanaName}
-                          onchange={handleInputChange}
-                          data-field="姓（フリガナ）"
-                          value={InputLKanaName}
-                          placeholder="モリシタ"
-                          maxlength="10"
-                        />
+                        <input type="text" class={contactClassFKanaName} onchange={handleInputChange}
+                          data-field="姓（フリガナ）" value={InputLKanaName} placeholder="モリシタ" maxlength="10" />
                         <div if:true={Lkanaerror} class="error-text">
                           {Lkanaerror}
                         </div>
                       </div>
                       <div class="name-div">
-                        <input
-                          type="text"
-                          class={contactClassFKanaName}
-                          onchange={handleInputChange}
-                          data-field="名（フリガナ）"
-                          value={InputFKanaName}
-                          placeholder="○○"
-                          maxlength="10"
-                        />
+                        <input type="text" class={contactClassFKanaName} onchange={handleInputChange}
+                          data-field="名（フリガナ）" value={InputFKanaName} placeholder="○○" maxlength="10" />
                         <div if:true={Fkanaerror} class="error-text">
                           {Fkanaerror}
                         </div>
@@ -367,27 +296,15 @@
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_EmployeeNumber}</div>
                   <div class="data">
-                    <input
-                      type="text"
-                      onchange={handleInputChange}
-                      data-field="社員番号"
-                      value={InputEmpCode}
-                      maxlength="24"
-                      placeholder="A0002"
-                    />
+                    <input type="text" onchange={handleInputChange} data-field="社員番号" value={InputEmpCode}
+                      maxlength="24" placeholder="A0002" />
                   </div>
                 </div>
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_Deploy}</div>
                   <div class="data">
-                    <input
-                      type="text"
-                      onchange={handleInputChange}
-                      data-field="部署"
-                      value={InputDepartment}
-                      maxlength="24"
-                      placeholder="自動・製造・エネルギー"
-                    />
+                    <input type="text" onchange={handleInputChange} data-field="部署" value={InputDepartment}
+                      maxlength="24" placeholder="自動・製造・エネルギー" />
                   </div>
                 </div>
 
@@ -395,14 +312,8 @@
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_Post}</div>
                   <div class="data">
-                    <input
-                      type="text"
-                      onchange={handleInputChange}
-                      maxlength="24"
-                      data-field="役職"
-                      value={InputPost}
-                      placeholder="課長"
-                    />
+                    <input type="text" onchange={handleInputChange} maxlength="24" data-field="役職" value={InputPost}
+                      placeholder="課長" />
                   </div>
                 </div>
                 <!-- Affiliation -->
@@ -413,25 +324,15 @@
                   </div>
                   <div class="data" style="display: flex; gap: 12px">
                     <div class="dataDrop">
-                      <input
-                        type="text"
-                        oninput={handleSearch}
-                        onclick={handlebranChange}
-                        class={contactClassBranch}
-                        placeholder="選択してください"
-                      />
+                      <input type="text" oninput={handleSearch} onclick={handlebranChange} class={contactClassBranch}
+                        placeholder="選択してください" />
                       <div if:true={ErrorText} class="error-text">
                         {ErrorText}
                       </div>
                       <template if:true={showlist}>
                         <div class="lists" onclick={handleInsideClick}>
                           <template for:each={filteredbranch} for:item="veh">
-                            <div
-                              key={veh.value}
-                              class="list-item"
-                              onclick={handleBranchSelect}
-                              data-id={veh.value}
-                            >
+                            <div key={veh.value} class="list-item" onclick={handleBranchSelect} data-id={veh.value}>
                               <p>{veh.label}</p>
                             </div>
                           </template>
@@ -442,28 +343,16 @@
                       <template if:false={branchPlaceholder}>
                         <template for:each={branchfromjunction} for:item="veh">
                           <div key={veh.Id} class="record-item">
-                            <lightning-icon
-                              icon-name="utility:close"
-                              size="x-small"
-                              alternative-text="Delete"
-                              onclick={handleDeleteBranch}
-                              data-id={veh.Id}
-                              class="filtericn"
-                            ></lightning-icon>
+                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
+                              onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
                             <span>{veh.Name}</span>
                             <br />
                           </div>
                         </template>
                         <template for:each={branch} for:item="veh">
                           <div key={veh.Id} class="record-item">
-                            <lightning-icon
-                              icon-name="utility:close"
-                              size="x-small"
-                              alternative-text="Delete"
-                              onclick={handleDeleteBranch}
-                              data-id={veh.Id}
-                              class="filtericn"
-                            ></lightning-icon>
+                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
+                              onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
                             <span>{veh.Name}</span>
                             <br />
                           </div>
@@ -501,15 +390,8 @@
                     <span class="reqtxt">{labels.CCP2_Required}</span>
                   </div>
                   <div class="data">
-                    <input
-                      type="text"
-                      onchange={handleInputChange}
-                      data-field="メールアドレス"
-                      value={InputEmail}
-                      maxlength="40"
-                      class={contactClassEmail}
-                      placeholder="○○@cubastion.com"
-                    />
+                    <input type="text" onchange={handleInputChange} data-field="メールアドレス" value={InputEmail}
+                      maxlength="40" class={contactClassEmail} placeholder="○○@cubastion.com" />
                     <div if:true={emailerrorText} class="error-text">
                       {emailerrorText}
                     </div>
@@ -529,35 +411,17 @@
                     <div class="records_number" style="margin-top: 15px">
                       <div class="phn-label">{labels.CCP2_TelephoneNumber}</div>
                       <div class="phn-input">
-                        <input
-                          type="text"
-                          class={contactClassTelephone}
-                          onchange={handleInputChange}
-                          data-field="電話番号"
-                          value={InputTelephone}
-                          oninput={handleInputValidation}
-                          maxlength="11"
-                          pattern="\d*"
-                          required
-                          placeholder="03621268002"
-                        />
+                        <input type="text" class={contactClassTelephone} onchange={handleInputChange} data-field="電話番号"
+                          value={InputTelephone} oninput={handleInputValidation} maxlength="11" pattern="\d*" required
+                          placeholder="03621268002" />
                       </div>
                     </div>
                     <div class="records_number">
                       <div class="phn-label">{labels.CCP2_CellphoneNumber}</div>
                       <div class="phn-input">
-                        <input
-                          type="text"
-                          class={contactClassCellPhone}
-                          onchange={handleInputChange}
-                          data-field="携帯番号"
-                          value={InputCellPhone}
-                          oninput={handleInputValidation}
-                          maxlength="11"
-                          pattern="\d*"
-                          required
-                          placeholder="03621268002"
-                        />
+                        <input type="text" class={contactClassCellPhone} onchange={handleInputChange} data-field="携帯番号"
+                          value={InputCellPhone} oninput={handleInputValidation} maxlength="11" pattern="\d*" required
+                          placeholder="03621268002" />
                       </div>
                     </div>
                     <div if:true={telephoneErrorText} class="error-text">
@@ -574,29 +438,18 @@
                   <div class="head head-save">{labels.CCP2_ServiceUsed}</div>
                   <div class="data">
                     <div class="checked-service">
-                      <input
-                        type="checkbox"
-                        checked
-                        disabled
-                        style="
+                      <input type="checkbox" checked disabled style="
                           width: 20px;
                           height: 20px;
                           margin-right: 7px;
                           margin-bottom: 10px;
-                        "
-                      />基本サービス（ふそうショップ）
+                        " />基本サービス（ふそうショップ）
                     </div>
 
                     <template for:each={allServicesListData} for:item="elm">
                       <div class="checkboxContainer" key={elm.apiName}>
-                        <input
-                          type="checkbox"
-                          class="input-checkbox"
-                          style="width: 20px; height: 20px"
-                          data-field={elm.apiName}
-                          checked={elm.isActive}
-                          onchange={handleCheckInputChange}
-                        />
+                        <input type="checkbox" class="input-checkbox" style="width: 20px; height: 20px"
+                          data-field={elm.apiName} checked={elm.isActive} onchange={handleCheckInputChange} />
                         <span>{elm.name}</span>
                       </div>
                     </template>
@@ -632,17 +485,11 @@
         </template>
 
         <template if:true={IsUsercountZero}>
-          <div
-            class="main-content"
-            style="padding: 64px calc(256px - 10%) 64px calc(256px - 10%)"
-          >
+          <div class="main-content" style="padding: 64px calc(256px - 10%) 64px calc(256px - 10%)">
             <h2 class="heading">会員管理</h2>
             <div class="list-container list-container-new">
               <p class="text-para">会員がありません、追加してみませんか？</p>
-              <div
-                class="button-container"
-                style="display: flex; justify-content: center"
-              >
+              <div class="button-container" style="display: flex; justify-content: center">
                 <a href={addUserUrl} style="color: white">
                   <button class="button add-user-button">会員追加</button>
                 </a>
@@ -650,9 +497,7 @@
             </div>
 
             <div class="footer-buttons">
-              <a href={homeUrl} style="color: white"
-                ><button class="button return-button">トップに戻る</button></a
-              >
+              <a href={homeUrl} style="color: white"><button class="button return-button">トップに戻る</button></a>
             </div>
           </div>
         </template>

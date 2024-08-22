@@ -255,7 +255,7 @@
   text-align: center;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 7.5% 0px 7.5%;
+  padding: 0px 7% 0px 7.5%;
   width: 100%;
   /* margin-bottom: 3%; */
 }
@@ -482,6 +482,7 @@
   border-radius: 8px;
   width: 21.5vw;
   max-height: 200px;
+  margin-left: 7px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   margin-top: 5px;
@@ -495,7 +496,7 @@
   border: 1px solid #d9d9d9;
   border-radius: 8px;
   height: 50px;
-  padding-left: 17px;
+  padding-left: 3%;
 }
 
 .Inputs1 {
@@ -513,7 +514,7 @@
   padding-left: auto;
   background: var(--dropdown-icon) no-repeat;
   background-size: 20px;
-  background-position: 6.25rem 50%;
+  background-position: 8.25vw 50%;
   /* color: white; */
 }
 
@@ -1104,7 +1105,7 @@ ul {
 }
 @media (max-width: 1799px) and (min-width: 1601px) {
   .section-header{
-    padding: 0px 3.6% 0px 7.5%;
+    padding: 0px 5.8% 0px 4.5%;
   }
   .input-field{
     width: 20.5vw;
@@ -1125,7 +1126,7 @@ ul {
     width: 20.3vw;
   }
   .input-field-modal{
-    width: 9.95vw;
+    width: 9.7vw;
   }
   .input-field-modal2{
     width: 9.2vw;
@@ -1152,16 +1153,22 @@ ul {
     width: 20.6vw;
   }
   .icon2{
-    background-position: 17.6vw;
+    background-position: 18.6vw;
   }
   .icon{
-    background-position: 5.25rem 50%;
+    background-position: 8.1rem 50%;
   }
   .lists{
     width: 9.25vw;
   }
+  .First-Section{
+    margin: 3% 0% 5% 4.5%;
+  }
+  .Second-Section{
+    margin: 3% 4.5% 5% 0%;
+  }
 }
-@media (max-width: 1600px) and (min-width: 1537px) {
+@media (max-width: 1600px) and (min-width: 1538px) {
   .section-header{
     padding: 0px 6.2% 0px 7.5%;
   }
@@ -1184,7 +1191,7 @@ ul {
     width: 20.3vw;
   }
   .input-field-modal{
-    width: 9.95vw;
+    width: 9.7vw;
   }
   .input-field-modal2{
     width: 9.2vw;
@@ -1211,7 +1218,7 @@ ul {
     width: 20.6vw;
   }
   .icon2{
-    background-position: 17.6vw;
+    background-position: 18.6vw;
   }
   .icon{
     background-position: 7.25rem 50%;
@@ -1234,6 +1241,17 @@ ul {
   .Second-Section{
     margin: 3% 5.5% 5% 0%;
   }
+  .icon{
+
+  }
+}
+@media (max-width: 1170px) {
+  .section-header{
+    padding: 0px 6% 0px 7.5%;
+  }
+  .icon2{
+    background-position: 18.9vw 50%;
+  }
 }
 @media (max-width: 1024px){
   .addMain{
@@ -1241,15 +1259,22 @@ ul {
     white-space: nowrap;
   }
   .icon2{
-    background-size: 14px;
+    background-size: 20px;
+    background-position: 18.5vw 50%;
   }
   .icon{
-    background-size: 14px;
-    background-position: 5.25rem 50%;
+    background-size: 20px;
+    background-position: 5rem 50%;
   }
 }
 @media (max-width: 864px) {
   .icon{
-    background-position: 4.25rem 50%;
+    background-position: 4rem 50%;
+  }
+  .Inputs12{
+    padding-left: 3%;
+  }
+  .icon2{
+    background-position: 17.9vw 50%;
   }
 }

@@ -625,6 +625,7 @@ export default class Ccp_UserProfile extends LightningElement {
     }
     handlechangeadmin(){
         console.log("inside change admin",this.showchangeAdmin);
+        console.log("selected user id",this.selectedUserId);
         this.showconfModal = true;
         // this.showBasicinfo = true;
         console.log("inside change admin 2",this.showchangeAdmin);
@@ -657,10 +658,13 @@ export default class Ccp_UserProfile extends LightningElement {
       this.dispatchEvent(openEvent);
     }
     handleYes(){
+      console.log("before val change id",this.selectedUserId);
         this.showconfModal = false;
         this.showBasicinfo = false;
         this.showchangeAdmin = true;
         this.showstep1 = true;
+        this.selectedUserId = '';
+        console.log("after val change id",this.selectedUserId);
         this.close();
     }
     handleNo(){
@@ -703,7 +707,7 @@ export default class Ccp_UserProfile extends LightningElement {
           // Update the currently selected user details
           this.selectedUserId = newSelectedUserId;
           this.selectedValue = newSelectedUser.label;
-          console.log("New selected value:", this.selectedValue);
+          console.log("New selected value user id:", this.selectedUserId);
   
           // Remove the newly selected user from the userList
           this.userList = this.userList.filter(user => user.value !== newSelectedUserId);
@@ -770,15 +774,18 @@ export default class Ccp_UserProfile extends LightningElement {
     }
     handlecancel(){
         this.showcancelModal = true;
+        this.selectedUserId = '';
+        console.log("this.newwselid in cancel",this.selectedUserId);
     }
     handleYesCancel(){
       // this.reloadPage();
       window.scrollTo(0,0);
-        this.open();
-        this.showcancelModal = false;
-        this.showchangeAdmin = false;
-        this.showBasicinfo = true;
-      
+      this.selectedUserId = '';
+      this.open();
+      this.showcancelModal = false;
+      this.showchangeAdmin = false;
+      this.showBasicinfo = true;
+    
     }
 
     

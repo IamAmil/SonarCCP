@@ -189,26 +189,21 @@
     margin-bottom: 20px;
 }
 
+
  .form-group {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     text-align: left;
-    margin-bottom: 15px;
+    margin-bottom: 5%;
 }
 .form-group1 {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     text-align: left;
     margin-bottom: 35px;
 }
 
-/* @media (max-width: 768px) {
-    .form-group {
-       margin-left: 100px;
-       margin-right: 90px;
-    }
-    
-} */
+
 
 
 @media (max-width: 768px) {
@@ -218,9 +213,7 @@
     .form-body{
         /* width: 90%; */
     }
-    /* .address{
-        margin-right: 20px;
-    } */
+    
     .form-group {
         margin-left: 11px;
     }
@@ -234,11 +227,7 @@
     }
 }
 
-/* @media (max-width: 768px) {
-    .form-group-2input {
-       margin-left: 100px;
-    }
-} */
+
 
 
 .form-group-checkbox {
@@ -265,6 +254,8 @@
     width: 73px;
     margin-right: 10px; /* Adjust spacing between label and input/select */
     text-align: left; /* Align label text to the right */
+    display: flex;
+    align-items: center;
 }
 
 .form-group .required {
@@ -549,7 +540,7 @@ margin-bottom: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center; 
-    margin-left: 20px;
+    /* margin-left: 20px; */
 
 
     margin-bottom: 16px; /* Adjust as needed for spacing */
@@ -665,7 +656,7 @@ margin-bottom: 5px;
 
 }
 .address2{
-    margin-left: 100px;
+    margin-left: 107px;
     width: 200px;
     overflow: hidden;
 
@@ -902,7 +893,7 @@ width: 110px;
     display: flex;
     /* flex-direction: row; */
     align-items: baseline;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     /* border: #007bff solid 2px; */
     align-self: baseline;
     width: 110px;
@@ -915,7 +906,8 @@ width: 110px;
 }
 .contact-reqd{
     display: flex;
-    flex-direction: row;
+    padding: 1%;
+    /* flex-direction: row; */
     /* border: #007bff solid 2px; */
     width: 110px;
 }

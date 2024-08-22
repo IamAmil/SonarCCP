@@ -112,7 +112,7 @@
                             <div class="form">
                                 <div class="heading-form">{labels.CCP2_ApplicationDiscontinuation}</div>
                                 <img src={truckpic1}>
-                                <div class="heading-over-info">このアカウントの退会申請を提出します。退会理由と情報の扱い方法を選択してください。</div>
+                                <div class="heading-over-info small-heading">このアカウントの退会申請を提出します。退会理由と情報の扱い方法を選択してください。</div>
     
                                 <!-- <div class="form_container">
                                     <div class="data-rec">
@@ -175,7 +175,7 @@
                                     <div class="heading-radio">
                                         <!-- <label> -->
                                             <div class="heading-line">
-                                            <div  class="main-head">
+                                            <div  class="main-head large-heading">
                                                 <h1>
                                                     <!-- {labels.CCP2_CancellationRequest} -->
                                                     退会理由（複数選択可能）       </h1>
@@ -191,7 +191,7 @@
                                         
                                     </div>
                                     
-                                    <div class="radio-btns">
+                                    <div class="radio-btns small-heading">
                                         <label>
                                             <input type="checkbox" name="reason" value="使用頻度が低い" onchange={handleReasonChange} class="selected"> {labels.CCP2_LowFrequency}
                                         </label>
@@ -229,7 +229,7 @@
                                 <div class="check-btn">
                                     <!-- <div class="check-label">このアカウントの情報の扱い方法をチェックしてください。</div> -->
                                   <div class="heading-line">
-                                    <div  class="main-head2">
+                                    <div  class="main-head2 large-heading">
                                         <h1>
                                             <!-- {labels.CCP2_CancellationRequest} -->
                                             アカウント情報の扱い方法                                                </h1>
@@ -237,7 +237,7 @@
                                     <hr class="hrclass2">
 </div>
                                     <div class="checkbox-div">
-                                        <label>
+                                        <label class="small-heading">
                                             <input type="checkbox" name="deletedata" value="アカウントのデータを永久に削除する" class={getRadioClasscheck} oninput={handleCheckbox} onchange={handleCheckbox}> {labels.CCP2_DeleteData}
                                         </label>
                                         <div class="month">
@@ -271,7 +271,7 @@
                                 <img src={truckpic2}>
                             <!-- <div class="form_container"> -->
                             <div class="form2-cont">
-                                <div class="heading-over-info">申請内容をご確認ください。</div>
+                                <div class="heading-over-info small-heading">申請内容をご確認ください。</div>
                                 <!-- <div>
                                     <h1 class="part1">退会アカウント</h1>
                                     <hr class="hr-class">
