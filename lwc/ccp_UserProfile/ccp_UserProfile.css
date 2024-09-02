@@ -1200,7 +1200,7 @@ input.input-checkbox {
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
-    width: calc(100vw - 16px);
+    width: calc(100vw - 24px);
 }
 
 .bottom2 {
@@ -1514,7 +1514,7 @@ input.input-checkbox {
     white-space: nowrap;
     margin-top: 1px;
     font-size: medium;
-    margin-bottom: 2px;
+    margin-bottom: 8%;
     font-family: 'Noto Sans JP', sans-serif;
 }
 
@@ -1620,6 +1620,8 @@ input.input-checkbox {
     color: #BBBBBB;
     margin-left: 3.5%;
     margin-top: 2%;
+    font-weight: 400;
+    font-size: 0.9rem;
 }
 
 .placeholder-selected {
@@ -1645,6 +1647,7 @@ input.input-checkbox {
 
 .check-final p {
     margin-bottom: 2px;
+    font-weight: 400;
 }
 
 .Inputs12 {
@@ -1682,6 +1685,18 @@ input.input-checkbox {
     background-position: 98% 50%;
 }
 
+.icon2 {
+    padding-left: auto;
+    background: var(--dropdown-icon)no-repeat;
+    background-size: 20px;
+    background-position: 95% 50%;
+}
+
+
+.dropdown{
+    position: relative;
+}
+
 .dropdown-options {
     margin-top: 0.3%;
     width: 100%;
@@ -1689,6 +1704,12 @@ input.input-checkbox {
     border-radius: 8px;
     border: 1px solid #d9d9d9;
     box-shadow: 0px 0px 10px 0px #00000026;
+    position: absolute;
+    top: 2.5rem;
+    cursor: pointer;
+    left: 0;
+    background-color: white;
+    padding: 10px 0 10px 0;
 }
 
 .dropdown-option {
@@ -1699,6 +1720,11 @@ input.input-checkbox {
     padding-left: 15px;
     display: flex;
     align-items:center;
+}
+
+.dropdown-option:hover{
+    color: rgba(225, 2, 2, 1);
+    background-color: rgba(244, 244, 244, 1);
 }
 
 .img {
@@ -1737,7 +1763,7 @@ input.input-checkbox {
     background-color: #F5F5F5;
     box-shadow: 0px 0px 10px 0px #00000026;
     font-family: 'Noto Sans JP', sans-serif;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -1760,7 +1786,7 @@ input.input-checkbox {
     background-color: #E10202;
     font-family: 'Noto Sans JP', sans-serif;
     box-shadow: 0px 0px 10px 0px #00000026;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -1826,7 +1852,7 @@ input.input-checkbox {
     background-color: #E10202;
     font-family: 'Noto Sans JP', sans-serif;
     box-shadow: 0px 0px 10px 0px #00000026;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -1922,8 +1948,9 @@ input.input-checkbox {
 
 .head-save-cnt {
     white-space: nowrap;
-    align-items: center !important;
+    align-items: baseline !important;
     padding-right: 10px;
+    padding-top: 13px;
 }
 
 .invalid-input {
@@ -1959,6 +1986,7 @@ input.input-checkbox {
 .data-align-time {
     margin-top: 0 !important;
     display: flex;
+    margin-left: 1.1%;
 }
 
 .btw-label {
@@ -1973,7 +2001,9 @@ input.input-checkbox {
     width: 10vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    gap: 58px;
+    margin-top: 3%;
 }
 
 .align-time-outer {
@@ -2055,6 +2085,7 @@ input.input-checkbox {
 .record-item {
     font-size: medium;
     padding: 4%;
+    white-space: nowrap;
 }
 
 .list-item {
@@ -2166,6 +2197,10 @@ input.input-checkbox {
     .records div {
         font-size: 12px;
     }
+    .data-align-time-label {
+        gap: 59px;
+        margin-top: 5%;
+    }
 }
 
 .button2 {
@@ -2188,7 +2223,7 @@ input.input-checkbox {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 10px;
     width: 180px;
     height: 100%;
     /* margin-top: 10px; */
@@ -2273,7 +2308,7 @@ button.btn-yes-final:hover {
     background-color: white;
     border: 1px solid #8f98aa;
     /* margin-top: 10px; */
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     transition:
         background-color 0.3s ease,
@@ -2692,26 +2727,66 @@ button.btn-yes-final:hover {
 
 .scrollbar::-webkit-scrollbar {
     width: 12px;
-
+    height: 12px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
     background: #F4F4F4;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb {
     background: #BBBBBB;
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #d1d0d0;
 }
 
+.scrollbar2 {
+    max-height: 100%;
+    overflow-y: auto;
+    width: 97%;
+    
+}
+
+
+.scrollbar2::-webkit-scrollbar {
+    width: 12px;
+    height: 8px;
+    
+}
+
+.scrollbar2::-webkit-scrollbar-track {
+    background: #F4F4F4;
+    border-radius: 5px;
+    margin-left: 3px;
+}
+
+.scrollbar2::-webkit-scrollbar-thumb {
+    background: #BBBBBB;
+    border-radius: 5px;
+}
+
+.scrollbar2::-webkit-scrollbar-thumb:hover {
+    background: #d1d0d0;
+}
+
+
 .error-text {
     color: #E10202;
     font-size: 16px;
+}
+
+.dropdown-div{
+    position: absolute;
+    top: 56px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 114px;
+    background-color: white;
+    z-index: 1;
 }
 
 .name-div {
@@ -2726,6 +2801,9 @@ button.btn-yes-final:hover {
         margin-top: -88.5vh;
         width: 76%;
     }
+    .main{
+        margin: -16px 0 0 -33px;
+    }
 }
 
 @media (max-width: 1920px) {
@@ -2733,12 +2811,30 @@ button.btn-yes-final:hover {
         margin-top: -85.5vh;
         width: 79%;
     }
+    .main{
+        margin: -16px 0 0 -25px;
+    }
+    .bottom2{
+        width: calc(100vw - 25px);
+    }
+    .data-align-time-label{
+        margin-top: 2%;
+    }
 }
 
 @media (max-width: 1707px) {
     .center-content {
         margin-top: -84.5vh;
         width: 82%;
+    }
+    .main{
+        margin: -16px 0 0 -23px;
+    }
+    .bottom2{
+        width: calc(100vw - 22px);
+    }
+    .data-align-time-label{
+        margin-top: 2%;
     }
 }
 
@@ -2754,6 +2850,12 @@ button.btn-yes-final:hover {
         margin-top: -83.5vh;
         width: 85%;
     }
+    .main{
+        margin: -16px 0 0 -21px;
+    }
+    .bottom2{
+        width: calc(100vw - 21px);
+    }
 }
 
 @media (max-width: 1536px) {
@@ -2761,12 +2863,22 @@ button.btn-yes-final:hover {
         margin-top: -82.5vh;
         width: 87%;
     }
+    .main{
+        margin: -16px 0 0 -19px;
+    }
+    .bottom2{
+        width: calc(100vw - 19px);
+    }
 }
 
 @media (max-width: 1280px) {
     .center-content {
         margin-top: -81.5vh;
         width: 90%;
+        margin-left: 5px;
+    }
+    .main{
+        margin: -16px 0 0 -17px;
     }
 }
 
@@ -2774,6 +2886,7 @@ button.btn-yes-final:hover {
     .align-time-outer {
         margin-left: -15px;
     }
+
 }
 
 
@@ -2782,11 +2895,20 @@ button.btn-yes-final:hover {
     .center-content {
         margin-top: -80.5vh;
     }
+    .main{
+        width:calc(100vw - 14px);
+      }
+      .bottom2{
+        width: calc(100vw - 15px);
+    }
 }
 
 @media (max-width: 1000px) {
     .center-content {
         margin-top: -80.5vh;
+    }
+    .bottom2{
+        width: calc(100vw - 10px);
     }
 }
 
@@ -2794,11 +2916,23 @@ button.btn-yes-final:hover {
     .center-content {
         margin-top: -79vh;
     }
+    .main{
+        width:calc(100vw - 13px);
+    }
+    .bottom2{
+        width: calc(100vw - 14px);
+    }
 }
 
 @media (max-width: 864px) {
     .center-content {
         margin-top: -76vh;
+    }
+    .main{
+        width: calc(100vw - 10px);
+    }
+    .bottom2{
+        width: calc(100vw - 14px);
     }
 }
 
@@ -3029,7 +3163,7 @@ button.btn-yes-final:hover {
 .modal-window-small2 {
     background-color: rgba(251, 251, 251, 1);
     border-radius: 8px;
-    padding: 1rem 3rem 2rem;
+    padding: 1rem 5rem 1rem 5rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     /* width: var(--modal-width, 30%); 
     height: var(--modal-height, 45%);  */
@@ -3073,7 +3207,7 @@ button.btn-yes-final:hover {
 .btn {
     height: 45px;
     width: 180px;
-    border-radius: 6px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3083,19 +3217,48 @@ button.btn-yes-final:hover {
     background-color: #f4f4f4;
     border: 1px solid #d9d9d9;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    
 }
+
+.cancelbutton:hover{
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0);
+}
+
 
 .searchbutton {
     background-color: #ea0202;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
+
+.searchbutton:hover {
+    background-color: white;
+    color: #E10202;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    border-color: #E10202;
+}
+
+.searchbutton:hover .buttontxt2{
+    color: #E10202;
+}
+
 
 .buttontxt {
     color: #0A0A0A;
+    cursor: pointer;
     font-family: 'Noto Sans JP', sans-serif;
 }
 
 .buttontxt2 {
     color: white;
+    cursor: pointer;
     font-family: 'Noto Sans JP', sans-serif;
 }
 .btn-cancel{
@@ -3109,6 +3272,19 @@ button.btn-yes-final:hover {
 @media (max-width: 1024px) {
     .section__definition-list-branch {
         width: 600px !important;
+    }
+
+    .section__outline .section__definition-list-branch{
+        gap: 0px;
+    }
+
+    .section__outline .section__definition-list{
+        gap: 1px;
+    }
+
+
+    .section__outline .section__definition-list-time{
+        gap: 0px;
     }
 
     .section__definition-list {
@@ -3165,16 +3341,25 @@ button.btn-yes-final:hover {
         width: 500px !important;
     }
 
+    .section__outline .section__definition-list-branch{
+        gap: 0px;
+    }
+
     .section__definition-list {
 
         width: 500px !important;
     }
+    .section__outline .section__definition-list{
+        gap: 1px;
+    }
 
     .section__definition-list-time {
         width: 500px !important;
-
     }
 
+    .section__outline .section__definition-list-time{
+        gap: 0px;
+    }
     .section__definition-list-branch dt,
     .section__definition-list-branch dd,
     .time-inside,
@@ -3200,4 +3385,64 @@ button.btn-yes-final:hover {
     }
 
     .top-btn {}
+}
+
+.custom-dropdown2 {
+    position: relative;
+    /* display: inline-block; */
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.dropdown-button {
+    color: black;
+    padding: 10px;
+    font-size: 16px;
+    /* border: none; */
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    border: 1px solid lightgrey;
+    margin-right: 10px;
+    /* border: none; */
+    cursor: pointer;
+    width: 114px;
+    height: 56px;
+    text-align: left;
+}
+
+.dropdown-open {
+    display: block;
+}
+
+.dropdown-close {
+    display: none;
+}
+
+.custom-dropdown2 ul {
+    list-style-type: none;
+    padding-right: 10px;
+    margin: 0;
+    /* top: 56px; */
+    background-color: white;
+    /* position: absolute; */
+    /* z-index: 1; */
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    /* border-radius: 10px; */
+}
+
+.custom-dropdown2 li {
+    cursor: pointer;
+    padding: 8px 24px 8px 24px;
+}
+
+.custom-dropdown2 li:hover {
+    background-color: #F4F4F4;
+    color: #E10202;
 }

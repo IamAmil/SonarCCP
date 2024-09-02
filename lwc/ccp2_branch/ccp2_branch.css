@@ -42,9 +42,9 @@
     transition: box-shadow 0.3s ease;
 }
 
-.card:hover {
+/* .card:hover {
     box-shadow: 0px 0px 10px 0px #00000040;
-}
+} */
 .Text{
     font-family: 'Noto Sans JP', sans-serif;
     color: #0A0A0A;
@@ -312,8 +312,8 @@ gap: 1.5rem;
     border-radius: 8px;
     justify-content: center;
     
-    width: 180px;
-    height: 40px;
+    width: 176px;
+    height: 48px;
     background-color:#e10202;
     color: white;
     transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
@@ -366,8 +366,8 @@ gap: 1.5rem;
     justify-content: center;
     border-radius: 8px;
     box-shadow: 0 0 8px 4px rgba(224, 224, 224, 0.8);
-    width: 180px;
-    height: 40px;
+    width: 176px;
+    height: 48px;
     background-color: #f1f1f1;
     border: 1px solid #bbbbbb;
     color: black;
@@ -499,6 +499,9 @@ gap: 1.5rem;
     .form-footer,.pageNumber {
         width: 69%;
     }
+    .main{
+        margin: -16px 0 0 -33px;
+    }
 }
 @media (max-width: 1920px) {
     .center-content{
@@ -508,6 +511,9 @@ gap: 1.5rem;
     .form-footer,.pageNumber {
         width: 67%;
     }
+    .main{
+        margin: -16px 0 0 -25px;
+    }
 }
 @media (max-width: 1707px) {
     .center-content{
@@ -516,6 +522,9 @@ gap: 1.5rem;
     }
     .form-footer,.pageNumber {
         width: 65%;
+    }
+    .main{
+        margin: -16px 0 0 -23px;
     }
 }
 @media (max-width: 1686px) {
@@ -535,6 +544,9 @@ gap: 1.5rem;
     .form-footer,.pageNumber {
         width: 63%;
     }
+    .main{
+        margin: -16px 0 0 -21px;
+    }
 }
 
 @media (max-width: 1536px) {
@@ -545,6 +557,9 @@ gap: 1.5rem;
     .form-footer,.pageNumber {
         width: 62%;
     }
+    .main{
+        margin: -16px 0 0 -19px;
+    }
 }
 
 @media (max-width: 1280px) {
@@ -553,13 +568,24 @@ gap: 1.5rem;
         width: 90%;
     }
     .form-footer,.pageNumber {
-        width: 60%;
+        width: 72%;
+    }
+    .main{
+        margin: -16px 0 0 -17px;
+    }
+    .card{
+        width: 61vw;
+        font-size: 0.7rem;
     }
 }
 @media (max-width: 1170px) {
     .center-content{
         margin-top: -80.5vh;
     }
+    .main{
+        width:calc(100vw - 14px);
+      }
+      
 }
 @media (max-width: 1000px) {
     .center-content{
@@ -570,6 +596,9 @@ gap: 1.5rem;
     .center-content{
         margin-top: -79vh;
     }
+    .main{
+        width:calc(100vw - 13px);
+    }
     /* .card{
         font-size: 8px;
     } */
@@ -578,11 +607,21 @@ gap: 1.5rem;
     .center-content{
         margin-top: -76vh;
     } 
+    .main{
+        width: calc(100vw - 10px);
+    }
     /* .card{
         font-size: 8px;
     } */
     .form-footer,.pageNumber{
-        width: 62%;
+        width: 73%;
+    }
+    .card{
+        width: 61vw;
+        font-size: 0.7rem;
+    }
+    .textbranch{
+        font-size: 0.6rem;
     }
 }
 @media (max-width: 768px) {

@@ -87,10 +87,20 @@
     align-items: center;
     justify-content: center;
 }
+
+.cancelbutton:hover{
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+}
+
 .cancelbutton{
     background-color: #f4f4f4;
     border: 1px solid #d9d9d9;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
 .headingtext{ 
     font-size: 1.5rem;
@@ -107,6 +117,47 @@
 .searchbutton{
     background-color: #ea0202;
 }
+
+.searchbutton-cancel{
+    background-color: #ea0202;
+}
+
+.searchbutton-cancel:hover{
+    cursor: pointer;
+    background-color: white;
+    color: #E10202;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    border-color: #E10202;
+}
+
+.searchbutton-cancel:hover .buttontxt2{
+    color: #E10202;
+    cursor: pointer;
+  }
+
+
+.searchbutton:hover {
+    background-color: white;
+    color: #E10202;
+    border: solid;
+    cursor: pointer;
+    border-width: 1px;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    border-color: #E10202;
+  }
+  
+  .searchbutton:hover .buttontxt2{
+    color: #E10202;
+    cursor: pointer;
+  }
+
+
+.searchbutton-cancel .buttontxt2{
+    cursor: pointer;
+}
+
 .buttontxt{
     color: #0A0A0A;
     font-family: 'Noto Sans JP', sans-serif;
@@ -115,11 +166,21 @@
     color: white;
     font-family: 'Noto Sans JP', sans-serif;
 }
+/* .buttontxt2:hover{
+    color: #E10202;
+} */
+.searchbutton:hover .buttontxt2 {
+    color: #E10202;
+}
+
 .cancelbutton:hover{
  cursor: pointer;
 }
 .searchbutton:hover{
     cursor: pointer;
+    border: 1px solid #E10202;
+    background-color: #ffffff;
+    color: #E10202;
 }
 .searchbuttondis{
     background-color: #bbbbbb;
@@ -269,6 +330,7 @@ input::placeholder {
     max-height: 100%;
     overflow-x: auto;
     width: 98%;
+    min-height: 17px;
 }
 .names{
     margin: 10px 0px 5px 0px;
@@ -288,6 +350,7 @@ input::placeholder {
 .add-button{
     height: 1rem;
     width: 1rem;
+    cursor: pointer;
 }
 
 .scrollbar::-webkit-scrollbar {
@@ -403,11 +466,23 @@ input::placeholder {
         margin-top: -88.5vh;
         width: 76%;
     }
+    .main{
+        margin: -16px 0 0 -33px;
+    }
+    .bottom{
+        width: calc(100vw - 33px); 
+    }
 }
 @media (max-width: 1920px) {
     .center-content{
         margin-top: -85.5vh;
         width: 79%;
+    }
+    .main{
+        margin: -16px 0 0 -25px;
+    }
+    .bottom{
+        width: calc(100vw - 25px);
     }
 }
 @media (max-width: 1707px) {
@@ -415,24 +490,44 @@ input::placeholder {
         margin-top: -84.5vh;
         width: 82%;
     }
+    .main{
+        margin: -16px 0 0 -23px;
+    }
+    .bottom{
+        width: calc(100vw - 22px);
+    }
 }
 @media (max-width: 1686px) {
     .center-content{
         margin-top: -84vh;
         width: 84%;
     }
+
 }
 @media (max-width: 1600px) {
     .center-content{
         margin-top: -83.5vh;
         width: 85%;
     }
+    .main{
+        margin: -16px 0 0 -21px;
+    }
+    .bottom{
+        width: calc(100vw - 21px);
+    }
+
 }
 
 @media (max-width: 1536px) {
     .center-content{
         margin-top: -82.5vh;
         width: 87%;
+    }
+    .main{
+        margin: -16px 0 0 -19px;
+    }
+    .bottom{
+        width: calc(100vw - 20px);
     }
 }
 
@@ -441,16 +536,23 @@ input::placeholder {
         margin-top: -81.5vh;
         width: 90%;
     }
+    .main{
+        margin: -16px 0 0 -17px;
+    }
+    .bottom{
+        width: calc(100vw - 17px);
+    }
+    
 }
 @media (max-width: 1170px) {
     .center-content{
         margin-top: -80.5vh;
     }
     .main{
-        width: calc(100vw - 10px);
+        width: calc(100vw - 16px);
     }
     .bottom{
-        width: calc(100vw - 10px);
+        width: calc(100vw - 16px);
     }
 }
 @media (max-width: 1000px) {
@@ -469,10 +571,10 @@ input::placeholder {
         margin-top: -79vh;
     }
     .main{
-        width: calc(100vw - 10px);
+        width: calc(100vw - 13px);
     }
     .bottom{
-        width: calc(100vw - 10px);
+        width: calc(100vw - 16px);
     }
 }
 @media (max-width: 864px) {
@@ -483,7 +585,7 @@ input::placeholder {
         width: calc(100vw - 10px);
     }
     .bottom{
-        width: calc(100vw - 10px);
+        width: calc(100vw - 16px);
     }
 }
 @media (max-width: 768px) {

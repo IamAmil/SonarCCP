@@ -48,7 +48,7 @@ import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
 
 
 
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.png';
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.webp';
 const  arrowicon = Vehicle_StaticResource + '/CCP2_Resources/Common/arrow_under.png';
 //const  searchicon = Vehicle_StaticResource + '/CCP2_Resources/images/search.png';
 
@@ -158,7 +158,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     processBranchData(data) {
         const branch = data.BranchDetails;
 
-        this.CompanyName = branch.Company || '-';
+        this.CompanyName = branch.Account.AccountName || '-';
         this.Address = branch.Address || null;
         this.Contact = branch.ContactNo || null;
         this.branchName = branch.Name || '-';
@@ -451,6 +451,13 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             window.scrollTo(0,0);
            // branchInput.setCustomValidity('この項目は必須です');
             // branchInput.reportValidity();
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'エラー',
+                    message: '必須項目を入力してください。',
+                    variant: 'error',
+                }),
+            );
             this.showerrorbranchNull = true;
             this.showerrorbranch = false;
             allValid = false;
@@ -463,18 +470,18 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             this.showerrorbranchNull = false;
             allValid = false;
         } 
-        else if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
-            allValid = false;
-            phoneInput.classList.add('invalid-input');
-            this.fullwidthnum = true;
-        }
+        // else if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
+        //     allValid = false;
+        //     phoneInput.classList.add('invalid-input');
+        //     this.fullwidthnum = true;
+        // }
         else {
             branchInput.classList.remove('invalid-input');
             phoneInput.classList.remove('invalid-input');
             // branchInput.setCustomValidity('');
             // branchInput.reportValidity();
             this.showerrorbranch = false;
-            this.fullwidthnum = false;
+            // this.fullwidthnum = false;
             this.showerrorbranchNull = false;
         }
             // if (this.Contact.length !== 0 && this.Contact.length < 10) {
@@ -689,11 +696,22 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     //     console.log("2br",this.Address);
     // }
     handlevalidationpostal(event) {
-        this.postalCode= event.target.value;
-       // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
-        if (this.postalCode.length > 8) {
-             this.postalCode = this.postalCode.slice(0, 8);
-        } 
+    //     this.postalCode= event.target.value;
+    //    // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
+    //     if (this.postalCode.length > 8) {
+    //          this.postalCode = this.postalCode.slice(0, 8);
+    //     } 
+    const input = event.target; // Get the input element from the event
+        const onlyDigitsRegex = /^[0-9０-９]*$/;
+        // Clean the input value to allow only digits
+        let cleanValue = [...input.value]
+            .filter(char => onlyDigitsRegex.test(char)) // Keep only numeric characters
+            .slice(0, 6) // Limit to the first 6 characters
+            .join(''); // Join characters back into a string
+    
+        // Update the input field with the cleaned value
+        input.value = cleanValue;
+        this.postalCode = cleanValue;
     }
     onInputValidationAll(event) {
         if (event.target.value.length > 12) {
@@ -923,4 +941,11 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     }
 
     //validations
+    handlevalchange(event){
+        const maxLength = event.target.maxLength;
+          let value = event.target.value;
+          if (value.length > maxLength) {
+              event.target.value = value.substring(0, maxLength);
+          }
+      }
 }

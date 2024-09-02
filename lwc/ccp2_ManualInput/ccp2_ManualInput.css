@@ -110,7 +110,7 @@
 
 .btn2 {
   font-family: "Noto Sans JP";
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: #bfbfbf;
   width: 10vw;
   display: flex;
@@ -193,16 +193,97 @@
 
 .searchbutton:disabled {
   cursor: not-allowed;
-  /* opacity: 0.5; */
   background-color: #d9d9d9 !important;
   color: black !important;
   border: 1px solid #bfbfbf;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .searchbutton {
   background-color: #ea0202;
   color: white;
+  border-radius: 10px;
+}
+
+.red:hover {
+  background-color: white !important;
+  border: 1px solid #e10202;
+  cursor: pointer;
+  color: #E10202 !important;
+}
+
+.searchbutton-btn:hover {
+  background-color: white;
+  border: 1px solid #e10202;
+  cursor: pointer;
+  color: #E10202;
+}
+
+.searchbuttonfinal:hover {
+  background-color: white;
+  border: 1px solid #e10202;
+  cursor: pointer;
+  color: #E10202;
+}
+
+.searchbuttonfinal2:hover {
+  background-color: white !important;
+  border: 1px solid #e10202 !important;
+  cursor: pointer;
+}
+
+.searchbuttonfinal2:hover .searchbuttontxt2 {
+  background-color: white !important;
+  border: none;
+  cursor: pointer;
+  color: #E10202 !important;
+}
+
+.searchbutton-btn:hover .buttontxt333 {
+  background-color: white;
+  color: #E10202;
+  border: none;
+}
+
+.btnnn {
+  background-color: white; color:black; 
+  border:1px solid #bfbfbf !important;
+}
+
+.searchbuttonnew2:hover {
+  border: 1px solid #E10202;
+}
+
+.searchandexit {
+  border-radius: 10px;
+  height: 2rem;
+ width: 8rem;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-family: "Noto Sans JP", sans-serif;
+ border: 0;
+ background-color: white; 
+ color:black; 
+ border:1px solid #bfbfbf !important;
+}
+.btnnn:hover {
+  color: #E10202;
+  border-color: #E10202;
+}
+.button22222 {
+  background-color: white;
+    font-weight: 300;
+    color: #e10202;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: 1px solid #E10202;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #8F98AA;
+}
+
+button.searchbutton.btn.buttontxt2.red {
+  border-radius: 10px;
 }
 
 .searchbutton2 {
@@ -212,17 +293,35 @@
 .cancelbutton {
   background-color: #f4f4f4;
   border: 1px solid #d9d9d9;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
 }
 
 .cancelbutton:hover {
   cursor: pointer;
+  background-color: white;
+    font-weight: 300;
+    color: #8F98AA;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #8F98AA;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
 }
 
 .btn {
   height: 2rem;
   width: 8rem;
-  border-radius: 6px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,6 +333,10 @@
   font-size: x-large;
   text-align: center;
   font-weight: bold;
+}
+
+.mainheading2{
+  font-size: 1.3em;
 }
 
 .image-container {
@@ -279,6 +382,13 @@
 .red {
   background-color: #ea0202 !important;
   color: white !important;
+}
+
+.red:disabled {
+  cursor: not-allowed;
+  color: black !important;
+  background-color: #D9D9D9 !important;
+  border: 1px solid #bfbfbf !important;
 }
 
 .left-align {
@@ -445,6 +555,14 @@
   margin-right: 1%;
   padding: 3%;
 }
+.branch-branch {
+  margin-top: 5.2%;
+}
+
+.branches-16{
+  display: flex;
+  align-items: baseline;
+}
 
 .input-field3 {
   font-family: "Noto Sans JP";
@@ -488,6 +606,22 @@
   margin-top: 5px;
   padding: 10px 0px;
   overflow-y: scroll;
+}
+
+.inputlight::placeholder {
+  color:#bfbfbf !important;
+}
+
+.inputreg::placeholder {
+  color: #bfbfbf !important;
+}
+
+.inputexp::placeholder {
+  color: #bfbfbf !important;
+}
+
+.inputexp::placeholder {
+  color: #bfbfbf !important;
 }
 
 .Inputs12 {
@@ -570,7 +704,8 @@
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 7px;
+  width: 12px;
+  height: 12px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -762,6 +897,10 @@
   padding: 3%;
 }
 
+.input-field-img:hover {
+  cursor: pointer;
+}
+
 .input-field-img {
   font-family: "Noto Sans JP";
   height: 50px;
@@ -825,7 +964,7 @@
 }
 
 .modal-background-confirm {
-  background-color: rgba(251, 251, 251, 0.9);
+  background-color: rgba(251, 251, 251, 1);
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -844,9 +983,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: rgba(251, 251, 251, 0.9);
+  background-color: rgba(251, 251, 251, 1);
   border-radius: 8px;
-  padding: 15px;
+  padding: 33px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: var(--modal-width, 65%);
   /* Default width: 50% */
@@ -898,7 +1037,6 @@
 }
 
 .superfun {
-  margin: 10px 0px;
   font-family: "Noto Sans JP", sans-serif;
 }
 
@@ -921,6 +1059,7 @@
 
 .content2 {
   flex: 1;
+  font-size: 1.5em;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1005,18 +1144,72 @@ input::placeholder {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.cancel-btn:hover {
+  background-color: white;
+    font-weight: 300;
+    color: #8F98AA;
+    font-family: 'Noto Sans JP', sans-serif;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+    border-color: #8F98AA;
+}
+
 ul {
   list-style-type: circle;
 }
 
-.searchbuttonnew {
+/* .searchbuttonnew {
   background-color: red;
   color: white;
   border-radius: 10px;
+} */
+
+/* .searchbuttonnew:hover {
+  background-color: white !important;
+  color: #E10202 !important;
+  border: 1px solid #E10202 !important;
+} */
+
+.searchbuttonnew {
+  color: white;
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #e10202;
+  border-radius: 10px;
+  height: 2rem;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; /* Add this to ensure no border in default state */
+  cursor: pointer; /* Add this to ensure pointer on hover */
+}
+
+/* Hover state */
+.searchbuttonnew:hover {
+  background-color: white;
+  color: #E10202;
+  border: 1px solid #E10202;
+}
+
+/* Disabled state */
+.searchbuttonnew:disabled {
+  cursor: not-allowed;
+  background-color: #d9d9d9;
+  color: black;
+  border: 1px solid #bfbfbf;
 }
 
 .img-head {
   width: 100%;
+}
+
+input.Inputs12.icon:hover {
+  cursor: pointer;
+}
+
+.Inputs1:hover {
+  cursor: pointer;
 }
 
 .disable-editing lightning-input {
@@ -1043,6 +1236,38 @@ ul {
   outline: solid 2px #e10202;
   background-color: #feeeed !important;
 }
+
+/* Base styles for the normal state */
+.button-save-100 {
+  height: 2rem;
+  width: 8rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  border: 1px solid #bfbfbf;
+  cursor: pointer; /* Default cursor */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Hover state */
+.button-save-100:hover {
+  color: #E10202;
+  border-color: #E10202;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Disabled state */
+.button-save-100:disabled {
+  cursor: not-allowed;
+  background-color: #d9d9d9;
+  color: black;
+  border: 1px solid #bfbfbf;
+}
+
 
 @media (max-width: 1920px) and (min-width: 1800px) {
   .input-field{
@@ -1101,6 +1326,12 @@ ul {
   }
   .lists{
     width: 8.25vw;
+  }
+  .mileagefirst {
+    margin-bottom: 11%;
+  }
+  .mileagesecond {
+    margin-bottom: 11%;
   }
 }
 @media (max-width: 1799px) and (min-width: 1601px) {
@@ -1167,6 +1398,12 @@ ul {
   .Second-Section{
     margin: 3% 4.5% 5% 0%;
   }
+  .mileagefirst {
+    margin-bottom: 11%;
+  }
+  .mileagesecond {
+    margin-bottom: 11%;
+  }
 }
 @media (max-width: 1600px) and (min-width: 1538px) {
   .section-header{
@@ -1226,6 +1463,12 @@ ul {
   .lists{
     width: 9.25vw;
   }
+  .mileagefirst {
+    margin-bottom: 11%;
+  }
+  .mileagesecond {
+    margin-bottom: 11%;
+  }
 
 }
 @media (max-width: 1537px) and (min-width: 1281px) {
@@ -1244,6 +1487,20 @@ ul {
   .icon{
 
   }
+  .mileagefirst {
+    margin-bottom: 11%;
+  }
+  .mileagesecond {
+    margin-bottom: 11%;
+  }
+}
+@media (max-width: 1281px) {
+  .mileagefirst {
+    margin-bottom: 11%;
+  }
+  .mileagesecond {
+    margin-bottom: 11%;
+  }
 }
 @media (max-width: 1170px) {
   .section-header{
@@ -1251,6 +1508,12 @@ ul {
   }
   .icon2{
     background-position: 18.9vw 50%;
+  }
+  .mileagefirst {
+    margin-bottom: 13%;
+  }
+  .mileagesecond {
+    margin-bottom: 12%;
   }
 }
 @media (max-width: 1024px){
@@ -1266,6 +1529,13 @@ ul {
     background-size: 20px;
     background-position: 5rem 50%;
   }
+  .mileagefirst {
+    margin-bottom: 15%;
+  }
+
+  .mileagesecond {
+    margin-bottom: 14%;
+  }
 }
 @media (max-width: 864px) {
   .icon{
@@ -1276,5 +1546,14 @@ ul {
   }
   .icon2{
     background-position: 17.9vw 50%;
+  }
+  .mileagefirst {
+    margin-bottom: 32%;
+  }
+  .mileagesecond {
+    margin-bottom: 18%;
+  }
+  .show-error {
+    font-size: 10px;
   }
 }

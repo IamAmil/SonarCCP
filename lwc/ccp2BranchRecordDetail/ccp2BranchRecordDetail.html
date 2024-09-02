@@ -24,7 +24,7 @@
                                         </div>
                                         <div class="button">
                                             <div class="btn" onclick={handleChange}>
-                                                <P class="toedit">{labels.CCP2_ToEdit}</P>
+                                                <div class="toedit">{labels.CCP2_ToEdit}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="form_footer">
                                     <div class="btn1" onclick={goToMain}>
-                                        <P class="toedit1">所属管理へ</P>
+                                        <div class="toedit1">所属管理へ</div>
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +134,7 @@
                                             <div class="req"><p class="reqtxt">{labels.CCP2_Required}</p></div>
                                         </div>
                                         <div class="errors">
-                                            <div class="dataI"><input type="text" value={branchName} name="branch" oninput={handlevalidation} onchange={handleBranchChange} placeholder={labels.CCP2_PleaseEnter} maxlength="24" class="Inputs {branchNameClass}" required></div>
+                                            <div class="dataI"><input type="text" value={branchName} name="branch" oninput={handlevalchange} onchange={handleBranchChange} placeholder={labels.CCP2_PleaseEnter} maxlength="24" class="Inputs {branchNameClass}" required></div>
                                             <template if:true={showerrorbranch}><p class="txterror">名前は 24 文字未満にする必要があります</p></template>
                                             <template if:true={showerrorbranchNull}><p class="txterror">この項目は必須です</p></template>
                                         </div>
@@ -153,23 +153,23 @@
                                             </div>
                                             <div class="addressversions">
                                                 <p class="addresshead">都道府県</p>
-                                                <input type="text" value={prefectures} onchange={handlePrefectureChange} placeholder="例：東京都" class="Inputs12 {addressClass}" maxlength="24">
+                                                <input type="text" value={prefectures} onchange={handlePrefectureChange} oninput={handlevalchange} placeholder="例：東京都" class="Inputs12 {addressClass}" maxlength="24">
                                             </div>
                                             <div class="addressversions">
                                                 <p class="addresshead">市区町村</p>
-                                                <input type="text" value={municipalities} onchange={handlemunicipalitiesChange} placeholder="例：品川区品川" class="Inputs12 {addressClass}" maxlength="24">
+                                                <input type="text" value={municipalities} onchange={handlemunicipalitiesChange} oninput={handlevalchange} placeholder="例：品川区品川" class="Inputs12 {addressClass}" maxlength="24">
                                             </div>
                                             <div class="addressversions">
                                                 <p class="addresshead">番地</p>
-                                                <input type="text" value={streetAddress} onchange={handleStreetChange} placeholder="例：4-6-5" class="Inputs12 {addressClass}" maxlength="30">
+                                                <input type="text" value={streetAddress} onchange={handleStreetChange} oninput={handlevalchange} placeholder="例：4-6-5" class="Inputs12 {addressClass}" maxlength="30">
                                             </div>
                                             <div class="addressversions">
                                                 <p class="addresshead">建物名・会社名</p>
-                                                <input type="text" value={buildingName} onchange={handlebuildingChange} placeholder="例：〇〇マンション000号/会社名など" class="Inputs12 {addressClass}" maxlength="24">
+                                                <input type="text" value={buildingName} onchange={handlebuildingChange} oninput={handlevalchange} placeholder="例：〇〇マンション000号/会社名など" class="Inputs12 {addressClass}" maxlength="24">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="recordsI">
+                                    <div class="recordsI recordsIcontact">
                                         <div class="fieldCon">
                                          <div class="headCon">{labels.CCP2_Contact}</div>
                                          <!-- <div class="req1"><p class="reqtxt">{labels.CCP2_Required}</p></div> -->
@@ -177,8 +177,8 @@
                                         <div class="dataCon">
                                             <div class="ins">{labels.CCP2_WithoutHyphen}</div>
 
-                                         <input type="text" name="contactNumber" value={Contact} onchange={handleContactNoChange} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {contactClass}" maxlength="11" pattern="\d*">
-                                         <template if:true={fullwidthnum}><p class="txterror">電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください</p></template>
+                                         <input type="text" name="contactNumber" value={Contact} onchange={handleContactNoChange} oninput={handleInput} placeholder={labels.CCP2_PleaseEnter} class="Inputs12 {contactClass}" maxlength="11" pattern="\d*">
+                                         <!-- <template if:true={fullwidthnum}><p class="txterror">電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください</p></template> -->
                                          <!-- <div class="ins">{labels.CCP2_WithoutHyphen}</div> -->
                                         </div>
                                     </div>
@@ -213,14 +213,14 @@
                                                     <template for:each={contacts} for:item="veh">
                                                         <div key={veh.Id} class="record-item">
                                                             <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                            <span class="colorcode">{veh.Name}</span>
+                                                            <span class="">{veh.Name}</span>
                                                             <br>
                                                         </div>
                                                     </template>
                                                     <template for:each={moreContacts} for:item="veh">
                                                         <div key={veh.Id} class="record-item">
                                                             <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete" onclick={handleDeleteContact} data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                            <span class="colorcode">{veh.Name}</span>
+                                                            <span class="">{veh.Name}</span>
                                                             <br>
                                                         </div>
                                                     </template>
@@ -283,11 +283,11 @@
                                 <div class="form_footerSave">
                                     <div class="button2">
                                         <div class="btn2" onclick={handleCancel}>
-                                            <P class="toedit2">キャンセル</P>
+                                            <div class="toedit2">キャンセル</div>
                                         </div>
                                     </div> 
                                     <div class="btnSave" onclick={handleSave}>
-                                        <P class="toeditSave">保存</P>
+                                        <div class="toeditSave">保存</div>
                                     </div>
                                 </div>
                             </div>
@@ -301,11 +301,11 @@
                                 <p class="warntxt more">この所属を削除しますか？</p>
                             </div>
                             <div class="buttons-small">
-                                <div class="cancelbutton btn" onclick={closesure}>
-                                    <p class="buttontxt">いいえ</p>
+                                <div class="cancelbutton btn-cancel" onclick={closesure}>
+                                    <div class="buttontxt">いいえ</div>
                                 </div>
-                                <div class="searchbutton btn" onclick={checkAndDeleteBranch}>
-                                    <p class="buttontxt2">はい</p>
+                                <div class="searchbutton btn-search" onclick={checkAndDeleteBranch}>
+                                    <div class="buttontxt2">はい</div>
                                 </div>
                             </div>
                         </div>
@@ -331,10 +331,10 @@
                         <p class="warntxt more">終了しますか？</p>
                 </div>
                 <div class="buttons-small">
-                    <div class="cancelbutton btn" onclick={handleNo}>
+                    <div class="cancelbutton btn-cancel" onclick={handleNo}>
                         <p class="buttontxt">いいえ</p>
                     </div>
-                    <div class="searchbutton btn" onclick={handleYes}>
+                    <div class="searchbutton btn-search" onclick={handleYes}>
                         <p class="buttontxt2">はい</p>
                     </div>
                 </div>

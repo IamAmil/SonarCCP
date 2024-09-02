@@ -35,8 +35,8 @@ import FirstName from '@salesforce/schema/Contact.FirstName';
 
 const  arrowicon = Vehicle_StaticResource + '/CCP2_Resources/Common/arrow_under.png';
 
-const BACKGROUND_IMAGE_PC = Profile_StaticResource + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
-const BACKGROUND_IMAGE_MOBILE = Profile_StaticResource + '/CCP_StaticResource_AddUser/images/register_img_hero.png';
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.webp';
+const BACKGROUND_IMAGE_MOBILE = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.webp';
 
 const truck1 = Vehicle_StaticResource + "/CCP2_Resources/User/truckImg1.png";
 const truck2 = Vehicle_StaticResource + "/CCP2_Resources/User/truckImg2.png";
@@ -123,6 +123,7 @@ export default class Ccp_UserProfile extends LightningElement {
     showstep3 = false;
     @track showlist = false;
     @track deletedBranchIds = [];
+    @track originalUserList = [];
     @track emailError = false;
     @track isformvalid = true;
     @track ErrorText = '';
@@ -155,6 +156,11 @@ export default class Ccp_UserProfile extends LightningElement {
       };
 
     contactClassFirstName = "";
+    workError = "";
+    contactholidayend = "";
+    contactholidaystart = "";
+    contactworkdayend = "";
+    contactworkdaystart = "";
     contactClassBranch = "Inputs12 icon"
     contactClassLastName = "";
     contactClassFKanaName = "";
@@ -173,6 +179,15 @@ export default class Ccp_UserProfile extends LightningElement {
     @track InputEmpCode = '';
     @track InputDepartment = '';
     @track InputPost = '';
+    @track dropdownStartOpen = false;
+    @track dropdownStartOpenholi = false;
+    @track dropdownEndOpen = false;
+    @track dropdownEndOpenholi = false;
+    
+    workdayStartOptions = Array.from({ length: 24 }, (_, i) => i); // 0 to 23
+    workdayEndOptions = Array.from({ length: 24 }, (_, i) => i);   // 0 to 23
+    holidayStartOptions = Array.from({ length: 24 }, (_, i) => i);
+    holidayEndOptions = Array.from({ length: 24 }, (_, i) => i);
 
 
     @wire(getbranchdetails, { contactId: "$contactId" }) wiredBranches({
@@ -224,6 +239,8 @@ export default class Ccp_UserProfile extends LightningElement {
     connectedCallback(){
       console.log("inp mail conn",this.InputEmail)
         this.checkManagerUser();
+        document.addEventListener('click', this.handleOutsideClick2);
+        // this.originalUserList = [...this.userList];
         this.template.host.style.setProperty('--dropdown-icon', `url(${this.imgdrop})`);
         requestAnimationFrame(() => {
             this.addCustomStyles();
@@ -424,8 +441,10 @@ export default class Ccp_UserProfile extends LightningElement {
         if(data){
             console.log("unassociated user",data);
             this.userList = data.map(Contact => {
-                return { label: Contact.Name, value: Contact.Id };});;
+                return { label: Contact.Name, value: Contact.Id };});
+                this.originalUserList = [...this.userList];
                 console.log("user listtttt",JSON.stringify(this.userList));
+            
         }else if(error){
             console.log("error,unassociated user",error)
         }
@@ -494,20 +513,20 @@ export default class Ccp_UserProfile extends LightningElement {
     }
 
     // get the selected date
-    handleTimeSelection(event){
-        let selectName = event.target.name;
-        let selectValue = event.target.value;
-        if(selectName == 'workdayStart'){
-            this.workdayStart = selectValue;
-        } else if(selectName == 'workdayEnd'){
-            this.workdayEnd = selectValue;
-        } else if(selectName == 'holidayStart'){
-            this.holidayStart = selectValue;
-        } else if(selectName == 'holidayEnd'){
-            this.holidayEnd = selectValue;
-        }
-        this.saveButtonDisable();
-    }
+    // handleTimeSelection(event){
+    //     let selectName = event.target.name;
+    //     let selectValue = event.target.value;
+    //     if(selectName == 'workdayStart'){
+    //         this.workdayStart = selectValue;
+    //     } else if(selectName == 'workdayEnd'){
+    //         this.workdayEnd = selectValue;
+    //     } else if(selectName == 'holidayStart'){
+    //         this.holidayStart = selectValue;
+    //     } else if(selectName == 'holidayEnd'){
+    //         this.holidayEnd = selectValue;
+    //     }
+    //     this.saveButtonDisable();
+    // }
 
     // get the checked information
     // handleCheckboxChange(event){
@@ -546,51 +565,51 @@ export default class Ccp_UserProfile extends LightningElement {
     }
 
     // save and update contact
-    saveClick(){
-        // display Loading Screen
-        this.isLoading = true;
-        let inputData = {
-            workdayStart: Math.floor(Number(this.workdayStart)), 
-            workdayEnd: Math.floor(Number(this.workdayEnd)), 
-            holidayStart: Math.floor(Number(this.holidayStart)),
-            holidayEnd: Math.floor(Number(this.holidayEnd)), 
-            // isNotReceiveByPhone: this.isNotReceiveByPhone, 
-            // isNotReceiveByPostcard: this.isNotReceiveByPostcard
-        };
-        updateContactData({inputDataStr: JSON.stringify(inputData)}).then(result=>{
-            if(result != null){
-                this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m disabled';
-                // display value reassignment
-                this.defaultDisplay = {
-                    workdayStart: this.workdayStart,
-                    workdayEnd: this.workdayEnd,
-                    holidayStart: this.holidayStart,
-                    holidayEnd: this.holidayEnd,
-                    // isNotReceiveByPhone: false,
-                    // isNotReceiveByPostcard: false
-                };
-                let title = '保存が完了しました。';
-                this.toast(title);
-                this.isLoading = false;
-            }
-        }).catch(error => {
-            console.log('updateContactError:' + JSON.stringify(error));
-            this.isLoading = false;
-        })
-    }
+    // saveClick(){
+    //     // display Loading Screen
+    //     this.isLoading = true;
+    //     let inputData = {
+    //         workdayStart: Math.floor(Number(this.workdayStart)), 
+    //         workdayEnd: Math.floor(Number(this.workdayEnd)), 
+    //         holidayStart: Math.floor(Number(this.holidayStart)),
+    //         holidayEnd: Math.floor(Number(this.holidayEnd)), 
+    //         // isNotReceiveByPhone: this.isNotReceiveByPhone, 
+    //         // isNotReceiveByPostcard: this.isNotReceiveByPostcard
+    //     };
+    //     updateContactData({inputDataStr: JSON.stringify(inputData)}).then(result=>{
+    //         if(result != null){
+    //             this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m disabled';
+    //             // display value reassignment
+    //             this.defaultDisplay = {
+    //                 workdayStart: this.workdayStart,
+    //                 workdayEnd: this.workdayEnd,
+    //                 holidayStart: this.holidayStart,
+    //                 holidayEnd: this.holidayEnd,
+    //                 // isNotReceiveByPhone: false,
+    //                 // isNotReceiveByPostcard: false
+    //             };
+    //             let title = '保存が完了しました。';
+    //             this.toast(title);
+    //             this.isLoading = false;
+    //         }
+    //     }).catch(error => {
+    //         console.log('updateContactError:' + JSON.stringify(error));
+    //         this.isLoading = false;
+    //     })
+    // }
     
-    saveButtonDisable(){
-        let workdayStart = this.defaultDisplay.workdayStart;
-        let workdayEnd = this.defaultDisplay.workdayEnd;
-        let holidayStart = this.defaultDisplay.holidayStart;
-        let holidayEnd = this.defaultDisplay.holidayEnd;
-        if(this.workdayStart == workdayStart && this.workdayEnd == workdayEnd 
-            && this.holidayStart == holidayStart && this.holidayEnd == holidayEnd){
-            this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m disabled';
-        } else{
-            this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m';
-        }
-    }
+    // saveButtonDisable(){
+    //     let workdayStart = this.defaultDisplay.workdayStart;
+    //     let workdayEnd = this.defaultDisplay.workdayEnd;
+    //     let holidayStart = this.defaultDisplay.holidayStart;
+    //     let holidayEnd = this.defaultDisplay.holidayEnd;
+    //     if(this.workdayStart == workdayStart && this.workdayEnd == workdayEnd 
+    //         && this.holidayStart == holidayStart && this.holidayEnd == holidayEnd){
+    //         this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m disabled';
+    //     } else{
+    //         this.template.querySelector('[name="saveButton"]').className = 'primary_btn--m';
+    //     }
+    // }
 
     getTime(timeValue){
         let time;
@@ -659,11 +678,27 @@ export default class Ccp_UserProfile extends LightningElement {
     }
     handleYes(){
       console.log("before val change id",this.selectedUserId);
+        // this.showconfModal = false;
+        // this.showBasicinfo = false;
+        // this.showchangeAdmin = true;
+        // this.showstep1 = true;
+        // this.selectedUserId = '';
+        // this.newusershow = false;
+        // this.selectedValue = '';
         this.showconfModal = false;
-        this.showBasicinfo = false;
-        this.showchangeAdmin = true;
-        this.showstep1 = true;
-        this.selectedUserId = '';
+    this.showBasicinfo = false;
+    this.showchangeAdmin = true;
+    this.showstep1 = true;
+
+    // Reset the selected user and value
+    this.selectedUserId = '';
+    this.selectedValue = '';
+    this.newusershow = false;
+
+    // Reopen the dropdown with the original user list and reset userList
+    this.isDropdownOpen = true;
+    // Assuming you have an original user list to reset to, otherwise store it somewhere
+    this.userList = [...this.originalUserList];
         console.log("after val change id",this.selectedUserId);
         this.close();
     }
@@ -671,53 +706,53 @@ export default class Ccp_UserProfile extends LightningElement {
         this.showBasicinfo = true;
         this.showconfModal = false;
     }
-    // handleChange(event) {
-    //     this.selectedUserId =  event.currentTarget.dataset.id;
-    //     console.log("Selected User ID:", this.selectedUserId);
-    //     const selectedUser = this.userList.find(user => user.value === this.selectedUserId);
-    //     if (selectedUser) {
-    //         this.selectedValue = selectedUser.label;
-    //         this.selectedId = selectedUser.value;
-    //         console.log("selected value", this.selectedValue);
-
-    //         this.userList = this.userList.filter(user => user.value !== this.selectedUserId);
-    //     }
-    //     this.isDropdownOpen = false;
-    //     this.fetchUserInfo();
-    //     this.newusershow = true;
-    // }
-
     handleChange(event) {
-      // Handle the change event when a user is selected
-      const newSelectedUserId = event.currentTarget.dataset.id;
-      console.log("New Selected User ID:", newSelectedUserId);
+        this.selectedUserId =  event.currentTarget.dataset.id;
+        console.log("Selected User ID:", this.selectedUserId);
+        const selectedUser = this.userList.find(user => user.value === this.selectedUserId);
+        if (selectedUser) {
+            this.selectedValue = selectedUser.label;
+            this.selectedId = selectedUser.value;
+            console.log("selected value", this.selectedValue);
+
+            this.userList = this.userList.filter(user => user.value !== this.selectedUserId);
+        }
+        this.isDropdownOpen = false;
+        this.fetchUserInfo();
+        this.newusershow = true;
+    }
+
+    // handleChange(event) {
+    //   // Handle the change event when a user is selected
+    //   const newSelectedUserId = event.currentTarget.dataset.id;
+    //   console.log("New Selected User ID:", newSelectedUserId);
   
-      // Find the new selected user in the userList
-      const newSelectedUser = this.userList.find(user => user.value === newSelectedUserId);
-      if (newSelectedUser) {
-          // If there was a previously selected user, add it back to the userList
-          if (this.selectedUserId) {
-              const previousSelectedUser = {
-                  value: this.selectedUserId,
-                  label: this.selectedValue
-              };
-              this.userList = [...this.userList, previousSelectedUser];
-          }
+    //   // Find the new selected user in the userList
+    //   const newSelectedUser = this.userList.find(user => user.value === newSelectedUserId);
+    //   if (newSelectedUser) {
+    //       // If there was a previously selected user, add it back to the userList
+    //       if (this.selectedUserId) {
+    //           const previousSelectedUser = {
+    //               value: this.selectedUserId,
+    //               label: this.selectedValue
+    //           };
+    //           this.userList = [...this.userList, previousSelectedUser];
+    //       }
   
-          // Update the currently selected user details
-          this.selectedUserId = newSelectedUserId;
-          this.selectedValue = newSelectedUser.label;
-          console.log("New selected value user id:", this.selectedUserId);
+    //       // Update the currently selected user details
+    //       this.selectedUserId = newSelectedUserId;
+    //       this.selectedValue = newSelectedUser.label;
+    //       console.log("New selected value user id:", this.selectedUserId);
   
-          // Remove the newly selected user from the userList
-          this.userList = this.userList.filter(user => user.value !== newSelectedUserId);
-      }
+    //       // Remove the newly selected user from the userList
+    //       this.userList = this.userList.filter(user => user.value !== newSelectedUserId);
+    //   }
   
       // Close the dropdown and fetch user info
-      this.isDropdownOpen = false;
-      this.fetchUserInfo();
-      this.newusershow = true;
-  }
+  //     this.isDropdownOpen = false;
+  //     this.fetchUserInfo();
+  //     this.newusershow = true;
+  // }
   
 
     fetchUserInfo() {
@@ -753,9 +788,23 @@ export default class Ccp_UserProfile extends LightningElement {
     }
 
 
-    toggleDropdown() {
-        if(this.userList.length != 0){
-            this.isDropdownOpen = !this.isDropdownOpen;
+    toggleDropdown(event) {
+        // if(this.userList.length != 0){
+        //     this.isDropdownOpen = !this.isDropdownOpen;
+        // }
+        event.stopPropagation();
+        this.isDropdownOpen = !this.isDropdownOpen;
+        console.log("user lenth in toggle",this.userList.length)
+        if(this.userList.length == 0){
+          this.isDropdownOpen = false;
+        }
+
+        if (this.isDropdownOpen) {
+            // Add event listener to close the dropdown when clicking outside
+            document.addEventListener('click', this.handleOutsideClick);
+        } else {
+            // Remove event listener when dropdown is closed
+            document.removeEventListener('click', this.handleOutsideClick);
         }
     }
 
@@ -774,19 +823,49 @@ export default class Ccp_UserProfile extends LightningElement {
     }
     handlecancel(){
         this.showcancelModal = true;
-        this.selectedUserId = '';
+        // this.selectedUserId = '';
+        // this.newusershow = false;
         console.log("this.newwselid in cancel",this.selectedUserId);
     }
     handleYesCancel(){
       // this.reloadPage();
       window.scrollTo(0,0);
       this.selectedUserId = '';
+      this.newusershow = false;
       this.open();
       this.showcancelModal = false;
       this.showchangeAdmin = false;
       this.showBasicinfo = true;
+      this.userList = [...this.originalUserList];
     
     }
+  //   handleYesCancel() {
+  //     // Add the previously selected user back to the userList if a user was selected
+  //     // if (this.selectedUserId) {
+  //     //     const previouslySelectedUser = {
+  //     //         value: this.selectedUserId,
+  //     //         label: this.selectedValue
+  //     //     };
+  //     //     this.userList = [...this.userList, previouslySelectedUser];
+  //     // }
+  //     this.userList = [...this.originalUserList];
+  //     // Reset the selected user fields
+  //     this.selectedUserId = '';
+  //     this.selectedValue = '';
+  //     this.newusershow = false;
+  
+  //     // Reset the modals and UI state
+  //     this.showcancelModal = false;
+  //     this.showchangeAdmin = false;
+  //     this.showBasicinfo = true;
+  
+  //     // Scroll to the top of the page
+  //     window.scrollTo(0, 0);
+      
+  //     // Optionally, you can call a method to reload or refresh necessary data
+  //     // this.reloadPage(); // Uncomment if needed
+  // }
+  
 
     
     handlenext(){
@@ -891,19 +970,19 @@ export default class Ccp_UserProfile extends LightningElement {
         this.close();
         this.showeditscreen = true;
         console.log("workday stsrtaaasdnhvjs in edit",this.workdayEnd,this.workdayStart,this.holidayStart,this.holidayEnd);
-        if(this.workdayStart == '-'){
-          this.workdayStart = '';
-          console.log("inside work day",this.workdayStart);
-        }
-        if(this.workdayEnd == '-'){
-          this.workdayEnd = '';
-        }
-        if(this.holidayStart == '-'){
-          this.holidayStart = '';
-        }
-        if(this.holidayEnd == '-'){
-          this.holidayEnd = '';
-        }
+        // if(this.workdayStart == '-'){
+        //   this.workdayStart = '';
+        //   console.log("inside work day",this.workdayStart);
+        // }
+        // if(this.workdayEnd == '-'){
+        //   this.workdayEnd = '';
+        // }
+        // if(this.holidayStart == '-'){
+        //   this.holidayStart = '';
+        // }
+        // if(this.holidayEnd == '-'){
+        //   this.holidayEnd = '';
+        // }
         console.log("shoewwwwww cell phone",this.InputCellPhone);
         this.refreshTokenInt = ++this.refreshTokenInt;
         this.showBasicinfo = false;
@@ -911,12 +990,12 @@ export default class Ccp_UserProfile extends LightningElement {
 
       handleInputChange(event) {
         const field = event.target.dataset.field;
-    if (field) {
-      let value = event.target.value;
+      if (field) {
+          let value = event.target.value;
 
-      let displayValue = value;
+          let displayValue = value;
 
-      const onlyDigitsRegex = /^[0-9０-９]*$/;
+          const onlyDigitsRegex = /^[0-9０-９]*$/;
 
       // if (field === "電話番号" || field === "携帯番号") {
       //     // Check if the value contains only allowed characters
@@ -926,13 +1005,13 @@ export default class Ccp_UserProfile extends LightningElement {
       //     }
       // }
       
-      if (field === "平日s" || field === "平日e" || field === "土日祝s" || field === "土日祝e") {
-          value = parseFloat(value) * 60 * 60 * 1000; 
-          if (isNaN(value)) {
-              console.error("Invalid value for field:", field);
-              return;
-          }
-      }
+      // if (field === "平日s" || field === "平日e" || field === "土日祝s" || field === "土日祝e") {
+      //     value = isNaN(value) || value === '' ? 0 : parseFloat(value) * 60 * 60 * 1000; 
+      //     if (isNaN(value)) {   
+      //         console.error("Invalid value for field:", field);   
+      //         return;
+      //     }
+      // }
 
       switch (field) {
           case "姓":
@@ -974,18 +1053,18 @@ export default class Ccp_UserProfile extends LightningElement {
               const onlyNumberCell = /^[0-9]*$/;
               this.InputCellPhone = displayValue;
               break;
-          case "平日s":
-              this.workdayStart = displayValue;
-              break;
-          case "平日e":
-              this.workdayEnd = displayValue;
-              break;
-          case "土日祝s":
-              this.holidayStart = displayValue;  
-              break;
-          case "土日祝e":
-              this.holidayEnd = displayValue;  
-              break;
+          // case "平日s":
+          //     this.workdayStart = displayValue;
+          //     break;
+          // case "平日e":
+          //     this.workdayEnd = displayValue;
+          //     break;
+          // case "土日祝s":
+          //     this.holidayStart = displayValue;  
+          //     break;
+          // case "土日祝e":
+          //     this.holidayEnd = displayValue;  
+          //     break;
           default:
               console.warn("Unhandled field:", field);
       }
@@ -1067,8 +1146,10 @@ export default class Ccp_UserProfile extends LightningElement {
         handlebranChange(event) {
             event.stopPropagation();
             this.showlist = !this.showlist;
+            // console.log("this the branch options",this.branchoptions.length);
             if (this.branchoptions.length == 0) {
                 this.showlist = false;
+                // console.log("wehen branch empty",this.showlist);
             }
         }
         handleInsideClick(event) {
@@ -1170,7 +1251,23 @@ export default class Ccp_UserProfile extends LightningElement {
             ) {
               this.showlist = false;
             }
-          };
+            if (!this.template.querySelector('.dropdown').contains(event.target)) {
+              this.isDropdownOpen = false;
+              document.removeEventListener('click', this.handleOutsideClick);
+          }
+          }
+
+          handleOutsideClick2 = (event) => {
+            // Check if the click was inside the dropdown, using `this.template.contains`
+            if (!this.template.contains(event.target)) {
+                this.dropdownStartOpen = false;
+                this.dropdownEndOpen = false;
+            }
+            if (!this.template.contains(event.target)) {
+              this.dropdownStartOpenholi = false;
+              this.dropdownEndOpenholi = false;
+          }
+        };
 
           renderedCallback() {
             if (!this.outsideClickHandlerAdded) {
@@ -1181,6 +1278,7 @@ export default class Ccp_UserProfile extends LightningElement {
         
           disconnectedCallback() {
             document.removeEventListener("click", this.handleOutsideClick.bind(this));
+            document.removeEventListener('click', this.handleOutsideClick2);
           }
           branchdeleteAdd() {
             if (this.deletedBranchIds.length > 0) {
@@ -1408,13 +1506,19 @@ export default class Ccp_UserProfile extends LightningElement {
 
 
   saveFormData() {
-    let onlyNumber = /^[0-9]*$/;
+    let onlyNumber = /^[0-9０-９]*$/;
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     let isFormValid = true; // Flag to track overall form validity
     const fullWidthDigitsRegex = /[０-９]/;
-
+    let japanesePattern = /[\u3040-\u30FF\u4E00-\u9FFF]/;
     // Reset all error messages and CSS classes
     this.contactClassFirstName = "";
+    this.contactholidayend = "";
+    this.contactholidaystart = "";
+    this.contactworkdayend = "";
+    this.contactworkdaystart = "";
+    this.workError = "";
     this.Fnameerror = "";
     this.contactClassLastName = "";
     this.Lnameerror = "";
@@ -1471,7 +1575,12 @@ export default class Ccp_UserProfile extends LightningElement {
         this.emailerrorText = "メールアドレスの形式は不正です";
         isFormValid = false;
         window.scrollTo(0,0);
-    }
+    }else if (japanesePattern.test(this.InputEmail)) {
+    this.contactClassEmail = "invalid-input";
+    this.emailerrorText = "メールアドレスの形式は不正です";
+    isFormValid = false;
+    window.scrollTo(0, 0);
+} 
     const emailValidationPromise = new Promise((resolve, reject) => {
       if (this.InputEmail != this.initialmail) {
           checkUserEmail({ email: this.InputEmail })
@@ -1496,54 +1605,32 @@ export default class Ccp_UserProfile extends LightningElement {
           resolve();
       }
   });
-    // else if(this.InputEmail != this.initialmail){
-//       checkUserEmail({ email: this.InputEmail })
-//     .then((data) => {
-//         if (data != null && data != "" && data != undefined) {
-//         if (data[0] == "false" && data[1] == "false") {
-//       // email.className =
-//       //   "form-input slds-form-element__control slds-input";
-//       // this.emailError = false;
-//       // this.emailErrorText = "";
-//     } else if (data[0] == "true") {
-//       this.contactClassEmail = "invalid-input";
-//       // this.handleemailerror();
-//       this.emailerrorText = "入力されたメールアドレスはすでに使われています";
-//       isFormValid = false;
-//       // email.className =
-//       //   "form-input _error slds-form-element__control slds-input";
-//       // this.emailError = true;
-//       // this.emailErrorText =
-//       //   "入力されたメールアドレスはすでに使われています";
-//     } 
-//   }
-// })
 
-    if (this.InputTelephone == "" && this.InputCellPhone == "") {
-        this.cellPhoneErrorText = "電話番号か携帯番号かいずれかをご入力ください。";
-        this.contactClassCellPhone = "invalid-input";
-        this.contactClassTelephone = "invalid-input";
-        this.handleError();
-        isFormValid = false;
-    } 
-    else if (this.InputTelephone == "" && !onlyNumber.test(this.InputCellPhone)) {
-        this.contactClassCellPhone = "invalid-input";
-        this.telephoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
-        isFormValid = false;
-        window.scrollTo(0,0);
-    } else if ( this.InputCellPhone == "" && !onlyNumber.test(this.InputTelephone)) {
-        this.contactClassTelephone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
-        isFormValid = false;
-        window.scrollTo(0,0);
-    } 
-    else if (this.InputTelephone != "" && this.InputCellPhone != "" && (!onlyNumber.test(this.InputTelephone) || !onlyNumber.test(this.InputCellPhone))) {
-        this.contactClassTelephone = "invalid-input";
-        this.contactClassCellPhone = "invalid-input";
-        this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
-        isFormValid = false;
-        window.scrollTo(0,0);
-    }
+    // if (this.InputTelephone == "" && this.InputCellPhone == "") {
+    //     this.cellPhoneErrorText = "電話番号か携帯番号かいずれかをご入力ください。";
+    //     this.contactClassCellPhone = "invalid-input";
+    //     this.contactClassTelephone = "invalid-input";
+    //     this.handleError();
+    //     isFormValid = false;
+    // } 
+    // else if (this.InputTelephone == "" && !onlyNumber.test(this.InputCellPhone)) {
+    //     this.contactClassCellPhone = "invalid-input";
+    //     this.telephoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
+    //     isFormValid = false;
+    //     window.scrollTo(0,0);
+    // } else if ( this.InputCellPhone == "" && !onlyNumber.test(this.InputTelephone)) {
+    //     this.contactClassTelephone = "invalid-input";
+    //     this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
+    //     isFormValid = false;
+    //     window.scrollTo(0,0);
+    // } 
+    // else if (this.InputTelephone != "" && this.InputCellPhone != "" && (!onlyNumber.test(this.InputTelephone) || !onlyNumber.test(this.InputCellPhone))) {
+    //     this.contactClassTelephone = "invalid-input";
+    //     this.contactClassCellPhone = "invalid-input";
+    //     this.cellPhoneErrorText = "電話番号・携帯番号は半角数字（ハイフンなし）でご入力ください";
+    //     isFormValid = false;
+    //     window.scrollTo(0,0);
+    // }
   //   else if (this.InputCellPhone != "" && !onlyNumber.test(this.InputCellPhone) && fullWidthDigitsRegex.test(this.InputCellPhone)) {
   //     isFormValid = false;
   //     this.contactClassCellPhone = "invalid-input";
@@ -1557,6 +1644,8 @@ export default class Ccp_UserProfile extends LightningElement {
           this.formData["ContactId"] = this.contactId;
           this.formDataArray.push(this.formData);
           let filteredData = JSON.stringify(this.formDataArray);
+          // let filteredData = this.formDataArray;
+          
   
           const asyncFunction = async () => {
               try {
@@ -1814,6 +1903,133 @@ handleInputValidation(event) {
       event.target.value = value;
   }
 }
+handlevalchange(event){
+  const maxLength = event.target.maxLength;
+    let value = event.target.value;
+    if (value.length > maxLength) {
+        event.target.value = value.substring(0, maxLength);
+    }
+}
 
+
+handleDropdownClick(event) {
+  event.stopPropagation();
+}
+
+
+get workdayStartDisplay() {
+  return this.workdayStart !== '' ? this.workdayStart : '';
+}
+
+get workdayEndDisplay() {
+  return this.workdayEnd !== '' ? this.workdayEnd : '';
+}
+
+get holidayStartDisplay() {
+  return this.holidayStart !== '' ? this.holidayStart : '';
+}
+
+get holidayEndDisplay() {
+  return this.holidayEnd !== '' ? this.holidayEnd : '';
+}
+
+get dropdownStartClass() {
+  return this.dropdownStartOpen ? 'dropdown-open dropdown-div' : 'dropdown-close';
+}
+
+get dropdownStartClassholi() {
+  return this.dropdownStartOpenholi ? 'dropdown-open dropdown-div' : 'dropdown-close';
+}
+
+toggleDropdownStart(event) {
+  this.dropdownStartOpen = !this.dropdownStartOpen;
+  this.dropdownEndOpen = false; 
+  this.dropdownEndOpenholi = false;
+  this.dropdownStartOpenholi = false;
+  event.stopPropagation();
+}
+
+toggleDropdownStartholi(event){
+  this.dropdownStartOpenholi = !this.dropdownStartOpen;
+  this.dropdownEndOpenholi = false; 
+  this.dropdownStartOpen = false;
+  this.dropdownEndOpen = false;
+  event.stopPropagation();
+}
+
+toggleDropdownEndholi(event){
+  this.dropdownEndOpenholi = !this.dropdownEndOpenholi;
+  this.dropdownStartOpenholi = false; 
+  this.dropdownEndOpen = false;
+  this.dropdownStartOpen = false;
+  event.stopPropagation(); 
+}
+
+toggleDropdownEnd(event) {
+  this.dropdownEndOpen = !this.dropdownEndOpen;
+  this.dropdownStartOpen = false; 
+  this.dropdownStartOpenholi = false;
+  this.dropdownEndOpenholi = false;
+  event.stopPropagation(); 
+}
+
+get dropdownEndClass() {
+  return this.dropdownEndOpen ? 'dropdown-open dropdown-div' : 'dropdown-close';
+}
+get dropdownEndClassholi() {
+  return this.dropdownEndOpenholi ? 'dropdown-open dropdown-div' : 'dropdown-close';
+}
+
+
+
+handleWorkdayStartChange(event) {
+  const selectedValue = event.target.dataset.value;
+  this.workdayStart = parseInt(selectedValue, 10);
+  this.dropdownStartOpen = false;
+  this.saveTimeValue('平日s', selectedValue);
+}
+
+handleHolidayStartChange(event){
+  const selectedValue = event.target.dataset.value;
+  this.holidayStart = parseInt(selectedValue, 10);
+  this.dropdownStartOpenholi = false;
+  this.saveTimeValue('土日祝s', selectedValue);
+}
+
+handleHolidayEndChange(event){
+  const selectedValue = event.target.dataset.value;
+  this.holidayEnd = parseInt(selectedValue, 10);
+  this.dropdownEndOpenholi = false;
+  this.saveTimeValue('土日祝e', selectedValue);
+}
+
+// Filter Workday End Options based on Workday Start
+// get filteredWorkdayEndOptions() {
+//   if (this.workdayStart === 23) {
+//       // If start time is 23, the end time should start from 0 again
+//       return this.workdayEndOptions;
+//   } else if (this.workdayStart !== '') {
+//       // If start time is less than 23, filter options to start after workdayStart
+//       return this.workdayEndOptions.filter(option => option > this.workdayStart);
+//   }
+//   return this.workdayEndOptions;
+// }
+
+// Handle Workday End change
+handleWorkdayEndChange(event) {
+  const selectedValue = event.target.dataset.value;
+  this.workdayEnd = parseInt(selectedValue, 10);
+  this.dropdownEndOpen = false;
+  this.saveTimeValue('平日e', selectedValue);
+}
+
+saveTimeValue(field, value) {
+  let milliseconds = parseFloat(value) * 60 * 60 * 1000;
+  if (!this.formData) {
+      this.formData = {};
+  }
+  this.formData[field] = milliseconds; 
+  console.log("Updated formData:", JSON.stringify(this.formData));
+}
 
 }

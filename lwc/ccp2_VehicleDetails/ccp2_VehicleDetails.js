@@ -3,6 +3,7 @@ import getVehicleById from "@salesforce/apex/CCP2_VehicleDetailController.getVeh
 import getImagesAsBase64 from "@salesforce/apex/VehicleImageService.getImagesAsBase64";
 import vehicleBranchName from "@salesforce/apex/CCP2_VehicleDetailController.vehicleBranchName";
 import getVehicleCertificates from "@salesforce/apex/CCP2_VehicleDetailController.vehicleImageCountTitle";
+import updateFavVehicleApi from "@salesforce/apex/CCP2_VehicleDetailController.updateFavVehicle";
 import truckonnectLogo from "@salesforce/resourceUrl/CCP2_Truckonnect";
 import CCP2_Resources from "@salesforce/resourceUrl/CCP2_Resources";
 import CCP2_ScheduleRegistration from "@salesforce/label/c.CCP2_ScheduleRegistration";
@@ -44,28 +45,31 @@ import CCP2_Print from "@salesforce/label/c.CCP2_Print";
 
 const editIcon = CCP2_Resources + "/CCP2_Resources/Vehicle/write.png";
 const vehicleIcon =
-  CCP2_Resources + "/CCP2_Resources/Vehicle/delete-vehicle.png";
+  CCP2_Resources + "/CCP2_Resources/Vehicle/delete_vehicle.png";
 const downloadIcon =
   CCP2_Resources + "/CCP2_Resources/Vehicle/file_download.png";
 
 export default class Ccp2_VehicleDetails extends LightningElement {
   @track vehicleByIdLoader = true;
+  @api vehicleIcons;
   @api vehicleId;
   @track showVehicleDetails = true;
   @track showCostManagement = false;
   @track showMaintainList = false;
   @track showvehDetails = true;
   @track showMaintainencePage = false;
+  @track BranchesModal = false;
+  @track morethanOneBranch = true;
   @track classVehicleDetails = "";
   @track classCostManagement = "";
   @track classMaintainList = "";
-  @track vehId = '';
+  @track vehId = "";
   editIcon = editIcon;
   vehicleIcon = vehicleIcon;
   downloadIcon = downloadIcon;
   isStarFilled = false;
   @track certificateTitleCount = "-";
-  @track Branches;
+  @track Branches = [];
 
   truckLogoUrl = truckonnectLogo;
   // @api showVehicle;
@@ -77,8 +81,13 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     chassisNumber: "-",
     doorNumber: "-",
     firstRegistrationDate: "-",
+    Favourite: "-",
     typeOfFuel: "-",
     mileage: "-",
+    branch: "-",
+    branchCount: "-",
+    branchReal: "-",
+    OnScreenBranchCount: "-",
     privateBusinessUse: "-",
     vehicleNumber: "-",
     affiliation: "-",
@@ -89,7 +98,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     vehicleWeigth: "-",
     registerationNumber: "-",
     expirationDate: "-",
-    devileryDate: '-',
+    devileryDate: "-"
   };
 
   label = {
@@ -134,23 +143,23 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @api currentChassisNumber;
   @track allImages;
   @track uploadCertImagesArray = this.allCertificates || null;
-  @wire(vehicleBranchName, { vehicleId: "$vehicleId" }) handlebranch({
-    data,
-    error
-  }) {
-    if (data) {
-      console.log("geting Branch from vehicle by Id: ", this.vehicleId);
-      console.log("geting Branch from vehicle by Id api: ", data);
-      this.vehId = this.vehicleId;
-      if (data.length !== 0) {
-        this.Branches = data;
-        console.log("Branch geting from Branch by Id api: ", this.Branches);
-      }
-    } else if (error) {
-      // handle error
-      console.error("geting Branch from vehicle by Id api: ", error);
-    }
+
+  updateFavVehicle(vehId, favBool, favIconName) {
+    updateFavVehicleApi({ vehicleId: vehId, favVehicle: favBool })
+      .then(() => {
+        console.log("Vehicle Favourite icon updated!!");
+        if (favIconName === "utility:favorite") {
+          this.vehicleByIdData.Favourite = "utility:favorite_alt";
+        } else {
+          this.vehicleByIdData.Favourite = "utility:favorite";
+        }
+      })
+      .catch((err) => {
+        console.log("Vehicle Favourite icon updated!!", vehId, favBool);
+        console.error(err);
+      });
   }
+
   @wire(getVehicleById, { vehicleId: "$vehicleId" }) handledata({
     data,
     error
@@ -170,6 +179,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             data[0].Vehicle_Type__c === undefined
               ? "-"
               : data[0].Vehicle_Type__c,
+          Favourite: this.vehicleIcons,
           carBodyShape:
             data[0].Body_Shape__c === undefined ? "-" : data[0].Body_Shape__c,
           chassisNumber:
@@ -182,7 +192,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             data[0].First_Registration_Date__c === undefined
               ? "-"
               : this.formatJapaneseDate(data[0].First_Registration_Date__c), // Apply Japanese date formatting
- 
+
           typeOfFuel:
             data[0].Fuel_Type__c === undefined ? "-" : data[0].Fuel_Type__c,
           mileage: data[0].Mileage__c === undefined ? "-" : data[0].Mileage__c,
@@ -217,14 +227,14 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             data[0].Registration_Number__c === undefined
               ? "-"
               : data[0].Registration_Number__c,
-              expirationDate:
-              data[0].Vehicle_Expiration_Date__c === undefined
-                ? "-"
-                : this.formatJapaneseDate(data[0].Vehicle_Expiration_Date__c),
-            devileryDate:
-              data[0].Delivery_Date__c === undefined
-                ? "-"
-                : this.formatJapaneseDate(data[0].Delivery_Date__c)
+          expirationDate:
+            data[0].Vehicle_Expiration_Date__c === undefined
+              ? "-"
+              : this.formatJapaneseDate(data[0].Vehicle_Expiration_Date__c),
+          devileryDate:
+            data[0].Delivery_Date__c === undefined
+              ? "-"
+              : this.formatJapaneseDate(data[0].Delivery_Date__c)
         };
         console.log("object geting from vehicle by Id api: ", obj);
         this.vehicleByIdData = obj;
@@ -232,6 +242,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
           data[0].Chassis_number__c === undefined
             ? ""
             : data[0].Chassis_number__c;
+        this.loadbranches();
         this.fetchVehicleCertificates();
       }
     } else if (error) {
@@ -240,11 +251,65 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     }
   }
 
+  loadbranches() {
+    vehicleBranchName({ vehicleId: this.vehicleId })
+      .then((data) => {
+        console.log("Getting Branch from vehicle by Id: ", this.vehicleId);
+        console.log("Getting Branch from vehicle by Id API: ", data);
+
+        this.vehId = this.vehicleId;
+
+        if (data.length !== 0) {
+          this.Branches = data;
+          if (this.Branches.length == 1) {
+            this.morethanOneBranch = false;
+          }
+          this.vehicleByIdData.branchReal = this.Branches[0].Name;
+          this.vehicleByIdData.branch = this.abbreviateName(this.Branches[0].Name) || "-";
+          this.vehicleByIdData.branchCount = this.Branches.length;
+          this.vehicleByIdData.OnScreenBranchCount =
+            this.vehicleByIdData.branchCount - 1;
+          this.Branches = data.map((branch) => ({
+            ...branch,
+            originalName: branch.Name,
+            Name:
+              branch.Name.length > 11
+                ? `${branch.Name.slice(0, 7)}...`
+                : branch.Name,
+            originalMinicipalities: branch.Minicipalities__c,
+            Minicipalities__c:
+              branch.Minicipalities__c && branch.Minicipalities__c.length > 11
+                ? `${branch.Minicipalities__c.slice(0, 7)}...`
+                : branch.Minicipalities__c
+          }));
+          console.log(
+            "Branch assigned to vehicleByIdData.branch: ",
+            this.vehicleByIdData.branch
+          );
+          // console.log("Branch data from API: ", JSON.stringify(this.Branches));
+        } else {
+          this.vehicleByIdData.branch = "-";
+          this.vehicleByIdData.branchCount = " ";
+          this.morethanOneBranch = false;
+          console.log("No branches found, setting branch to '-'.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting Branch from vehicle by Id API: ", error);
+      });
+  }
+  abbreviateName(name, maxLength = 11) {
+    if (name && name.length > maxLength) {
+        return `${name.slice(0, 5)}...`;
+    }
+    return name;
+}
+
   @track allCertificates = [];
   @track vehicleByIdLoader2 = false;
-  @track vehicleByIdLoader3 = true;
 
-  handleImages() {
+  @wire(getImagesAsBase64, { chassisNumber: "$currentChassisNumber" })
+  handleImages({ data, error }) {
     console.log("Chassis Number for Image", this.currentChassisNumber);
 
     // Start loaders
@@ -253,61 +318,66 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.imagesAvailable = false;
     this.certificatesAvailable = false;
 
-    // Call the Apex method
-    getImagesAsBase64({ chassisNumber: this.currentChassisNumber })
-        .then(data => {
-            console.log("Getting images and certificates from vehicle by Chassis Number: ", this.currentChassisNumber);
-            console.log("Data from Chassis Number", data);
+    if (data) {
+      // console.log(
+      //   "Getting images and certificates from vehicle by Chassis Number: ",
+      //   this.currentChassisNumber
+      // );
+      // console.log("Data from Chassis Number", data);
 
-            try {
-                data = JSON.parse(data);
-                console.log("Parsed Data", data);
+      try {
+        data = JSON.parse(data);
+        console.log("Parsed Data", data);
 
-                // Handle Images
-                if (Array.isArray(data.Images) && data.Images.length > 0) {
-                    this.allImages = data.Images;
-                    this.totalPages = data.Images.length;
-                    console.log("Total Pages: ", this.totalPages);
-                    this.imagesAvailable = true; // Images are available
-                } else {
-                    this.allImages = [];
-                    this.imagesAvailable = false; // No images available
-                }
+        // Handle Images
+        if (Array.isArray(data.Images) && data.Images.length > 0) {
+          this.allImages = data.Images;
+          this.totalPages = data.Images.length;
+          console.log("Total Pages: ", this.totalPages);
+          this.imagesAvailable = true; // Images are available
+        } else {
+          this.allImages = [];
+          this.imagesAvailable = false; // No images available
+        }
 
-                // Handle Certificates
-                if (Array.isArray(data.Certificates) && data.Certificates.length > 0) {
-                    this.allCertificates = data.Certificates;
-                    this.certificatesAvailable = true; // Certificates are available
-                    this.imagesAval = true;
-                } else {
-                    this.allCertificates = [];
-                    this.certificatesAvailable = false; // No certificates available
-                }
+        // Handle Certificates
+        if (Array.isArray(data.Certificates) && data.Certificates.length > 0) {
+          this.allCertificates = data.Certificates;
+          this.certificatesAvailable = true; // Certificates are available
+        } else {
+          this.allCertificates = [];
+          this.certificatesAvailable = false; // No certificates available
+        }
 
-                console.log("All images from Chassis Number stored: ", JSON.stringify(this.allImages));
-                console.log("All certificates from Chassis Number stored: ", JSON.stringify(this.allCertificates));
-            } catch (e) {
-                console.error("Error parsing data:", e);
-                this.imagesAvailable = false;
-                this.certificatesAvailable = false;
-            } finally {
-                this.vehicleByIdLoader2 = false; // Images loading complete
-                this.vehicleByIdLoader3 = false; // Certificates loading complete
-                console.log("Variable After class for certificates: ", this.vehicleByIdLoader3);
-                this.isLastPage = this.currentImageIndex === this.totalPages - 1;
-            }
-        })
-        .catch(error => {
-            // Handle error
-            this.imagesAvailable = false;
-            this.certificatesAvailable = false;
-            this.vehicleByIdLoader2 = false; // Images loading complete with error
-            this.vehicleByIdLoader3 = false; // Certificates loading complete with error
-            console.error("Error getting data from vehicle by Chassis Number API: ", error);
-        });
-}
-  
-  
+        // console.log(
+        //   "All images from Chassis Number stored: ",
+        //   JSON.stringify(this.allImages)
+        // );
+        // console.log(
+        //   "All certificates from Chassis Number stored: ",
+        //   JSON.stringify(this.allCertificates)
+        // );
+      } catch (e) {
+        console.error("Error parsing data:", e);
+        this.imagesAvailable = false;
+        this.certificatesAvailable = false;
+      } finally {
+        this.vehicleByIdLoader2 = false; // Images loading complete
+        this.vehicleByIdLoader3 = false; // Certificates loading complete
+        this.isLastPage = this.currentImageIndex === this.totalPages - 1;
+      }
+    } else if (error) {
+      // handle error
+      this.imagesAvailable = false;
+      this.certificatesAvailable = false;
+      this.vehicleByIdLoader2 = false; // Images loading complete with error
+      this.vehicleByIdLoader3 = false; // Certificates loading complete with error
+      console.error(
+        "Error getting data from vehicle by Chassis Number API: ",
+        error
+      );
+    }
+  }
 
   @track uploadImageCss = "upload-image";
   @track uploadCertImagesArray = [];
@@ -317,13 +387,13 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track uploadImagesArray = [];
   @track isModalOpen = false;
   @track noImagesAvailable = false;
-  @track imagesAval = true;
+  @track imagesAval = false;
 
   @api openModalWithImages(imageData) {
     if (Array.isArray(imageData) && imageData.length > 0) {
       this.uploadImagesArray = imageData.map((image) => ({
         fileName: image.fileName,
-        fileURL: image.fileURL,
+        fileURL: image.fileURL
       }));
       this.noImagesAvailable = false;
     } else {
@@ -334,7 +404,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
       this.uploadImagesArray.length === 1
         ? "upload-image one-element"
         : "upload-image";
-    
+
     this.isModalOpen = true;
   }
 
@@ -343,31 +413,31 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }
 
   handleCertificateClick() {
-    // Open the modal immediately
-    this.isModalOpen = true;
+    if (
+      Array.isArray(this.allCertificates) &&
+      this.allCertificates.length > 0
+    ) {
+      this.uploadImagesArray = this.allCertificates.map((certificate) => {
+        let processedImageName = certificate.fileName;
 
-    // Poll for vehicleByIdLoader3 to become false
-    const checkLoader = setInterval(() => {
-        if (!this.vehicleByIdLoader3) {
-            clearInterval(checkLoader); // Stop polling once loader is false
-            
-            console.log("All Certificates on clicking Modal: ", this.allCertificates);
-            if (Array.isArray(this.allCertificates) && this.allCertificates.length > 0) {
-                this.uploadImagesArray = this.allCertificates.map((certificate) => ({
-                    fileName: certificate.fileName,
-                    fileURL: certificate.fileURL,
-                }));
-                this.imagesAval = true;
-            } else {
-                this.uploadImagesArray = [];
-                this.imagesAval = false;
-            }
+        if (certificate.fileName.length > 7) {
+          processedImageName = `${certificate.fileName.slice(0, 3)}...${certificate.fileName.slice(-5)}`;
         }
-    }, 100); // Check every 100 milliseconds
-}
 
+        return {
+          fileName: certificate.fileName,
+          fileURL: certificate.fileURL,
+          ProcessedFileName: processedImageName
+        };
+      });
+      this.imagesAval = true;
+    } else {
+      this.uploadImagesArray = [];
+      this.imagesAval = false;
+    }
+    this.isModalOpen = true;
+  }
 
-  
   // @wire(getVehicleCertificates, { vehicleId: "$vehicleId" }) handledata2({
   //   data,
   //   error
@@ -393,110 +463,121 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track isImageModalOpen = true;
   @track imagesAvailable = true;
   @track currentImageIndex = 0;
-  
-  connectedCallback() {
-    this.isFirstPage = (this.currentImageIndex === 0);
-    this.isLastPage = true;
+
+  renderedCallback(){
+    console.log(`%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`);
+    this.vehicleByIdData.Favourite = this.vehicleIcons;
   }
-  
+
+  connectedCallback() {
+    this.isFirstPage = this.currentImageIndex === 0;
+    this.isLastPage = true;
+    console.log(`%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`);
+    this.vehicleByIdData.Favourite = this.vehicleIcons;
+  }
+
   get visibleDots() {
-      const totalDots = this.allImages.length;
-      const maxVisibleDots = 6;
-      let start = Math.max(0, this.currentImageIndex - Math.floor(maxVisibleDots / 2));
-      let end = start + maxVisibleDots;
-  
-      if (end > totalDots) {
-          end = totalDots;
-          start = Math.max(0, end - maxVisibleDots);
-      }
-  
-      return this.allImages.slice(start, end).map((img, index) => {
-          return {
-              key: img.fileName,
-              class: start + index === this.currentImageIndex ? 'image-dot active' : 'image-dot'
-          };
-      });
+    const totalDots = this.allImages.length;
+    const maxVisibleDots = 6;
+    let start = Math.max(
+      0,
+      this.currentImageIndex - Math.floor(maxVisibleDots / 2)
+    );
+    let end = start + maxVisibleDots;
+
+    if (end > totalDots) {
+      end = totalDots;
+      start = Math.max(0, end - maxVisibleDots);
+    }
+
+    return this.allImages.slice(start, end).map((img, index) => {
+      return {
+        key: img.fileName,
+        class:
+          start + index === this.currentImageIndex
+            ? "image-dot active"
+            : "image-dot"
+      };
+    });
   }
 
   handleDownloadImage(event) {
     // Get the image URL and name from the data attributes of the clicked SVG
-    let imageUrl = event.target.getAttribute('data-url');
-    let imageName = event.target.getAttribute('data-name');
-    console.log("Image URL To Download: ",imageUrl);
-    console.log("Image Name to Download", imageName);
+    let imageUrl = event.target.getAttribute("data-url");
+    let imageName = event.target.getAttribute("data-name");
+    // console.log("Image URL To Download: ", imageUrl);
+    // console.log("Image Name to Download", imageName);
     if (imageUrl && imageName) {
-        // Create a temporary anchor element
-        const link = document.createElement('a');
-        link.href = imageUrl;
-        link.download = imageName; // Set the file name for the download
+      // Create a temporary anchor element
+      const link = document.createElement("a");
+      link.href = imageUrl;
+      link.download = imageName; // Set the file name for the download
 
-        // Append the link to the body and trigger the click event
-        document.body.appendChild(link);
-        link.click();
-        
-        // Remove the link from the body
-        document.body.removeChild(link);
+      // Append the link to the body and trigger the click event
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link from the body
+      document.body.removeChild(link);
     } else {
-        console.error('Image URL or name not found.');
+      console.error("Image URL or name not found.");
     }
-}
+  }
 
-
-  
   populateImages() {
-      // Simulate fetching or assigning images (replace this with your actual data-fetching logic)
-      const fetchedImages = [
-          { fileName: 'Image1', fileURL: 'data:image/jpeg;base64,...' },
-          { fileName: 'Image2', fileURL: 'data:image/jpeg;base64,...' },
-          { fileName: 'Image3', fileURL: 'data:image/jpeg;base64,...' }
-      ];
-  
-      if (Array.isArray(fetchedImages) && fetchedImages.length > 0) {
-          this.allImages = fetchedImages.map((image) => ({
-              fileName: image.fileName,
-              fileURL: image.fileURL,
-          }));
-          console.log("Image Here: ",JSON.stringify(this.allImages));
-          this.imagesAvailable = true;
-      } else {
-          this.allImages = [];
-          this.imagesAvailable = false;
-      }
+    // Simulate fetching or assigning images (replace this with your actual data-fetching logic)
+    const fetchedImages = [
+      { fileName: "Image1", fileURL: "data:image/jpeg;base64,..." },
+      { fileName: "Image2", fileURL: "data:image/jpeg;base64,..." },
+      { fileName: "Image3", fileURL: "data:image/jpeg;base64,..." }
+    ];
+
+    if (Array.isArray(fetchedImages) && fetchedImages.length > 0) {
+      this.allImages = fetchedImages.map((image) => ({
+        fileName: image.fileName,
+        fileURL: image.fileURL
+      }));
+      // console.log("Image Here: ", JSON.stringify(this.allImages));
+      this.imagesAvailable = true;
+    } else {
+      this.allImages = [];
+      this.imagesAvailable = false;
+    }
   }
-  
+
   get currentImage() {
-      return this.allImages[this.currentImageIndex];
+    return this.allImages[this.currentImageIndex];
   }
-  
+
   get isPreviousDisabled() {
-      return this.currentImageIndex === 0;
+    return this.currentImageIndex === 0;
   }
-  
+
   get isNextDisabled() {
-      return this.currentImageIndex === (this.allImages.length - 1);
+    return this.currentImageIndex === this.allImages.length - 1;
   }
-  
-@track isLastPage = true; 
-@track isFirstPage = true;
-@track totalPages = 1;
+
+  @track isLastPage = true;
+  @track isFirstPage = true;
+  @track totalPages = 1;
   renderedCallback() {
-   this.isLastPage = this.currentImageIndex === this.totalPages-1;
-    this.isFirstPage = (this.currentImageIndex === 0);
+    this.isLastPage = this.currentImageIndex === this.totalPages - 1;
+    this.isFirstPage = this.currentImageIndex === 0;
   }
 
   showPreviousImage() {
-      if (this.currentImageIndex > 0) {
-        this.isFirstPage = false;
-          this.currentImageIndex -= 1;
-      }
+    if (this.currentImageIndex > 0) {
+      this.isFirstPage = false;
+      this.currentImageIndex -= 1;
+    }
   }
-  
+
   showNextImage() {
-      if (this.currentImageIndex < this.allImages.length - 1) {
-          this.currentImageIndex += 1;
-      }
+    if (this.currentImageIndex < this.allImages.length - 1) {
+      this.currentImageIndex += 1;
+    }
   }
-  
+
   fetchVehicleCertificates() {
     getVehicleCertificates({ vehicleId: this.vehicleId })
       .then((data) => {
@@ -510,8 +591,8 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             ? data.titles[0] + "など" + data.count + "枚"
             : "-";
         }
-        this.handleImages();
-        console.log("Fetching from vehicle Certificate API: ", data);
+
+        // console.log("Fetching from vehicle Certificate API: ", data);
         this.vehicleByIdLoader = false;
       })
       .catch((error) => {
@@ -554,12 +635,26 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.dispatchEvent(new CustomEvent("back"));
   }
 
-  get starIcon() {
-    return this.isStarFilled ? "utility:favorite" : "utility:favorite_alt";
-  }
+  // get starIcon() {
+  //   vehicle?.Favoruite_Vehicle__c === true
+  //   ? "utility:favorite"
+  //   : "utility:favorite_alt" || "utility:favorite_alt";
+  // }
 
-  toggleStar() {
-    this.isStarFilled = !this.isStarFilled;
+  toggleStar(event) {
+    // this.isStarFilled = !this.isStarFilled;
+    console.log("event.target.iconName", event.target.iconName);
+    let boolFav;
+    if (event.target.iconName === "utility:favorite") {
+      boolFav = false;
+    } else {
+      boolFav = true;
+    }
+    this.updateFavVehicle(
+      event.target.dataset.vehicleId,
+      boolFav,
+      event.target.iconName
+    );
   }
 
   gotoMaintainencePage() {
@@ -570,7 +665,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
 
   formatJapaneseDate(isoDate) {
     const date = new Date(isoDate);
- 
+
     // Extract the year, month, and day
     const year = date.getFullYear();
     const month = date.getMonth() + 1; // getMonth() is zero-based
@@ -589,7 +684,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     // if (reiwaYear === 1) {
     //     reiwaYear = '元'; // Reiwa 1 is often written as 元年
     // }
- 
+
     // Format the date in Japanese era
     else {
       reiwaYear = 30 - (2018 - year);
@@ -597,5 +692,18 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     }
   }
 
+  // not in use
+  handlebackhere() {
+    console.log("calledbydev");
+    this.showvehDetails = true;
+    this.showMaintainencePage = false;
+    window.scrollTo(0, 0);
+  }
 
+  branchopen() {
+    this.BranchesModal = true;
+  }
+  branchClose() {
+    this.BranchesModal = false;
+  }
 }

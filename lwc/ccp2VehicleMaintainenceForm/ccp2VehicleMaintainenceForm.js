@@ -18,6 +18,8 @@ const component3Image = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/Comp3.
 const component4Image = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/Comp4.png';
 const component5Image = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/Comp5.png';
 const component6Image = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/Comp6.png';
+const FusoLogoBefore = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/logo-poster-before.png';
+const FusoLogoAfter = Vehicle_StaticResource + '/CCP2_Resources/Vehicle/logo-poster-after.png';
 
 export default class Ccp2VehicleMaintainenceForm extends LightningElement {
     @api vehId;
@@ -31,6 +33,7 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
     @track step2 = false;
      @track step3 = false;
      @track step4 = false;
+     @track showKm = false
      @track maintainencedetail = true;
      outsideClickHandlerAdded = false;
      VehicleMaintainceStep1 = step1img;
@@ -40,7 +43,9 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
      dropdown = dropdownImg;
      poster1 = poster1;
      poster2 = poster2;
-     FusoShop = "https://login.b2b-int.daimlertruck.com/corptbb2cstaging.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1A_signup_signin&client_id=4d21e801-db95-498f-8cc5-1363af53d834&nonce=defaultNonce&redirect_uri=https://jsapps.c3sf1r8zlh-daimlertr2-s1-public.model-t.cc.commerce.ondemand.com/mftbc/ja&scope=openid&response_type=code&ui_locales=ja";
+     logobefore = FusoLogoBefore;
+     logoafter = FusoLogoAfter;
+     FusoShop = "https://login.b2b-int.daimlertruck.com/corptbb2cstaging.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1A_signup_signin&client_id=4d21e801-db95-498f-8cc5-1363af53d834&nonce=defaultNonce&redirect_uri=https://fuso-shop-staging.app.mitsubishi-fuso.com/mftbc/ja&scope=openid&response_type=code&ui_locales=ja";
     
      branchError = false;
      branchErrorText;
@@ -52,12 +57,12 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
      @track showPoster2 = false;
 
      vehicleImages = [
-        { name: 'Component1', imageUrl: component1Image},
-        { name: 'Component2', imageUrl: component2Image},
-        { name: 'Component3', imageUrl: component3Image},
-        { name: 'Component4', imageUrl: component4Image},
-        { name: 'Component5', imageUrl: component5Image},
-        { name: 'Component6', imageUrl: component6Image}
+        {code:'オイルフィルター', name: '602', imageUrl: component1Image},
+        {code:'エアフィルター', name: '601', imageUrl: component2Image},
+        {code:'燃料フィルター', name: '603', imageUrl: component3Image},
+        {code:'ワイパーブレード', name: '840a', imageUrl: component4Image},
+        {code:'ワイパーゴム', name: '840b', imageUrl: component5Image},
+        {code:'ベルト', name: '571', imageUrl: component6Image}
      ];
 
      @track vehicleByIdData = {
@@ -65,6 +70,9 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
         id: 10,
         name: "-",
         type: "-",
+        accountName: "-",
+        chassisnumber:"-",
+        siebelAccountCode:"-",
       
         mileage: "-",
         vehicleNumber: "-",
@@ -81,7 +89,6 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
     CloseButton = CloseButtonImg;
 
 
-
    connectedCallback(){
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
@@ -92,12 +99,12 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
         "--dropdown-icon",
         `url(${this.dropdown})`
       );
-      this.template.host.style.setProperty(
-        "--poster-background",
-        `url(${this.poster2})`
-      );
       this.shouldShowListNew();
    }
+
+   
+   
+
 
    goback(){
     this.maintainencedetail = false;
@@ -142,9 +149,9 @@ export default class Ccp2VehicleMaintainenceForm extends LightningElement {
    handlePickListChange(event) {
        const selectedValue = event.target.dataset.idd;
        this.selectedPicklistPlaceofImplementation = selectedValue;
-       console.log("val2",this.selectedPicklistPlaceofImplementation);
+    //    console.log("val2",this.selectedPicklistPlaceofImplementation);
        this.showlistPlaceOfImplementation = false;
-       console.log("a213");
+    //    console.log("a213");
        this.shouldShowListNew();
    }
 
@@ -176,17 +183,11 @@ handleScheduleTypeChange(event) {
     this.showlistPlaceOfImplementation = false;
 }
 shouldShowListNew() {
-    // console.log("working1");
-    // console.log("val1a",this.selectedPicklistPlaceofImplementation);
-    // console.log("val2a",this.selectedPicklistScheduleType);
     if (this.selectedPicklistScheduleType && this.selectedPicklistPlaceofImplementation) {
         this.buttonActive = true;
-        // console.log("selected both");
     } else {
         this.buttonActive = false;
-        // console.log("pending 1");
     }
-    // console.log("btn active",this.buttonActive);
     return this.buttonActive;
 
 }
@@ -195,17 +196,11 @@ shouldShowListNew() {
 handlePickListChange2(event) {
     const selectedValue = event.target.dataset.idd;
     this.selectedPicklistScheduleType = selectedValue;
-    console.log("val",this.selectedPicklistScheduleType);
-    this.showlistScheduleType = false; // Hide dropdown after selection
-    console.log("a1");
+    this.showlistScheduleType = false; 
     this.shouldShowListNew();
 }
 
-// Handle clicks outside the dropdown to close it
 handleInsideClick(event) {
-    // Prevent closing if clicking inside the dropdown
-    // if (event.target.closest('.listScheduleType')) return;
-    // this.showlistScheduleType = false;
     event.stopPropagation();
 }
 showCancelModalFunction(){
@@ -246,11 +241,13 @@ handleNo(){
 GoToStep2() {
     this.step2 = true;
     this.Step1 = false;
+    window.scrollTo(0,0);
 }
 
 GoBackToStep1(){
     this.Step1 = true;
     this.step2 = false;
+    window.scrollTo(0,0);
 }
 showToast(title, message, variant) {
     const event = new ShowToastEvent({
@@ -263,11 +260,13 @@ showToast(title, message, variant) {
 GoToStep3(){
     this.step3= true;
     this.step2 = false;
+    window.scrollTo(0,0);
 }
 GoBackToStep2(){
     this.step3 = false;
     this.step2 = true;
     this.step1 = false;
+    window.scrollTo(0,0);
 }
 GoToStep4(){
     this.step3 = false;
@@ -279,6 +278,7 @@ GoToStep4(){
         this.showPoster2 = true;
     }
     this.step4 = true;
+    window.scrollTo(0,0);
 }
 
 @wire(getVehicleById, { vehicleId: '$vehId' })
@@ -287,22 +287,27 @@ GoToStep4(){
             console.log('Fetching vehicle by Id:', this.vehId);
             console.log('Vehicle data:', data);
 
-            // Assuming `data` is a single record and not an array
             const vehicle = data[0] || {};
 
             this.vehicleByIdData = {
                 id: vehicle.Id || '-',
                 name: vehicle.Vehicle_Name__c || '-',
                 type: vehicle.Vehicle_Type__c || '-',
-              
+                accountName:vehicle.Account__r.Name,
+                chassisnumber:vehicle.Chassis_number__c,
+                siebelAccountCode:vehicle.Account__r.siebelAccountCode__c,
+
                 typeOfFuel: vehicle.Fuel_Type__c || '-',
                 mileage: vehicle.Mileage__c || '-',
                
                 vehicleNumber: vehicle.Vehicle_Number__c || '-',
-                VehicleInspectionCertificateExpirationDate: vehicle.Vehicle_Expiration_Date__c || '-',           
+                VehicleInspectionCertificateExpirationDate: this.formatJapaneseDate(vehicle.Vehicle_Expiration_Date__c) || '-',           
                 vehicleInspectionCertificateIssueDate: vehicle.vehicleInspectionCertificateIssueDate || '-',
                 registrationNumber: vehicle.Registration_Number__c || '-'
             };
+            if(this.vehicleByIdData.mileage !== null && this.vehicleByIdData.mileage !== '-'){
+                this.showKm = true;
+            }
 
             console.log('Updated vehicle data:', this.vehicleByIdData);
         } else if (error) {
@@ -353,8 +358,49 @@ GoToStep4(){
         this.showCancelModal = false;
       
     }
+    onClose(){
+        console.log("goback");
+        this.dispatchEvent(new CustomEvent("back"));
+        console.log("goback2");
+    }
     openlink(){
         window.open(this.FusoShop, '_blank');
     }
-
+    handleImageClick(event) {
+        const VinNumber = this.vehicleByIdData.chassisnumber;
+        const SiebelCode= this.vehicleByIdData.siebelAccountCode;
+        const imageName = event.currentTarget.dataset.name || event.target.closest('.overlay').dataset.name;
+        const stateData = {
+            hinmoku: imageName,
+            chassisNumber: VinNumber,
+            customerID: SiebelCode
+        };
+        const baseUrl = `https://shop.mitsubishi-fuso.com/mftbc/ja/Open-Catalogue/c/1`;
+        const stateString = encodeURIComponent(JSON.stringify(stateData));
+        console.log(stateString);
+        const url = `${baseUrl}?state=${stateString}`;
+        window.open(url, '_blank');
+    }
+    formatJapaneseDate(isoDate) {
+        const date = new Date(isoDate);
+     
+        // Extract the year, month, and day
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // getMonth() is zero-based
+        const day = date.getDate();
+        let reiwaYear;
+        if (year === 2019) {
+          if (month <= 4) {
+            return `平成31年${month}月${day}日`;
+          } else if (month > 4) {
+            return `令和1年${month}月${day}日`;
+          }
+        } else if (year > 2019) {
+          reiwaYear = year - 2018;
+          return `令和${reiwaYear}年${month}月${day}日`;
+        } else {
+          reiwaYear = 30 - (2018 - year);
+          return `平成${reiwaYear}年${month}月${day}日`;
+        }
+    }
   }

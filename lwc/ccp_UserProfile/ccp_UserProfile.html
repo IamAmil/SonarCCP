@@ -18,7 +18,7 @@
                 <div class="half top">
                     <img src={backgroundImagePC} style="width: 100%; height:100%">
                 </div>
-                </div>
+            </div>
                 <div class="half bottom2">
                     <div class="center-content2">
                         
@@ -169,6 +169,14 @@
                                                 <dt>社員番号</dt>
                                                 <dd>{userDetailData.Employee_Code}</dd>
                                             </div>
+                                            <div class="section__definition-list">
+                                                <dt>部署</dt>
+                                                <dd>{userDetailData.Department}</dd>
+                                            </div>
+                                            <div class="section__definition-list">
+                                                <dt>役職</dt>
+                                                <dd>{userDetailData.Title}</dd>
+                                            </div>
                                             <div class="section__definition-list-branch">
                                                 <dt style="display: flex; height: 56px; align-items:center;">所属</dt>
                                                 <dd>
@@ -183,14 +191,6 @@
                                                         </template>
                                                     </div>
                                                 </dd>
-                                            </div>
-                                            <div class="section__definition-list">
-                                                <dt>部署</dt>
-                                                <dd>{userDetailData.Department}</dd>
-                                            </div>
-                                            <div class="section__definition-list">
-                                                <dt>役職</dt>
-                                                <dd>{userDetailData.Title}</dd>
                                             </div>
                                             <div class="section__definition-list">
                                                 <dt>メールアドレス</dt>
@@ -374,6 +374,14 @@
                                             <div class="data">{userDetailData.Employee_Code}</div>
                                         </div>
                                         <div class="records">
+                                            <div class="head">部署</div>
+                                            <div class="data">{userDetailData.Department}</div>
+                                        </div>
+                                        <div class="records">
+                                            <div class="head">役職</div>
+                                            <div class="data">{userDetailData.Title}</div>
+                                        </div>
+                                        <div class="records">
                                             <div class="head">所属</div>
                                             <div class="data-branch">
                                                 <template for:each={userDetailData.Branchs} for:item="branch">
@@ -381,14 +389,6 @@
                                                 </template>
                                             </div>
                                             
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">部署</div>
-                                            <div class="data">{userDetailData.Department}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">役職</div>
-                                            <div class="data">{userDetailData.Title}</div>
                                         </div>
                                         <div class="records">
                                             <div class="head">メールアドレス</div>
@@ -479,21 +479,23 @@
 
                                 <div class="custom-dropdown">
                                     <div class="dropdown">
-                                        <!-- <span class="selected-value">{selectedValue}</span> -->
                                         <input type="text" onclick={toggleDropdown} class="Inputs1 icon" placeholder="選択してください" value={selectedValue} readonly>
+                                        <div>
+                                            <label>新しい管理者情報を追加したい場合、先に<span style="color:red">会員管理画面</span>に<span style="color: red;">会員追加</span>してください。</label>
+                                        </div>
                                         <ul class="dropdown-options" if:true={isDropdownOpen}>
                                             <template for:each={userList} for:item="user">
-                                                <li key={user.value} class="dropdown-option" data-id={user.value} onclick={handleChange} onmouseover={handleMouseOver} onmouseout={handleMouseOut}>
+                                                <li key={user.value} class="dropdown-option" data-id={user.value} onclick={handleChange}>
                                                     {user.label}
                                                 </li>
                                             </template>
                                         </ul>
+                                        
                                     </div>
+                                    
                                 </div>
     
-                                <div>
-                                    <label>新しい管理者情報を追加したい場合、先に<span style="color:red">会員管理画面</span>に<span style="color: red;">会員追加</span>してください。</label>
-                                </div>
+                                
                             </div>
 
                             
@@ -513,6 +515,14 @@
                                             <div class="data">{userInfo.Employee_Code}</div>
                                         </div>
                                         <div class="records">
+                                            <div class="head">部署</div>
+                                            <div class="data">{userInfo.Department}</div>
+                                        </div>
+                                        <div class="records">
+                                            <div class="head">役職</div>
+                                            <div class="data">{userInfo.Title}</div>
+                                        </div>
+                                        <div class="records">
                                             <div class="head">所属</div>
                                             <div class="data-branch">
                                                 <template for:each={userInfo.Branchs} for:item="branch">
@@ -523,14 +533,6 @@
                                             </div>
                                             <!-- TO BE CONTINUED BRANCH
                                             <div class="data">{userDetailData.accountname}</div> -->
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">部署</div>
-                                            <div class="data">{userInfo.Department}</div>
-                                        </div>
-                                        <div class="records">
-                                            <div class="head">役職</div>
-                                            <div class="data">{userInfo.Title}</div>
                                         </div>
                                         <div class="records">
                                             <div class="head">メールアドレス</div>
@@ -597,6 +599,14 @@
                                         <div class="data">{userDetailData.Employee_Code}</div>
                                     </div>
                                     <div class="records">
+                                        <div class="head">部署</div>
+                                        <div class="data">{userDetailData.Department}</div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="head">役職</div>
+                                        <div class="data">{userDetailData.Title}</div>
+                                    </div>
+                                    <div class="records">
                                         <div class="head">所属</div>
                                         <!-- TO BE CONTINUED BRANCH
                                         <div class="data">{userDetailData.accountname}</div> -->
@@ -605,14 +615,6 @@
                                                 <li key={branch} style="list-style: none;" class="data">{branch}</li>
                                             </template>
                                         </div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">部署</div>
-                                        <div class="data">{userDetailData.Department}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">役職</div>
-                                        <div class="data">{userDetailData.Title}</div>
                                     </div>
                                     <div class="records">
                                         <div class="head">メールアドレス</div>
@@ -645,6 +647,15 @@
                                         <div class="head">社員番号</div>
                                         <div class="data">{userInfo.Employee_Code}</div>
                                     </div>
+                                    
+                                    <div class="records">
+                                        <div class="head">部署</div>
+                                        <div class="data">{userInfo.Department}</div>
+                                    </div>
+                                    <div class="records">
+                                        <div class="head">役職</div>
+                                        <div class="data">{userInfo.Title}</div>
+                                    </div>
                                     <div class="records">
                                         <div class="head">所属</div>
                                         <!-- TO BE CONTINUED BRANCH
@@ -655,14 +666,6 @@
                                             </template>
                                         </div>
                                         
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">部署</div>
-                                        <div class="data">{userInfo.Department}</div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">役職</div>
-                                        <div class="data">{userInfo.Title}</div>
                                     </div>
                                     <div class="records">
                                         <div class="head">メールアドレス</div>
@@ -736,14 +739,14 @@
                                         </div>
                                         <div class="dataCellName">
                                             <div class="name-div">
-                                                <input type="text" class={contactClassLastName} onchange={handleInputChange}
+                                                <input type="text" class={contactClassLastName} oninput={handlevalchange} onchange={handleInputChange}
                                                     data-field="姓" value={InputLastName} placeholder="森下" maxlength="10" />
                                                 
                                                 <div if:true={Lnameerror} class="error-text">{Lnameerror}</div>
                                             </div>
                                             <div class="name-div">
                                                 <input type="text" class={contactClassFirstName}
-                                                    onchange={handleInputChange} data-field="名" value={InputFirstName}
+                                                    onchange={handleInputChange} oninput={handlevalchange} data-field="名" value={InputFirstName}
                                                     placeholder="○○" maxlength="10" />
                                                 <div if:true={Fnameerror} class="error-text">{Fnameerror}</div>
                                             </div>
@@ -765,14 +768,14 @@
                                         <div class="dataCellName">
                                             <div class="name-div">
                                                 <input type="text" class={contactClassLKanaName}
-                                                    onchange={handleInputChange} data-field="姓（フリガナ）" value={InputLKanaName}
+                                                    onchange={handleInputChange} oninput={handlevalchange} data-field="姓（フリガナ）" value={InputLKanaName}
                                                     placeholder="モリシタ" maxlength="10" />
                                                     <div if:true={Lkanaerror} class="error-text">{Lkanaerror}</div>
                                                     
                                             </div>
                                             <div class="name-div">
                                                 <input type="text" class={contactClassFKanaName}
-                                                    onchange={handleInputChange} data-field="名（フリガナ）" value={InputFKanaName}
+                                                    onchange={handleInputChange} oninput={handlevalchange} data-field="名（フリガナ）" value={InputFKanaName}
                                                     placeholder="○○" maxlength="10" />
                                                     
                                                     <div if:true={Fkanaerror} class="error-text">{Fkanaerror}</div>
@@ -785,9 +788,27 @@
                                 <div class="records">
                                     <div class="head head-save">社員番号</div>
                                     <div class="data"><input type="text" onchange={handleInputChange} data-field="社員番号"
-                                            value={InputEmpCode} placeholder="A0002" maxlength="24"></div>
+                                            value={InputEmpCode} placeholder="A0002" oninput={handlevalchange} maxlength="24"></div>
                                 </div>
             
+                                
+                                <!-- Deploy -->
+                                <div class="records">
+                                    <div class="head head-save">部署</div>
+                                    <div class="data"><input type="text" oninput={handlevalchange} onchange={handleInputChange} data-field="部署"
+                                            value={InputDepartment} placeholder="自動・製造・エネルギー" maxlength="24"></div>
+                                </div>
+            
+                                <!-- Post -->
+                                <div class="records">
+                                    <div class="head head-save">役職</div>
+                                    <div class="data">
+                                        <input type="text" oninput={handlevalchange} onchange={handleInputChange} data-field="役職"
+                                            value={InputPost} placeholder="課長" maxlength="24">
+                                    </div>
+                                </div>
+            
+
                                 <!-- Affiliation -->
                                 <div class="records">
                                     <div class="head head-save-branch">所属
@@ -797,8 +818,8 @@
                                     <div class="data" style="display:flex; gap:12px; ">
                                         <div class="dataDrop">
                                             <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                class={contactClassBranch} placeholder="選択してください">
-                                                <div if:true={ErrorText} class="error-text">{ErrorText}</div>
+                                                class={contactClassBranch} placeholder="選択してください" readonly>
+                                                
                                             <template if:true={showlist}>
                                                 <div class="lists" onclick={handleInsideClick}>
                                                     <template for:each={filteredbranch} for:item="veh">
@@ -809,6 +830,8 @@
                                                     </template>
                                                 </div>
                                             </template>
+                                            <div if:true={ErrorText} class="error-text">{ErrorText}</div>
+
                                         </div>
 
                                         <div class="branchrecords">
@@ -855,22 +878,7 @@
                                     </div>
                                     <!-- </div> -->
                                 </div>
-                                <!-- Deploy -->
-                                <div class="records">
-                                    <div class="head head-save">部署</div>
-                                    <div class="data"><input type="text" onchange={handleInputChange} data-field="部署"
-                                            value={InputDepartment} placeholder="自動・製造・エネルギー" maxlength="24"></div>
-                                </div>
-            
-                                <!-- Post -->
-                                <div class="records">
-                                    <div class="head head-save">役職</div>
-                                    <div class="data">
-                                        <input type="text" onchange={handleInputChange} data-field="役職"
-                                            value={InputPost} placeholder="課長" maxlength="24">
-                                    </div>
-                                </div>
-            
+
                                 <!-- Email Address -->
                                 <div class="records">
                                     <div class="head head-save head-save-cnt">メールアドレス<span
@@ -924,21 +932,81 @@
                                         </div>
                                         <div class="align-time-outer">
                                             <div class="data2 data-align-time">
-                                                <input type="text" onchange={handleInputChange}  data-field="平日s" name="workdaystart"
+                                                <!-- <input type="tel" onchange={handleInputChange} class={contactworkdaystart}  data-field="平日s" name="workdaystart"
                                                     value={workdayStart} placeholder="9" maxlength="2">
                                                     <label class="btw-label">時 ~</label>
-                                                <input type="text" onchange={handleInputChange} data-field="平日e"
+                                                <input type="tel" onchange={handleInputChange} class={contactworkdayend} data-field="平日e"
                                                     value={workdayEnd} placeholder="10" maxlength="2">
-                                                    <label class="btw-label">時</label>
+                                                    <label class="btw-label">時</label> -->
+                                                    <div class="custom-dropdown2">
+                                                        <button class="dropdown-button icon2" onclick={toggleDropdownStart}>
+                                                            {workdayStartDisplay}
+                                                        </button>時 ~ 
+                                                        <div class={dropdownStartClass}>
+                                                            <ul class="scrollbar2">
+                                                                <template for:each={workdayStartOptions} for:item="option">
+                                                                    <li key={option} data-value={option} onclick={handleWorkdayStartChange}>
+                                                                        {option}
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="custom-dropdown2">
+                                                        
+                                                        <button class="dropdown-button icon2" onclick={toggleDropdownEnd}>
+                                                            {workdayEndDisplay}
+                                                        </button>時
+                                                        <div class={dropdownEndClass}>
+                                                            <ul class="scrollbar2">
+                                                                    <template for:each={workdayStartOptions} for:item="option">
+                                                                        <li key={option} data-value={option} onclick={handleWorkdayEndChange}>
+                                                                            {option}
+                                                                        </li>
+                                                                    </template>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                             </div>
                                             <div class="data2 data-align-time">
-                                                <input type="text" onchange={handleInputChange} data-field="土日祝s"
+                                                <!-- <input type="tel" onchange={handleInputChange} class={contactholidaystart} data-field="土日祝s"
                                                     value={holidayStart} placeholder="9" maxlength="2">
                                                     <label class="btw-label">時 ~</label>
-                                                <input type="text" onchange={handleInputChange} data-field="土日祝e"
+                                                <input type="tel" onchange={handleInputChange} class={contactholidayend} data-field="土日祝e"
                                                     value={holidayEnd} placeholder="10" maxlength="2">
-                                                    <label class="btw-label">時</label>
+                                                    <label class="btw-label">時</label> -->
+                                                    <div class="custom-dropdown2">
+                                                        <button class="dropdown-button icon2" onclick={toggleDropdownStartholi}>
+                                                            {holidayStartDisplay}
+                                                        </button>時 ~ 
+                                                        <div class={dropdownStartClassholi}>
+                                                            <ul class="scrollbar2">
+                                                                <template for:each={workdayStartOptions} for:item="option">
+                                                                    <li key={option} data-value={option} onclick={handleHolidayStartChange}>
+                                                                        {option}
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="custom-dropdown2">
+                                                        <button class="dropdown-button icon2" onclick={toggleDropdownEndholi}>
+                                                            {holidayEndDisplay}
+                                                        </button>時
+                                                        <div class={dropdownEndClassholi}>
+                                                            <ul class="scrollbar2">
+                                                                <template for:each={workdayStartOptions} for:item="option">
+                                                                    <li key={option} data-value={option} onclick={handleHolidayEndChange}>
+                                                                        {option}
+                                                                    </li>
+                                                                </template>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                
                                             </div>
+                                            <div if:true={workError} class="error-text">{workError}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -969,10 +1037,10 @@
                 </div>
                 <div class="buttons-small">
                     <div class="cancelbutton btn-cancel" onclick={handleNo}>
-                        <p class="buttontxt">いいえ</p>
+                        <div class="buttontxt">いいえ</div>
                     </div>
                     <div class="searchbutton btn-cancel" onclick={handleYes}>
-                        <p class="buttontxt2">はい</p>
+                        <div class="buttontxt2">はい</div>
                     </div>
                 </div>
             </div>
@@ -988,10 +1056,10 @@
                 </div>
                 <div class="buttons-small">
                     <div class="cancelbutton btn-cancel" onclick={handleNoCancel}>
-                        <p class="buttontxt">いいえ</p>
+                        <div class="buttontxt">いいえ</div>
                     </div>
                     <div class="searchbutton btn-cancel" onclick={handleYesCancel}>
-                        <p class="buttontxt2">はい</p>
+                        <div class="buttontxt2">はい</div>
                     </div>
                 </div>
             </div>
@@ -1001,10 +1069,10 @@
     <template if:true={showagreeModal}>
         <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" style="background-color: #ffffff0d;">
             <div class="modal-background-last2">
-                <div class="modal-window-small2" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9); height:max-content;">
+                <div class="modal-window-small2" style="border-radius: 8px; background-color: rgba(255, 255, 255, 0.9);">
                     <div class="content-modal">
                         <h1>「管理者変更を同意します」<br>
-                            をチェックしてください
+                            をチェックしてください。
                         </h1>
                         <div class="btn-modal2">
                             <button class="btn-yes" onclick={handleagreeyes}>はい</button>
@@ -1027,10 +1095,10 @@
                 </div>
                 <div class="buttons-small">
                     <div class="cancelbutton btn-cancel" onclick={handleNoCanceledit}>
-                        <p class="buttontxt">いいえ</p>
+                        <div class="buttontxt">いいえ</div>
                     </div>
                     <div class="searchbutton btn-cancel" onclick={handleYesCanceledit}>
-                        <p class="buttontxt2">はい</p>
+                        <div class="buttontxt2">はい</div>
                     </div>
                 </div>
             </div>

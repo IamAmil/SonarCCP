@@ -35,7 +35,7 @@
                     <div class="list-data" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                       <!-- <p style="font-weight:600; width:150px; color: #E10202;" data-idd={elm.Id}
                                                 data-user={elm.UserId__c}>{elm.Account.siebelAccountCode__c}</p> -->
-                      <p style="width: 150px; display: flex" data-idd={elm.contactssId} data-user={elm.usercontactId}>
+                      <p style="display: flex" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                         {elm.contactName}
                       </p>
                     </div>
@@ -92,7 +92,7 @@
                     <lightning-icon icon-name="utility:close" size="x-small" variant="container"
                       alternative-text="Delete User" class="slds-m-left_small Abtn icon-red"
                       title="Delete User"></lightning-icon>
-                    <p>この会員を削除する</p>
+                    <p class="deletetext">この会員を削除する</p>
                   </div>
                   <div class="datarec">
                     <div class="records">
@@ -245,14 +245,14 @@
                     </div>
                     <div class="dataCellName">
                       <div class="name-div">
-                        <input type="text" class={contactClassLastName} onchange={handleInputChange} data-field="姓"
+                        <input type="text" class={contactClassLastName} oninput={handlevalchange} onchange={handleInputChange} data-field="姓"
                           value={InputLastName} placeholder="森下" maxlength="10" />
                         <div if:true={Lnameerror} class="error-text">
                           {Lnameerror}
                         </div>
                       </div>
                       <div class="name-div">
-                        <input type="text" class={contactClassFirstName} onchange={handleInputChange} data-field="名"
+                        <input type="text" class={contactClassFirstName} oninput={handlevalchange} onchange={handleInputChange} data-field="名"
                           value={InputFirstName} placeholder="○○" maxlength="10" />
                         <div if:true={Fnameerror} class="error-text">
                           {Fnameerror}
@@ -275,14 +275,14 @@
                     </div>
                     <div class="dataCellName">
                       <div class="name-div">
-                        <input type="text" class={contactClassFKanaName} onchange={handleInputChange}
+                        <input type="text" class={contactClassLKanaName} oninput={handlevalchange} onchange={handleInputChange}
                           data-field="姓（フリガナ）" value={InputLKanaName} placeholder="モリシタ" maxlength="10" />
                         <div if:true={Lkanaerror} class="error-text">
                           {Lkanaerror}
                         </div>
                       </div>
                       <div class="name-div">
-                        <input type="text" class={contactClassFKanaName} onchange={handleInputChange}
+                        <input type="text" class={contactClassFKanaName} oninput={handlevalchange} onchange={handleInputChange}
                           data-field="名（フリガナ）" value={InputFKanaName} placeholder="○○" maxlength="10" />
                         <div if:true={Fkanaerror} class="error-text">
                           {Fkanaerror}
@@ -296,14 +296,14 @@
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_EmployeeNumber}</div>
                   <div class="data">
-                    <input type="text" onchange={handleInputChange} data-field="社員番号" value={InputEmpCode}
+                    <input type="text" onchange={handleInputChange} oninput={handlevalchange} data-field="社員番号" value={InputEmpCode}
                       maxlength="24" placeholder="A0002" />
                   </div>
                 </div>
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_Deploy}</div>
                   <div class="data">
-                    <input type="text" onchange={handleInputChange} data-field="部署" value={InputDepartment}
+                    <input type="text" onchange={handleInputChange} oninput={handlevalchange} data-field="部署" value={InputDepartment}
                       maxlength="24" placeholder="自動・製造・エネルギー" />
                   </div>
                 </div>
@@ -312,7 +312,7 @@
                 <div class="records">
                   <div class="head head-save">{labels.CCP2_Post}</div>
                   <div class="data">
-                    <input type="text" onchange={handleInputChange} maxlength="24" data-field="役職" value={InputPost}
+                    <input type="text" onchange={handleInputChange} oninput={handlevalchange} maxlength="24" data-field="役職" value={InputPost}
                       placeholder="課長" />
                   </div>
                 </div>
@@ -326,9 +326,7 @@
                     <div class="dataDrop">
                       <input type="text" oninput={handleSearch} onclick={handlebranChange} class={contactClassBranch}
                         placeholder="選択してください" />
-                      <div if:true={ErrorText} class="error-text">
-                        {ErrorText}
-                      </div>
+                      
                       <template if:true={showlist}>
                         <div class="lists" onclick={handleInsideClick}>
                           <template for:each={filteredbranch} for:item="veh">
@@ -338,25 +336,31 @@
                           </template>
                         </div>
                       </template>
+                      <div if:true={ErrorText} class="error-text">
+                        {ErrorText}
+                      </div>
                     </div>
                     <div class="branchrecords">
                       <template if:false={branchPlaceholder}>
-                        <template for:each={branchfromjunction} for:item="veh">
-                          <div key={veh.Id} class="record-item">
-                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
-                              onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
-                            <span>{veh.Name}</span>
-                            <br />
-                          </div>
-                        </template>
-                        <template for:each={branch} for:item="veh">
-                          <div key={veh.Id} class="record-item">
-                            <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
-                              onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
-                            <span>{veh.Name}</span>
-                            <br />
-                          </div>
-                        </template>
+                        <div class="scrollbar">
+                          
+                          <template for:each={branchfromjunction} for:item="veh">
+                            <div key={veh.Id} class="record-item">
+                              <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
+                                onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
+                              <span>{veh.Name}</span>
+                              <br />
+                            </div>
+                          </template>
+                          <template for:each={branch} for:item="veh">
+                            <div key={veh.Id} class="record-item">
+                              <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Delete"
+                                onclick={handleDeleteBranch} data-id={veh.Id} class="filtericn"></lightning-icon>
+                              <span>{veh.Name}</span>
+                              <br />
+                            </div>
+                          </template>
+                        </div>
                       </template>
                       <template if:true={branchPlaceholder}>
                         <p class="custom-placeholder">選択された勤務地</p>
@@ -405,8 +409,9 @@
                     <span class="reqtxt">{labels.CCP2_Required}</span>
                   </div>
                   <div class="data data-align">
-                    <div class="">
-                      電話番号あるいは携帯番号のいずれかをハイフンなしで入力してください
+                    <div class="label-size">
+                      <!-- 電話番号あるいは携帯番号のいずれかをハイフンなしで入力してください -->
+                      電話番号あるいは携帯番号のいずれかをハイフンなしで<br>ご入力してください
                     </div>
                     <div class="records_number" style="margin-top: 15px">
                       <div class="phn-label">{labels.CCP2_TelephoneNumber}</div>
@@ -476,7 +481,7 @@
         <template if:true={showDeleteScreen}>
           <div class="delete-page">
             <h2 class="delete-heading">会員削除完了</h2>
-            <p class="delete-text">このアカウントを削除しました。</p>
+            <p class="delete-text">アカウントを削除しました。</p>
             <div class="btn-top" onclick={handleReturnClick2}>
               <!-- {labels.CCP2_Return} -->
               会員管理へ
@@ -512,10 +517,10 @@
           <p class="warntxt">このアカウントを削除します.</p>
         </div>
         <div class="buttons-small">
-          <div class="cancelbutton btn" onclick={handleNo}>
+          <div class="cancelbutton btn-cancel" onclick={handleNo}>
             <p class="buttontxt">いいえ</p>
           </div>
-          <div class="searchbutton btn" onclick={handleYes}>
+          <div class="searchbutton btn-cancel" onclick={handleYes}>
             <p class="buttontxt2">はい</p>
           </div>
         </div>
@@ -562,7 +567,7 @@
           <p class="warntxt more">終了しますか？</p>
         </div>
         <div class="buttons-small">
-          <div class="cancelbutton btn-cancel" onclick={CancelhandleNo}>
+          <div class="cancelbutton btn-cancel btn-cancel-1" onclick={CancelhandleNo}>
             <p class="buttontxt">いいえ</p>
           </div>
           <div class="searchbutton btn-cancel" onclick={CancelhandleYes}>

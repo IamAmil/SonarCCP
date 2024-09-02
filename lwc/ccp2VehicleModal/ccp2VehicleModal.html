@@ -157,7 +157,8 @@
                                 </template>
                             </template>
                             <template if:true={VehicleInfo}>
-                                <p class="txt1">下記の車両を登録します。</p>
+                                <div class="same">
+                                    <p class="txt1">下記の車両を登録します。</p>
                                 <!-- <p class="txt1 margin">登録を始めましょう。</p> -->
                                 <template for:each={vehicleInfo} for:item="veh">
                                     <div key={veh.Id} class="item">
@@ -165,6 +166,7 @@
                                         
                                     </div>
                                 </template>
+                                </div>
                             </template>
                             <template if:true={nodata}>
                                 <p class="txt1 ">この車台番号の車両は社内に存在しません</p>

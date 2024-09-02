@@ -11,7 +11,7 @@ import CCP2_CreateBranch from '@salesforce/label/c.CCP2_CreateBranch';
 import CCP2_TOPPage from '@salesforce/label/c.CCP2_TOPPage';
 import CCP2_BranchManagement from '@salesforce/label/c.CCP2_BranchManagement';
 
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.png';
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.webp';
 
 const RECORDS_PER_PAGE = 6; // Number of records to display per page
 
@@ -32,7 +32,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     @track branchData = [];
     @track selectedBranch = false;
     @track showBranchDetail = false;
-
+    @track branchloader = true;
     @track branch = true;
     @track branchId;
     @track branchMain = true;
@@ -94,6 +94,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
                 setTimeout(() => {
                     this.updatePageButtons();
                 }, 0);
+                this.branchloader = false;
             })
             .catch(error => {
                 console.error('Error loading branches:', error);
@@ -104,6 +105,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         let pages = Math.ceil(this.totalRecords / RECORDS_PER_PAGE);
         this.pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
         this.updateVisiblePageNumbers();
+        this.updatePageButtons();
     }
 
     // updateVisiblePageNumbers() {
@@ -139,6 +141,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     
         this.isPreviousDisabled = this.currentPage === 1;
         this.isNextDisabled = this.currentPage === totalPages;
+        console.log("tOOOTAALLLLLLLL PAGEE",totalPages);
     }
     
 
@@ -170,6 +173,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     }
 
     updatePageButtons() {
+        const totalPages = this.pageNumbers.length;
         const buttons = this.template.querySelectorAll('.page-button');
         buttons.forEach(button => {
             const pageNum = Number(button.dataset.id);
@@ -182,7 +186,8 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         });
 
         this.isPreviousDisabled = this.currentPage === 1;
-        this.isNextDisabled = this.currentPage === this.totalPages;
+        this.isNextDisabled = this.currentPage === totalPages;
+        console.log("tOOOTAALLLLLLLL PAGEE2",this.totalPages);
     }
 
 // @track paginatedBranchData = [];
@@ -205,6 +210,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.currentPage = Number(event.target.dataset.id);
         this.fetchItems(this.currentPage);
         this.updateVisiblePageNumbers();
+        this.updatePageButtons();
     }
     
     branchesName;

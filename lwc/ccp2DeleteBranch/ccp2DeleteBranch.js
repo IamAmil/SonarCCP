@@ -13,7 +13,7 @@ import deletebranch from '@salesforce/apex/CCP2_branchController.deleteBranchByI
 
 
 
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.png";
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.webp";
 const ImageStepOne = Vehicle_StaticResource + "/CCP2_Resources/Branch/step1del.png";
 const ImageStepTwo = Vehicle_StaticResource + "/CCP2_Resources/Branch/step2del.png";
 const ImageStepThird = Vehicle_StaticResource + "/CCP2_Resources/Branch/step3del.png";
@@ -552,9 +552,9 @@ export default class Ccp2DeleteBranch extends LightningElement {
                 // Show a toast notification indicating no vehicles are present
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        // title: 'No Vehicles',
+                        title: 'エラー',
                         message: '本所属に紐づいている会員がありません',
-                        variant: 'info',
+                        variant: 'error',
                     })
                 );
                 return; // Prevent further execution

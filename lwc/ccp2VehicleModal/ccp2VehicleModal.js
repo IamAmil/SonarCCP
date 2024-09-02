@@ -4,7 +4,7 @@ import FUSE_JS from '@salesforce/resourceUrl/fuse';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
 import ChassisList from '@salesforce/apex/CCP2_VehicleManagment.allVehicleList';
 import senddata from '@salesforce/apex/CCP2_VehicleManagment.vehicleByChassis';
-
+import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
@@ -20,6 +20,7 @@ export default class Ccp2VehicleModal extends LightningElement {
     @track showVehicleModal = true;
     @track showManualRegistration = false;
     @track optVehicles = [];
+    @track originaloptveh = [];
     @track searchResults = [];
     @track showlist = false;
 
@@ -58,6 +59,9 @@ export default class Ccp2VehicleModal extends LightningElement {
             this.optVehicles = data.map(contact => {
                 return { label: contact.carPlatformNo__c, value: contact.carPlatformNo__c, registrationNumber: contact.Registration_Number__c};
             });
+            this.originaloptveh = data.map(contact => {
+                return { label: contact.carPlatformNo__c, value: contact.carPlatformNo__c, registrationNumber: contact.Registration_Number__c};
+            });
             console.log("devil332",JSON.stringify(this.optVehicles));
             if (!this.fuseInitialized) {
                 this.initializeFuse();
@@ -67,11 +71,30 @@ export default class Ccp2VehicleModal extends LightningElement {
         }
     }
 
+    // ChassisList(){
+    //     ChassisList()
+    //     .then((result) => {
+    //         this.optVehicles = result.map(contact => {
+    //             return { label: contact.carPlatformNo__c, value: contact.carPlatformNo__c, registrationNumber: contact.Registration_Number__c};
+    //         });
+    //         console.log("devil332",JSON.stringify(this.optVehicles));
+    //         if (!this.fuseInitialized) {
+    //             this.initializeFuse();
+    //         }
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     })
+    // }
+
+
+
     connectedCallback(){
         const link = document.createElement('link');
         link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
         link.rel = 'stylesheet';
         document.head.appendChild(link);
+        // this.ChassisList();
 
        
     }
@@ -80,8 +103,14 @@ export default class Ccp2VehicleModal extends LightningElement {
     }
 
     onInputClick(){
-        this.suretoclose = true;
+        const firstInput = this.inputs.find(input => input.id === 1);
+        if (firstInput && !firstInput.part1 && !firstInput.part2) {
+            this.onClose();
+        } else {
+            this.showsure = true;
+        }
     }
+    
     closeinputsure(){
         this.suretoclose = false;
     }
@@ -184,6 +213,7 @@ export default class Ccp2VehicleModal extends LightningElement {
     }
 
     handleInputChange(event) {
+
         const index = event.target.dataset.index;
         const type = event.target.dataset.type;
         const value = event.target.value;
@@ -221,9 +251,16 @@ export default class Ccp2VehicleModal extends LightningElement {
                 showlist: i === parseInt(index, 10) ? searchResults.length > 0 : false,
                 emptylist: i === parseInt(index, 10) ? searchResults.length === 0 : false
             }));
+            console.LOG("serach result",this.inputs[index].searchResults);
+            console.log("vehicle options",this.optVehicles);
+            console.log("inputs",JSON.stringify(this.inputs));
     } else {
         this.inputs[index].searchResults = [];
         this.inputs[index].showlist = false;
+        // this.ChassisList();
+        // refreshApex(this.optVehicles);
+        this.optVehicles = this.originaloptveh;
+        
     }
     
         this.inputs = [...this.inputs];
@@ -233,49 +270,98 @@ export default class Ccp2VehicleModal extends LightningElement {
                 this.optVehicles = [...this.optVehicles, this.inputs[index].chassisNumber];
             }
         }
+        if (this.inputs[index].part1 === '' || this.inputs[index].part2 === '') {
+            if (this.inputs[index].chassisNumber && this.optVehicles.includes(this.inputs[index].chassisNumber)) {
+                this.optVehicles = this.optVehicles.filter(vehicle => vehicle !== this.inputs[index].chassisNumber);
+    
+                // Update the Fuse.js collection after removal
+                this.fuse.setCollection(this.optVehicles);
+            }
+            this.inputs[index].chassisNumber = '';
+        }
     }
-
+     
+  
 
     
 
 
 
+    // handleSelection(event) {
+    //     const selectedValue = event.currentTarget.dataset.id;
+    //     const index = event.currentTarget.dataset.index;
+    //     // console.log("e311q",index);
+    
+    //     const hyphenIndex = selectedValue.indexOf('-');
+    //     if (hyphenIndex !== -1) {
+    //         const part1 = selectedValue.substring(0, hyphenIndex);
+    //         const part2 = selectedValue.substring(hyphenIndex + 1);
+            
+    //         // console.log("part1:", JSON.stringify(part1));
+    //         // console.log("part2:", JSON.stringify(part2));
+    //         this.inputs[index].part1 = part1;
+    //         this.inputs[index].part2 = part2;
+    //         this.inputs[index].chassisNumber = selectedValue;
+    //         console.log("Updated inputs after selection:", JSON.stringify(this.inputs));
+            
+    //     } else {
+    //         const part1 = selectedValue.slice(0, 5);
+    //         const part2 = selectedValue.slice(5, 12); // Adjust slicing as needed for the new condition
+        
+    //         this.inputs[index].part1 = part1;
+    //         this.inputs[index].part2 = part2;
+    //         this.inputs[index].chassisNumber = selectedValue;
+    //         console.log("Updated inputs after selection (without hyphen):", JSON.stringify(this.inputs));
+    //     }
+    //     this.inputs[index].searchResults = this.inputs[index].searchResults.filter(result => result.value !== selectedValue);
+
+    
+    // // Remove the selected value from optVehicles
+    //      this.optVehicles = this.optVehicles.filter(vehicle => vehicle.value !== selectedValue);
+
+    //         this.inputs[index].showlist = false;
+    //         this.inputs = [...this.inputs];
+
+    // console.log("Filtered optVehicles:", JSON.stringify(this.optVehicles));
+    // console.log("this is fuse error",JSON.stringify(this.fuse));
+    // }
     handleSelection(event) {
         const selectedValue = event.currentTarget.dataset.id;
         const index = event.currentTarget.dataset.index;
-        // console.log("e311q",index);
     
         const hyphenIndex = selectedValue.indexOf('-');
         if (hyphenIndex !== -1) {
             const part1 = selectedValue.substring(0, hyphenIndex);
             const part2 = selectedValue.substring(hyphenIndex + 1);
-            
-            // console.log("part1:", JSON.stringify(part1));
-            // console.log("part2:", JSON.stringify(part2));
             this.inputs[index].part1 = part1;
             this.inputs[index].part2 = part2;
             this.inputs[index].chassisNumber = selectedValue;
             console.log("Updated inputs after selection:", JSON.stringify(this.inputs));
-            
         } else {
             const part1 = selectedValue.slice(0, 5);
-            const part2 = selectedValue.slice(5, 12); // Adjust slicing as needed for the new condition
-        
+            const part2 = selectedValue.slice(5, 12);
             this.inputs[index].part1 = part1;
             this.inputs[index].part2 = part2;
             this.inputs[index].chassisNumber = selectedValue;
             console.log("Updated inputs after selection (without hyphen):", JSON.stringify(this.inputs));
         }
+    
+        // Filter the selected value from the searchResults in the current input
         this.inputs[index].searchResults = this.inputs[index].searchResults.filter(result => result.value !== selectedValue);
     
-    // Remove the selected value from optVehicles
-         this.optVehicles = this.optVehicles.filter(vehicle => vehicle.value !== selectedValue);
-
-            this.inputs[index].showlist = false;
-            this.inputs = [...this.inputs];
-
-    console.log("Filtered optVehicles:", JSON.stringify(this.optVehicles));
+        // Remove the selected value from optVehicles
+        this.optVehicles = this.optVehicles.filter(vehicle => vehicle.value !== selectedValue);
+    
+        this.fuse.setCollection(this.optVehicles);
+    
+        this.inputs[index].showlist = false;
+        this.inputs = [...this.inputs];
+    
+        console.log("Filtered optVehicles:", JSON.stringify(this.optVehicles));
+        console.log("Updated Fuse.js collection:", JSON.stringify(this.fuse));
     }
+    
+
 
 
     get searchButtonClass() {

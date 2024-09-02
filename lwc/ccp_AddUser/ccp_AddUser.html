@@ -84,7 +84,7 @@
                                                         <label class="label-text">姓</label>
                                                         <div class="slds-form-element__control">
                                                             <input type="text" class="form-input slds-input"
-                                                                name="lastName" value={contactInputData.lastName}
+                                                                name="lastName" oninput={handlevalchange} value={contactInputData.lastName}
                                                                 placeholder="ふそう" maxlength="10" onchange={handleAllInputChange} >
                                                         </div>
                                                     </div>
@@ -92,7 +92,7 @@
                                                         <label class="label-text">名</label>
                                                         <div class="slds-form-element__control">
                                                             <input type="text" class="form-input slds-input"
-                                                                name="firstName" value={contactInputData.firstName}
+                                                                name="firstName" oninput={handlevalchange} value={contactInputData.firstName}
                                                                 placeholder="太郎" maxlength="10" onchange={handleAllInputChange} >
                                                         </div>
                                                     </div>
@@ -126,7 +126,7 @@
                                                         <div class="slds-form-element__control">
                                                             <input type="text" class="form-input slds-input"
                                                                 name="lastNameKana"
-                                                                value={contactInputData.lastNameKana} placeholder="フソウ"
+                                                                value={contactInputData.lastNameKana} oninput={handlevalchange} placeholder="フソウ"
                                                                 maxlength="10" onchange={handleAllInputChange} >
                                                         </div>
                                                     </div>
@@ -136,7 +136,7 @@
                                                             <input type="text" class="form-input slds-input"
                                                                 name="firstNameKana"
                                                                 value={contactInputData.firstNameKana} placeholder="タロウ"
-                                                                maxlength="10" onchange={handleAllInputChange} >
+                                                                maxlength="10" oninput={handlevalchange} onchange={handleAllInputChange} >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -189,7 +189,7 @@
                                             <div class="form-item__wrapper _email">
                                                 <input type="text" name="employeeCode" value={contactInputData.employeeCode}
                                                   class="form-input slds-form-element__control slds-input"
-                                                    placeholder="入力してください" maxlength="24" onchange={handleAllInputChange} >
+                                                    placeholder="入力してください" oninput={handlevalchange} maxlength="24" onchange={handleAllInputChange} >
                                                 <template if:true={employeeCodeError}>
                                                     <p class="_error">{employeeCodeErrorText}</p>
                                                 </template>
@@ -202,7 +202,7 @@
 
                                             <input type="text" name="department" value={contactInputData.department}
                                                 class="form-input slds-form-element__control slds-input" maxlength="24"
-                                                placeholder="入力してください" onchange={handleAllInputChange} >
+                                                placeholder="入力してください" oninput={handlevalchange} onchange={handleAllInputChange} >
                                                 <template if:true={departmentError}>
                                                     <p class="_error">{departmentErrorText}</p>
                                                 </template>
@@ -212,7 +212,7 @@
                                             <label class="form-label aligntop ">役職</label>
                                             <div class="form-item__wrapper _email">
 
-                                            <input type="text" name="title" value={contactInputData.title}
+                                            <input type="text" name="title" oninput={handlevalchange} value={contactInputData.title}
                                                 class="form-input slds-form-element__control slds-input" maxlength="24"
                                                 placeholder="入力してください" onchange={handleAllInputChange} >
                                                 <template if:true={titleError}>
@@ -232,7 +232,7 @@
 
                                                     <div class="dataDrop">
                                                         <input type="text" oninput={handleSearch} onclick={handlebranChange}
-                                                            class="Inputs1 icon slds-form-element__control slds-input" placeholder="選択してください" name="branchsss"  readonly>
+                                                            class="Inputs1 icon slds-form-element__control" placeholder="選択してください" name="branchsss"  readonly>
                                                             
                                                         <template if:true={showlist}>
                                                             <div class="lists" onclick={handleInsideClick}>
@@ -289,7 +289,7 @@
                                                 <input type="email"
                                                     class="form-input slds-form-element__control slds-input"
                                                     name="email" value={contactInputData.email}
-                                                    placeholder="yamadataro@fuso.com" maxlength="40" onchange={handleAllInputChange} >
+                                                    placeholder="yamadataro@fuso.com" oninput={handlevalchange} maxlength="40" onchange={handleAllInputChange} >
                                                 <template if:true={emailError}>
                                                     <p class="_error">{emailErrorText}</p>
                                                 </template>
@@ -302,8 +302,8 @@
                                             <div class="form-item__wrapper _tell">
                                                 <!-- <p class="form__title">電話番号か携帯番号かいずれかご入力してください</p>
                                                 <p class="form__title">ハイフンなしでご入力ください</p> -->
-                                                <p class="form__title" style="max-width: 39.3333333333vw;">電話番号あるいは携帯番号のいずれかをハイフンなしでご入力してください</p>
-
+                                                <!-- <p class="form__title" style="max-width: 39.3333333333vw;">電話番号あるいは携帯番号のいずれかをハイフンなしでご入力してください</p> -->
+                                                <p class="form__title label-size">電話番号あるいは携帯番号のいずれかをハイフンなしで<br>ご入力してください</p>
                                                 <div class="form-item__list">
                                                     <label class="label-text">電話番号</label>
                                                     <input type="tel"
@@ -537,7 +537,7 @@
                                                 <dt>役職</dt>
                                                 <dd>{contactInputData.title}</dd>
                                             </div>
-                                            <div class="section__definition-list">
+                                            <!-- <div class="section__definition-list">
                                                 <dt>所属</dt>
                                                 <dd class="selectedbranchlist">
                                                     <template for:each={branch} for:item="bran">
@@ -546,7 +546,27 @@
                                                         </div>
                                                     </template>
                                                 </dd>
+                                            </div> -->
+                                            <div class="branch-comp">
+                                                <div class="branch-label" >所属</div>
+                                                <div class="selectedbranchlist">
+                                                    <template for:each={branch} for:item="bran">
+                                                        <div key={bran.Id} class="selectedbranchname">
+                                                            <span>{bran.Name}</span>
+                                                        </div>
+                                                    </template>
+                                                </div>
                                             </div>
+                                            <!-- <div class="records">
+                                                <div class="head">所属</div>
+                                                <div class="data-branch">
+                                                    <template for:each={branch} for:item="bran">
+                                                        <div key={bran.Id} class="selectedbranchname">
+                                                            <span>{bran.Name}</span>
+                                                        </div></template>
+                                                </div>
+                                                
+                                            </div> -->
                                            
                                             <div class="section__definition-list">
                                                 <dt>メールアドレス</dt>
@@ -700,18 +720,18 @@
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template> -->
     <template if:true={showCancelModal}>
-        <div class="modal-background-last">
-            <div class="modal-window-small">
-                <div class="warning">
+        <div class="modal-background-last1">
+            <div class="modal-window-small1">
+                <div class="warning1">
                     <p class="warntxt">入力された内容が保存していませんが、</p>
                        <p class="warntxt more"> 終了しますか？</p>
                 </div>
                 <div class="buttons-small">
-                    <div class="cancelbutton btn" onclick={handleNo}>
+                    <div class="cancelbutton btn-cancel" onclick={handleNo}>
                         <p class="buttontxt">いいえ</p>
                     </div>
                     <a href={usermanagement}>
-                    <div class="searchbutton btn" onclick={handleYes}>
+                    <div class="searchbutton btn-cancel" onclick={handleYes}>
                         <p class="buttontxt2">はい</p>
                     </div>
                     </a>

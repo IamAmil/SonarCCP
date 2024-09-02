@@ -1,115 +1,340 @@
 <template>
-    <div class="main">
-        <div class="half top">
-            <img src={backgroundImagePC} class="main_image" alt="background_Image">
-         </div>
-        <div class="half bottom">
-            <div class="center-content">
-                <template if:true={showSpinner}>
-                    <lightning-spinner style="border-radius:8px;" alternative-text="Loading" size="small"></lightning-spinner>
-                </template>
-                <template if:true={showVehicleList}>
-                    <div class="mainveh">
-                        <div class="Header">
-                            <div class="VehCount"><p style="color: #0A0A0A; font-weight: bold;">車両一覧 ({VehicleCount}台)</p></div>
-                            <div class="right">
-                                <div class="search">
-                                    <lightning-icon icon-name='utility:search' alternative-text='search' size='xx-small'  class="srch-icn" style="color: #0A0A0A;" title='filterList'></lightning-icon>
-                                    <input type="text" class="search-box" placeholder="登録番号やドアナンバーを入力">
-                                </div>
-                                <div class="filter">
-                                    <img src={filtericon} alt="filter vehicle" class="imgs1new">
-                                    <p class="ftextNew">詳細検索</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="Vehicle_list">
-                            <div class="Vehicle_list_container">
-                                <div class="container-list">
-                                    <template if:true={vehicleData}>
-                                        <template for:each={vehicleData} for:item="vehicle">
-                                            <div key={vehicle.Id} class="card" data-id={vehicle.Id}>
-                                                <div class="notifications"></div>
-                                                <div class="headerno">
-                                                    <div class="VehNo">
-                                                        <lightning-icon icon-name={starIcon} class="back-icon" alternative-text="Star"
-                                                        size="x-small" onclick={toggleStar}></lightning-icon>
-                                                        <h2 class="vehnotext">{vehicle.Name}</h2>
-                                                    </div>
-                                                    <div class="branches">
-                                                        <p class="totext">{vehicle.branchNames}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="details" onclick={handlecardClick} data-id={vehicle.Id}>
-                                                    <div class="image data" style="height: 50px;">
-                                                        <img src="https://tfltruck.com/wp-content/uploads/2013/12/38504_1_1.jpg" alt="vehicle" class="data-image">
-                                                        <!-- {vehicle.TruckImg__c} -->
-                                                    </div>
-                                                    <div class="regno data">
-                                                        <p class="head">Registration No</p>
-                                                        <p class="Datahead">{vehicle.Registration_Number__c}</p>
-                                                    </div>
-                                                    <div class="maker data">
-                                                        <p class="head">Car Name</p>
-                                                        <p class="Datahead">{vehicle.Vehicle_Name__c}</p>
-                                                    </div>
-                                                    <div class="vehicle data">
-                                                        <p class="head">Type of Vehicle</p>
-                                                        <p class="Datahead">{vehicle.Vehicle_Type__c}</p>
-                                                    </div>
-                                                    <div class="regperson data">
-                                                        <p class="head">Mileage</p>
-                                                        <p class="Datahead">{vehicle.Mileage__c} km</p>
-                                                    </div>
-                                                    <div class="year data">
-                                                        <p class="head">Expiration Date</p>
-                                                        <p class="Datahead">{vehicle.Vehicle_Expiration_Date__c}</p>
-                                                    </div>
-                                                    <div class="nextdate data">
-                                                        <p class="head">Next Date</p>
-                                                        <p class="Datahead">{vehicle.First_Registration_Date__c}</p>
-                                                    </div>
-                                                    <div class="addition data"></div>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </template>
-                                    <template if:true={vehicleData.error}>
-                                        <!-- <p>{vehicleData.error}</p> -->
-                                         <p>error</p>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="buttons">
-                            <div class="btngrp">
-                                <div class="write">
-                                    <img src={DelVehIcon} alt="delete vehicle" class="imgs1">
-                                     <p class="ftext" style="font-weight: 0px;" >Edit</p>
-                                </div>
-                                <div class="print">
-                                    <img src={DownloadIcon} alt="download vehicle list" class="imgs2">
-                                    <p class="ftext" style="font-weight: 0px;">Download</p>
-                                </div>
-                                <div class="download">
-                                    <div class="btn" onclick={showVehicleRegistration}>
-                                        <img src={addvehicleIcon} alt="download vehicle list" class="imgsnew">
-                                        <p style="color: #0A0A0A;">車両登録</p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </template>
-                <template if:true={showVehicleDetails}>
-                    <c-ccp2-_-vehicle-details vehicle-id={vehicleId} onback={handleBack}></c-ccp2-_-vehicle-details>
-                </template >
-                <template if:true={showVehicleModal}>
-                    <c-ccp2-vehicle-modal onclosemodal={handleCloseModal}  onmovemodal={handlemoveModal}></c-ccp2-vehicle-modal>
-                </template>           
-            </div> 
-        </div>
+  <div class="main">
+    <div class="half top">
+      <img src={backgroundImagePC} class="main_image" alt="background_Image" />
     </div>
-     
+    <div class="half bottom">
+      <div class="center-content">
+        <template if:true={showSpinner}>
+          <lightning-spinner
+            style="border-radius: 8px"
+            alternative-text="Loading"
+            size="small"
+          ></lightning-spinner>
+        </template>
+        <template if:true={showVehicleList}>
+          <div class="mainveh">
+            <div class="Header">
+              <div class="VehCount">
+                <p>
+                    車両一覧（全車両{vehicleAccountCount}台）
+                </p>
+                <p>
+                    該当車両：{vehicleBrachCount}台
+                </p>
+            </div>
+              <div class="right">
+                <div class="search" for="search-box">
+                  <lightning-icon
+                    icon-name="utility:search"
+                    alternative-text="search"
+                    size="xx-small"
+                    class="srch-icn"
+                    style="color: #0a0a0a"
+                    title="filterList"
+                    for="search-box"
+                  ></lightning-icon>
+                  <input
+                    id="search-box"
+                    type="text"
+                    class="search-box"
+                    placeholder="登録番号やドアナンバーを入力"
+                    value={filterSuggestions}
+                    autocomplete="off"
+                    oninput={handleSuggestionInputChange}
+                    onkeydown={handleKeyDown}
+                  />
+
+                  <template if:true={showFilteredSuggestions}>
+                    <ul class="suggestion-list">
+                      <template
+                        for:each={filteredSearchVehicleRegDoorData}
+                        for:item="suggestion"
+                      >
+                        <li
+                          key={suggestion}
+                          class="suggestion-item"
+                          onclick={handleSuggestionSelect}
+                        >
+                          {suggestion}
+                        </li>
+                      </template>
+                    </ul>
+                  </template>
+                </div>
+                <div class="filter">
+                  <img src={filtericon} alt="filter vehicle" class="imgs1new" />
+                  <p class="ftextNew">詳細検索</p>
+                </div>
+                <div class="filter">
+                  <img src={SortIcon} alt="sort vehicle" class="imgs1new" />
+                  <p class="ftextNew">並び替え</p>
+                </div>
+              </div>
+            </div>
+            <template if:true={showVehicleListOrNoVehicle}>
+              <div class="Vehicle_list">
+                <div class="Vehicle_list_container">
+                  <div class="container-list">
+                    <template if:true={vehicleData}>
+                      <template for:each={vehicleData} for:item="vehicle">
+                        <div
+                          key={vehicle.Id}
+                          class="card"
+                          data-id={vehicle.Id}
+                          data-icon={vehicle.starIcon}
+                          onclick={handlecardClick}
+                        >
+                          <div class="notifications"></div>
+                          <div class="headerno">
+                            <div class="VehNo">
+                              <lightning-icon
+                                icon-name={vehicle.starIcon}
+                                class="back-icon"
+                                alternative-text="Star"
+                                size="x-small"
+                                onclick={toggleStar}
+                              ></lightning-icon>
+                              <h2 class="vehnotext">{vehicle.Name}</h2>
+                            </div>
+                            <div class="branches">
+                              <p class="totext">{vehicle.branchNames}</p>
+                            </div>
+                          </div>
+                          <div
+                            class="details"
+                            onclick={handlecardClick}
+                            data-id={vehicle.Id}
+                            data-icon={vehicle.starIcon}
+                          >
+                            <div class="image data" style="height: 51px">
+                              <img
+                                src={vehicle.imageSrc}
+                                alt="No Image"
+                                class="data-image"
+                              />
+                              <!-- {vehicle.TruckImg__c} -->
+                            </div>
+                            <div class="regno data">
+                              <p class="head">登録番号</p>
+                              <p class="Datahead">
+                                {vehicle.Registration_Number__c}
+                              </p>
+                            </div>
+                            <div class="maker data">
+                              <p class="head">車名</p>
+                              <p class="Datahead">{vehicle.Vehicle_Name__c}</p>
+                            </div>
+                            <div class="vehicle data">
+                              <p class="head">自動車の種別</p>
+                              <p class="Datahead">{vehicle.Vehicle_Type__c}</p>
+                            </div>
+                            <div class="regperson data">
+                              <p class="head">走行距離</p>
+                              <p class="Datahead">{vehicle.Mileage__c} km</p>
+                            </div>
+                            <div class="year data">
+                              <p class="head">有効期限の満了日</p>
+                              <p class="Datahead">{vehicle.expDate}</p>
+                            </div>
+                            <div class="nextdate data">
+                              <p class="head">次回整備日</p>
+                              <p class="Datahead">
+                                <!-- {vehicle.First_Registration_Date__c} -->
+                                NA
+                              </p>
+                            </div>
+                            <div class="addition data"></div>
+                          </div>
+                        </div>
+                      </template>
+                    </template>
+                    <template if:true={vehicleData.error}>
+                      <!-- <p>{vehicleData.error}</p> -->
+                      <p>error</p>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <template if:false={showVehicleListOrNoVehicle}>
+              <div class="Vehicle_list">
+                <div class="Vehicle_list_container">
+                  <div class="container-list">
+                    <div class="no-vehicle-container">
+                      <img src={noVehicleIcon} />
+                      何も見つかりませんでした。別の検索条件をお試しください
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <div class="buttons">
+              <div class="btngrp">
+                <div class="write">
+                  <!-- <img src={DelVehIcon} alt="delete vehicle" class="imgs1" /> -->
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.8044 9.64993C13.9323 9.12086 14 8.56834 14 8H18.0903V11.2999H20.5448L22.9992 14.5997V18.7245H21.3629C21.3629 20.094 20.2666 21.1994 18.9085 21.1994C17.5504 21.1994 16.454 20.094 16.454 18.7245H11.5452C11.5452 20.094 10.4489 21.1994 9.09073 21.1994C7.73261 21.1994 6.63629 20.094 6.63629 18.7245H5V14.7101C5.52247 14.8656 6.07051 14.9618 6.63629 14.9907V17.0746H7.27445C7.72443 16.5714 8.36258 16.2496 9.09073 16.2496C9.81888 16.2496 10.457 16.5714 10.907 17.0746H16.454V9.64993H13.8044ZM21.7393 14.5997L20.1357 12.5373H18.0903V14.5997H21.7393ZM8.27259 18.7245C8.27259 19.1783 8.64075 19.5495 9.09073 19.5495C9.54071 19.5495 9.90888 19.1783 9.90888 18.7245C9.90888 18.2708 9.54071 17.8996 9.09073 17.8996C8.64075 17.8996 8.27259 18.2708 8.27259 18.7245ZM18.0903 18.7245C18.0903 19.1783 18.4585 19.5495 18.9085 19.5495C19.3585 19.5495 19.7266 19.1783 19.7266 18.7245C19.7266 18.2708 19.3585 17.8996 18.9085 17.8996C18.4585 17.8996 18.0903 18.2708 18.0903 18.7245Z" class="deletetruck delete vehicle"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7 14C10.3137 14 13 11.3137 13 8C13 4.68629 10.3137 2 7 2C3.68629 2 1 4.68629 1 8C1 11.3137 3.68629 14 7 14ZM9.12229 4.46445L10.5365 5.87867L8.41518 7.99999L10.5365 10.1213L9.12229 11.5355L7.00097 9.4142L4.87965 11.5355L3.46543 10.1213L5.58675 7.99999L3.46543 5.87867L4.87965 4.46445L7.00097 6.58577L9.12229 4.46445Z" class="deletetruck delete vehicle"/>
+                    </svg>
+                  <p class="ftext" style="font-weight: 0px">車両削除</p>
+                </div>
+                <div class="print">
+                  <!-- <img
+                  src={DownloadIcon}
+                  alt="download vehicle list"
+                  class="imgs2"
+                /> -->
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z" class="printtruck"/>
+                    </svg>
+                  <p class="ftext" style="font-weight: 0px">ダウンロード</p>
+                </div>
+                <div class="download">
+                  <div class="btn" onclick={showVehicleRegistration}>
+                    <!-- <img
+                      src={addvehicleIcon}
+                      alt="download vehicle list"
+                      class="imgsnew"
+                    /> -->
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.8044 9.64993C13.9323 9.12086 14 8.56834 14 8H18.0903V11.2999H20.5448L22.9992 14.5997V18.7245H21.3629C21.3629 20.094 20.2666 21.1994 18.9085 21.1994C17.5504 21.1994 16.454 20.094 16.454 18.7245H11.5452C11.5452 20.094 10.4489 21.1994 9.09073 21.1994C7.73261 21.1994 6.63629 20.094 6.63629 18.7245H5V14.7101C5.52247 14.8656 6.07051 14.9618 6.63629 14.9907V17.0746H7.27445C7.72443 16.5714 8.36258 16.2496 9.09073 16.2496C9.81888 16.2496 10.457 16.5714 10.907 17.0746H16.454V9.64993H13.8044ZM21.7393 14.5997L20.1357 12.5373H18.0903V14.5997H21.7393ZM8.27259 18.7245C8.27259 19.1783 8.64075 19.5495 9.09073 19.5495C9.54071 19.5495 9.90888 19.1783 9.90888 18.7245C9.90888 18.2708 9.54071 17.8996 9.09073 17.8996C8.64075 17.8996 8.27259 18.2708 8.27259 18.7245ZM18.0903 18.7245C18.0903 19.1783 18.4585 19.5495 18.9085 19.5495C19.3585 19.5495 19.7266 19.1783 19.7266 18.7245C19.7266 18.2708 19.3585 17.8996 18.9085 17.8996C18.4585 17.8996 18.0903 18.2708 18.0903 18.7245Z" class="downloadtruck"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 14C10.3137 14 13 11.3137 13 8C13 4.68629 10.3137 2 7 2C3.68629 2 1 4.68629 1 8C1 11.3137 3.68629 14 7 14ZM6 7V4H8V7H11V9H8V12H6V9H3V7H6Z" class="downloadtruck"/>
+                      </svg>
+                    <p class="ftext" style="font-weight: 0px">車両登録</p>
+                  </div>
+                </div>
+              </div>
+              <div class="pagination-container">
+                <!-- <div class="pagination-offset-container">
+                  <h1 class="pagination-offset-heading">ページごとに表示 :</h1>
+                  <div
+                    class="drop-down-container"
+                    onclick={togglePaginationList}
+                  >
+                    <p class="drop-down-text">{currentPagination}</p>
+                    <lightning-icon
+                      icon-name="utility:chevrondown"
+                      alternative-text="drop-down"
+                      size="xx-small"
+                    ></lightning-icon>
+                    <template if:true={showListOffSet}>
+                      <div class="drop-down-list">
+                        <div
+                          class="drop-down-element"
+                          title="10"
+                          onclick={clickOffSetElement}
+                        >
+                          10
+                        </div>
+                        <div
+                          class="drop-down-element"
+                          title="15"
+                          onclick={clickOffSetElement}
+                        >
+                          15
+                        </div>
+                        <div
+                          class="drop-down-element"
+                          title="20"
+                          onclick={clickOffSetElement}
+                        >
+                          20
+                        </div>
+                        <div
+                          class="drop-down-element"
+                          title="25"
+                          onclick={clickOffSetElement}
+                        >
+                          25
+                        </div>
+                        <div
+                          class="drop-down-element"
+                          title="30"
+                          onclick={clickOffSetElement}
+                        >
+                          30
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div> -->
+                <template if:true={hasVehicles}>
+                  <div class="big-div-page">
+                    <button
+                      class="nav-button"
+                      onclick={handlePreviousPage}
+                      disabled={isPreviousDisabled}
+                    >
+                      <lightning-icon
+                        icon-name="utility:chevronleft"
+                        alternative-text="Previous"
+                        size="xx-small"
+                      ></lightning-icon>
+                    </button>
+                    <span if:true={showLeftDots} class="page-button-dots"
+                      >...</span
+                    >
+  
+                    <template for:each={visiblePageCount} for:item="page">
+                      <button
+                        class="page-button"
+                        title={page}
+                        onclick={pageCountClick}
+                        key={page}
+                      >
+                        {page}
+                      </button>
+                    </template>
+  
+                    <span if:true={showRightDots} class="page-button-dots"
+                      >...</span
+                    >
+                    <button
+                      if:true={showRightDots}
+                      class="page-button"
+                      title={totalPageCount}
+                      onclick={pageCountClick}
+                    >
+                      {totalPageCount}
+                    </button>
+                    <!-- <template for:each={visiblePageNumbers} for:item="pageNum">
+                          <button key={pageNum} data-id={pageNum} onclick={handlePageChange}
+                                  class="page-button">
+                              {pageNum}
+                          </button>
+                      </template> -->
+                    <button
+                      class="nav-button"
+                      onclick={handleNextPage}
+                      disabled={isNextDisabled}
+                    >
+                      <lightning-icon
+                        icon-name="utility:chevronright"
+                        alternative-text="Next"
+                        size="xx-small"
+                      ></lightning-icon>
+                    </button>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
+        </template>
+        <template if:true={showVehicleDetails}>
+          <c-ccp2-_-vehicle-details
+            vehicle-id={vehicleId}
+            vehicle-icons={favIconForDetailPage}
+            onback={handleBack}
+          ></c-ccp2-_-vehicle-details>
+        </template>
+        <template if:true={showVehicleModal}>
+          <c-ccp2-vehicle-modal
+            onclosemodal={handleCloseModal}
+            onmovemodal={handlemoveModal}
+          ></c-ccp2-vehicle-modal>
+        </template>
+      </div>
+    </div>
+  </div>
 </template>

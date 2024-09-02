@@ -125,7 +125,7 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
     })
       .then(() => {
         console.log("success");
-        this.showToast("成功", `写真がアップロードされました。`, "success");
+        // this.showToast("成功", `写真がアップロードされました。`, "success");
         this.saveLoader = false;
       })
       .catch((err) => {
@@ -222,11 +222,11 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
         })
           .then((result) => {
             console.log("result", result.id);
-            this.showToast(
-              "成功",
-              "ファイルは正常にアップロードされました。",
-              "Success"
-            );
+            // this.showToast(
+            //   "成功",
+            //   "ファイルは正常にアップロードされました。",
+            //   "Success"
+            // );
 
             this.newfile = true;
 

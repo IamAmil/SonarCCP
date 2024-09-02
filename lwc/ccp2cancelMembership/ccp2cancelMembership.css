@@ -146,7 +146,7 @@
 .half-bottom2 {
     display: flex;
     justify-content: center;
-    width: calc(100vw - 16px);
+    /* width: calc(100vw - 16px); */
     margin-left: -13px;
 }
 
@@ -285,6 +285,10 @@
     font-weight: bold;
     font-family: 'Noto Sans JP', sans-serif;
     margin-bottom: 0;
+}
+
+.form2-cont{
+    width: 100%;
 }
 
 /* .form_container{
@@ -638,7 +642,7 @@ img {
     background-color: #F5F5F5;
     box-shadow: 0px 0px 10px 0px #00000026;
     font-family: 'Noto Sans JP', sans-serif;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -665,7 +669,7 @@ img {
     background-color: #E10202;
     font-family: 'Noto Sans JP', sans-serif;
     box-shadow: 0px 0px 10px 0px #00000026;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -828,7 +832,7 @@ input[type="radio"]:checked+label {
     border-radius: 7px;
     margin-left: 3%;
     margin-top: 0.5%;
-    width: 80%;
+    width: 97%;
     height: 40px;
     padding-left: 2%;
     padding-top: 16px;
@@ -837,7 +841,10 @@ input[type="radio"]:checked+label {
     font-size: medium;
     background-color: white;
 }
-
+.reason-font{
+    font-size: 1.2em;
+    width: 100%;
+}
 .form-footer {
     display: flex;
     flex-direction: row;
@@ -893,7 +900,7 @@ input[type="radio"]:checked+label {
     width: 170px;
     font-family: 'Noto Sans JP', sans-serif;
     box-shadow: 0px 0px 10px 0px #00000026;
-    border-radius: 8px;
+    border-radius: 10px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
 }
@@ -1090,6 +1097,7 @@ input[type="radio"]:checked+label {
 .step2-input {
     margin-bottom: 8%;
     margin-top: 3%;
+    width: 100%;
 }
 
 .main-head {
@@ -1139,7 +1147,7 @@ input[type="radio"]:checked+label {
     color: black;
     background-color: #F4F4F4;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     height: 40px;
     width: 170px;
     box-shadow: 0px 0px 10px 0px #00000026;
@@ -1314,9 +1322,9 @@ input[type="radio"]:checked+label {
     gap: 10px;
 }
 
-.searchbutton:hover {
+/* .searchbutton:hover {
     cursor: pointer;
-}
+} */
 
 .btn21 {
     height: 2rem;
@@ -1331,14 +1339,33 @@ input[type="radio"]:checked+label {
     background-color: #f4f4f4;
     border: 1px solid #d9d9d9;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
 
-.cancelbutton:hover {
+.cancelbutton:hover{
     cursor: pointer;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0);
 }
 
 .searchbutton {
     background-color: #ea0202;
+}
+
+.searchbutton:hover {
+    background-color: white;
+    color: #E10202;
+    border: solid;
+    border-width: 1px;
+    transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
+    border-color: #E10202;
+    cursor: pointer;
+}
+
+.searchbutton:hover .buttontxt2{
+    cursor: pointer;
+    color: #E10202;
 }
 
 .buttontxt {
@@ -1370,6 +1397,9 @@ input[type="radio"]:checked+label {
         margin-top: -88.5vh;
         width: 76%;
     }
+    .main{
+        margin: -16px 0 0 -33px;
+    }
 
     .bottom2 {
         width: 76%;
@@ -1386,9 +1416,14 @@ input[type="radio"]:checked+label {
         margin-left: 2.1%;
         font-size: 14.6px;
     }
-
+    .main{
+        margin: -16px 0 0 -25px;
+    }
     .bottom2 {
-        width: 79%;
+        width: 80%;
+    }
+    .half-bottom2{
+        margin-left: -3px;
     }
 }
 
@@ -1402,10 +1437,14 @@ input[type="radio"]:checked+label {
         margin-left: 2.3%;
         font-size: 14.6px;
     }
-
+    .main{
+        margin: -16px 0 0 -23px;
+    }
     .bottom2 {
-        width: 82%;
-        ;
+        width: 82.9%;;
+    }
+    .half-bottom2 {
+        margin-left: -5px;
     }
 }
 
@@ -1428,7 +1467,15 @@ input[type="radio"]:checked+label {
     }
 
     .bottom2 {
-        width: 85%;
+        width: 85.8%;
+    }
+    .half-bottom2{
+        display: flex;
+        justify-content: center;
+        margin-left: -6px;
+    }
+    .main{
+        margin: -16px 0 0 -21px;
     }
 }
 
@@ -1437,14 +1484,19 @@ input[type="radio"]:checked+label {
         margin-top: -82.5vh;
         width: 87%;
     }
-
+    .main{
+        margin: -16px 0 0 -19px;
+    }
     .month {
         margin-left: 2.5%;
         font-size: 14.6px;
     }
 
     .bottom2 {
-        width: 87%;
+        width: 88%;
+    }
+    .half-bottom2{
+        margin-left: -6.5px;
     }
 }
 
@@ -1453,7 +1505,9 @@ input[type="radio"]:checked+label {
         margin-top: -81.5vh;
         width: 90%;
     }
-
+    .main{
+        margin: -16px 0 0 -13px;
+    }
     .month {
         font-size: 14.6px;
         margin-left: 2.7%;
@@ -1461,7 +1515,10 @@ input[type="radio"]:checked+label {
     }
 
     .bottom2 {
-        width: 90%;
+        width: 91%;
+    }
+    .half-bottom2{
+        margin-left: -7.5px;
     }
 }
 
@@ -1469,10 +1526,22 @@ input[type="radio"]:checked+label {
     .center-content {
         margin-top: -80.5vh;
     }
-
+    .main{
+        width:calc(100vw - 14px);
+      }
     .month {
         margin-left: 3%;
     }
+    .reason-font{
+        font-size: 1em;
+    }
+    .half-bottom2{
+        margin-left: -5px;
+    }
+    .bottom2{
+        width: 91.5%;
+    }
+
 }
 
 @media (max-width: 1000px) {
@@ -1485,7 +1554,9 @@ input[type="radio"]:checked+label {
     .center-content {
         margin-top: -79vh;
     }
-
+    .main{
+        width:calc(100vw - 13px);
+    }
     .month {
         margin-left: 3.2%;
         width: max-content;
@@ -1503,6 +1574,9 @@ input[type="radio"]:checked+label {
     .withdraw-btn-side,
     .withdraw-btn {
         font-size: 14px;
+    }
+    .reason-font{
+        font-size: 0.9em;
     }
 }
 
@@ -1522,6 +1596,12 @@ input[type="radio"]:checked+label {
         margin-left: 3.3%;
         width: max-content;
         font-size: 10.6px;
+    }
+    .main{
+        width: calc(100vw - 10px);
+    }
+    .reason-font{
+        font-size: 0.8em;
     }
 }
 

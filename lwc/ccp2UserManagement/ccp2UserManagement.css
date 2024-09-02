@@ -41,6 +41,18 @@ input {
   justify-content: center;
 }
 
+.cancelbutton.btn-cancel:hover {
+  cursor: pointer;
+  background-color: white;
+  font-weight: 300;
+  color: #8F98AA;
+  font-family: 'Noto Sans JP', sans-serif;
+  border: solid;
+  border-width: 1px;
+  transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
+  border-color: #8F98AA;
+}
+
 .padded{
   padding: 0 7vw;
 }
@@ -147,8 +159,9 @@ input {
   box-shadow: 0px 0px 10px 0px #00000026;
   border: 1px solid #D9D9D9;
   padding: 12px 0;
-  width: 200px;
+  width: 176px;
   border-radius: 10px;
+  height: 48px;
 }
 
 .form {
@@ -192,7 +205,7 @@ input {
 .records {
   margin-bottom: 25px;
   display: flex;
-  gap: 15px;
+  gap: 75px;
 }
 
 .records_number {
@@ -284,14 +297,37 @@ input {
   margin-left: 32%;
 }
 
+.deletetext {
+  color: #E10202;
+}
+
+.searchbutton:hover {
+  background-color: white;
+  border: 1px solid #e10202;
+  cursor: pointer;
+}
+
+.btn-cancel-1:hover{
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 0 0px rgba(0, 0, 0, 0);
+}
+
+.searchbutton:hover .buttontxt2{
+  cursor: pointer;
+  color: #E10202;
+}
+
 .btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 40px;
+  width: 176px;
+  height: 48px;
   background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
   /* border: 1px solid #8f98aa; */
   border-radius: 10px;
   cursor: pointer;
@@ -582,7 +618,7 @@ button.btn-no:hover {
 .btn-save {
   background-color: #e10202 !important;
   border: 1px solid #e10202 !important;
-  margin-top: 20px !important;
+  /* margin-top: 20px !important; */
 }
 
 .txt-save {
@@ -617,7 +653,8 @@ button.btn-no:hover {
 }
 
 .head-save-cnt {
-  align-items: center !important;
+  align-items: baseline !important;
+  padding-top: 10px;
 }
 
 .data-align {
@@ -655,7 +692,7 @@ button.btn-no:hover {
   padding: 10px 20px;
   font-size: 1em;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   transition: background-color 0.3s ease;
   /* border-radius: 10px; */
 }
@@ -705,38 +742,49 @@ button.btn-no:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
-  /* max-width: 216px; */
+  width: 97%;
   min-height: 50px;
   max-height: 232px;
   border-radius: 10px;
   background-color: white;
   border: 1px solid lightgrey;
   --slds-c-icon-color-foreground-default: #E10202;
-  /* padding: 2%; */
+  padding: 2%;
   overflow-y: auto;
 }
 
+.scrollbar {
+  max-height: 100%;
+  overflow-y: auto;
+  width: 97%;
+}
 
-.branchrecords::-webkit-scrollbar {
-  width: 7px;
-  margin-right: 3px;
+.scrollbar::-webkit-scrollbar {
+  /* width: 7px;
+  margin-right: 3px; */
+  width: 12px;
+    height: 12px;
 }
 
 
-.branchrecords::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.scrollbar::-webkit-scrollbar-track {
+  /* background: #f1f1f1; */
+  background: #F4F4F4;
+    border-radius: 5px;
 }
 
 
-.branchrecords::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 50px;
+.scrollbar::-webkit-scrollbar-thumb {
+  /* background: #888;
+  border-radius: 50px; */
+  background: #BBBBBB;
+    border-radius: 5px;
 }
 
 
-.branchrecords::-webkit-scrollbar-thumb:hover {
-  background: #555;
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  /* background: #555; */
+  background: #d1d0d0;
 }
 
 
@@ -775,7 +823,7 @@ button.btn-no:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 70px;
+  /* height: 70px; */
 }
 
 .btn2:hover {
@@ -791,9 +839,9 @@ button.btn-no:hover {
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  width: 180px;
-  height: 40px;
-  margin-top: 10px;
+  width: 176px;
+  height: 48px;
+  /* margin-top: 10px; */
   background-color: #ededed;
   color: black;
   transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
@@ -1016,6 +1064,9 @@ button.btn-no:hover {
     /* -88.5vh - 6vh */
     width: 76%;
   }
+  .main{
+    margin: -16px 0 0 -33px;
+}
 }
 
 @media (max-width: 1920px) {
@@ -1024,6 +1075,10 @@ button.btn-no:hover {
     /* -85.5vh - 6vh */
     width: 79%;
   }
+  .main{
+    margin: -16px 0 0 -25px;
+}
+
   .padded{
     padding: 0 7vw;
   }
@@ -1038,6 +1093,9 @@ button.btn-no:hover {
   .padded{
     padding: 0 7vw;
   }
+  .main{
+    margin: -16px 0 0 -23px;
+}
 }
 
 @media (max-width: 1686px) {
@@ -1057,6 +1115,9 @@ button.btn-no:hover {
     /* -83.5vh - 6vh */
     width: 85%;
   }
+  .main{
+    margin: -16px 0 0 -21px;
+}
   .padded{
     padding: 0 8vw;
   }
@@ -1068,6 +1129,9 @@ button.btn-no:hover {
     /* -82.5vh - 6vh */
     width: 87%;
   }
+  .main{
+    margin: -16px 0 0 -19px;
+}
   .padded{
     padding: 0 7vw;
   }
@@ -1079,6 +1143,9 @@ button.btn-no:hover {
     /* New value */
     width: 90%;
   }
+  .main{
+    margin: -16px 0 0 -17px;
+}
   .padded{
     padding: 0 7vw;
   }
@@ -1089,12 +1156,15 @@ button.btn-no:hover {
     margin-top: -74.5vh;
     /* -80.5vh - 6vh */
   }
+  .main{
+    width:calc(100vw - 14px);
+  }
   .padded{
     padding: 0 5vw;
   }
   .main-content {
     /* padding: 50px 5% !important; */
-    padding: 64px calc(256px - 12%) 64px calc(256px - 12%)
+    padding: 64px calc(256px - 15%) 64px calc(256px - 15%)
   }
 }
 
@@ -1115,9 +1185,12 @@ button.btn-no:hover {
   }
 
   .main-content {
-    padding: 64px calc(256px - 12%) 64px calc(256px - 12%)
+    padding: 64px calc(256px - 19%) 64px calc(256px - 19%)
     /* padding: 50px 5% !important; */
   }
+  .main{
+    width:calc(100vw - 14px);
+}
 
   .form_container{
     width: 95% !important;
@@ -1136,6 +1209,9 @@ button.btn-no:hover {
     margin-top: -70vh;
     /* -76vh - 6vh */
   }
+  .main{
+    width: calc(100vw - 15px);
+}
 
   .content-modal {
     height: 6.5rem;
@@ -1143,7 +1219,7 @@ button.btn-no:hover {
 
   .main-content {
     /* padding: 50px 5% !important; */
-    padding: 64px calc(256px - 18%) 64px calc(256px - 18%)
+    padding: 64px calc(256px - 29%) 64px calc(256px - 29%);
   }
 
   .form_container{
@@ -1152,6 +1228,9 @@ button.btn-no:hover {
 
   .form_footer{
     width: 95% !important;
+  }
+  .records{
+    gap: 1px;
   }
 }
 

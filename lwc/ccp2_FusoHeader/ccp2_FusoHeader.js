@@ -203,6 +203,14 @@ loadI18nextLibrary() {
         this.errors = JSON.stringify(error);
        // console.log("checkManagerUser errors:" + JSON.stringify(error));
       });
+      const activeLink = localStorage.getItem('activeLink');
+        if (activeLink) {
+            // Apply the 'active' class to the stored active link
+            const activeElement = this.template.querySelector(`[data-link="${activeLink}"]`);
+            if (activeElement) {
+                activeElement.classList.add('active');
+            }
+        }
       
   }
 
@@ -323,5 +331,17 @@ loadI18nextLibrary() {
 
   disconnectedCallback() {
     document.removeEventListener("click", this.handleOutsideClick.bind(this));
+  }
+  handleLinkClick(event) {
+    const clickedLink = event.target.dataset.link;
+
+    localStorage.setItem('activeLink', clickedLink);
+
+    this.template.querySelectorAll('.Link').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    // Add 'active' class to the clicked link
+    event.target.classList.add('active');
   }
 }

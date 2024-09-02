@@ -11,7 +11,8 @@ import CONTACT_ID_FIELD from '@salesforce/schema/User.ContactId';
 import USER_ACCOUNT_ID_FIELD from '@salesforce/schema/User.AccountId';
 import ACCOUNT_NAME_FIELD from '@salesforce/schema/Account.Name';
 import ACCOUNT_TYPE_FIELD from '@salesforce/schema/Account.Type';
-import deleteadmin from '@salesforce/apex/CCP2_userController.deleteUser';
+import deleteadmin from '@salesforce/apex/CCP2_UserDeleteController.optoutDeleteUser';
+import updatecontactdelete from '@salesforce/apex/CCP2_userController.updateContactFields';
 import checkManagerUser from "@salesforce/apex/CCP_HeaderController.checkManagerUser";
 import CCP2_Withdraw from '@salesforce/label/c.CCP2_Withdraw';
 import CCP2_DiscontinueMembership from '@salesforce/label/c.CCP2_DiscontinueMembership';
@@ -53,7 +54,7 @@ import CCP2_Previous from '@salesforce/label/c.CCP2_Previous';
 import CCP2_TOPPage from '@salesforce/label/c.CCP2_TOPPage';
 import branchdetails from '@salesforce/apex/CCP2_userData.userBranchDtl';
 
-const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP2_Resources/Common/Main_Background.png';
+const BACKGROUND_IMAGE_PC = backgroundImage + '/CCP2_Resources/Common/Main_Background.webp';
 
 const truckcancel = backgroundImage + '/CCP2_Resources/Cancelmembership/truckcancel1.png';
 const truckcancel2 = backgroundImage + '/CCP2_Resources/Cancelmembership/truckcancel2.png';
@@ -456,6 +457,17 @@ export default class Ccp2CancelMembership extends LightningElement {
         // this.showconfModal = false;
         this.showstep3 = true;
         this.deleteadmin(this.contactId);
+        updatecontactdelete({selectedReason: this.selectedReasons,contactId: this.contactId,other: this.otherReason})
+        .then((result) => {
+            // this.handleDeleteSuccess();
+            //console.log("delete user api data response : ", this.contactId);
+            console.log("result in update",result);
+            console.log("inside")
+          })
+          .catch((error) => {
+            console.log("update User Fetching error id :" + this.contactId);
+            console.error("update User Fetching error:" + JSON.stringify(error));
+          });
     }
 
     handlePrevstep2(){
@@ -496,7 +508,7 @@ export default class Ccp2CancelMembership extends LightningElement {
             this.selectedReasons = this.selectedReasons.filter(reason => reason !== selectedValue);
         }
         this.isInputDisabled = !this.selectedReasons.includes('その他');
-        console.log("Selected reasons:", this.selectedReasons);
+        console.log("Selected reasons:", JSON.stringify(this.selectedReasons));
     }
 
 
@@ -547,6 +559,9 @@ export default class Ccp2CancelMembership extends LightningElement {
         // this.reloadPage();
         window.scrollTo(0,0);
         this.open();
+        this.selectedReasons = [];
+        this.otherReason = '';
+        this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」'
         this.showCancelModal = false;
         this.showWithdraw = true;
         this.showConformpage = false;

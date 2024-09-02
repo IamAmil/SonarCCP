@@ -135,11 +135,11 @@
                         </div>
                         <div class="form-footer">
                             <div class="cancelbutton btn" onclick={openmodalsure}>
-                                <p class="buttontxt">キャンセル</p>
+                                <div class="buttontxt">キャンセル</div>
                             </div>
                             <template if:false={hasValidSelection}>
                                 <div class="searchbuttondis btn">
-                                    <p class="buttontxt2">次へ</p>
+                                    <div class="buttontxt2">次へ</div>
                                 </div>
                             </template>
                             <template if:true={hasValidSelection}>
@@ -192,10 +192,10 @@
                     </div>
                     <div class="form-footer">
                         <div class="cancelbutton btn" onclick={onPrevStep}>
-                            <p class="buttontxt">修正</p>
+                            <div class="buttontxt">修正</div>
                         </div>
                         <div class="searchbutton btn" onclick={OnSecondStep}>
-                            <p class="buttontxt2">完了</p>
+                            <div class="buttontxt2">完了</div>
                         </div>
                     </div>
                     </template>
@@ -229,8 +229,8 @@
                         <div class="cancelbutton btn" onclick={closemodalsure}>
                             <p class="buttontxt">いいえ</p>
                         </div>
-                        <div class="searchbutton btn" onclick={onCloseM}>
-                            <p class="buttontxt2">はい</p>
+                        <div class="searchbutton-cancel btn" onclick={onCloseM}>
+                            <div class="buttontxt2">はい</div>
                         </div>
                     </div>
                 </div>
@@ -246,8 +246,8 @@
                         <div class="cancelbutton btn" onclick={closemodalfinal}>
                             <p class="buttontxt">いいえ</p>
                         </div>
-                        <div class="searchbutton btn" onclick={OnSecondStep}>
-                            <p class="buttontxt2">はい</p>
+                        <div class="searchbutton-cancel btn" onclick={OnSecondStep}>
+                            <div class="buttontxt2">はい</div>
                         </div>
                     </div>
                 </div>
@@ -257,11 +257,11 @@
             <div class="modal-background-last">
                 <div class="modal-window-small">
                     <div class="warning">
-                        <p class="warntxt">再配属していない車両・会員がまだ残っています。</p>
+                        <p class="warntxt">再配属がまだ終わっていません</p>
                     </div>
                     <div class="buttons-small">
-                        <div class="searchbutton btn" onclick={closemodalYes}>
-                            <p class="buttontxt2">はい</p>
+                        <div class="searchbutton-cancel btn" onclick={closemodalYes}>
+                            <div class="buttontxt2">はい</div>
                         </div>
                     </div>
                 </div>

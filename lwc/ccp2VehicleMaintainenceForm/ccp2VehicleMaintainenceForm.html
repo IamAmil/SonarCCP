@@ -1,4 +1,9 @@
 <template>
+    <!-- <template if:false={maintainencedetail}>
+        <div class="spinner-container">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+    </template> -->
     <template if:true={maintainencedetail}>
         <template if:true={mainTemplate}>
             <div class="main">
@@ -20,7 +25,10 @@
                             </div>
                             <div class="FieldsWithLabels">
                                 <h1 class="colornew"> 走行距離</h1>
-                                <h1>{vehicleByIdData.mileage}</h1>
+                                <div class="mileage">
+                                    <h1>{vehicleByIdData.mileage}</h1>
+                                    <template if:true={showKm}><p>km</p></template>
+                                </div>
                             </div>
                             <div class="FieldsWithLabels">
                                 <h1 class="colornew"> 車検証有効期限</h1>
@@ -32,13 +40,13 @@
                 <template if:true={Step1}>
                     <div class="form">
                         <div class="close-button">
-                            <img src={CloseButton} onclick={showCancelModalFunction}>
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
                         </div>
                         <div class="heading">
                             予定登録
                         </div>
                         <div class="step1-flow">
-                            <img src={VehicleMaintainceStep1} width="380px" height="320px">
+                            <img src={VehicleMaintainceStep1} class="step-Images">
                         </div>
                         <div class="ScheduleType">
                             予定種別
@@ -93,8 +101,8 @@
                         </div>
                         <div class="button">
                             <template if:true={buttonActive}>
-                                <div class="button2" onclick={GoToStep2}>
-                                    <div class="btn2">
+                                <div class="button2">
+                                    <div class="btn2" onclick={GoToStep2}>
                                         <P class="toedit2">次へ</P>
                                     </div>
                                 </div>
@@ -112,14 +120,13 @@
                 <template if:true={step2}>
                     <div class="form2">
                         <div class="close-button">
-                            <img src={CloseButton} onclick={showCancelModalFunction}>
-
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
                         </div>
                         <div class="heading">
                             予定登録
                         </div>
                         <div class="step1-flow">
-                            <img src={VehicleMaintainceStep2} width="380px" height="320px">
+                            <img src={VehicleMaintainceStep2} class="step-Images">
                         </div>
                         <div class="step2-content">
                             <p class="font-free">この画面にて整備予定の詳細情報を入力する。</p>
@@ -148,14 +155,14 @@
                 <template if:true={step3}>
                     <div class="form2">
                         <div class="close-button">
-                            <img src={CloseButton} onclick={showCancelModalFunction}>
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
 
                         </div>
                         <div class="heading">
                             予定登録
                         </div>
                         <div class="step1-flow">
-                            <img src={VehicleMaintainceStep3} width="380px" height="320px">
+                            <img src={VehicleMaintainceStep3} class="step-Images">
                         </div>
                         <div class="step2-content">
                             <p class="font-free">この画面にて整備予定の詳細情報を確認する。</p>
@@ -185,7 +192,7 @@
                 <template if:true={step4}>
                     <div class="form2last">
                         <div class="close-button-last">
-                            <img src={CloseButton} onclick={showCancelModalFunction}>
+                            <img src={CloseButton} onclick={onClose} class="closed">
 
                         </div>
                         <div class="heading">
@@ -193,14 +200,14 @@
                         </div>
 
                         <div class="step1-flow">
-                            <img src={VehicleMaintainceStep4} width="380px" height="320px">
+                            <img src={VehicleMaintainceStep4} class="step-Images-last">
                         </div>
                         <div class="finish-Text">
                             お客様の整備予定が登録されました。
                         </div>
                         <div class="Finish-Button">
                             <div class="button">
-                                <div class="button2" onclick={goback}>
+                                <div class="button2" onclick={onClose}>
                                     <div class="btn2">
                                         <P class="toedit2">車両詳細へ</P>
                                     </div>
@@ -208,13 +215,28 @@
                             </div>
                         </div>
                         <template if:true={showPoster1}>
-                            <div class="poster">
-                                <img src={poster1} onclick={openlink} alt="fuso shop" class="poster-Image-Blank">
+                            <div class="poster2main">
+                                <img src={poster1} onclick={openlink} alt="fuso shop" class="poster-Image-Blank-No-Component">
                             </div>
                         </template>
                         <template if:true={showPoster2}>
-                            <div class="poster2">
-                                <!-- <img src={poster2} alt="fuso shop" class="poster-Image-Blank"> -->
+                            <div class="poster">
+                                <img src={poster2} alt="fuso shop" class="poster-Image-Blank">
+                                <div class="components-container">
+                                    <template for:each={vehicleImages} for:item="image">
+                                        <div key={image.name} class="image-container">
+                                            <div class="overlay" data-name={image.name} onclick={handleImageClick}>
+                                                <p class="overlay-text">{image.code}</p>
+                                                <p class="overlay-text"> >> </p>
+                                                <img src={logoafter} alt="logo Image" class="overlay-image"/>
+                                            </div>
+                                            <div class="card-poster">
+                                                <img src={image.imageUrl} alt={image.name} data-name={image.name} class="component-image"/>
+                                                 <p class="text">{image.code}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                         </template>
                     </div>
@@ -225,14 +247,14 @@
                 <div class="modal-background-last">
                     <div class="modal-window-small">
                         <div class="warning">
-                            <p class="warntxt">まだ登録していません、</p>
-                            <p class="warntxt more">そのままキャンセルしますか？</p>
+                            <p class="warntxt">登録は完了しておりません。</p>
+                            <p class="warntxt more">キャンセルしてよろしいですか？</p>
                         </div>
                         <div class="buttons-small">
                             <div class="cancelbutton btn" onclick={handleNo}>
                                 <p class="buttontxt">いいえ</p>
                             </div>
-                            <div class="searchbutton btn" onclick={goback}>
+                            <div class="searchbutton btn" onclick={onClose}>
                                 <p class="buttontxt2">はい</p>
                             </div>
                         </div>
@@ -240,8 +262,5 @@
                 </div>
             </template>
         </template>
-    </template>
-    <template if:false={maintainencedetail}>
-        <c-ccp2-_-vehicle-details vehicle-id={vehId}></c-ccp2-_-vehicle-details>
     </template>
 </template>

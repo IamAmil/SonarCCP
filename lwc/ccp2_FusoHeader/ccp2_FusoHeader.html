@@ -7,17 +7,17 @@
                 </a>
             </div>
             <div class="links">
-                <a href={homeUrl} class="Home Linkend">{labels.Home}</a>
+                <a href={homeUrl} class="Home Linkend" onclick={handleLinkClick}>{labels.Home}</a>
                 <template if:true={vehicleList}>
-                    <a href={vehicleListUrl} class="Vehicle Link">{labels.Vehicles}</a>
+                    <a href={vehicleListUrl} class="Vehicle Link" onclick={handleLinkClick}>{labels.Vehicles}</a>
                     
                 </template>
                 <template if:true={directBook}>
-                    <a href={homeUrl} class="Monthly Link">{labels.CCP2_MRL}</a>
+                    <a href={homeUrl} class="Monthly Link" onclick={handleLinkClick}>{labels.CCP2_MRL}</a>
 
                 </template>
                 <template if:true={eInvoice}>
-                    <a href={homeUrl} class="Finance Link">{labels.CCP2_FSH}</a>
+                    <a href={homeUrl} class="Finance Link" onclick={handleLinkClick}>{labels.CCP2_FSH}</a>
 
                 </template>
                 

@@ -26,7 +26,7 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import Id from "@salesforce/user/Id";
 
 const  arrowicon = User_StaticResource + '/CCP2_Resources/Common/arrow_under.png';
-const BACKGROUND_IMAGE_PC = User_StaticResource + "/CCP2_Resources/Common/Main_Background.png";
+const BACKGROUND_IMAGE_PC = User_StaticResource + "/CCP2_Resources/Common/Main_Background.webp";
 //const BACKGROUND_IMAGE_MOBILE = AddUser_StaticResource + '/CCP_StaticResource_AddUser/images/register_img_hero.png';
 const BACKGROUND_IMAGE_MOBILE =
   Vehicle_StaticResource +
@@ -331,7 +331,7 @@ validatePhone() {
     const MAX_CHARS_LAST = 11;
     const MAX_CHARS_EMPLOYEECODE = 24;
     const emailFormat = /[\w.\-]+@[\w\-]+\.[\w.\-]+/;
-    const onlyNumber = /^[0-9]*$/;
+    const onlyNumber = /^[0-9０-９]*$/;
     const fullAngleNumbers = /[０-９]+/;
     const fullAngleLetters = /[ａ-ｚＡ-Ｚ]+/;
     let lastName = this.template.querySelector('[name="lastName"]');
@@ -1089,5 +1089,13 @@ handleYes(){
 handleOk(){
   this.showCheckboxModal = false;
   
+}
+
+handlevalchange(event){
+  const maxLength = event.target.maxLength;
+    let value = event.target.value;
+    if (value.length > maxLength) {
+        event.target.value = value.substring(0, maxLength);
+    }
 }
 }

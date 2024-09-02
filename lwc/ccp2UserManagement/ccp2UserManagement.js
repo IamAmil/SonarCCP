@@ -50,7 +50,7 @@ import getUserDetail from "@salesforce/apex/CCP2_userData.userDtl";
 const arrowicon =
   Vehicle_StaticResource + "/CCP2_Resources/Common/arrow_under.png";
 const BACKGROUND_IMAGE_PC =
-  Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.png";
+  Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.webp";
 
 export default class Ccp2UserManagement extends LightningElement {
   labels = {
@@ -259,8 +259,9 @@ export default class Ccp2UserManagement extends LightningElement {
         Employee_Code__c:
           data[0].Employee_Code__c === null ? "-" : data[0].Employee_Code__c
       };
-      this.firstName = data[0].Name.split(" ")[1];
-      this.lastName = data[0].Name.split(" ")[0];
+
+      this.firstName = data?.[0]?.Name?.split(" ")[1] || "";
+      this.lastName = data?.[0]?.Name?.split(" ")[0] || "";
 
       this.InputFirstName = this.firstName === undefined ? "" : this.firstName;
       this.InputLastName = this.lastName === undefined ? "" : this.lastName;
@@ -470,6 +471,7 @@ export default class Ccp2UserManagement extends LightningElement {
     this.addUserUrl = baseUrl.split("/s/")[0] + "/s/addUser";
     this.homeUrl = baseUrl.split("/s/")[0] + "/s/";
     this.getAllUser();
+    console.log("services connected",this.checkboxFormData);
     this.template.host.style.setProperty(
       "--dropdown-icon",
       `url(${this.imgdrop})`
@@ -505,10 +507,21 @@ export default class Ccp2UserManagement extends LightningElement {
 
   handleEditChange() {
     window.scrollTo(0, 0);
-    
-    this.tempUserDetailData = this.userDetailData;
-    this.tempBranchfromjunction = this.branchfromjunction;
-    this.tempUserServicesData = this.userServicesData;
+    // this.tempUserDetailData = this.userDetailData;
+    // this.tempBranchfromjunction = this.branchfromjunction;
+    // this.tempUserServicesData = this.userServicesData;
+    this.InputFirstName = this.firstName;
+    this.InputLastName = this.lastName;
+
+    this.InputFKanaName = this.userDetailData?.firstNameKana__c || '';
+    this.InputLKanaName = this.userDetailData?.lastNameKana__c || '';
+    this.InputEmail = this.userDetailData?.email || '';
+    this.InputTelephone = this.userDetailData?.Phone || '';
+    this.InputCellPhone = this.userDetailData?.MobilePhone || '';
+    this.InputEmpCode = this.userDetailData?.Employee_Code__c || '';
+    this.InputDepartment = this.userDetailData?.Department || '';
+    this.InputPost = this.userDetailData?.Title || '';
+
 
     this.showUserList = false;
     this.showUserDetails = false;
@@ -591,18 +604,44 @@ export default class Ccp2UserManagement extends LightningElement {
     }
   }
 
+  // handleCheckInputChange(event) {
+  //   const field = event.target.dataset.field;
+
+  //   if (field) {
+  //     if (event.target.type === "checkbox") {
+  //       this.checkboxFormData = {
+  //         ...this.checkboxFormData, // Copy existing values
+  //         [field]: event.target.checked // Update the specific field with its checked state
+          
+  //       };
+  //       console.log("services insdide funct",this.checkboxFormData);
+  //     }
+  //   }
+  // }
+
   handleCheckInputChange(event) {
     const field = event.target.dataset.field;
-
+    
     if (field) {
       if (event.target.type === "checkbox") {
         this.checkboxFormData = {
-          ...this.checkboxFormData, // Copy existing values
-          [field]: event.target.checked // Update the specific field with its checked state
+          ...this.checkboxFormData,
+          [field]: event.target.checked
         };
+        
+        // Update the UI explicitly if needed
+        this.allServicesListData = this.allServicesListData.map(service => {
+          if (service.apiName === field) {
+            return { ...service, isActive: event.target.checked };
+          }
+          return service;
+        });
+        
+        console.log("Updated checkboxFormData", this.checkboxFormData);
       }
     }
-  }
+}
+
 
   handleDeleteUser() {
     this.showconfModal = true;
@@ -730,9 +769,10 @@ export default class Ccp2UserManagement extends LightningElement {
   // }
 
   saveFormData() {
-    let onlyNumber = /^[0-9]*$/;
+    let onlyNumber = /^[0-9０-９]*$/;
     let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let isFormValid = true; // Flag to track overall form validity
+    let japanesePattern = /[\u3040-\u30FF\u4E00-\u9FFF]/;
 
     // Reset all error messages and CSS classes
     this.contactClassFirstName = "";
@@ -750,6 +790,7 @@ export default class Ccp2UserManagement extends LightningElement {
     this.contactClassCellPhone = "";
     this.contactClassTelephone = "";
     this.cellPhoneErrorText = "";
+    
 
     if (this.InputFirstName === "") {
       this.contactClassFirstName = "invalid-input";
@@ -791,7 +832,12 @@ export default class Ccp2UserManagement extends LightningElement {
       this.emailerrorText = "メールアドレスの形式は不正です";
       isFormValid = false;
       window.scrollTo(0, 0);
-    }
+    }else if (japanesePattern.test(this.InputEmail)) {
+      this.contactClassEmail = "invalid-input";
+      this.emailerrorText = "メールアドレスの形式は不正です";
+      isFormValid = false;
+      window.scrollTo(0, 0);
+  } 
     const emailValidationPromise = new Promise((resolve) => {
       if (this.InputEmail !== this.initialmail) {
         checkUserEmail({ email: this.InputEmail })
@@ -1086,13 +1132,11 @@ export default class Ccp2UserManagement extends LightningElement {
     this.showCancelModal = false;
   }
   CancelhandleYes() {
+    // this.userDetailData = this.tempUserDetailData;
+    // this.branchfromjunction = this.tempBranchfromjunction;
+    // this.userServicesData = this.tempUserServicesData;
 
-        
-    this.userDetailData = this.tempUserDetailData;
-    this.branchfromjunction = this.tempBranchfromjunction;
-    this.userServicesData = this.tempUserServicesData;
-
-
+    window.scrollTo(0, 0);
     this.showCancelModal = false;
     this.showUserDetails = true;
     this.userDetailsLoader = false;
@@ -1127,5 +1171,12 @@ export default class Ccp2UserManagement extends LightningElement {
 
       event.target.value = value;
     }
+  }
+  handlevalchange(event){
+    const maxLength = event.target.maxLength;
+      let value = event.target.value;
+      if (value.length > maxLength) {
+          event.target.value = value.substring(0, maxLength);
+      }
   }
 }
