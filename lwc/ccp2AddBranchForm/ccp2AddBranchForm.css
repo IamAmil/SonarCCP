@@ -295,7 +295,6 @@ margin-bottom: 5px;
     display: flex;
     flex-direction: row;
     gap: 25px;
-    margin-top: 5%;
     width: 100%;
     justify-content: center;
     margin-top: 18%;
@@ -370,7 +369,6 @@ margin-bottom: 5px;
 
 }
 .dataScroll{
-    padding: 3px;
     margin-left: 5px;
     margin-top: 15px;
     font-size: 12px;
@@ -381,7 +379,6 @@ margin-bottom: 5px;
     border-radius: 10px;
     padding: 10px 10px 0px;
     align-items: center;
-  
     width: 200px;
     min-height: 4px;
 }
@@ -419,7 +416,9 @@ margin-bottom: 5px;
     padding-left: 22px;
     position: relative;
     z-index: 1;
+    background-color: #ffffff;
 }
+
 .hello-class{
     border: 1px solid #E10202;
     border-radius: 8px;
@@ -839,27 +838,11 @@ width: 110px;
 
 }
 
-
-
-
-
-.Inputs {
-
-    border: 1px solid #D9D9D9;
-    border-radius: 2px;
-    width: 405px;
-    height: 40px;
-    background-color: #ffffff;
-    padding-left: 22px;
-    position: relative;
-    z-index: 1;
-}
  
 .lists {
     position: absolute;
     background: white;
     border: 1px solid #D9D9D9;
-    border-radius: 2px;
     border-radius: 8px;
     width: 233px;
     max-height: 200px;
@@ -868,7 +851,6 @@ width: 110px;
     z-index: 1000;
     scrollbar-width:thin;
     scrollbar-color: #dad7d7 #f9f9f9;
-    margin-top: 5px;
     padding: 10px;
     margin-top: 60px;
 }
@@ -1177,34 +1159,29 @@ background-color: white;
         margin-top: -24.5vh;
     }
 }
-@media only screen and (min-width: 1280px) and (max-width: 1536px) and (min-height: 551px) and (max-height: 550px) {
-    .center-content{
-        margin-top: -40.6vh;
-    }
-}
 @media only screen and (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) {
     .center-content{
-        margin-top: -40.6vh;
+        margin-top: -88.6vh;
     }
 }
 @media only screen and (min-width: 820px) and (max-width: 820px) and (min-height: 1180px) and (max-height: 1180px) {
     .center-content{
-        margin-top: -23.8vh;
+        margin-top: -89.4vh;
     }
 }
 @media only screen and (min-width: 1024px) and (max-width: 1024px) and (min-height: 1366px) and (max-height: 1366px) {
     .center-content{
-        margin-top: -26.5vh;
+        margin-top: -90.2vh;
     }
 }
 @media only screen and (min-width: 912px) and (max-width: 912px) and (min-height: 1368px) and (max-height: 1368px) {
     .center-content{
-        margin-top: -23.2vh;
+        margin-top: -90.2vh;
     }
 }
 @media only screen and (min-width: 1114px) and (max-width: 1114px) and (min-height: 720px) and (max-height: 720px) {
     .center-content{
-        margin-top: -55.2vh;
+        margin-top: -85.2vh;
     }
 }
 

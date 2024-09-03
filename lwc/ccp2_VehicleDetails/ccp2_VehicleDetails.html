@@ -35,20 +35,6 @@
                   ></lightning-icon>
                   <h1 class="RegNoData">{vehicleByIdData.vehicleNumber}</h1>
                 </div>
-                <!-- 
-                    <div class="buttons">
-                        <div class="btnico">
-                            <lightning-icon icon-name='utility:note' alternative-text='note' size='x-small'
-                                title='note' class="i"></lightning-icon>
-                            <span class="notetext">{label.CCP2_ScheduleRegistration}</span>
-                        </div>
-                        <div class="btnico1">
-                            <lightning-icon icon-name='utility:date_input' alternative-text='date_input'
-                                size='x-small' title='date_input' class="i"></lightning-icon>
-                            <span class="notetext">{label.CCP2_ExpenseRegistration}</span>
-                        </div>
-                    </div> 
-                -->
               </div>
               <div class="content1_left_row2">
                 <div class="content1_left_row2_1">
@@ -187,9 +173,6 @@
                                 ></lightning-icon>
                               </button>
                             </template>
-                            <!-- <button class="pagination-button" onclick={showNextImage} disabled={isNextDisabled}>
-                                                                <lightning-icon icon-name="utility:chevronright" alternative-text="Next" size="xx-small" class="pagination-icon"></lightning-icon>
-                                                            </button> -->
                           </div>
                         </div>
                       </template>
@@ -241,13 +224,7 @@
             <div class="recMain no-scroll">
               <template if:true={showVehicleDetails}>
                 <div class="vehicle_container no-scroll">
-                  <!-- <div class="vehicle_header">
-                                        <h3>{label.CCP2_ChassisInformation}</h3>
-                                        <h3>{label.CCP2_LoadingPlatformInformation}</h3>
-                                        <h3>{label.CCP2_PartsInformation}</h3>
-                                        <h3>{label.CCP2_LeaseInformation}</h3>
-                                    </div> -->
-                  <div style="">
+                  <div>
                     <div class="vehicle_child1">
                       <div
                         class="vehicle_child1_container"
@@ -308,34 +285,7 @@
                           <h3>{vehicleByIdData.doorNumber}</h3>
                         </div>
                       </div>
-                      <!-- <div class="vehicle_child1_container">
-                                                <div class="vehicle_child1_list">
-                                                    <h3>{label.CCP2_DriversLicence}</h3>
-                                                    <h3>{label.CCP2_FirstYearRegistrationDate}</h3>
-                                                </div>
-                                                <div class="vehicle_child1_list">
-                                                    <h3>Not found</h3>
-                                                    <h3>{vehicleByIdData.initialRegistrationDate}</h3>
-                                                </div>
-                                            </div> -->
                     </div>
-                    <!-- <div class="vehicle_child2">{label.CCP2_LoadingPlatformInformation}</div>
-                                        <div class="vehicle_child3">
-                                            <div class="vehicle_child1_list">
-                                                <h3>{label.CCP2_BodyMaker}</h3>
-                                                <h3>{label.CCP2_BodyInternalDimmension}</h3>
-                                                <h3>{label.CCP2_BodyShape}</h3>
-                                                <h3>{label.CCP2_MaximumLoadingCapacity}</h3>
-                                                <h3>{label.CCP2_BodyMounting}</h3>
-                                            </div>
-                                            <div class="vehicle_child1_list">
-                                                <h3>{vehicleByIdData.bodymaker}</h3>
-                                                <h3>Not found</h3>
-                                                <h3>{vehicleByIdData.bodyShape}</h3>
-                                                <h3>Not found</h3>
-                                                <h3>Not found</h3>
-                                            </div>
-                                        </div> -->
                   </div>
                 </div>
               </template>
@@ -356,9 +306,6 @@
                 onclick={dothis}
                 class="bottom-icons"
               />
-              <!-- <lightning-button-icon icon-name="utility:print" size="medium" variant="container"
-                            alternative-text={label.CCP2_Print} class="slds-m-left_small Abtn" onclick={dothis}
-                            title={label.CCP2_Print}></lightning-button-icon> -->
               <span class="b">ダウンロード</span>
 
               <img
@@ -367,9 +314,6 @@
                 onclick={dothis}
                 class="bottom-icons"
               />
-              <!-- <lightning-button-icon icon-name="utility:download" size="medium" variant="container"
-                                alternative-text={label.CCP2_Download} class="slds-m-left_small Abtn" onclick={dothis}
-                                title={label.CCP2_Download}></lightning-button-icon> -->
               <span class="b">編集する</span>
             </div>
           </div>

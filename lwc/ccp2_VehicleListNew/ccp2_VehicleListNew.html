@@ -95,7 +95,12 @@
                                 size="x-small"
                                 onclick={toggleStar}
                               ></lightning-icon>
-                              <h2 class="vehnotext">{vehicle.Name}</h2>
+                              <template if:true={vehicle.Name}>
+                                <h2 class="vehnotext">{vehicle.Name}</h2>
+                              </template>
+                              <template if:false={vehicle.Name}>
+                                <h2 class="vehnotext">-</h2>
+                              </template>
                             </div>
                             <div class="branches">
                               <p class="totext">{vehicle.branchNames}</p>

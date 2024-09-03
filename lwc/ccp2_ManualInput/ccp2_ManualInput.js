@@ -216,7 +216,6 @@ export default class Ccp2backgroundTemplate extends LightningElement {
   errorModelCss = "hide-error";
   errorCurb = "";
   errorCurbCss = "hide-error";
-  errorCurbParent = "addMain";
   errorDoor = "";
   errorDoorCss = "hide-error";
   errorLogin = "";
@@ -308,7 +307,7 @@ export default class Ccp2backgroundTemplate extends LightningElement {
     });
 
     if (this.isLastPage) {
-      this.finalCompletionButtonCss = "searchbutton btn buttontxt2 red";
+      this.finalCompletionButtonCss = "button-final-100 button-save-100";
     } else {
       this.finalCompletionButtonCss = "button-save-100";
     }
@@ -334,6 +333,11 @@ export default class Ccp2backgroundTemplate extends LightningElement {
       document.addEventListener("click", this.handleOutsideClick7.bind(this));
       document.addEventListener("click", this.handleOutsideClick8.bind(this));
       this.outsideClickHandlerAdded = true;
+    }
+    if (this.isLastPage) {
+      this.finalCompletionButtonCss = "button-final-100 button-save-100";
+    } else {
+      this.finalCompletionButtonCss = "button-save-100";
     }
   }
 
@@ -1396,7 +1400,7 @@ i18next.init({
           : "form-body disable-editing";
 
       if (this.isLastPage) {
-        this.finalCompletionButtonCss = "searchbutton btn buttontxt2 red";
+        this.finalCompletionButtonCss = "button-final-100 button-save-100";
       } else {
         this.finalCompletionButtonCss = "button-save-100";
       }
@@ -1595,13 +1599,10 @@ i18next.init({
 
   validateFormData() {
     let isValid = true;
-    const regexJapanese = /^[一-龠ぁ-ゔァ-ヴー々〆〤ヶ]+$/;
     
-    const regexJapanesealpha = /^[一-龠ぁ-ゔァ-ヴー々〆〤ヶA-Z]+$/; // Any Japanese characters including Kanji, Hiragana, Katakana, and special characters
-    const regexNumbers = /^\d+$/; // Only digits  
+    const regexJapanesealpha = /^[一-龠ぁ-ゔァ-ヴー々〆〤ヶA-Z]+$/; 
     const regexNumbersdig = /^[0-9０-９]*$/;
-    const regexNumbers1 =/^[0-9０-９]+・*$/
-;
+    const regexNumbers1 =/^[0-9０-９]+・*$/;
     const regexNumbers2 = /^[0-9０-９]+$/;
  // Only digits  
     // let cleanedString = this.formdata.loginNumberPart4.replace(/\・+$/, '');
@@ -2035,25 +2036,14 @@ i18next.init({
     window.location.reload();
   }
 
-  handleInputCheck(event) {
-    const input = event.target;
-    input.value = input.value.replace(/[^\d０-９]/g, '');
-    // this.handlevalchange();
-    this.handlevalchange();
-    
-  }
-
-  handleInputCheck(event) {
-    const input = event.target;
-    // Replace any character that is not half-width or full-width digits
-    input.value = input.value.replace(/[^\d０-９]/g, '');
-    
-    // Update formdata
-    // this.formdata.curbWeight = input.value;
-
-    // Ensure the value does not exceed the maxLength
-    this.handlevalchange(event);
+handleInputCheck(event) {
+  const input = event.target;
+  input.value = input.value.replace(/[^\d０-９]/g, '');
+  // this.handlevalchange();
+  this.handlevalchange();
+  
 }
+
 
 
 //   handleInputJapanese(event) {

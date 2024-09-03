@@ -108,9 +108,7 @@ ul li {
   align-items:center;
 }
 
-/* .one-element {
-  width: calc(50% - 16px);
-} */
+
 
 .sample-image {
   width: 100%;
@@ -179,11 +177,7 @@ ul li {
   margin: 10px 0 0 16px;
 }
 
-/* .left {
-  align-items: start;
-  margin-left: 15px;
-  padding-left: 10px;
-} */
+
 
 .upload-instruction-heading {
   display: flex;
@@ -205,7 +199,6 @@ ul li {
 .upload-button {
   width: 176px;
   height: 40px;
-  /* padding: 12px 16px 12px 16px; */
   border-radius: 10px;
   border: none;
 }
@@ -272,10 +265,4 @@ button.upload-button.save.disable {
    .upload-image-sample{
     height: 170px;
    }
-}
-@media (max-width: 864px) {
- /* .full-width-two-element{
-  width: 500px;
- } */
-
 }

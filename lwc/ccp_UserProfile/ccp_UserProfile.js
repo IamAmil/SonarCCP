@@ -220,24 +220,23 @@ export default class Ccp_UserProfile extends LightningElement {
           console.error("error in fetching branches from new", error);
         }
       }
-    get options() {
-        let options = [];
-        for(let a = 0; a < 24; a++){
-            if(a < 10){
-                a = '0' + a;
-            } else {
-                a = a.toString();
-            }
-            options = [...options,{
-                label: a,
-                value: a
-            }];
-        }
-        return options;
-    }
+    // get options() {
+    //     let options = [];
+    //     for(let a = 0; a < 24; a++){
+    //         if(a < 10){
+    //             a = '0' + a;
+    //         } else {
+    //             a = a.toString();
+    //         }
+    //         options = [...options,{
+    //             label: a,
+    //             value: a
+    //         }];
+    //     }
+    //     return options;
+    // }
 
     connectedCallback(){
-      console.log("inp mail conn",this.InputEmail)
         this.checkManagerUser();
         document.addEventListener('click', this.handleOutsideClick2);
         // this.originalUserList = [...this.userList];
@@ -273,17 +272,6 @@ export default class Ccp_UserProfile extends LightningElement {
         });
     }
 
-
-    // renderedCallback(){
-    //     const selectElement = this.template.querySelector('select');
-    //     console.log("query selector in select",selectElement)
-    //     if (selectElement.value == '選択してください') {
-    //         selectElement.classList.add('placeholder-selected');
-    //     } else {
-    //         selectElement.classList.remove('placeholder-selected');
-    //     }
-    // }
-
     @wire(getRecord, {
         recordId: '$userId',
         fields: [CONTACT_ID_FIELD]
@@ -297,18 +285,6 @@ export default class Ccp_UserProfile extends LightningElement {
         }
     }
 
-    // @wire(getRecord, {
-    //     recordId: '$selectedUserId',
-    //     fields: [CONTACT_ID_FIELD]
-    // })
-    // userRecord({ error, data }) {
-    //     if (data) {
-    //         this.selectedContactId = data.fields.ContactId.value;
-    //         console.log('selectd Contact ID:', this.selectedContactId);
-    //     } else if (error) {
-    //         console.error('Error fetching user record:', error);
-    //     }
-    // }
 
 
     
@@ -317,9 +293,6 @@ export default class Ccp_UserProfile extends LightningElement {
     @wire(getBasicInfo,{ContactId:'$contactId',refresh: "$refreshTokenInt"})
     fetUserInfo({data,error}){
         if(data){
-            // let contactData = [];
-            // if(data != null){
-                // let accountData = data.Account;
                 this.userDetailData = {
                     accountname: data.AccountName == null ? '-' : data.AccountName,
                     firstName: data.FirstName == null ? '-' : data.FirstName,
@@ -335,7 +308,6 @@ export default class Ccp_UserProfile extends LightningElement {
                     Phone: data.Phone == null ? '-' : data.Phone,
                     Title: data.Title == null ? '-' : data.Title,
                     Branchs: data.BranchNames.length > 0 ? data.BranchNames : ['-']
-                    // Branchs: data.BranchNames.length == ['-'] ? [{Name:'-'}] : data.BranchNames
                 }
                 console.log("userrrrhelllooooodata",this.userDetailData);
                 // the time field return the milliseconds so the time need divided by 3600000
@@ -367,41 +339,11 @@ export default class Ccp_UserProfile extends LightningElement {
                 this.initialmail = data.Email == null ? '' : data.Email;
                 this.InputEmpCode = data.EmployeeCode == null ? '' : data.EmployeeCode;
                 this.InputCellPhone = data.MobilePhone == null  ? '' : data.MobilePhone;
-                // this.InputCellPhone = data.MobilePhone ?? '';
                 this.InputPost = data.Title == null ? '' : data.Title;
                 this.InputTelephone = data.Phone == null ? '' : data.Phone;
                 console.log("mob dattaaaa",this.InputCellPhone,this.InputTelephone)
                 console.log("empppp codee",this.InputEmpCode);
-    //             this.defaultDisplay = {
-    //                 workdayStart: this.workdayStart,
-    //                 workdayEnd: this.workdayEnd,
-    //                 holidayStart: this.holidayStart,
-    //                 holidayEnd: this.holidayEnd,
-    //                 // isNotReceiveByPhone: false,
-    //                 // isNotReceiveByPostcard: false
-    //             };
-    // //             // if(this.defaultDisplay.workdayStart != null){
-    // //             //     this.template.querySelector('[name="workdayStart"]').selectedIndex = Number(this.defaultDisplay.workdayStart) + 1;
-    // //             // } else {
-    // //             //     this.template.querySelector('[name="workdayStart"]').selectedIndex = 0;
-    // //             // }
-    // //             // if(this.defaultDisplay.workdayEnd != null){
-    // //             //     this.template.querySelector('[name="workdayEnd"]').selectedIndex = Number(this.defaultDisplay.workdayEnd) + 1;
-    // //             // } else {
-    // //             //     this.template.querySelector('[name="workdayEnd"]').selectedIndex = 0;
-    // //             // }
-    // //             // if(this.defaultDisplay.holidayStart != null){
-    // //             //     this.template.querySelector('[name="holidayStart"]').selectedIndex = Number(this.defaultDisplay.holidayStart) + 1;
-    // //             // } else {
-    // //             //     this.template.querySelector('[name="holidayStart"]').selectedIndex = 0;
-    // //             // }
-    // //             // if(this.defaultDisplay.holidayEnd != null){
-    // //             //     this.template.querySelector('[name="holidayEnd"]').selectedIndex = Number(this.defaultDisplay.holidayEnd) + 1;
-    // //             // } else {
-    // //             //     this.template.querySelector('[name="holidayEnd"]').selectedIndex = 0;
-    // //             // }
-    // //             // this.contactData = contactData;
-            // }
+    
             if(this.InputCellPhone === '-'){
               console.log("inside of handle edit");
               this.InputCellPhone = '';
@@ -427,14 +369,6 @@ export default class Ccp_UserProfile extends LightningElement {
         }
     }
 
-    // @wire(getBasicInfo,{ContactId:'$selectedContactId'})
-    // fetchnewuserInfo({data,error}){
-    //     if(data){
-    //         console.log("selected user info",data);
-    //     }else if(error){
-    //         console.log("errorss",error);
-    //     }
-    // }
 
     @wire(getUsers)
     Unassouser({data,error}){

@@ -108,21 +108,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.updatePageButtons();
     }
 
-    // updateVisiblePageNumbers() {
-    //     const totalVisiblePages = 5;
-    //     const startIdx = Math.max(this.currentPage - Math.ceil(totalVisiblePages / 2), 0);
-    //     const endIdx = Math.min(startIdx + totalVisiblePages, this.pageNumbers.length);
 
-    //     if (endIdx - startIdx < totalVisiblePages) {
-    //         const diff = totalVisiblePages - (endIdx - startIdx);
-    //         const newStartIdx = Math.max(startIdx - diff, 0);
-    //         this.visiblePageNumbers = this.pageNumbers.slice(newStartIdx, endIdx);
-    //     } else {
-    //         this.visiblePageNumbers = this.pageNumbers.slice(startIdx, endIdx);
-    //     }
-    //     this.isPreviousDisabled = this.currentPage === 1;
-    //     this.isNextDisabled = this.currentPage === this.pageNumbers.length;
-    // }
 
     updateVisiblePageNumbers() {
         const totalVisiblePages = 5;
@@ -190,21 +176,6 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         console.log("tOOOTAALLLLLLLL PAGEE2",this.totalPages);
     }
 
-// @track paginatedBranchData = [];
-
-    // initializePageNumbers() {
-    //     let pages = Math.ceil(this.totalRecords / RECORDS_PER_PAGE);
-    //     this.pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
-    //     this.paginatedBranchData = this.fetchItems(this.currentPage);
-    //     console.log("Paginated Data Before", this.paginatedBranchData);
-    //     console.log("Paginated Data", JSON.stringify(this.paginatedBranchData));
-    // }
-
-    // fetchItems(page) {
-    //     const startIdx = (page - 1) * RECORDS_PER_PAGE;
-    //     const endIdx = startIdx + RECORDS_PER_PAGE;
-    //     this.items = this.branchData.slice(startIdx, endIdx);
-    // }
 
     handlePageChange(event) {
         this.currentPage = Number(event.target.dataset.id);
@@ -230,10 +201,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
             console.error('Error loading branches:', error);
         }
     }
-    // get Islength() {
-    //     return this.branchData.length < 9;
-    // }
-
+  
     handleBranchClick(event) {
         const branchId = event.target.dataset.idd;
         console.log("branch id", branchId); // Log the branchId to verify it's correct
@@ -241,15 +209,7 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.selectedBranch = true;
     }
     
-    // connectedCallback(){
-        
-    //     this.initializePageNumbers();
-    //     this.fetchItems(this.currentPage);
-    //     const link = document.createElement('link');
-    //     link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap';
-    //     link.rel = 'stylesheet';
-    //     document.head.appendChild(link);
-    // }
+   
 
     handleclick2(event){
         this.branchId = event.currentTarget.dataset.id;

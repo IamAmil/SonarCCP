@@ -4,7 +4,6 @@ import FUSE_JS from '@salesforce/resourceUrl/fuse';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
 import ChassisList from '@salesforce/apex/CCP2_VehicleManagment.allVehicleList';
 import senddata from '@salesforce/apex/CCP2_VehicleManagment.vehicleByChassis';
-import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
@@ -71,21 +70,6 @@ export default class Ccp2VehicleModal extends LightningElement {
         }
     }
 
-    // ChassisList(){
-    //     ChassisList()
-    //     .then((result) => {
-    //         this.optVehicles = result.map(contact => {
-    //             return { label: contact.carPlatformNo__c, value: contact.carPlatformNo__c, registrationNumber: contact.Registration_Number__c};
-    //         });
-    //         console.log("devil332",JSON.stringify(this.optVehicles));
-    //         if (!this.fuseInitialized) {
-    //             this.initializeFuse();
-    //         }
-    //     })
-    //     .catch((error) => {
-    //         console.error(error);
-    //     })
-    // }
 
 
 
@@ -257,8 +241,6 @@ export default class Ccp2VehicleModal extends LightningElement {
     } else {
         this.inputs[index].searchResults = [];
         this.inputs[index].showlist = false;
-        // this.ChassisList();
-        // refreshApex(this.optVehicles);
         this.optVehicles = this.originaloptveh;
         
     }

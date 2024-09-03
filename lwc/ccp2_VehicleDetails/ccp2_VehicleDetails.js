@@ -64,13 +64,27 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track classCostManagement = "";
   @track classMaintainList = "";
   @track vehId = "";
+  @track uploadImageCss = "upload-image";
+  @track uploadCertImagesArray = [];
+  @track isModalOpen = false;
+
+  @track uploadImageCss = "upload-image";
+  @track uploadImagesArray = [];
+  @track isModalOpen = false;
+  @track noImagesAvailable = false;
+  @track imagesAval = false;
   editIcon = editIcon;
   vehicleIcon = vehicleIcon;
   downloadIcon = downloadIcon;
   isStarFilled = false;
   @track certificateTitleCount = "-";
   @track Branches = [];
-
+  @track isImageModalOpen = true;
+  @track imagesAvailable = true;
+  @track currentImageIndex = 0;
+  @track isLastPage = true;
+  @track isFirstPage = true;
+  @track totalPages = 1;
   truckLogoUrl = truckonnectLogo;
   // @api showVehicle;
   @track vehicleByIdData = {
@@ -319,11 +333,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.certificatesAvailable = false;
 
     if (data) {
-      // console.log(
-      //   "Getting images and certificates from vehicle by Chassis Number: ",
-      //   this.currentChassisNumber
-      // );
-      // console.log("Data from Chassis Number", data);
 
       try {
         data = JSON.parse(data);
@@ -349,14 +358,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
           this.certificatesAvailable = false; // No certificates available
         }
 
-        // console.log(
-        //   "All images from Chassis Number stored: ",
-        //   JSON.stringify(this.allImages)
-        // );
-        // console.log(
-        //   "All certificates from Chassis Number stored: ",
-        //   JSON.stringify(this.allCertificates)
-        // );
       } catch (e) {
         console.error("Error parsing data:", e);
         this.imagesAvailable = false;
@@ -379,15 +380,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     }
   }
 
-  @track uploadImageCss = "upload-image";
-  @track uploadCertImagesArray = [];
-  @track isModalOpen = false;
-
-  @track uploadImageCss = "upload-image";
-  @track uploadImagesArray = [];
-  @track isModalOpen = false;
-  @track noImagesAvailable = false;
-  @track imagesAval = false;
+  
 
   @api openModalWithImages(imageData) {
     if (Array.isArray(imageData) && imageData.length > 0) {
@@ -438,31 +431,8 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.isModalOpen = true;
   }
 
-  // @wire(getVehicleCertificates, { vehicleId: "$vehicleId" }) handledata2({
-  //   data,
-  //   error
-  // }) {
-  //   if (data) {
-  //     const lengthOfTitle = data.titles ? data.titles[0].length : 0;
-  //     if (lengthOfTitle > 15) {
-  //       this.certificateTitleCount = data.titles
-  //         ? data.titles[0].substring(0, 15) + "...など" + data.count + "枚"
-  //         : "-";
-  //     } else {
-  //       this.certificateTitleCount = data.titles
-  //         ? data.titles[0] + "など" + data.count + "枚"
-  //         : "-";
-  //     }
-  //     console.log("geting from vehicle Certificate api: ", data);
-  //   } else if (error) {
-  //     // handle error
-  //     this.certificateTitleCount = "-";
-  //     console.error("geting from vehicle Certificate api: ", error);
-  //   }
-  // }
-  @track isImageModalOpen = true;
-  @track imagesAvailable = true;
-  @track currentImageIndex = 0;
+  
+
 
   renderedCallback(){
     console.log(`%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`);
@@ -505,8 +475,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     // Get the image URL and name from the data attributes of the clicked SVG
     let imageUrl = event.target.getAttribute("data-url");
     let imageName = event.target.getAttribute("data-name");
-    // console.log("Image URL To Download: ", imageUrl);
-    // console.log("Image Name to Download", imageName);
     if (imageUrl && imageName) {
       // Create a temporary anchor element
       const link = document.createElement("a");
@@ -557,9 +525,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     return this.currentImageIndex === this.allImages.length - 1;
   }
 
-  @track isLastPage = true;
-  @track isFirstPage = true;
-  @track totalPages = 1;
+  
   renderedCallback() {
     this.isLastPage = this.currentImageIndex === this.totalPages - 1;
     this.isFirstPage = this.currentImageIndex === 0;
@@ -591,8 +557,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             ? data.titles[0] + "など" + data.count + "枚"
             : "-";
         }
-
-        // console.log("Fetching from vehicle Certificate API: ", data);
         this.vehicleByIdLoader = false;
       })
       .catch((error) => {
@@ -635,15 +599,9 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.dispatchEvent(new CustomEvent("back"));
   }
 
-  // get starIcon() {
-  //   vehicle?.Favoruite_Vehicle__c === true
-  //   ? "utility:favorite"
-  //   : "utility:favorite_alt" || "utility:favorite_alt";
-  // }
+
 
   toggleStar(event) {
-    // this.isStarFilled = !this.isStarFilled;
-    console.log("event.target.iconName", event.target.iconName);
     let boolFav;
     if (event.target.iconName === "utility:favorite") {
       boolFav = false;
@@ -681,11 +639,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
       reiwaYear = year - 2018;
       return `令和${reiwaYear}年${month}月${day}日`;
     }
-    // if (reiwaYear === 1) {
-    //     reiwaYear = '元'; // Reiwa 1 is often written as 元年
-    // }
-
-    // Format the date in Japanese era
     else {
       reiwaYear = 30 - (2018 - year);
       return `平成${reiwaYear}年${month}月${day}日`;

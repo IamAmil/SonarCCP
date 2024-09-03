@@ -205,16 +205,6 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       });
   }
 
-  // updateFavVehicle(vehId, favBool) {
-  //   updateFavVehicleApi({ vehicleId: vehId, favVehicle: favBool })
-  //     .then(() => {
-  //       console.log("Vehicle Favourite icon updated!!");
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-
   connectedCallback() {
     const link = document.createElement("link");
     link.href =
@@ -430,6 +420,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       if (this.filteredSearchVehicleRegDoorData?.length !== 0) {
         this.showSpinner = true;
         this.listBySearchVehicle(this.filteredSearchVehicleRegDoorData[0]);
+        console.log('available search list :-',JSON.stringify(this.filteredSearchVehicleRegDoorData));
         this.showFilteredSuggestions = false;
       } else {
         this.showVehicleListOrNoVehicle = false;

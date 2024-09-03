@@ -442,15 +442,10 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         
         const phoneInput = this.template.querySelector('input[name="contactNumber"]');
         let allValid = true;
-
-        const onlyHalfWidthNumber = /^[0-9]*$/;
-        const fullWidthDigitsRegex = /[０-９]/;
         // Validate the branch input
         if (!branchInput.value) {
             branchInput.classList.add('invalid-input');
             window.scrollTo(0,0);
-           // branchInput.setCustomValidity('この項目は必須です');
-            // branchInput.reportValidity();
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'エラー',
@@ -464,22 +459,13 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         } else if (branchInput.value.length > 24) {
             branchInput.classList.add('invalid-input');
             window.scrollTo(0,0);
-            // branchInput.setCustomValidity('ブランチ名は20文字以内でなければなりません');
-            // branchInput.reportValidity();
             this.showerrorbranch = true;
             this.showerrorbranchNull = false;
             allValid = false;
         } 
-        // else if (phoneInput.value.length > 0 && !onlyHalfWidthNumber.test(phoneInput.value) && fullWidthDigitsRegex.test(phoneInput.value)) {
-        //     allValid = false;
-        //     phoneInput.classList.add('invalid-input');
-        //     this.fullwidthnum = true;
-        // }
         else {
             branchInput.classList.remove('invalid-input');
             phoneInput.classList.remove('invalid-input');
-            // branchInput.setCustomValidity('');
-            // branchInput.reportValidity();
             this.showerrorbranch = false;
             // this.fullwidthnum = false;
             this.showerrorbranchNull = false;
@@ -557,13 +543,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             console.log('Actions length:', actions.length);
             await Promise.all(actions);
             console.log("success in edit");
-            // this.dispatchEvent(
-            //     new ShowToastEvent({
-            //        // title: 'Success',
-            //         message: '所属管理の編集が保存しました。',
-            //         variant: 'success',
-            //     }),
-            // );
             this.goTodetail();
             this.moreContacts = [];
             this.morevehicles = [];
@@ -690,11 +669,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         //this.branchNameClass = this.branchName ? '' : 'invalid-input';@not used but in future if need
         console.log("1br",this.branchName);
     }
-    // handleAddressChange(event) {
-    //     this.Address = event.target.value;
-    //    // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
-    //     console.log("2br",this.Address);
-    // }
     handlevalidationpostal(event) {
     //     this.postalCode= event.target.value;
     //    // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
@@ -747,20 +721,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
     
     handleContactNoChange(event) {
         this.Contact = event.target.value;
-    //    // this.contactClass = this.Contact ? '' : 'invalid-input'; @not used but in future if need
-    //     //console.log("3br",this.Contact);
-    //     const input = event.target.value;
-    //     const numericValue = input.replace(/\D/g, ''); // Remove non-numeric characters
-    
-    //     if (numericValue.length <= 11) {
-    //         this.Contact = numericValue;
-    //         this.contactClass = this.Contact ? '' : 'invalid-input';
-    //         console.log("Contact:", this.Contact);
-    //     } else {
-    //         this.Contact = numericValue.slice(0, 11);
-    //         this.contactClass = this.Contact ? '' : 'invalid-input';
-    //         console.log("Contact (truncated):", this.Contact);
-    //     }
         const input = event.target;
         const cleanedPhone = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
         this.Contact = cleanedPhone; 
@@ -768,8 +728,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
 
     //contact input validation
     handleInput(event) {
-        // const input = event.target;
-        // input.value = input.value.replace(/\D/g, '').slice(0, 11);
         const input = event.target;
         input.value = input.value.replace(/[^\d０-９]/g, '').slice(0, 11);
         this.Contact = input.value; 
@@ -799,7 +757,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
                 this.goToMain();
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        //title: 'Success',
                         message: 'ブランチが正常に削除されました',
                         variant: 'success',
                     })
@@ -808,7 +765,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
                 this.showSpinner = false;
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        //title: 'Error',
                         message: 'ブランチの削除中にエラーが発生しました:' + error.message,
                         variant: 'error',
                     })

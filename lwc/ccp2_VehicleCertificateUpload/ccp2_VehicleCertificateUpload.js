@@ -231,11 +231,7 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
         })
           .then((result) => {
             console.log("result", result.id);
-            // this.showToast(
-            //   "成功",
-            //   "ファイルは正常にアップロードされました。",
-            //   "Success"
-            // );
+           
 
             this.newfile = true;
 

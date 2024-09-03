@@ -41,10 +41,8 @@
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.9);
   width: 70%;
-  /* min-height: 220px; */
   border-radius: 16px;
   padding: 18px 0 0 24px;
-  /* margin: 15px 10px 10px 10px; */
 }
 
 .content1_right_container {
@@ -72,8 +70,7 @@
   display: flex;
   margin: 16px 24px 0 24px;
   flex-direction: row;
-  /* align-items: center; */
-  /* gap: 2.3%; */
+
   justify-content: space-between;
   border-radius: 8px;
 }
@@ -117,10 +114,7 @@
   border: none;
 }
 
-.content1_left_row2_element {
-  /* width: 20%;
-      height: 100%; */
-}
+
 
 .btnico {
   display: inline-flex;
@@ -158,8 +152,7 @@
 
 .content2_container {
   background-color: white;
-  /* height: 600px; */
-  /* width: 90%; */
+ 
   display: flex;
   border-radius: 10px;
   flex-direction: column;
@@ -174,9 +167,7 @@
 }
 
 .vehicle_container {
-  /* overflow: scroll; */
-  /* margin: 6px; */
-  /* background-color: #f4f4f4; */
+ 
   width: calc(100% - 20px);
   border-radius: 10px;
   height: 100%;
@@ -217,15 +208,7 @@
 .opacity{
   opacity: 56%;
 }
-/* .vehicle_child2 {
-    padding: 13px 0 13px 5px;
-  }
-  .vehicle_child3 {
-    background-color: white;
-    display: flex;
-    gap: 20px;
-    padding: 25px;
-  } */
+
 
 .recMain {
   display: flex;
@@ -293,12 +276,7 @@
   height: 100%;
   width: 25%;
 }
-.header {
-}
-.detail {
-}
-.RegNo {
-}
+
 .RegNoData {
   margin-left: 16px;
   font-size: 28px;
@@ -387,9 +365,7 @@
   transition: background-color 0.3s;
 }
 
-/* .underline-button:hover .underline {
-    background-color: black;
-  } */
+
 
 .rsearch {
   margin-left: auto;
@@ -508,8 +484,6 @@
   justify-content: space-between;
   /* border: 1px solid #d9d9d9; */
   padding: 16px;
-  display: flex;
-  justify-content: space-between;
     align-items: center;
     z-index: 1100;
     position: relative;
@@ -520,20 +494,13 @@
     WIDTH: 95%;
 }
 
-.upload-image-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .filtericn {
   --sds-c-icon-color-foreground-default: #e10202;
   --sds-c-icon-color-foreground: #e10202;
-}
-
-.filtericn {
   cursor: pointer;
 }
+
 
 .header {
   display: flex;
@@ -547,7 +514,6 @@
 }
 
 .main {
-  /* height: 56.8%; */
   flex: 1;
 }
 
@@ -623,20 +589,18 @@
 
 .image-container {
   border-radius: 10px;
-  width: 100%; /* Adjust based on your container */
+  width: 100%; 
   padding: 20px;
   background-color: #f9f9f9;
 }
 
 .image-modal-content {
-  /* background-color: white; */
   border-radius: 5px;
   padding: 10px;
-  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .pagination-button lightning-icon {
-  color: #E10202; /* Custom color for the icons */
+  color: #E10202; 
 }
 
 .image-display-area {
@@ -658,16 +622,11 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  outline: none; /* Removes the border on focus */
-}
-
-
-.pagination-button {
-  border: none;
   background: none;
-  padding: 0;
-  cursor: pointer;
+  outline: none; 
 }
+
+
 
 .pagination-icon2 {
   color: #E10202;
@@ -693,21 +652,19 @@
 
 
 .pagination-button:focus {
-  outline: none; /* Ensures no outline on focus */
+  outline: none;
 }
 
 .custom-icon {
-  fill: #E10202; /* Sets the desired color */
+  fill: #E10202; 
 }
 
 .image-display-top {
-  width: 100%; /* Ensures the image container takes the full width */
-  height: 100%; /* Set this to your desired height */
+  width: 100%; 
+  height: 100%; 
   display: flex;
   position: relative;
-  /* align-items: center;
-  justify-content: center;
-  overflow: hidden; Ensures that any overflow is hidden */
+ 
 }
 
 .image-display-top img {
@@ -716,7 +673,7 @@
   width: 100%;
   max-height: 100%;
   max-width: 100%;
-  object-fit: fill; /* Ensures the image scales to fit the container */
+  object-fit: fill; 
 }
 
 .image-dot {
@@ -752,13 +709,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* Add padding to ensure some spacing around the loader */
+  padding: 20px; 
 }
 
 .spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top: 4px solid #E10202; /* Red color for the loader */
+  border-top: 4px solid #E10202; 
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;

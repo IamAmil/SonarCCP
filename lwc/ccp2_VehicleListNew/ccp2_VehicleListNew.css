@@ -601,6 +601,10 @@
     color: #7B7B7B;
 }
 
+.suggestion-list .suggestion-item:nth-child(1){
+    background-color: #f4f4f4;
+}
+
 .suggestion-list {
     position: absolute;
     top: 46px;

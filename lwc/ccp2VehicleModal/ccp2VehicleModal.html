@@ -126,16 +126,6 @@
                             <div class="cancelbutton btn" onclick={onInputClick}>
                                 <p class="buttontxt">キャンセル</p>
                             </div>
-                            <!-- <template if:true={input1there}>
-                                <div class="searchbuttoninput btn">
-                                    <p class="buttontxt2">検索</p>
-                                </div>
-                            </template>
-                            <template if:true={inputthere}>
-                                <div class="searchbutton btn" onclick={handleSearchButtonClick}>
-                                    <p class="buttontxt2">検索</p>
-                                </div>
-                            </template> -->
                             <div class={searchButtonClass} onclick={handleSearchButtonClick}>
                                 <p class="buttontxt2">検索</p>
                             </div>
@@ -182,7 +172,7 @@
                                 <br>
                                 <br>
                                 <p class="txt1 margintop">下記の車両のみ新規にカスタマーポータルに登録します。</p>
-                                <!-- <p class="txt1 margin">登録を始めましょう。</p> -->
+                                
                                 <template for:each={vehicleInfo} for:item="veh">
                                     <div key={veh.Id} class="item">
                                         <span>{veh.carPlatformNo__c}</span>

@@ -338,7 +338,7 @@ export default class Ccp2DeleteBranch extends LightningElement {
                     new ShowToastEvent({
                         // title: 'No Vehicles',
                         message: '本所属に紐づいている車両がありません',
-                        variant: 'info',
+                        variant: 'error',
                     })
                 );
                 return; 
@@ -552,7 +552,6 @@ export default class Ccp2DeleteBranch extends LightningElement {
                 // Show a toast notification indicating no vehicles are present
                 this.dispatchEvent(
                     new ShowToastEvent({
-                        title: 'エラー',
                         message: '本所属に紐づいている会員がありません',
                         variant: 'error',
                     })

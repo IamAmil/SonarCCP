@@ -1261,11 +1261,16 @@ input.Inputs12.icon:hover {
 }
 
 /* Disabled state */
-.button-save-100:disabled {
+.button-save-100:disabled,.button-final-100:disabled {
   cursor: not-allowed;
   background-color: #d9d9d9;
   color: black;
   border: 1px solid #bfbfbf;
+}
+
+.button-final-100 { 
+  background-color: red;
+  color: white;
 }
 
 
