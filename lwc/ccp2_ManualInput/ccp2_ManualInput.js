@@ -27,7 +27,6 @@ import VEHICLE_TYPE_FIELD from "@salesforce/schema/ccp2_Registered_Vehicle__c.Ve
 import USE_FIELD from "@salesforce/schema/ccp2_Registered_Vehicle__c.Use__c";
 import FUEL_TYPE_FIELD from "@salesforce/schema/ccp2_Registered_Vehicle__c.Fuel_Type__c";
 import PRIVATE_BUSINESS_FIELD from "@salesforce/schema/ccp2_Registered_Vehicle__c.Private_Business_use__c";
-// import label_manual_input from "@salesforce/resourceUrl/label_manual_input";
 import i18nextStaticResource from '@salesforce/resourceUrl/i18next';
 
 const BACKGROUND_IMAGE_PC =
@@ -758,8 +757,6 @@ i18next.init({
 
     // Push the deleted branch ID to deletedBranchIds array
     this.deletedBranchIds.push(branchId);
-    console.log("ok4");
-    // console.log("newe2",JSON.stringify(this.deletedBranchIds));
 
     // Remove the branch from branch array
     this.selectedbranches = this.selectedbranches.filter(
@@ -768,11 +765,6 @@ i18next.init({
 
     let selectedbranchesIds = this.selectedbranches.map((elm) => elm.value);
     this.formdata.affiliation = selectedbranchesIds;
-    console.log("selectedbranchesIds", JSON.stringify(selectedbranchesIds));
-    console.log("formdata", JSON.stringify(this.formdata));
-    console.log("ok5");
-
-    // console.log("newe2",JSON.stringify(this.branch));
 
     // Add the deleted branch back to another array if needed
 
@@ -1357,7 +1349,7 @@ i18next.init({
     }
     
     if (this.currentPage > 1) {
-      // this.saveFormData();
+    
       this.currentPage -= 1;
       this.updateFormData();
       this.formBodyCss =
@@ -1580,14 +1572,12 @@ i18next.init({
     this.errorModelParent = "addMain";
     this.errorMileageCss = "hide-error";
     this.errorModelCss = "hide-error";
-    // this.errorModel2Css = "hide-error";
     this.errorLoginParent = "addMain";
     this.errorLoginCss = "hide-error";
     this.errorCurbParent = "addMain";
     this.errorCurbCss = "hide-error";
     this.errorDoorCss = "hide-error";
     this.errorModelDiv = "input-field-modal";
-    // this.errorModel2Div = "input-field-modal";
     this.errorMileageDiv = "input-field-mil";
     this.errorCurbDiv = "input-field-mil";
     this.errorDoorDiv = "input-field";
@@ -1604,8 +1594,6 @@ i18next.init({
     const regexNumbersdig = /^[0-9０-９]*$/;
     const regexNumbers1 =/^[0-9０-９]+・*$/;
     const regexNumbers2 = /^[0-9０-９]+$/;
- // Only digits  
-    // let cleanedString = this.formdata.loginNumberPart4.replace(/\・+$/, '');
 
     if (
       !this.formdata.loginNumberPart1 ||
@@ -2039,7 +2027,6 @@ i18next.init({
 handleInputCheck(event) {
   const input = event.target;
   input.value = input.value.replace(/[^\d０-９]/g, '');
-  // this.handlevalchange();
   this.handlevalchange();
   
 }

@@ -76,8 +76,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
         this.uploadContainerCss = "upload-container full-width-two-element";
       }
       this.isImageEmpty = this.uploadImagesArray.length > 0 ? false : true;
-      // console.log("aary", JSON.stringify(this.uploadImagesArray));
-
       this.isImageLimitReached =
         this.uploadImagesArray.length >= 10 ? true : false;
     }
@@ -125,11 +123,9 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
     })
       .then(() => {
         console.log("success");
-        // this.showToast("成功", `写真がアップロードされました。`, "success");
         this.saveLoader = false;
       })
       .catch((err) => {
-        // console.log("fileArray", fileArray);
         console.log("error in uploading:-", err);
         this.showToast("エラー", 'もう一度試してください', "error");
         this.saveLoader = false;
@@ -198,7 +194,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
         const compressedImageData = canvas.toDataURL(this.fileType, 0.7);
 
         this.compressedImageData = compressedImageData;
-        // console.log('compressedImageData',this.compressedImageData);
 
         const fields = {
           Title: this.fileName,
@@ -213,7 +208,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
 
           Description: 'Images'
 
-          // Add any other fields you need
         };
 
         createRecord({
@@ -222,11 +216,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
         })
           .then((result) => {
             console.log("result", result.id);
-            // this.showToast(
-            //   "成功",
-            //   "ファイルは正常にアップロードされました。",
-            //   "Success"
-            // );
 
             this.newfile = true;
 
@@ -296,8 +285,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
             }
             this.isImageEmpty =
               this.uploadImagesArray.length > 0 ? false : true;
-            // console.log("aary", JSON.stringify(this.uploadImagesArray));
-
             this.isImageLimitReached =
               this.uploadImagesArray.length >= 10 ? true : false;
 
@@ -322,12 +309,9 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
     this.saveLoader = true;
     console.log("id for delete", event.target.dataset.id);
     this.deleteBranchApi(event.target.dataset.id);
-    // console.log("delete name:-", event.target.dataset.name);
     this.uploadImagesArray = this.uploadImagesArray.filter((item) => {
       return item.fileName !== event.target.dataset.name;
     });
-
-    // console.log(this.uploadImagesArray.length);
     this.instructionContainerCss =
       this.uploadImagesArray.length > 0
         ? "upload-instruction-container left"
@@ -367,7 +351,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
       this.uploadContainerCss = "upload-container full-width-two-element";
     }
     this.isImageEmpty = this.uploadImagesArray.length > 0 ? false : true;
-    // console.log("aary", JSON.stringify(this.uploadImagesArray));
 
     this.isImageLimitReached =
       this.uploadImagesArray.length >= 10 ? true : false;
@@ -408,7 +391,6 @@ export default class Ccp2_VehicleImageUpload extends LightningElement {
     const event2 = new CustomEvent("closemodal");
     this.dispatchEvent(event2);
     this.saveLoader = false;
-    // this.uploadImage(JSON.stringify(this.uploadImagesArray));
   }
 
   handleCancelClick(event) {

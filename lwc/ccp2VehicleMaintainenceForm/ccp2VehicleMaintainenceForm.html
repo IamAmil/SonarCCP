@@ -1,248 +1,266 @@
 <template>
-    <template if:true={mainTemplate} >
-
-    <div class="main">
-        <div class="headerDetails">
-            <div class="Details">
-            <h1 class="VehicleNumber">{vehicleByIdData.vehicleNumber}</h1>
-            <div class="HeaderValues">
-            <div class="FieldsWithLabels">
-                <h1> 登録番号</h1>
-                <h1>{vehicleByIdData.registrationNumber}</h1>
-            </div>
-            <div class="FieldsWithLabels">
-                <h1> 車名</h1>
-                <h1>{vehicleByIdData.name}</h1>
-            </div>
-            <div class="FieldsWithLabels">
-                <h1> 自動車の種別</h1>
-                <h1>{vehicleByIdData.type}</h1>
-            </div>
-            <div class="FieldsWithLabels">
-                <h1> 走行距離</h1>
-                <h1>{vehicleByIdData.mileage}</h1>
-            </div>
-            <div class="FieldsWithLabels">
-                <h1> 車検証有効期限</h1>
-                <h1>{vehicleByIdData.VehicleInspectionCertificateExpirationDate}</h1>
-            </div>
+    <!-- <template if:false={maintainencedetail}>
+        <div class="spinner-container">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </div>
-</div>
-        </div>
-<template if:true={Step1}>
-        <div class="form">
-<div class="close-button">
-<img src={CloseButton}  onclick={showCancelModalFunction}>
-
-</div>
-<div class="heading">
-    予定登録
-</div>
-<div class="step1-flow">
-<img src={VehicleMaintainceStep1} width="380px" height="320px" >
-</div>
-<div class="fields">
-    <div class="Placeofimplementation">  
-        実施場所      
-        <span class="reqtxt">必須</span>
-    </div>
-   <!-- yourComponent.html -->
-<div class="Combox-input-wr">
-    
-        <input type="text"
-            onclick={handlePlaceofImplementationChange}
-            autocomplete="off"
-            class="InputsPlaceOfImplementation Inputs1 icon2"
-            placeholder="選択してください"
-            value={selectedPicklistPlaceofImplementation}
-            name="PlaceOfImplementation"
-            img src ={dropdown}
-            readonly>
-        <template if:true={showlistPlaceOfImplementation}>
-            <div class="listPlaceOfImplemenation lists2 no-scroll"
-                name="PlaceOfImplementation"
-                onclick={handleInsideClick}>
-                <template for:each={PlaceOfImplementationOptions} for:item="poi">
-                    <div key={poi.label} class="list-item"
-                        onclick={handlePickListChange}
-                        data-namee="PlaceOfImplementation"
-                        data-idd={poi.label}>
-                        <p data-namee="PlaceOfImplementation" data-idd={poi.label}>
-                            {poi.label}
-                        </p>
+    </template> -->
+    <template if:true={maintainencedetail}>
+        <template if:true={mainTemplate}>
+            <div class="main">
+                <div class="headerDetails">
+                    <div class="Details">
+                        <div class="HeaderValues">
+                            <h1 class="VehicleNumber">{vehicleByIdData.vehicleNumber}</h1>
+                            <div class="FieldsWithLabels">
+                                <h1 class="colornew"> 登録番号</h1>
+                                <h1>{vehicleByIdData.registrationNumber}</h1>
+                            </div>
+                            <div class="FieldsWithLabels">
+                                <h1 class="colornew"> 車名</h1>
+                                <h1>{vehicleByIdData.name}</h1>
+                            </div>
+                            <div class="FieldsWithLabels">
+                                <h1 class="colornew"> 自動車の種別</h1>
+                                <h1>{vehicleByIdData.type}</h1>
+                            </div>
+                            <div class="FieldsWithLabels">
+                                <h1 class="colornew"> 走行距離</h1>
+                                <div class="mileage">
+                                    <h1>{vehicleByIdData.mileage}</h1>
+                                    <template if:true={showKm}><p>km</p></template>
+                                </div>
+                            </div>
+                            <div class="FieldsWithLabels">
+                                <h1 class="colornew"> 車検証有効期限</h1>
+                                <h1>{vehicleByIdData.VehicleInspectionCertificateExpirationDate}</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <template if:true={Step1}>
+                    <div class="form">
+                        <div class="close-button">
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
+                        </div>
+                        <div class="heading">
+                            予定登録
+                        </div>
+                        <div class="step1-flow">
+                            <img src={VehicleMaintainceStep1} class="step-Images">
+                        </div>
+                        <div class="ScheduleType">
+                            予定種別
+                            <span class="reqtxt">必須</span>
+                        </div>
+                        <!-- yourComponent.html -->
+                        <div class="Combox-input-wr">
+                            <div class="dropdown">
+                                <input type="text" onclick={handleScheduleTypeChange} autocomplete="off"
+                                    class="InputsScheduleType Inputs1 icon2" placeholder="選択してください"
+                                    value={selectedPicklistScheduleType} name="ScheduleType" img src={dropdown}
+                                    readonly>
+                                <template if:true={showlistScheduleType}>
+                                    <div class="listScheduleType lists2 no-scroll" name="ScheduleType"
+                                        onclick={handleInsideClick}>
+                                        <template for:each={serviceTypeOptions} for:item="sch">
+                                            <div key={sch.value} class="list-item" onclick={handlePickListChange2}
+                                                data-namee="ScheduleType" data-idd={sch.value}>
+                                                <p data-namee="ScheduleType" data-idd={sch.value}>
+                                                    {sch.label}
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="fields">
+                            <div class="Placeofimplementation">
+                                実施場所
+                                <span class="reqtxt">必須</span>
+                            </div>
+                            <div class="Combox-input-wr">
+                                <input type="text" onclick={handlePlaceofImplementationChange} autocomplete="off"
+                                    class="InputsPlaceOfImplementation Inputs1 icon2" placeholder="選択してください"
+                                    value={selectedPicklistPlaceofImplementation} name="PlaceOfImplementation" img
+                                    src={dropdown} readonly>
+                                <template if:true={showlistPlaceOfImplementation}>
+                                    <div class="listPlaceOfImplemenation lists2 no-scroll" name="PlaceOfImplementation"
+                                        onclick={handleInsideClick}>
+                                        <template for:each={serviceFactoryOptions} for:item="poi">
+                                            <div key={poi.value} class="list-item" onclick={handlePickListChange}
+                                                data-namee="PlaceOfImplementation" data-idd={poi.value}>
+                                                <p data-namee="PlaceOfImplementation" data-idd={poi.value}>
+                                                    {poi.label}
+                                                </p>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="button">
+                            <template if:true={buttonActive}>
+                                <div class="button2">
+                                    <div class="btn2" onclick={GoToStep2}>
+                                        <P class="toedit2">次へ</P>
+                                    </div>
+                                </div>
+                            </template>
+                            <template if:false={buttonActive}>
+                                <div class="button2">
+                                    <div class="btn2inactive">
+                                        <P class="toedit2">次へ</P>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </template>
+                <template if:true={step2}>
+                    <div class="form2">
+                        <div class="close-button">
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
+                        </div>
+                        <div class="heading">
+                            予定登録
+                        </div>
+                        <div class="step1-flow">
+                            <img src={VehicleMaintainceStep2} class="step-Images">
+                        </div>
+                        <div class="step2-content">
+                            <p class="font-free">この画面にて整備予定の詳細情報を入力する。</p>
+                            <p class="font-free">入力項目の詳細に関しては、未定。</p>
+                        </div>
+                        <div class="form-footer">
+                            <div class="button">
+                                <div class="button1" onclick={GoBackToStep1}>
+                                    <div class="btn1">
+                                        <P class="toedit1">戻る</P>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="button">
+                                <div class="button2" onclick={GoToStep3}>
+                                    <div class="btn2">
+                                        <P class="toedit2">次へ</P>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={step3}>
+                    <div class="form2">
+                        <div class="close-button">
+                            <img src={CloseButton} onclick={showCancelModalFunction}  class="closed">
+
+                        </div>
+                        <div class="heading">
+                            予定登録
+                        </div>
+                        <div class="step1-flow">
+                            <img src={VehicleMaintainceStep3} class="step-Images">
+                        </div>
+                        <div class="step2-content">
+                            <p class="font-free">この画面にて整備予定の詳細情報を確認する。</p>
+                            <p class="font-free"> 内容詳細に関しては、未定。
+                            </p>
+                        </div>
+                        <div class="form-footer">
+                            <div class="button">
+                                <div class="button1" onclick={GoBackToStep2}>
+                                    <div class="btn1">
+                                        <P class="toedit1">戻る</P>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="button">
+                                <div class="button2" onclick={GoToStep4}>
+                                    <div class="btn2">
+                                        <P class="toedit2">完了</P>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={step4}>
+                    <div class="form2last">
+                        <div class="close-button-last">
+                            <img src={CloseButton} onclick={onClose} class="closed">
+
+                        </div>
+                        <div class="heading">
+                            予定登録
+                        </div>
+
+                        <div class="step1-flow">
+                            <img src={VehicleMaintainceStep4} class="step-Images-last">
+                        </div>
+                        <div class="finish-Text">
+                            お客様の整備予定が登録されました。
+                        </div>
+                        <div class="Finish-Button">
+                            <div class="button">
+                                <div class="button2" onclick={onClose}>
+                                    <div class="btn2">
+                                        <P class="toedit2">車両詳細へ</P>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <template if:true={showPoster1}>
+                            <div class="poster2main">
+                                <img src={poster1} onclick={openlink} alt="fuso shop" class="poster-Image-Blank-No-Component">
+                            </div>
+                        </template>
+                        <template if:true={showPoster2}>
+                            <div class="poster">
+                                <img src={poster2} alt="fuso shop" class="poster-Image-Blank">
+                                <div class="components-container">
+                                    <template for:each={vehicleImages} for:item="image">
+                                        <div key={image.name} class="image-container">
+                                            <div class="overlay" data-name={image.name} onclick={handleImageClick}>
+                                                <p class="overlay-text">{image.code}</p>
+                                                <p class="overlay-text"> >> </p>
+                                                <img src={logoafter} alt="logo Image" class="overlay-image"/>
+                                            </div>
+                                            <div class="card-poster">
+                                                <img src={image.imageUrl} alt={image.name} data-name={image.name} class="component-image"/>
+                                                 <p class="text">{image.code}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+
             </div>
-        </template>
-</div>
-<div class="ScheduleType">  
-    予定種別      
-    <span class="reqtxt">必須</span>
-</div>
-<!-- yourComponent.html -->
-<div class="Combox-input-wr">
-<div class="dropdown" >
-    <input type="text"
-        onclick={handleScheduleTypeChange}
-        autocomplete="off"
-        class="InputsScheduleType Inputs1 icon2"
-        placeholder="選択してください"
-        value={selectedPicklistScheduleType}
-        name="ScheduleType"
-        img src ={dropdown}
-        readonly>
-    <template if:true={showlistScheduleType}>
-        <div class="listScheduleType lists2 no-scroll"
-            name="ScheduleType"
-            onclick={handleInsideClick}>
-            <template for:each={ScheduleTypeOptions} for:item="poi">
-                <div key={poi.label} class="list-item"
-                    onclick={handlePickListChange2}
-                    data-namee="ScheduleType"
-                    data-idd={poi.label}>
-                    <p data-namee="ScheduleType" data-idd={poi.label}>
-                        {poi.label}
-                    </p>
+            <template if:true={showCancelModal}>
+                <div class="modal-background-last">
+                    <div class="modal-window-small">
+                        <div class="warning">
+                            <p class="warntxt">登録は完了しておりません。</p>
+                            <p class="warntxt more">キャンセルしてよろしいですか？</p>
+                        </div>
+                        <div class="buttons-small">
+                            <div class="cancelbutton btn" onclick={handleNo}>
+                                <p class="buttontxt">いいえ</p>
+                            </div>
+                            <div class="searchbutton btn" onclick={onClose}>
+                                <p class="buttontxt2">はい</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </template>
-        </div>
+        </template>
     </template>
-</div>
-</div>
-
-
-</div>
-<div class="button">
-    <div class="button2" onclick={GoToStep2}>
-        <div class="btn2" >
-            <P class="toedit2">次へ</P>
-        </div>
-    </div> 
-
-</div>
-        </div>
-    </template>
-    <template if:true={step2}>
-        <div class="form">
-            <div class="close-button">
-            <img src={CloseButton}  onclick={showCancelModalFunction}>
-            
-            </div>
-            <div class="heading">
-                予定登録
-            </div>
-            <div class="step1-flow">
-            <img src={VehicleMaintainceStep2} width="380px" height="320px" >
-            </div>
-            <div class="step2-content">
-                <p>この画面にて整備予定の詳細情報を入力する。</p>
-                <p>入力項目の詳細に関しては、未定。</p>
-            </div>
-            <div class="form-footer">
-            <div class="button">
-                <div class="button1" onclick={GoBackToStep1}>
-                    <div class="btn1" >
-                        <P class="toedit1">戻る</P>
-                    </div>
-                </div> 
-            
-            </div>
-            <div class="button">
-                <div class="button2" onclick={GoToStep3}>
-                    <div class="btn2" >
-                        <P class="toedit2">次へ</P>
-                    </div>
-                </div> 
-            
-            </div>
-        </div>
-                    </div>
-    </template>
-    <template if:true={step3}>
-        <div class="form">
-            <div class="close-button">
-            <img src={CloseButton}  onclick={showCancelModalFunction}>
-            
-            </div>
-            <div class="heading">
-                予定登録
-            </div>
-            <div class="step1-flow">
-            <img src={VehicleMaintainceStep3} width="380px" height="320px" >
-            </div>
-            <div class="step2-content">
-                <p>この画面にて整備予定の詳細情報を確認する。</p>
-               <p>     内容詳細に関しては、未定。
-                    </p>
-            </div>
-            <div class="form-footer">
-            <div class="button">
-                <div class="button1" onclick={GoBackToStep2}>
-                    <div class="btn1" >
-                        <P class="toedit1">戻る</P>
-                    </div>
-                </div> 
-            
-            </div>
-            <div class="button">
-                <div class="button2" onclick={GoToStep4}>
-                    <div class="btn2" >
-                        <P class="toedit2">次へ</P>
-                    </div>
-                </div> 
-            
-            </div>
-        </div>
-                    </div>
-    </template>
-    <template if:true={step4}>
-        <div class="form">
-            <div class="close-button">
-            <img src={CloseButton}  onclick={showCancelModalFunction}>
-            
-            </div>
-            <div class="heading">
-                予定登録
-            </div>
-            
-            <div class="step1-flow">
-            <img src={VehicleMaintainceStep4} width="380px" height="320px" >
-            </div>
-            <div class="finish-Text">
-                予定が登録しました
-            </div>
-          <div class="Finish-Button">
-          
-            <div class="button">
-                <div class="button2" onclick={Finish}>
-                    <div class="btn2" >
-                        <P class="toedit2">車両詳細へ</P>
-                    </div>
-                </div> 
-                </div>
-            
-        </div>
-                    </div>
-    </template>
-
-    </div>
-    <template if:true={showCancelModal}>
-        <div class="modal-background-last">
-            <div class="modal-window-small">
-                <div class="warning">
-                    <p class="warntxt">まだ登録していません、
-                        そのままキャンセルしますか？</p>
-                </div>
-                <div class="buttons-small">
-                    <div class="cancelbutton btn" onclick={handleNo}>
-                        <p class="buttontxt">いいえ</p>
-                    </div>
-                    <div class="searchbutton btn" onclick={handleYes}>
-                        <p class="buttontxt2">はい</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-</template>
 </template>

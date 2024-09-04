@@ -3,6 +3,7 @@ import BranchList from '@salesforce/apex/CCP2_userData.BranchList';
 import BranchVehicleCount from '@salesforce/apex/CCP2_branchController.getBranchList';
 import { NavigationMixin } from 'lightning/navigation';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
+import labelsBranch from '@salesforce/resourceUrl/ccp2_labels';
 
 import CCP2_Branch from '@salesforce/label/c.CCP2_Branch';
 import CCP2_BranchList from '@salesforce/label/c.CCP2_BranchList';
@@ -67,8 +68,10 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     // }
 
     @track paginatedBranchData = [];
+    labels2 = {};
 
     connectedCallback() {
+        this.loadLabels();
         this.fetchBranchData();
         // this.initializePageNumbers();
         // this.fetchItems(this.currentPage);
@@ -80,6 +83,18 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
 
     renderedCallback() {
         this.updatePageButtons();
+    }
+
+    loadLabels() {
+        fetch(`${labelsBranch}/labelsBranch.json`)
+        .then(response => response.json())
+        .then(data => {
+            this.labels2 = data;
+            console.log('Labels loaded:', this.labels);
+        })
+        .catch(error => {
+            console.error('Error loading labels:', error);
+        });
     }
 
     fetchBranchData() {

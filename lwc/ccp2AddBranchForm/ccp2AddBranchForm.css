@@ -28,7 +28,6 @@
 .top {
     height: 40%;
     top: 0;
-    background-color: lightblue;
     background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
     z-index: 1;
 }
@@ -44,7 +43,7 @@
   .center-content {
         position: relative;
         height: max-content;
-        margin-top: -82vh;;
+        margin-top: -82vh;
         width: 90%;
         background-color: rgba(251, 251, 251, 0.9);
         border-radius: 10px;

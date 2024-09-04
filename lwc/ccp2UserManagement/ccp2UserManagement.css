@@ -4,12 +4,10 @@
 
 input::placeholder {
   color: #BBBBBB;
-  /* Change placeholder color to gray */
 }
 
 input {
   background-color: #FFFFFF;
-  /* Change placeholder color to gray */
   padding: 14px 20px 14px 20px;
   border: 1px solid #d9d9d9;
   border-radius: 10px;
@@ -215,9 +213,6 @@ input {
   align-items: center;
 }
 
-.records_number div input {
-  /* width: 264px; */
-}
 
 .records1 {
   margin-bottom: 25px;
@@ -328,7 +323,6 @@ input {
   height: 48px;
   background-color: white;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
-  /* border: 1px solid #8f98aa; */
   border-radius: 10px;
   cursor: pointer;
   transition:
@@ -341,7 +335,6 @@ input {
   border: 1px solid #D9D9D9;
   border-radius: 10px;
   width: 190px;
-  /* height: 40px; */
   background-color: #ffffff;
 }
 
@@ -535,7 +528,6 @@ button.btn-yes {
   font-weight: 300;
   font-family: 'Noto Sans JP', sans-serif;
   box-shadow: 0px 0px 10px 0px #00000026;
-  border-radius: 8px;
   cursor: pointer;
 }
 
@@ -618,7 +610,6 @@ button.btn-no:hover {
 .btn-save {
   background-color: #e10202 !important;
   border: 1px solid #e10202 !important;
-  /* margin-top: 20px !important; */
 }
 
 .txt-save {
@@ -664,11 +655,6 @@ button.btn-no:hover {
 .head-save-align {
   padding-top: 1 !important;
 }
-
-
-
-
-
 
 
 .text-para {
@@ -731,11 +717,6 @@ button.btn-no:hover {
   padding: 64px calc(256px - 10%) 64px calc(256px - 10%)
 }
 
-/* @media (max-width: 900px) {
-  .main-content {
-      padding: 50px 5% !important;
-  }
-} */
 
 
 .branchrecords {
@@ -760,30 +741,24 @@ button.btn-no:hover {
 }
 
 .scrollbar::-webkit-scrollbar {
-  /* width: 7px;
-  margin-right: 3px; */
   width: 12px;
     height: 12px;
 }
 
 
 .scrollbar::-webkit-scrollbar-track {
-  /* background: #f1f1f1; */
   background: #F4F4F4;
     border-radius: 5px;
 }
 
 
 .scrollbar::-webkit-scrollbar-thumb {
-  /* background: #888;
-  border-radius: 50px; */
   background: #BBBBBB;
     border-radius: 5px;
 }
 
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  /* background: #555; */
   background: #d1d0d0;
 }
 
@@ -795,7 +770,6 @@ button.btn-no:hover {
 
 .list-item:hover {
   background-color: #f0f0f0;
-  /* Hover effect */
 }
 
 
@@ -812,18 +786,14 @@ button.btn-no:hover {
   background: var(--dropdown-icon) no-repeat;
   background-color: #ffffff;
   background-position: 94% 50%;
-  /* Adjust position as needed */
   background-size: 20px;
-  /* Adjust size as needed */
 }
 
 .button2 {
-  /* width: 30%; */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* height: 70px; */
 }
 
 .btn2:hover {
@@ -841,7 +811,6 @@ button.btn-no:hover {
   border-radius: 8px;
   width: 176px;
   height: 48px;
-  /* margin-top: 10px; */
   background-color: #ededed;
   color: black;
   transition: background-color 0.3s ease, border 0.3s ease, color 0.3s ease;
@@ -858,23 +827,13 @@ button.btn-no:hover {
 }
 
 .form-footer {
-  /* border: #007bff solid 1px; */
   text-align: center;
   display: flex;
   justify-content: center;
   flex-direction: row;
-  /* margin-left: 160px; */
   gap: 12px;
 }
 
-
-
-
-/* @media (max-width: 1024px) {
-  .top {
-    height: 35vh;
-  }
-} */
 
 .buttonYes {
   width: 100%;
@@ -887,12 +846,6 @@ button.btn-no:hover {
 
 }
 
-/* .btnYes:hover{
-  background-color: white;
-  border: 1px solid #e10202;
-  cursor: pointer;
-  color: #0A0A0A;
-} */
 .btnYes {
   display: flex;
   flex-direction: column;
@@ -913,9 +866,7 @@ button.btn-no:hover {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
-/* .btnYes:hover .toeditYes {
- color: #e10202;
-} */
+
 
 .button2No {
   width: 100%;
@@ -927,12 +878,6 @@ button.btn-no:hover {
   height: 70px;
 }
 
-/* .btn2No:hover{
-  background-color: white;
-  border: 1px solid grey;
-  cursor: pointer;
-  color: #0A0A0A;
-} */
 .btn2No {
   display: flex;
   flex-direction: column;
@@ -953,9 +898,7 @@ button.btn-no:hover {
   font-family: 'Noto Sans JP', sans-serif;
 }
 
-/* .btn2No:hover .toedit2No {
-  color: #8f98aa;
-} */
+
 
 .modal-title {
   margin-top: 25px;
@@ -966,34 +909,20 @@ button.btn-no:hover {
   font-size: small;
 }
 
-/* .btn-modal {
-  bottom: 0;
-  left: 16%;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  gap: 10px;
-  position: absolute;
 
-} */
 .form-footer-modal {
   text-align: center;
   display: flex;
   justify-content: center;
   flex-direction: row;
   margin-top: 40px;
-  /* width: 400px;
-      margin-left: 50px;
-      margin-top: 80px; */
 }
 
 .custom-modal-content-cancel {
   padding: 20px;
-  /* border: 1px dashed #ccc; */
   background-color: white;
   border-radius: 8px;
   width: 500px;
-  /* Adjust the width as needed */
   height: 250px;
 
 }
@@ -1005,12 +934,10 @@ button.btn-no:hover {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* Semi-transparent black */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 109;
-  /* Ensure it is on top */
 }
 
 .modal-window-loader {
@@ -1019,15 +946,10 @@ button.btn-no:hover {
   padding: 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   width: var(--modal-width, 40%);
-  /* Default width: 50% */
   height: var(--modal-height, 20%);
-  /* Default height: 50% */
   max-width: 90%;
-  /* Max width to ensure it fits on screen */
   max-height: 90%;
-  /* Max height to ensure it fits on screen */
   overflow: auto;
-  /* Add scroll if content overflows */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1054,7 +976,6 @@ button.btn-no:hover {
 .custom-placeholder {
   color: #BBBBBB;
   margin-left: 3.5%;
-  /* margin-top: 2%; */
 }
 
 /* master queries of screen zoom in and out */
@@ -1163,7 +1084,6 @@ button.btn-no:hover {
     padding: 0 5vw;
   }
   .main-content {
-    /* padding: 50px 5% !important; */
     padding: 64px calc(256px - 15%) 64px calc(256px - 15%)
   }
 }
@@ -1218,7 +1138,6 @@ button.btn-no:hover {
   }
 
   .main-content {
-    /* padding: 50px 5% !important; */
     padding: 64px calc(256px - 29%) 64px calc(256px - 29%);
   }
 
@@ -1290,34 +1209,15 @@ button.btn-no:hover {
   }
 }
 
-.modal-background-last {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /* Semi-transparent black */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 109;
-  /* Ensure it is on top */
-}
 
 .modal-window-small {
   background-color: rgba(251, 251, 251, 1);
   border-radius: 8px;
   padding: 1rem 3rem 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  /* width: var(--modal-width, 30%); 
-  height: var(--modal-height, 45%);  */
   max-width: 90%;
-  /* Max width to ensure it fits on screen */
   max-height: 90%;
-  /* Max height to ensure it fits on screen */
   overflow: auto;
-  /* Add scroll if content overflows */
 }
 
 .warning {

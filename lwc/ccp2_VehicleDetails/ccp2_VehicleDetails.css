@@ -59,7 +59,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* padding-left: 20px; */
 }
 .content1_left_row2 {
   border-radius: 8px;
@@ -181,7 +180,6 @@
   padding: 0 0 10px 0;
 }
 .vehicle_header h3 {
-  /* background-color: white; */
   padding: 7px;
 }
 .vehicle_header h3:first-child {
@@ -262,8 +260,7 @@
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.recdetail {
-}
+
 .Rec {
   display: flex;
   flex-direction: column;
@@ -320,7 +317,6 @@
   height: 10%;
   width: 100%;
   margin-left: 14px;
-  /* border: 1px solid red ; */
 }
 .underline-button {
   background-color: transparent; /* Set background color to transparent */
@@ -339,7 +335,7 @@
 .underline-button-black{
   background-color: transparent; /* Set background color to transparent */
   border: none;
-  color: black; /* Set text color to black */
+  color: black; 
   padding: 18px 15px 15px 15px;
   text-align: center;
   text-decoration: none;
@@ -351,7 +347,6 @@
 }
 
 .underline-button-black:hover{
-  /* opacity: 56%; */
   color: grey;
 }
 
@@ -375,7 +370,6 @@
   border-radius: 0px;
 }
 .b {
-  /* margin-top: 7px; */
   padding-left: 4px;
   padding-right: 24px;
   color:#262626;
@@ -482,7 +476,6 @@
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  /* border: 1px solid #d9d9d9; */
   padding: 16px;
     align-items: center;
     z-index: 1100;

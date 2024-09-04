@@ -309,8 +309,6 @@
                                                             value={formdata.model1} name="model1" onchange={handleInputChange}
                                                             oninput={handlevalchange}
                                                             maxlength="3">
-                                                        <!-- <p style="color: red; width: 10.2vw;" class={errorModelCss}>{errorModel}
-                                                        </p> -->
                                                     </div>
                                                     <span class="input-separator"> - </span>
                                                     <div>
@@ -605,9 +603,9 @@
                     車両登録を終了しますか？</div>
                 <div class="heads heads-exit">
 
-                    <center>
+                    <!-- <center> -->
                         <h1 class="exittest">終了しますか？</h1>
-                    </center>
+                    <!-- </center> -->
                     <template if:true={missingChassisNumbers.length}>
                         <h3 class="headmeow gaps">下記の車両の情報がまだ入力されていません。</h3>
                         <ul>

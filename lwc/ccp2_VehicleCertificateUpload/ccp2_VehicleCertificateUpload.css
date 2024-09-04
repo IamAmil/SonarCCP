@@ -55,7 +55,6 @@ ul li {
   justify-content: center;
   gap: 16px;
   margin-top: 1%;
-  /* flex-wrap: wrap-reverse; */
 }
 
 .image-scroll-container{
@@ -218,9 +217,7 @@ ul li {
   cursor: not-allowed;
 }
 .disable-div {
-  /* background-color: #bbbbbb; */
   cursor: not-allowed;
-  /* pointer-events: none; */
 }
 
 button.upload-button.cancel:hover {

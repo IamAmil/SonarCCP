@@ -41,9 +41,7 @@
                                                     <input type="text" data-id={index} onclick={handlevehChange} class="Inputs1 icon" placeholder="選択してください" value={section.selectedbranchNameForVehicle} readonly>
                                                     <template if:true={section.showlist}>
                                                         <div class="lists2 no-scroll" onclick={handleInsideClick}>
-                                                             <!-- <div class="list-item" onclick={handleContactSelect} data-id="">
-                                                                <p>選択しない</p>
-                                                             </div> -->
+                                                            
                                                             <template for:each={branchList} for:item="veh">
                                                                 <div key={veh.value} class="list-item" onclick={handleContactSelect} data-id={veh.value} data-section-id={index}>
                                                                     <p>{veh.label}</p>
@@ -92,9 +90,7 @@
                                                     <input type="text" data-id={index} onclick={handleConChange} class="Inputs1 icon" placeholder="選択してください" value={section.selectedContactNameForVehicle} readonly>
                                                     <template if:true={section.showconlist}>
                                                         <div class="lists2 no-scroll" onclick={handleInsideClick}>
-                                                            <!-- <div class="list-item" onclick={handleContactvehSelect} data-id="">
-                                                                <p>選択しない</p>
-                                                            </div> -->
+                                                         
                                                             <template for:each={branchList} for:item="branch">
                                                                 <div key={branch.value} class="list-item" onclick={handleContactvehSelect} data-id={branch.value} data-section-id={index}>
                                                                     <p>{branch.label}</p>

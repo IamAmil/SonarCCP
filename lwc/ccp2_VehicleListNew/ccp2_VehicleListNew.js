@@ -100,8 +100,6 @@ export default class Ccp2_VehicleListNew extends LightningElement {
           vehicle?.Favoruite_Vehicle__c === true
             ? "utility:favorite"
             : "utility:favorite_alt" || "utility:favorite_alt";
-        // vehicle.Vehicle_Expiration_Date__c = 'null';
-
         let imageSrc = imageUrl.length === 0 ? this.truckSampleIcon : imageUrl;
         return {
           ...vehicle,
@@ -111,8 +109,6 @@ export default class Ccp2_VehicleListNew extends LightningElement {
           expDate // Store the concatenated branch names
         };
       });
-
-      // this.vehicleAccountCount = this.vehicleData.length;
       this.showSpinner = false;
       console.log("redata", data);
     } else if (error) {
@@ -179,7 +175,6 @@ export default class Ccp2_VehicleListNew extends LightningElement {
         let expDate = vehicle?.Vehicle_Expiration_Date__c
           ? this.formatJapaneseDate(vehicle.Vehicle_Expiration_Date__c)
           : "-";
-        // vehicle.Vehicle_Expiration_Date__c = 'null';
 
         let starIcon =
           vehicle?.Favoruite_Vehicle__c === true
@@ -211,7 +206,6 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
-    // this.showSpinner = true;
   }
 
   handlecardClick(event) {
@@ -219,16 +213,14 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     this.favIconForDetailPage = event.currentTarget.dataset.icon;
     console.log("Clicked Vehicle ID:", this.vehicleId);
     console.log("Clicked Vehicle icon:", this.favIconForDetailPage);
-    // this.dispatchEvent(new CustomEvent('vehicleclick', { detail: vehicleId }));
+  
     this.showVehicleDetails = true;
     this.showVehicleList = false;
     window.scrollTo(0, 0);
   }
   handleBack() {
     this.currentPagination = this.currentPagination + 1;
-    // setTimeout(() => {
-    //   this.currentPagination = this.currentPagination - 2;
-    // }, 1);
+   
     console.log("called");
     this.showVehicleList = true;
     this.showVehicleDetails = false;
@@ -243,22 +235,14 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   handlemoveModal() {
     this.showVehicleList = false;
   }
-  //star store
-  // get starIcon() {
-  //   return this.isStarFilled ? "utility:favorite" : "utility:favorite_alt";
-  // }
+
 
   toggleStar(event) {
     event.stopPropagation();
-    // console.log('event.target.classList',event.target)
   }
 
   togglePaginationList() {
     this.showListOffSet = !this.showListOffSet;
-
-    // if (this.showListOffSet) {
-    //   this.adjustDropdownPosition();
-    // }
   }
 
   clickOffSetElement(event) {
@@ -329,25 +313,17 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       endPage = this.totalPageCount;
     }
 
-    // if (this.currentPage < 4 || this.prevGoing) {
+    
     this.visiblePageCount = [];
     for (let i = startPage; i <= endPage; i++) {
       this.visiblePageCount.push(i);
     }
-    // } else if (this.currentPage === 5 || this.currentPage % 4 === 0) {
-    //   this.visiblePageCount = [];
-    //   for (let i = startPage; i <= endPage; i++) {
-    //     this.visiblePageCount.push(i);
-    //   }
-    // }
+  
 
     this.visiblePageCount.forEach((element) => {
       this.showRightDots = element === this.totalPageCount ? false : true;
     });
-    // if (this.totalPageCount > 4) {
-    //   this.showRightDots = true;
-    // //   this.visiblePageCount.pop();
-    // }
+   
   }
 
   formatJapaneseDate(isoDate) {

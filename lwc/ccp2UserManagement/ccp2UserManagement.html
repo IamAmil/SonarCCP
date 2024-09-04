@@ -3,7 +3,6 @@
     <div class="top">
       <img src={backgroundImagePC} class="img" alt="" />
       <div class="overlay">
-        <!-- <h1 class="centered-text">{labels.CCP2_MembershipManagement}</h1> -->
       </div>
     </div>
     <div class="bottom">
@@ -40,34 +39,15 @@
                       </p>
                     </div>
                     <div class="list-data" data-idd={elm.contactssId} data-user={elm.usercontactId}>
-                      <!-- <p style="font-weight:600; width:150px; color: #E10202;" data-idd={elm.Id}
-                                                data-user={elm.UserId__c}>{elm.Account.siebelAccountCode__c}</p> -->
                       <p style="min-width: 150px" data-idd={elm.contactssId} data-user={elm.usercontactId}>
                         {elm.branchName}
                       </p>
                     </div>
-                    <!-- <div class="list-data" data-idd={elm.Id} data-user={elm.contactssId}> -->
-                    <!-- <p style="width:150px" data-idd={elm.Id} data-user={elm.contactssId}> -->
-                    <!-- <template for:each={elm.brnach} for:item="bran">
-                                                    <div class="list-element" key={bran.branchId} data-idd={bran.branchId}>
-                                                            <p style="width:150px " data-idd={bran.branchId}>
-                                                                {bran.branhesname}</p>
-                                                    </div>
-                                                </template> -->
-                    <!-- </p> -->
-                    <!-- </div> -->
                   </div>
                 </template>
               </div>
             </template>
-
-            <!-- <div class="footer-buttons">
-                            <a href={homeUrl} style="color: white;"><button
-                                    class="button return-button">トップに戻る</button></a>
-                            <a href={addUserUrl} style="color: white; "><button
-                                    class="button submit-button">会員追加</button></a>
-                        </div> -->
-          </div>
+            </div>
         </template>
 
         <template if:true={showUserDetails}>
@@ -158,30 +138,7 @@
                           <div key={elm} class="data">{elm}</div>
                         </template>
                       </div>
-                      <!-- <div class="data">Not Found</div> -->
                     </div>
-                    <!-- <div class="records">
-                                        <div class="head">Affilated Vehicles</div>
-                                        <div class="data">
-                                             <template for:each={vehicle} for:item="veh">
-                                                <div key={veh.Id} class="record-item">
-                                                    <span>{veh.Name}</span>
-                                                    <br>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <div class="records">
-                                        <div class="head">Users</div>
-                                        <div class="data">
-                                           <template for:each={contacts} for:item="contact">
-                                                <div key={contact.Id} class="record-item">
-                                                    <span>{contact.Name}</span>
-                                                    <br>
-                                                </div>
-                                            </template> 
-                                        </div>
-                                    </div> -->
                   </div>
 
                   <div class="buttonEdit">
@@ -189,24 +146,11 @@
                       <P class="toedit">{labels.CCP2_ToEdit}</P>
                     </div>
                   </div>
-
-                  <!-- <div class="deleteUser" onclick={handleDeleteUser}>
-                                        <lightning-icon icon-name="utility:close" size="x-small" variant="container"
-                                            alternative-text="Delete User" class="slds-m-left_small Abtn icon-red"
-                                            title="Delete User"></lightning-icon>
-                                        <p>{labels.CCP2_DeleteThisMember}</p>
-                                    </div> -->
                 </div>
                 <div class="form_footer">
                   <div class="btn1" onclick={handleReturnClick}>
                     <P class="toedit">会員管理へ</P>
                   </div>
-                  <!-- <div class="deleteUser" onclick={handleDeleteUser}>
-                                        <lightning-icon icon-name="utility:close" size="x-small" variant="container"
-                                            alternative-text="Delete User" class="slds-m-left_small Abtn icon-red"
-                                            title="Delete User"></lightning-icon>
-                                        <p>この会員を削除する</p>
-                                    </div> -->
                 </div>
               </div>
             </div>
@@ -366,26 +310,8 @@
                         <p class="custom-placeholder">選択された勤務地</p>
                       </template>
                     </div>
-                    <!-- <div class="branchrecords">
-                                            <template for:each={branch} for:item="veh">
-                                                <div key={veh.Id} class="record-item">
-                                                    <lightning-icon icon-name="utility:close" size="x-small"
-                                                        alternative-text="Delete" onclick={handleDeleteBranch}
-                                                        data-id={veh.Id} class="filtericn"></lightning-icon>
-                                                    <span>{veh.Name}</span>
-                                                    <br>
-                                                </div>
-                                            </template>
-                                        </div> -->
                   </div>
-                  <!-- </div> -->
                 </div>
-
-                <!-- <template for:each={userDetailData.Branchs__r} for:item="branch">
-                                            <div key={branch.Id} class="data">{branch.Name}</div>
-                                        </template> -->
-
-                <!-- Deploy -->
 
                 <!-- Email Address -->
                 <div class="records">
@@ -527,38 +453,7 @@
       </div>
     </div>
   </template>
-  <!-- <template if:true={showCancelModal}>
-        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open custom-modal">
-            <div class="slds-modal__container custom-modal-container2">
-                <div class="slds-modal__content slds-text-heading_medium custom-modal-content-cancel" style="overflow-y: hidden;">
-                    <div class="content-modal-Cancel">
-                        <div class="modal-title">
-                            <p>            <strong>    入力された内容が保存していませんが、</strong></p>
-                            <br>
-                            <p><strong>終了しますか？</strong></p>
-                                    </div>
-                        
-                        <div class="btn-modal">
-                            <div class="form-footer-modal">
-                                <div class="button2No">
-                                    <div class="btn2No" onclick={CancelhandleNo}>
-                                        <P class="toedit2No">いいえ</P>
-                                    </div>
-                                </div>
-                                <div class="buttonYes">
-                                    <div class="btnYes" onclick={CancelhandleYes}>
-                                        <P class="toeditYes">はい</P>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
-    </template> -->
-
+  
   <template if:true={showCancelModal}>
     <div class="modal-background-last">
       <div class="modal-window-small">

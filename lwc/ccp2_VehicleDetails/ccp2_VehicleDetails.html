@@ -31,7 +31,7 @@
                     alternative-text="chevronleft"
                     size="x-small"
                     onclick={closeDetailPage}
-                    title="chevronleft"
+                    title=""
                   ></lightning-icon>
                   <h1 class="RegNoData">{vehicleByIdData.vehicleNumber}</h1>
                 </div>
@@ -399,7 +399,7 @@
               <P title={branch.originalName}>
                 <strong>⋅</strong> {branch.Name}</P
               >
-              <P>{branch.Account__r.siebelAccountCode__c}</P>
+              <P>{branch.Account__r.siebelAccountCode__c} -<template if:true={showone}>00</template>{branch.Branch_Code__c}</P>
               <p class="siebelcode" title={branch.originalMinicipalities}>
                 {branch.Minicipalities__c}
               </p>

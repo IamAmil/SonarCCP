@@ -28,7 +28,6 @@ import CCP2_Users from '@salesforce/label/c.CCP2_Users';
 import CCP2_ToEdit from '@salesforce/label/c.CCP2_ToEdit';
 import CCP2_DeleteThisBranch from '@salesforce/label/c.CCP2_DeleteThisBranch';
 import CCP2_Return from '@salesforce/label/c.CCP2_Return';
-// import CCP2_BranchNo from '@salesforce/label/c.CCP2_BranchNumber';
 import CCP2_Required from '@salesforce/label/c.CCP2_Required';
 import CCP2_AddVehicles from '@salesforce/label/c.CCP2_AddVehicles';
 import CCP2_AddUsers from '@salesforce/label/c.CCP2_AddUsers';
@@ -50,7 +49,6 @@ import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
 
 const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP2_Resources/Common/Main_Background.webp';
 const  arrowicon = Vehicle_StaticResource + '/CCP2_Resources/Common/arrow_under.png';
-//const  searchicon = Vehicle_StaticResource + '/CCP2_Resources/images/search.png';
 
 export default class Ccp2BranchRecordDetail extends LightningElement {
 
@@ -179,7 +177,6 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         ].filter(part => part).join(' ');
 
         this.originalBranchName = branch.Name;
-       // this.OriginalAddress = branch.Address;
         this.OriginalContact = branch.ContactNo;
         this.originalBuildingName = branch.BuldingName;
         this.originalMunicipalities = branch.municipalities;
@@ -467,30 +464,12 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             branchInput.classList.remove('invalid-input');
             phoneInput.classList.remove('invalid-input');
             this.showerrorbranch = false;
-            // this.fullwidthnum = false;
             this.showerrorbranchNull = false;
         }
-            // if (this.Contact.length !== 0 && this.Contact.length < 10) {
-            //     const contactInput = this.template.querySelector('input[name="contactNumber"]');
-            //     contactInput.classList.add('invalid-input');
-            //     contactInput.setCustomValidity('連絡先番号は正確に 10 桁である必要があります');
-            //     contactInput.reportValidity();
-            //     allValid = false;
-            // } else {
-            //     const contactInput = this.template.querySelector('input[name="contactNumber"]');
-            //     contactInput.classList.remove('invalid-input');
-            //     contactInput.setCustomValidity('');
-            //     contactInput.reportValidity();
-            // }
+           
 
             if (!allValid) {
-                // this.dispatchEvent(
-                //     new ShowToastEvent({
-                //         //title: 'Error',
-                //         message: 'すべての項目を入力してください。',
-                //         variant: 'error',
-                //     }),
-                // );
+             
                 return;
             }
             
@@ -670,11 +649,7 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
         console.log("1br",this.branchName);
     }
     handlevalidationpostal(event) {
-    //     this.postalCode= event.target.value;
-    //    // this.addressClass = this.Address ? '' : 'invalid-input'; @not used but in future if need
-    //     if (this.postalCode.length > 8) {
-    //          this.postalCode = this.postalCode.slice(0, 8);
-    //     } 
+     
     const input = event.target; // Get the input element from the event
         const onlyDigitsRegex = /^[0-9０-９]*$/;
         // Clean the input value to allow only digits

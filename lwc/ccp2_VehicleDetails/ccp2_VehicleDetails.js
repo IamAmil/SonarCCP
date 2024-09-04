@@ -60,6 +60,7 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track showMaintainencePage = false;
   @track BranchesModal = false;
   @track morethanOneBranch = true;
+  @track showone = true;
   @track classVehicleDetails = "";
   @track classCostManagement = "";
   @track classMaintainList = "";
@@ -279,7 +280,23 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             this.morethanOneBranch = false;
           }
           this.vehicleByIdData.branchReal = this.Branches[0].Name;
+          this.Branches.forEach(branch => {
+            const branchNumberStr = branch.Branch_Code__c.toString(); // Convert branchno to string
+
+            // Extract the first and last characters
+            const firstDigit = branchNumberStr.charAt(0);
+            const lastDigit = branchNumberStr.charAt(branchNumberStr.length - 1);
+
+            // Check if both first and last digits are between 0 and 9
+            if (firstDigit >= '0' && firstDigit <= '9' &&
+                lastDigit >= '0' && lastDigit <= '9') {
+                this.showone = true;
+            } else {
+                this.showone = false;
+            }
+        });
           this.vehicleByIdData.branch = this.abbreviateName(this.Branches[0].Name) || "-";
+
           this.vehicleByIdData.branchCount = this.Branches.length;
           this.vehicleByIdData.OnScreenBranchCount =
             this.vehicleByIdData.branchCount - 1;
@@ -380,6 +397,20 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     }
   }
 
+  formatBranchNumber(branchCount) {
+    if(branchCount != null){
+
+        let count = branchCount;
+
+        if (count < 100) {
+            return `00${count}`;
+        } else if (count >= 100 && count < 1000) {
+            return `0${count}`;
+        } else {
+            return `${count}`;
+        }
+    }
+}
   
 
   @api openModalWithImages(imageData) {

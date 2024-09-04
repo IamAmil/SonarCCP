@@ -164,12 +164,7 @@ export default class Ccp2CancelMembership extends LightningElement {
     @track contactId;
     @track accountName;
 
-    // renderedCallback() {
-    //     // Restore checkbox states based on selectedReasons
-    //     // this.template.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-    //     //     checkbox.checked = this.selectedReasons.includes(checkbox.value);
-    //     // });
-    // }
+    
     renderedCallback() {
         // Restore checkbox states based on selectedReasons
         this.template.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -210,9 +205,7 @@ export default class Ccp2CancelMembership extends LightningElement {
     deleteadmin() {
         deleteadmin({ contactId: this.contactId })
           .then((result) => {
-            // this.handleDeleteSuccess();
-            //console.log("delete user api data response : ", this.contactId);
-          })
+             })
           .catch((error) => {
             console.log("delete User Fetching error id :" + this.contactId);
             console.error("delete User Fetching error:" + JSON.stringify(error));
@@ -226,9 +219,8 @@ export default class Ccp2CancelMembership extends LightningElement {
         if (data.length > 0) {
             this.branchfromjunction = data.map(branch => ({ Name: branch.Name }));
         } else {
-      // this.userDetailData.Branchs__r = data == [] ? [{Id: 12, Name: "Null"}] : data;
       this.branchfromjunction = [{Name: "-"}]
-        }//console.log("branch data from new branch func",JSON.stringify(this.branchfromjunction));
+        }
     }else{
         
       console.log("error in fetching branches from new",error);
@@ -236,9 +228,7 @@ export default class Ccp2CancelMembership extends LightningElement {
   }
     @wire(userData,{User:'$contactId',refresh: 1})
     fetchUserData({data,error}){
-       // console.log("user id",this.contactId)
         if(data){
-            //console.log("data " , data)
             this.userDetailData = {
                 Name: data[0].Name == null ? '-' : data[0].Name,
                 id: data[0].Id == null ? '-' : data[0].Id,
@@ -257,7 +247,6 @@ export default class Ccp2CancelMembership extends LightningElement {
                 lastNameKana__c: data[0].lastNameKana__c == null ? '-' : data[0].lastNameKana__c,
                 Title: data[0].Title == null ? '-' : data[0].Title
             }
-            //console.log("userData",JSON.stringify(this.userDetailData));
 
     } else if(error){
         console.log("error,",error);
@@ -301,37 +290,6 @@ export default class Ccp2CancelMembership extends LightningElement {
 
 
 
-    handleYes() {
-        // window.scrollTo(0,0);
-        // this.showstep2 = false;
-        // this.showconfModal = false;
-        // this.showstep3 = true;
-        // this.deleteadmin(this.contactId);
-       // const ne34 = this.userDetailData.account.name;
-        // console.log("acc name",this.selectedReasonMessage);
-        // (ccpoptout,{inquiryType: 'CCP opt out ticket',description: this.selectedReasonMessage,accountName: this.accountName,accountId: this.accountId})
-        // try {
-        //     // Assuming this is an asynchronous call with separate parameters
-        //     ccpoptout({
-        //         inquiryType: 'CCP opt out ticket',
-        //         description: this.selectedReasonMessage,
-        //         accountName: this.accountName,
-        //         accountId: this.accountId
-        //     })
-        //     .then(result => {
-        //         // Handle success
-        //         console.log('Operation successful:', result);
-        //     })
-        //     .catch(error => {
-        //         // Handle error
-        //         console.error('Error occurred:', error);
-        //     });
-        // } catch (error) {
-        //     // Handle any unexpected errors
-        //     console.error('Unexpected error:', error);
-        // }
-    }
-
     handleYesmodal2(){
         window.scrollTo(0,0);
         const events = new CustomEvent("closem")
@@ -362,49 +320,6 @@ export default class Ccp2CancelMembership extends LightningElement {
         
     }
 
-    // handlestep1(){
-    //     // console.log("selected reason message",this.selectedReasonMessage)
-    //     window.scrollTo(0,0);
-    //     if (this.selectedReason == '') {
-    //         this.dispatchEvent(
-    //               new ShowToastEvent({
-    //                 title: "エラー",
-    //                 message:
-    //                   "退会理由を選択してください。",
-    //                 variant: "error"
-    //               })
-    //             );
-    //             return;
-    //       }
-    //     else if(this.selectedReason == 'その他'){
-    //         if(this.otherReason == ''){
-    //             this.dispatchEvent(
-    //                         new ShowToastEvent({
-    //                           title: "エラー",
-    //                           message:
-    //                             "コメント欄に理由を述べてください。",
-    //                           variant: "error"
-    //                         })
-    //                       );
-    //             return;
-    //         }
-    //         else{
-    //             this.showstep1 = false;
-    //             this.showstep2 = true;
-    //             this.selectedReasonMessage = this.selectedReason;
-    //             if (this.selectedReason === 'その他') {
-    //                 this.selectedReasonMessage = this.otherReason;
-    //                 console.log("other reason 2",this.otherReason)
-    //             }
-    //       }
-    //     }
-    //     else{
-    //         this.showstep1 = false;
-    //         this.showstep2 = true;
-    //         this.selectedReasonMessage = this.selectedReason;
-    //     }
-
-    // }
     handlestep1() {
         window.scrollTo(0, 0);
     
@@ -474,30 +389,15 @@ export default class Ccp2CancelMembership extends LightningElement {
         window.scrollTo(0,0);
         this.showstep1 = true;
         console.log("selected reasons",JSON.stringify(this.selectedReasons));        // this.selectedReason = '';
-        // this.selectedReasonMessage = '';
-        // this.selectedReasons = [];
-        // this.selectedReasonMessages = [];
-        // this.otherReason = '';
+       
         this.showstep2 = false;
         this.deletecheckbox = '「未選択（6ヶ月内に再入会しない場合、アカウントとデータを永久に削除します。）」';
         console.log("selected reason on prev",this.selectedReason);
     }
 
-    // handleReasonChange(event) {
-    //     this.selectedReason = event.target.value;
-    //     this.isInputDisabled = event.target.value !== 'その他';
-    //     console.log("selected reason",this.selectedReason)
-    // }
+    
     handleReasonChange(event) {
-        // let selectedValue = event.target.value;
-        // if (event.target.checked) {
-        //     this.selectedReasons = [...this.selectedReasons, selectedValue]; // Add selected reason to array
-        // } else {
-        //     this.selectedReasons = this.selectedReasons.filter(reason => reason !== selectedValue); // Remove deselected reason from array
-        // }
-        // this.isInputDisabled = !this.selectedReasons.includes('その他');
-        // console.log("Selected reasons:", this.selectedReasons);
-        let selectedValue = event.target.value;
+      let selectedValue = event.target.value;
         if (event.target.checked) {
             // Add selected reason to array while maintaining order
             if (!this.selectedReasons.includes(selectedValue)) {

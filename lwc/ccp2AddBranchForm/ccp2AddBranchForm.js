@@ -328,11 +328,8 @@ export default class Ccp2AddBranchForm extends LightningElement {
     async handleNext() {
         try {
             const branchInput = this.template.querySelector('input[name="branchss"]');
-            const phoneInput = this.template.querySelector('input[name="phone"]');
 
             let isValid = true;
-            const onlyHalfWidthNumber = /^[0-9０-９]*$/;
-            const fullWidthDigitsRegex = /[０-９]/;
 
             if (this.currentStep === 1) {
                 this.showerrorbranch = false;
@@ -400,21 +397,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
     validateBranchName() {
         if (!this.branchName) {
             this.template.querySelector('.product-name').classList.add('error');
-            // this.dispatchEvent(
-            //     new ShowToastEvent({
-            //       title: "エラー",
-            //       message:
-            //         "必須項目を入力してください。",
-            //       variant: "error"
-            //     })
-            //   );
             
-            // this.dispatchEvent(
-            //     new ShowToastEvent({
-            //         message: '必須項目を入力してください。' + error.body.message,
-            //         variant: 'error',
-            //     })
-            // );
             
         } else {
             this.template.querySelector('.product-name').classList.remove('error');

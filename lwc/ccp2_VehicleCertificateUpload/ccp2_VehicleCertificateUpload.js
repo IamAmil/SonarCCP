@@ -130,7 +130,6 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
     })
       .then(() => {
         console.log("success");
-        // this.showToast("成功", `写真がアップロードされました。`, "success");
         this.saveLoader = false;
       })
       .catch((err) => {
@@ -207,8 +206,6 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
         const compressedImageData = canvas.toDataURL(this.fileType, 0.7);
 
         this.compressedImageData = compressedImageData;
-        // console.log('compressedImageData',this.compressedImageData);
-
         const fields = {
           Title: this.fileName,
 
@@ -297,7 +294,6 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
             }
             this.isImageEmpty =
               this.uploadImagesArray.length > 0 ? false : true;
-            // console.log("aary", JSON.stringify(this.uploadImagesArray));
 
             this.isImageLimitReached =
               this.uploadImagesArray.length >= 2 ? true : false;
@@ -324,7 +320,6 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
     this.saveLoader = true;
     console.log("id for delete", event.target.dataset.id);
     this.deleteBranchApi(event.target.dataset.id);
-    // console.log("delete name:-", event.target.dataset.name);
     this.uploadImagesArray = this.uploadImagesArray.filter((item) => {
       return item.fileName !== event.target.dataset.name;
     });
@@ -412,7 +407,6 @@ export default class Ccp2_VehicleCertificateUpload extends LightningElement {
     this.dispatchEvent(event2);
 
     this.saveLoader = false;
-    // this.uploadImage(JSON.stringify(this.uploadImagesArray));
   }
 
   handleCancelClick(event) {
