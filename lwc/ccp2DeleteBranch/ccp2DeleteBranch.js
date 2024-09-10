@@ -8,11 +8,6 @@ import InsertUserList from '@salesforce/apex/CCP2_VehicleManagment.insertBranchC
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import deletebranch from '@salesforce/apex/CCP2_branchController.deleteBranchById';
 
-
-
-
-
-
 const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.webp";
 const ImageStepOne = Vehicle_StaticResource + "/CCP2_Resources/Branch/step1del.png";
 const ImageStepTwo = Vehicle_StaticResource + "/CCP2_Resources/Branch/step2del.png";
@@ -128,6 +123,7 @@ export default class Ccp2DeleteBranch extends LightningElement {
         document.addEventListener('click', this.handleOutsideClick);
         document.addEventListener('click', this.handleOutsideClick2);
     }
+
     closemodalYes(){
         this.showmissing = false;
     }

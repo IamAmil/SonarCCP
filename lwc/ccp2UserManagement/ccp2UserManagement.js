@@ -466,7 +466,8 @@ export default class Ccp2UserManagement extends LightningElement {
     });
   }
 
-  connectedCallback() {
+  connectedCallback() {        
+
     let baseUrl = window.location.href;
     this.addUserUrl = baseUrl.split("/s/")[0] + "/s/addUser";
     this.homeUrl = baseUrl.split("/s/")[0] + "/s/";
@@ -480,6 +481,7 @@ export default class Ccp2UserManagement extends LightningElement {
       this.addCustomStyles();
     });
   }
+
 
   handleUserClick(event) {
     this.selectedContactUserId = event.target.dataset.user;

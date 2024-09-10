@@ -1,5 +1,6 @@
 import { LightningElement, track, wire } from "lwc";
 import getVehicleData from "@salesforce/apex/CCP2_userData.userRegisteredVehicleList";
+import getAllVehicleForDownload from "@salesforce/apex/ccp2_download_recall_controller.userListforDownload";
 import totalPageCountApi from "@salesforce/apex/CCP2_userData.totalPageCount";
 import seachVehicleDataApi from "@salesforce/apex/CCP2_VehicleDetailController.vehicleRegistrationAndDoorNo";
 import listBySearchVehicle from "@salesforce/apex/CCP2_VehicleDetailController.getVehicleOnSearch";
@@ -33,15 +34,13 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   addvehicleIcon = AddVehicle;
   truckSampleIcon = TruckSampleImage;
   noVehicleIcon = NoVehicleIcon;
+  @track modalStyle = '';
 
   vehicleData = [];
   CarModel = [];
   brandModel = [];
   offSetCount = 10;
-  vehicleAccountCount = 0;
-  vehicleBrachCount = 0;
   @track vehicleListApiData;
-  @track TotalPageApiData;
   @track showListOffSet = false;
   @track showVehicleListOrNoVehicle = true;
   @track showVehicleList = true;
@@ -50,7 +49,26 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   @track favIconForDetailPage;
   @track showVehicleModal = false;
   @track showSpinner = true;
+  @track showDownload = false;
+  @track showDownloadPath = false;
+  @track showSuccessDownload = false;
   @track isStarFilled;
+  //today's date
+  @track currentDate;
+  
+  @track searchVehicleRegDoorData = [];
+  @track filteredSearchVehicleRegDoorData = [];
+  @track filterSuggestions = "";
+
+  @track showFilteredSuggestions = false;
+  @track FilterFlag = false;
+  @track AllFlag = true;
+  @track DownloadName = '日付- カスタマーポータル車両リスト.csv';
+  @track allVehiclesData = [];
+  @track filterData = [];
+  @track searchFilter = false;
+
+  // Pagination variables
   @track currentPagination = 10;
   @track totalPageForPagination = 5;
   @track totalPageCount = 1;
@@ -60,11 +78,14 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   @track pageNumberCss = "page-button";
   @track currentPageNumberCss = "page-button cuurent-page";
   @track visiblePageCount = [1];
-  @track searchVehicleRegDoorData = [];
-  @track filteredSearchVehicleRegDoorData = [];
-  @track filterSuggestions = "";
   @track prevGoing = false;
-  @track showFilteredSuggestions = false;
+  @track TotalPageApiData;
+  //filter modal variables 
+  @track showFilterModal = false;
+
+
+  vehicleBrachCount = 0;
+  vehicleAccountCount = 0;
 
   renderedCallback() {
     this.updatePageButtons();
@@ -149,6 +170,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
           return elm;
         });
       this.searchVehicleRegDoorData = temData;
+
       console.log("search data merged: - ", temData);
     } else if (err) {
       console.error("Search APi Error: - ", err);
@@ -158,6 +180,17 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   listBySearchVehicle(regOrDoorNumberSearched) {
     listBySearchVehicle({ str: regOrDoorNumberSearched })
       .then((data) => {
+        this.filterData = data.map(record => {
+         
+          const { imageUrl, ...recordWithoutImageUrl } = record;
+          
+          return {
+            ...recordWithoutImageUrl,
+            branches: record.branches.map(branch => branch.Name) 
+          };
+        });
+
+         console.log("filter",JSON.stringify(this.filterData));
         console.log("Data from sigle searched data:-", data[0]);
         // console.log('Data from sigle searched data:-',data.vehicle)
         const { vehicle, branches, imageUrl } = data[0];
@@ -194,6 +227,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
 
         this.showVehicleListOrNoVehicle = true;
         this.showSpinner = false;
+        this.searchFilter = true;
       })
       .catch((err) => {
         console.error(err);
@@ -206,6 +240,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
+    this.currentDate = this.getTodaysDate();
   }
 
   handlecardClick(event) {
@@ -350,10 +385,20 @@ export default class Ccp2_VehicleListNew extends LightningElement {
 
     return "NA";
   }
+  getTodaysDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ('0' + (today.getMonth() + 1)).slice(-2);  
+    const day = ('0' + today.getDate()).slice(-2);  
+    return `${day}-${month}-${year}`;
+}
 
   handleSuggestionInputChange(event) {
     if (event.target.value === "") {
       this.currentPagination = this.currentPagination + 1;
+      this.filterData = [];
+      this.searchFilter = false;
+      console.log("filterednew",this.filterData);
       setTimeout(() => {
         this.currentPagination = this.currentPagination - 1;
       }, 0);
@@ -440,4 +485,156 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   get hasVehicles() {
     return this.vehicleAccountCount > 0;
 }
+//download feature
+//modal 1
+  showDownloadModal(){
+    this.showDownload = true;
+    this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
+  }
+  closeDownload(){
+    this.FilterFlag = false;
+    this.AllFlag = true;
+    this.showDownload = false;
+  }
+  MovetoRename(){
+    if(this.AllFlag == true ){
+       this.allApex();
+    }
+    if(this.searchFilter == true){
+      this.allVehiclesData = [];
+      this.allVehiclesData = this.filterData;
+    }
+    if(this.searchFilter == false && this.AllFlag == false){
+      this.allApex();
+    }
+    this.showDownload = false;
+    this.showDownloadPath = true;
+  }
+  closePathDownload(){
+    this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
+    this.FilterFlag = false;
+    this.AllFlag = true;
+    this.showDownloadPath = false;
+  }
+  finaldownload(){
+    this.downloadCSVAll();
+    this.showFinishTimeModal();
+    this.showDownloadPath =false;
+  }
+  showFinishTimeModal() {
+    this.showSuccessDownload = true;
+    window.scrollTo(0,0);
+    setTimeout(() => {
+        this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
+        this.FilterFlag = false;
+        this.AllFlag = true;
+        this.showSuccessDownload = false;
+    }, 2000);
+}
+FilterOption(event){
+  this.FilterFlag = event.target.checked;
+  if (this.FilterFlag) {
+    this.AllFlag = false;
+  }
+  console.log("de",this.allVehiclesData);
+}
+Alloption(event){
+  this.AllFlag= event.target.checked;
+    if (this.AllFlag) {
+      this.FilterFlag = false;
+   }
+}
+allApex(){
+  getAllVehicleForDownload()
+  .then((result) => {
+      this.allVehiclesData = [];
+      this.allVehiclesData = result;
+      console.log('All Vehicle Data:',JSON.stringify(result));
+  })
+  .catch((error) => {
+      console.error('Error retrieving vehicle data:', error);
+  });
+}
+
+downloadCSVAll() {
+  if (this.allVehiclesData.length === 0) {
+    console.error('No data available to download');
+    return;
+}
+
+const headers = [
+    '車両番号',
+    '登録番号',
+    '車台番号',
+    '交付年月日',
+    '車名',
+    '自動車の種別',
+    '車体形状',
+    '車両重量',
+    '初度登録年月日',
+    '有効期間の満了日',
+    '走行距離',
+    '燃料の種類',
+    '自家用・事業用の別',
+    '用途',
+    '型式',
+    'ドアナンバー',
+    '所属'
+];
+
+const csvRows = this.allVehiclesData.map(record => {
+    const vehicle = record.vehicle;
+    const branches = Array.isArray(record.branches) 
+    ? record.branches.join('・') 
+    : record.branches ? record.branches.name : ''; 
+
+    return [
+        vehicle.Vehicle_Number__c || '',
+        vehicle.Registration_Number__c || '',
+        vehicle.Chassis_number__c || '',
+        vehicle.Delivery_Date__c || '',
+        vehicle.Vehicle_Name__c || '',
+        vehicle.Vehicle_Type__c || '',
+        vehicle.Body_Shape__c || '',
+        vehicle.vehicleWeight__c || '', 
+        vehicle.First_Registration_Date__c || '',
+        vehicle.Vehicle_Expiration_Date__c || '',
+        vehicle.Mileage__c || '',
+        vehicle.Fuel_Type__c || '',
+        vehicle.Private_Business_use__c || '',
+        vehicle.Use__c || '',
+        vehicle.fullModel__c || '',
+        vehicle.Door_Number__c || '', 
+        branches
+    ];
+});
+
+
+let csvContent = headers.join(',') + '\n';
+csvRows.forEach(row => {
+    csvContent += row.join(',') + '\n';
+});
+const BOM = '\uFEFF'; 
+csvContent = BOM + csvContent;
+  
+const csvBase64 = btoa(unescape(encodeURIComponent(csvContent)));
+        const link = document.createElement('a');
+        link.href = 'data:text/csv;base64,' + csvBase64;
+        link.download = `${this.DownloadName}.csv`;
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+        link.remove();
+}
+  handleDownloadChange(event){
+     this.DownloadName = event.target.value;
+  }
+  //filter Modal 
+  openFilterModal(){
+    this.showFilterModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+  closeFilterModal(){
+    this.showFilterModal = false;
+    document.body.style.overflow = '';
+  }
 }

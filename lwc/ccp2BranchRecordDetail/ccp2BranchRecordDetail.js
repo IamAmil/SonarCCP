@@ -15,7 +15,6 @@ import UpdateFields from '@salesforce/apex/CCP2_branchController.updateBranchByI
 import deletebranch from '@salesforce/apex/CCP2_branchController.deleteBranchById';
 
 
-
 //labels 
 import CCP2_LocationInformation from '@salesforce/label/c.CCP2_LocationInformation';
 import CCP2_CompanyName from '@salesforce/label/c.CCP2_CompanyName';
@@ -326,6 +325,8 @@ export default class Ccp2BranchRecordDetail extends LightningElement {
             console.error('Error loading Pure CSS', error);
         });
     }
+
+
     handleOutsideClick = (event) => {
         const dataDropElement = this.template.querySelector('.dataDrop');
         const listsElement = this.template.querySelector('.lists');

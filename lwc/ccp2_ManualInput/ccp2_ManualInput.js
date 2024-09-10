@@ -407,6 +407,7 @@ i18next.init({
       console.log('this is the data we have to see for the account id : - ' , JSON.stringify(data))
       this.currentVehicles = data.VehicleInfo;
       this.updateFormData(); // Update form data when data is received
+      console.log("testestetetststetet",JSON.stringify(this.currentVehicles));
     } else if (error) {
       console.error("getfields from vehicleinfo", error);
     }
@@ -1780,9 +1781,58 @@ i18next.init({
   handleSaveToServer(jsonInput, jsonStrings) {
     console.log("register vehicle class data send", jsonInput, jsonStrings);
     // Make sure bigdata is not empty before calling the server
+    let parsedInput;
+    let vehicleId = ''; 
+    try {
+        parsedInput = JSON.parse(jsonInput);
+        console.log("Parsed Input:", parsedInput);
+    } catch (error) {
+        console.error("Failed to parse jsonInput:", error);
+        return;
+    }
+
+    // Ensure parsedInput is an array and has at least one element
+    if (Array.isArray(parsedInput) && parsedInput.length > 0) {
+        const vehicleData = parsedInput[0];
+        console.log("Vehicle Data:", vehicleData);
+
+        // Check if carPlatformNoPart1 and carPlatformNoPart2 exist in vehicleData
+        if (vehicleData && vehicleData.carPlatformNoPart1 && vehicleData.carPlatformNoPart2) {
+            // Combine carPlatformNoPart1 and carPlatformNoPart2
+            const fullCarPlatformNo = `${vehicleData.carPlatformNoPart1}-${vehicleData.carPlatformNoPart2}`;
+            console.log("Full Car Platform Number:", fullCarPlatformNo);
+
+            if (this.currentVehicles && this.currentVehicles.length > 0) {
+                const matchingVehicle = this.currentVehicles.find(vehicle =>
+                    vehicle.carPlatformNo__c === fullCarPlatformNo
+                );
+
+                if (matchingVehicle) {
+                    console.log("Vehicle being saved, Id:", matchingVehicle.Id);
+                    vehicleId = matchingVehicle.Id;
+                } else {
+                    console.log("No matching vehicle found for the car platform number:", fullCarPlatformNo);
+                }
+            } else {
+                console.log("No vehicles found in currentVehicles.");
+            }
+        } else {
+            console.log("carPlatformNoPart1 or carPlatformNoPart2 is missing in vehicleData.");
+        }
+    } else {
+        console.log("Parsed jsonInput is either not an array or is empty.");
+    }
+
+    // Log updated parsedInput for debugging
+    console.log("Updated Parsed Input:", parsedInput);
+
+    // Log the saved vehicle ID for debugging
+    console.log("Saved Vehicle ID: of selectedddddd", vehicleId);
+
     registervehicle({
       jsonInput: jsonInput,
-      contentVersionIdsJson: jsonStrings
+      contentVersionIdsJson: jsonStrings,
+      vehicleInfoId: vehicleId
     })
       .then((result) => {
         //just go to next page

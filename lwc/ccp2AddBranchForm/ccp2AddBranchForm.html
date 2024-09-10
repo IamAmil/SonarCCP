@@ -274,16 +274,10 @@
                                         <div class="form-group">
                                             <label for="branch-name"><strong>{labels.CCP2_Address}</strong></label>
                                             <div class="address2 display">
-                                                <template if:true={combinedAddress}>
-                                                    <template lwc:if={hasPostalAddress}>
-                                                        <p>〒</p>
-                                                    </template>
-                                                    {combinedAddress}
+                                                <template lwc:if={hasPostalAddress}>
+                                                    <p>〒</p>
                                                 </template>
-                                                <template if:false={combinedAddress}>
-                                                    <p>-</p>
-                                                </template>
-                                                
+                                                {combinedAddress}
                                             </div>
                                         </div>
 
@@ -291,12 +285,7 @@
                                             <label for="Phone2"><strong>
                                                     {labels.CCP2_ContactDetails}
                                                 </strong></label>
-                                            <template if:true={phone}>
-                                                <div class="phone2">{phone}</div>
-                                            </template>
-                                            <template if:false={phone}>
-                                                <p class="phone2">-</p>
-                                            </template>
+                                            <div class="phone2">{phone}</div>
                                         </div>
 
 
@@ -305,16 +294,11 @@
                                             <label for="branch-12"
                                                 class="branchAV2"><strong>{labels.CCP2_AffiliatedUsers}</strong></label>
                                             <div class="branch-12">
-                                                <template if:true={moreusers.length}>
-                                                    <template for:each={moreusers} for:item="memb">
-                                                        <div key={memb.Id} class="record-item">
-                                                            <span class="vehName2">{memb.Name}</span>
-                                                            <br>
-                                                        </div>
-                                                    </template>
-                                                </template>
-                                                <template if:false={moreusers.length}>
-                                                    <p class="vehName2">-</p>
+                                                <template for:each={moreusers} for:item="memb">
+                                                    <div key={memb.Id} class="record-item">
+                                                        <span class="vehName2">{memb.Name}</span>
+                                                        <br>
+                                                    </div>
                                                 </template>
                                             </div>
                                         </div>
@@ -322,16 +306,11 @@
                                             <label for="branch-12"
                                                 class="branchAV2"><strong>{labels.CCP2_AffiliatedVehicles}</strong></label>
                                             <div class="branch-12">
-                                                <template if:true={morevehicles.length}>
-                                                    <template for:each={morevehicles} for:item="veh">
-                                                        <div key={veh.Id} class="record-item">
-                                                            <span class="vehName2">{veh.Name}</span>
-                                                            <br>
-                                                        </div>
-                                                    </template>
-                                                </template>
-                                                <template if:false={morevehicles.length}>
-                                                    <p class="vehName2">-</p>
+                                                <template for:each={morevehicles} for:item="veh">
+                                                    <div key={veh.Id} class="record-item">
+                                                        <span class="vehName2">{veh.Name}</span>
+                                                        <br>
+                                                    </div>
                                                 </template>
 
                                             </div>

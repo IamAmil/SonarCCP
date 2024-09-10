@@ -1,8 +1,7 @@
 import { LightningElement, track, wire } from 'lwc';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP_StaticResource_Vehicle';
-import Vehicle_StaticResources from "@salesforce/resourceUrl/CCP2_Resources";
 import getVehicleWithoutAssociation from '@salesforce/apex/CCP2_userData.VehicleWithoutAssociation';
-import getUsersWithoutAssociation from '@salesforce/apex/CCP2_userData.userListDtl';
+import getUsersWithoutAssociation from '@salesforce/apex/CCP2_userData.userList';
 import AddBranch from '@salesforce/apex/CCP2_branchController.createBranch';
 import checkBranch from '@salesforce/apex/CCP2_branchController.checkBranch';
 import getAccount from '@salesforce/apex/CCP2_userData.accountDetails';
@@ -48,7 +47,7 @@ import CCP2_SelectedMembers from '@salesforce/label/c.CCP2_SelectedMembers';
  
 
 
-const BACKGROUND_IMAGE_PC = Vehicle_StaticResources + '/CCP2_Resources/Common/Main_Background.webp';
+const BACKGROUND_IMAGE_PC = Vehicle_StaticResource + '/CCP_StaticResource_Vehicle/images/Main_Background.png';
 
 export default class Ccp2AddBranchForm extends LightningElement {
     labels = {
@@ -328,8 +327,11 @@ export default class Ccp2AddBranchForm extends LightningElement {
     async handleNext() {
         try {
             const branchInput = this.template.querySelector('input[name="branchss"]');
+            const phoneInput = this.template.querySelector('input[name="phone"]');
 
             let isValid = true;
+            const onlyHalfWidthNumber = /^[0-9０-９]*$/;
+            const fullWidthDigitsRegex = /[０-９]/;
 
             if (this.currentStep === 1) {
                 this.showerrorbranch = false;
@@ -338,7 +340,6 @@ export default class Ccp2AddBranchForm extends LightningElement {
                 this.fullwidthnum = false;
                 if (!branchInput.value) {
                     branchInput.classList.add('invalid-input');
-                    this.showToast("エラー","必須項目を入力してください。","error");
                     this.showerrorbranchNull = true;
                     this.showerrorbranch = false;
                     window.scrollTo(0, 0);
@@ -397,8 +398,6 @@ export default class Ccp2AddBranchForm extends LightningElement {
     validateBranchName() {
         if (!this.branchName) {
             this.template.querySelector('.product-name').classList.add('error');
-            
-            
         } else {
             this.template.querySelector('.product-name').classList.remove('error');
         }
@@ -495,8 +494,7 @@ export default class Ccp2AddBranchForm extends LightningElement {
             this.branchName = input;
             console.log("branch name inside if",this.branchName)
             this.errorMessage = '';
-        }
-        else {
+        } else {
             this.errorMessage = 'Invalid input: Only Japanese characters are allowed, and the length should be up to 24 characters.';
         }
     

@@ -3,8 +3,6 @@ import BranchList from '@salesforce/apex/CCP2_userData.BranchList';
 import BranchVehicleCount from '@salesforce/apex/CCP2_branchController.getBranchList';
 import { NavigationMixin } from 'lightning/navigation';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
-import labelsBranch from '@salesforce/resourceUrl/ccp2_labels';
-
 import CCP2_Branch from '@salesforce/label/c.CCP2_Branch';
 import CCP2_BranchList from '@salesforce/label/c.CCP2_BranchList';
 import CCP2_AffiliatedVehicles from '@salesforce/label/c.CCP2_AffiliatedVehicles';
@@ -71,7 +69,11 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
     labels2 = {};
 
     connectedCallback() {
-        this.loadLabels();
+        this.loadI18nextLibrary().then(() => {
+            this.loadLabels(); // Now you can safely load the labels after i18next is loaded
+        }).catch((error) => {
+            console.error("Error loading i18next library: ", error);
+        });
         this.fetchBranchData();
         // this.initializePageNumbers();
         // this.fetchItems(this.currentPage);
@@ -85,17 +87,54 @@ export default class Ccp2Branch extends NavigationMixin(LightningElement) {
         this.updatePageButtons();
     }
 
+    loadI18nextLibrary() {
+        return new Promise((resolve, reject) => {
+            if (!window.i18next) {
+                const script = document.createElement("script");
+                script.src = i18nextStaticResource; // Load i18next from the static resource
+                script.onload = () => {
+                    resolve();
+                };
+                script.onerror = () => {
+                    reject(new Error("Failed to load i18next script"));
+                };
+                document.head.appendChild(script);
+            } else {
+                resolve();
+            }
+        });
+      }
+
     loadLabels() {
         fetch(`${labelsBranch}/labelsBranch.json`)
         .then(response => response.json())
         .then(data => {
-            this.labels2 = data;
-            console.log('Labels loaded:', this.labels);
-        })
-        .catch(error => {
-            console.error('Error loading labels:', error);
-        });
+            const userLocale = this.getLocale(); // Method to determine user locale (e.g., 'en', 'jp')
+            
+            // Initialize i18next with the fetched labels
+            i18next.init({
+                lng: userLocale,
+                resources: {
+                    [userLocale]: {
+                        translation: data[userLocale]
+                    }
+                }
+            }).then(() => {
+                this.labels2 = i18next.store.data[userLocale].translation;
+                console.log("User Locale: ", userLocale);
+                console.log("User Labels: ", this.labels2);
+            });
+          })
+          .catch((error) => {
+            console.error("Error loading labels: ", error);
+          });
+
     }
+
+    getLocale() {
+        const region = Intl.DateTimeFormat().resolvedOptions().locale;
+        return region === "ja" ? "jp" : "en";
+      }
 
     fetchBranchData() {
         BranchVehicleCount()

@@ -1,7 +1,7 @@
 import { LightningElement,api, track, wire } from 'lwc';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
-import SERVICE_TYPE_FIELD from '@salesforce/schema/Maintenance_Booking__c.Service_Type__c';
-import SERVICE_FACTORY_FIELD from '@salesforce/schema/Maintenance_Booking__c.Service_Factory__c';
+import SERVICE_TYPE_FIELD from '@salesforce/schema/CCP2_Maintenance_Booking__c.Service_Type__c';
+import SERVICE_FACTORY_FIELD from '@salesforce/schema/CCP2_Maintenance_Booking__c.Service_Factory__c';
 import CloseButtonImg from '@salesforce/resourceUrl/CloseButton';
 import Vehicle_StaticResource from '@salesforce/resourceUrl/CCP2_Resources';
 import getVehicleById from "@salesforce/apex/CCP2_VehicleDetailController.getVehicleById";
@@ -422,9 +422,9 @@ lastcall(){
         fields['Vehicle__c'] = this.vehId;
         fields['Service_Type__c'] = this.selectedPicklistScheduleType;
         fields['Service_Factory__c'] = this.selectedPicklistPlaceofImplementation;
-        console.log("dec",fields);
+        // console.log("dec",fields);
 
-        const recordInput = { apiName: 'Maintenance_Booking__c', fields };
+        const recordInput = { apiName: 'CCP2_Maintenance_Booking__c', fields };
 
         createRecord(recordInput)
             .then((record) => {

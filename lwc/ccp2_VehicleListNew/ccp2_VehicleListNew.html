@@ -60,7 +60,7 @@
                     </ul>
                   </template>
                 </div>
-                <div class="filter">
+                <div class="filter" onclick={openFilterModal}>
                   <img src={filtericon} alt="filter vehicle" class="imgs1new" />
                   <p class="ftextNew">詳細検索</p>
                 </div>
@@ -196,19 +196,21 @@
                   <p class="ftext" style="font-weight: 0px">車両削除</p>
                 </div>
                 <div class="print">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
-                      class="printtruck"
-                    />
-                  </svg>
-                  <p class="ftext" style="font-weight: 0px">ダウンロード</p>
+                  <div class="btn" onclick={showDownloadModal}>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
+                        class="printtruck"
+                      />
+                    </svg>
+                    <p class="ftext" style="font-weight: 0px">ダウンロード</p>
+                  </div>
                 </div>
                 <div class="download">
                   <div class="btn" onclick={showVehicleRegistration}>
@@ -370,4 +372,72 @@
       </div>
     </div>
   </div>
+  <template if:true={showDownload}>
+    <div class="modal-background-last">
+        <div class="modal-window-small">
+          <div class="radio-button-container">
+            <div class="options">
+              <input type="radio" class="Download-radio-buttons" name="color" value="option1" onchange={FilterOption} checked={FilterFlag}>
+              <p class="radio-text">現絞り込み条件での車両だけをダウンロード</p>
+            </div>
+            <div class="options">
+              <input type="radio" name="color2" class="Download-radio-buttons" value="option2" onchange={Alloption} checked={AllFlag}>
+              <p class="radio-text">会社所属する車両を全部ダウンロード</p>
+            </div>
+          </div>
+            <div class="buttons-small">
+                <div class="cancelbutton-download btn-download" onclick={closeDownload}>
+                    <p class="buttontxt">キャンセル</p>
+                </div>
+                <div class="searchbutton-download btn-download" onclick={MovetoRename}>
+                    <p class="buttontxt2">次へ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </template>
+  <template if:true={showDownloadPath}>
+    <div class="modal-background-last">
+        <div class="modal-window-small">
+          <div class="Download-name-container">
+            <p class="Heading-download">ダウンロード 車両リスト</p>
+            <p class="label-download">ファイル名</p>
+            <input type="text" value={DownloadName} onchange={handleDownloadChange} placeholder="名前を入力してください。" class="Download-name" maxlength="24">
+            <p class="label-end">ダウンロードフォーマットは、 CSV　とする</p>
+          </div>
+            <div class="buttons-small">
+                <div class="cancelbutton-download btn-download" onclick={closePathDownload}>
+                    <p class="buttontxt">キャンセル</p>
+                </div>
+                <div class="searchbutton-download btn-download" onclick={finaldownload}>
+                    <p class="buttontxt2">ダウンロード</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </template>
+  <template if:true={showSuccessDownload}>
+    <div class="modal-background-last">
+        <div class="modal-window-loader">
+                <p class="warntxt">ファイルは指定されたフォルダーに正常にダウンロードされました</p>
+        </div>
+    </div>
+</template>
+<template if:true={showFilterModal}>
+  <div class="modal-background-filter-last">
+      <div class="modal-window-Filter-Modal">
+        <div class="Header-filter-modal"></div>
+        <div class="Filter-Name-container">
+        </div>
+          <div class="buttons-small">
+              <div class="cancelbutton-download btn-download" onclick={closeFilterModal}>
+                  <p class="buttontxt">キャンセル</p>
+              </div>
+              <div class="searchbutton-download btn-download" onclick={clicked}>
+                  <p class="buttontxt2">ダウンロード</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</template>
 </template>

@@ -1,6 +1,7 @@
 import { LightningElement, wire, track, api } from "lwc";
 import getVehicleById from "@salesforce/apex/CCP2_VehicleDetailController.getVehicleById";
 import getImagesAsBase64 from "@salesforce/apex/VehicleImageService.getImagesAsBase64";
+import getMarketMeasureApi from "@salesforce/apex/ccp2_download_recall_controller.recallinfo";
 import vehicleBranchName from "@salesforce/apex/CCP2_VehicleDetailController.vehicleBranchName";
 import getVehicleCertificates from "@salesforce/apex/CCP2_VehicleDetailController.vehicleImageCountTitle";
 import updateFavVehicleApi from "@salesforce/apex/CCP2_VehicleDetailController.updateFavVehicle";
@@ -48,9 +49,13 @@ const vehicleIcon =
   CCP2_Resources + "/CCP2_Resources/Vehicle/delete_vehicle.png";
 const downloadIcon =
   CCP2_Resources + "/CCP2_Resources/Vehicle/file_download.png";
+const EmptyRecallDataIcon =
+  CCP2_Resources + "/CCP2_Resources/Vehicle/Empty-recall.png";
 
 export default class Ccp2_VehicleDetails extends LightningElement {
   @track vehicleByIdLoader = true;
+  @track showEmptyContiner = false;
+  @track hasVehicles = true;
   @api vehicleIcons;
   @api vehicleId;
   @track showVehicleDetails = true;
@@ -61,13 +66,38 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track BranchesModal = false;
   @track morethanOneBranch = true;
   @track showone = true;
-  @track classVehicleDetails = "";
+  @track classVehicleDetails = "underline-button-black";
+  @track classMarketMeasure = "underline-button";
   @track classCostManagement = "";
   @track classMaintainList = "";
   @track vehId = "";
   @track uploadImageCss = "upload-image";
-  @track uploadCertImagesArray = [];
+  // @track uploadCertImagesArray = [];
+  @track marketMeasureData = [];
+  @track recallCatFilter = {
+    selectAll: true,
+    option1: true,
+    option2: true,
+    option3: true
+  };
+  @track implementationFilter = {
+    selectAll: true,
+    option1: true,
+    option2: true,
+    option3: true
+  };
+  emptyRecallDataIcon = EmptyRecallDataIcon;
   @track isModalOpen = false;
+  @track showRecallCategoryDropdown = false;
+  @track showImplementationDropdown = false;
+  //download feature
+  @track openDownloadModal = false;
+  @track ShowSuccessDownload = false;
+  @track allVehiclesData = {
+    vehicle: [],
+    branch: []
+  };
+  @track DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
 
   @track uploadImageCss = "upload-image";
   @track uploadImagesArray = [];
@@ -86,7 +116,37 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track isLastPage = true;
   @track isFirstPage = true;
   @track totalPages = 1;
+  @api currentChassisNumber;
+  @track allImages;
+  @track uploadCertImagesArray = this.allCertificates || null;
+  @track vehicelInfoId;
+  @track categoryFilerListForQuery = [
+    "リコール",
+    "サービス キャンペーン",
+    "改善対策"
+  ];
+  @track implementationStatusFilerListForQuery = [
+    "未実施",
+    "暫定対応済",
+    "恒久対応済"
+  ];
+  @track renovationSortForQuery = "";
+  @track notificationSortForQuery = "";
+  @track vehicleIdForQuery = this.vehicleId;
+  @track finalQuery =
+    `SELECT  ccp2_recallCategory_c__c, implementationStatus__c, 
+       notificationDate__c, renovationDate__c, controlNumber__c, recallSubject__c 
+FROM recallInfo__c `;
+
+  // pagination variables
+  @track currentPaginationMM = 10;
+  @track currentPageMM = 1;
+  @track totalPageCountMM = 1;
+
+  @track innerContainerLoader = false;
+
   truckLogoUrl = truckonnectLogo;
+  // outsideClickHandlerAdded = false;
   // @api showVehicle;
   @track vehicleByIdData = {
     id: 100,
@@ -155,10 +215,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     CCP2_Print: CCP2_Print
   };
 
-  @api currentChassisNumber;
-  @track allImages;
-  @track uploadCertImagesArray = this.allCertificates || null;
-
   updateFavVehicle(vehId, favBool, favIconName) {
     updateFavVehicleApi({ vehicleId: vehId, favVehicle: favBool })
       .then(() => {
@@ -181,8 +237,10 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }) {
     if (data) {
       console.log("geting from vehicle by Id: ", this.vehicleId);
-      console.log("geting from vehicle by Id api: ", data);
+      console.log("geting from vehicle by Id api: ", JSON.stringify(data));
       this.vehId = this.vehicleId;
+
+      this.vehicelInfoId = data[0].Vehicle_Info_Id__c;
       if (data.length !== 0) {
         let obj = {
           id: data[0].Id === undefined ? "-" : data[0].Id,
@@ -257,6 +315,24 @@ export default class Ccp2_VehicleDetails extends LightningElement {
           data[0].Chassis_number__c === undefined
             ? ""
             : data[0].Chassis_number__c;
+        const vehicle = data[0];
+        this.allVehiclesData.vehicle = {
+          Vehicle_Number__c: vehicle.Vehicle_Number__c,
+          Registration_Number__c: vehicle.Registration_Number__c,
+          Chassis_number__c: vehicle.Chassis_number__c,
+          Delivery_Date__c: vehicle.Delivery_Date__c,
+          Vehicle_Type__c: vehicle.Vehicle_Type__c,
+          Body_Shape__c: vehicle.Body_Shape__c,
+          vehicleWeight__c: vehicle.vehicleWeight__c,
+          First_Registration_Date__c: vehicle.First_Registration_Date__c,
+          Vehicle_Expiration_Date__c: vehicle.Vehicle_Expiration_Date__c,
+          Mileage__c: vehicle.Mileage__c,
+          Fuel_Type__c: vehicle.Fuel_Type__c,
+          Private_Business_use__c: vehicle.Private_Business_use__c,
+          Use__c: vehicle.Use__c,
+          fullModel__c: vehicle.fullModel__c,
+          Door_Number__c: vehicle.Door_Number__c
+        };
         this.loadbranches();
         this.fetchVehicleCertificates();
       }
@@ -270,32 +346,41 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     vehicleBranchName({ vehicleId: this.vehicleId })
       .then((data) => {
         console.log("Getting Branch from vehicle by Id: ", this.vehicleId);
-        console.log("Getting Branch from vehicle by Id API: ", data);
+        console.log(
+          "Getting Branch from vehicle by Id API: ",
+          JSON.stringify(data)
+        );
 
         this.vehId = this.vehicleId;
-
         if (data.length !== 0) {
           this.Branches = data;
           if (this.Branches.length == 1) {
             this.morethanOneBranch = false;
           }
           this.vehicleByIdData.branchReal = this.Branches[0].Name;
-          this.Branches.forEach(branch => {
+          this.Branches.forEach((branch) => {
             const branchNumberStr = branch.Branch_Code__c.toString(); // Convert branchno to string
 
             // Extract the first and last characters
             const firstDigit = branchNumberStr.charAt(0);
-            const lastDigit = branchNumberStr.charAt(branchNumberStr.length - 1);
+            const lastDigit = branchNumberStr.charAt(
+              branchNumberStr.length - 1
+            );
 
             // Check if both first and last digits are between 0 and 9
-            if (firstDigit >= '0' && firstDigit <= '9' &&
-                lastDigit >= '0' && lastDigit <= '9') {
-                this.showone = true;
+            if (
+              firstDigit >= "0" &&
+              firstDigit <= "9" &&
+              lastDigit >= "0" &&
+              lastDigit <= "9"
+            ) {
+              this.showone = true;
             } else {
-                this.showone = false;
+              this.showone = false;
             }
-        });
-          this.vehicleByIdData.branch = this.abbreviateName(this.Branches[0].Name) || "-";
+          });
+          this.vehicleByIdData.branch =
+            this.abbreviateName(this.Branches[0].Name) || "-";
 
           this.vehicleByIdData.branchCount = this.Branches.length;
           this.vehicleByIdData.OnScreenBranchCount =
@@ -317,6 +402,14 @@ export default class Ccp2_VehicleDetails extends LightningElement {
             "Branch assigned to vehicleByIdData.branch: ",
             this.vehicleByIdData.branch
           );
+          if (data.length > 0) {
+            data.forEach((branch) => {
+              this.allVehiclesData.branch.push({
+                Name: branch.Name,
+                otherBranchProperty: branch.otherProperty // Add any additional branch properties here
+              });
+            });
+          }
           // console.log("Branch data from API: ", JSON.stringify(this.Branches));
         } else {
           this.vehicleByIdData.branch = "-";
@@ -331,10 +424,10 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }
   abbreviateName(name, maxLength = 11) {
     if (name && name.length > maxLength) {
-        return `${name.slice(0, 5)}...`;
+      return `${name.slice(0, 5)}...`;
     }
     return name;
-}
+  }
 
   @track allCertificates = [];
   @track vehicleByIdLoader2 = false;
@@ -350,7 +443,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.certificatesAvailable = false;
 
     if (data) {
-
       try {
         data = JSON.parse(data);
         console.log("Parsed Data", data);
@@ -374,7 +466,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
           this.allCertificates = [];
           this.certificatesAvailable = false; // No certificates available
         }
-
       } catch (e) {
         console.error("Error parsing data:", e);
         this.imagesAvailable = false;
@@ -397,21 +488,51 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     }
   }
 
-  formatBranchNumber(branchCount) {
-    if(branchCount != null){
-
-        let count = branchCount;
-
-        if (count < 100) {
-            return `00${count}`;
-        } else if (count >= 100 && count < 1000) {
-            return `0${count}`;
-        } else {
-            return `${count}`;
+  fetchMarketMeasureFun(query) {
+    getMarketMeasureApi({ queryDetail: query })
+      .then((data) => {
+        try {
+          console.log("getMarketData query", query, data);
+          this.marketMeasureData = data.map((elm) => {
+            return {
+              Id: elm?.Id || "-",
+              controlNumber__c: elm?.controlNumber__c || "-",
+              implementationStatus__c: elm?.implementationStatus__c || "-",
+              notificationDate__c: elm?.notificationDate__c || "-",
+              recallCategory__c: elm?.ccp2_recallCategory_c__c || "-",
+              recallSubject__c: elm?.recallSubject__c || "-",
+              renovationDate__c: elm?.renovationDate__c || "-"
+            };
+          });
+          if (data.length === 0) {
+            this.showEmptyContiner = true;
+          } else {
+            this.showEmptyContiner = false;
+          }
+          this.innerContainerLoader = false;
+          this.showMarketMeasure = true;
+        } catch (e) {
+          console.log(this.finalQuery);
+          console.error("Error getMarketData query:", e);
         }
+      })
+      .catch((err) => {
+        console.log(this.finalQuery);
+        console.error("getMarketData query", err);
+      });
+  }
+
+  formatBranchNumber(branchCount) {
+    let count = branchCount;
+    if (branchCount != null) {
+      if (count < 100) {
+        return `00${count}`;
+      } else if (count >= 100 && count < 1000) {
+        return `0${count}`;
+      }
     }
-}
-  
+    return `${count}`;
+  }
 
   @api openModalWithImages(imageData) {
     if (Array.isArray(imageData) && imageData.length > 0) {
@@ -462,19 +583,39 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     this.isModalOpen = true;
   }
 
-  
-
-
-  renderedCallback(){
-    console.log(`%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`);
+  renderedCallback() {
+    console.log(
+      `%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`
+    );
     this.vehicleByIdData.Favourite = this.vehicleIcons;
+    this.isLastPage = this.currentImageIndex === this.totalPages - 1;
+    this.isFirstPage = this.currentImageIndex === 0;
+
+    if (!this.outsideClickHandlerAdded) {
+      console.log("in render if");
+      document.addEventListener("click", this.handleOutsideClick.bind(this));
+      this.outsideClickHandlerAdded = true;
+    }
+    if (!this.outsideClickHandlerAdded) {
+      console.log("in render if");
+      document.addEventListener("click", this.handleOutsideClick2.bind(this));
+      this.outsideClickHandlerAdded = true;
+    }
   }
 
   connectedCallback() {
     this.isFirstPage = this.currentImageIndex === 0;
+    document.addEventListener("click", this.handleOutsideClick);
+    document.addEventListener("click", this.handleOutsideClick2);
     this.isLastPage = true;
-    console.log(`%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`);
+    console.log(
+      `%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`
+    );
     this.vehicleByIdData.Favourite = this.vehicleIcons;
+  }
+  disconnectedCallback() {
+    document.removeEventListener("click", this.handleOutsideClick.bind(this));
+    document.removeEventListener("click", this.handleOutsideClick2.bind(this));
   }
 
   get visibleDots() {
@@ -556,12 +697,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     return this.currentImageIndex === this.allImages.length - 1;
   }
 
-  
-  renderedCallback() {
-    this.isLastPage = this.currentImageIndex === this.totalPages - 1;
-    this.isFirstPage = this.currentImageIndex === 0;
-  }
-
   showPreviousImage() {
     if (this.currentImageIndex > 0) {
       this.isFirstPage = false;
@@ -603,10 +738,22 @@ export default class Ccp2_VehicleDetails extends LightningElement {
 
   showVehicleDetailFun() {
     this.showVehicleDetails = true;
+    this.innerContainerLoader = false;
     this.showMaintainList = false;
     this.showCostManagement = false;
-    this.classVehicleDetails = "underline";
+    this.showMarketMeasure = false;
+    this.classVehicleDetails = "underline-button-black";
     this.classCostManagement = "";
+    this.classMaintainList = "";
+    this.classMarketMeasure = "underline-button";
+  }
+  showMarketMeasureFun() {
+    this.updateFinalQuery();
+    this.showVehicleDetails = false;
+    this.showMaintainList = false;
+    this.showCostManagement = false;
+    this.classVehicleDetails = "underline-button";
+    this.classMarketMeasure = "underline-button-black";
     this.classMaintainList = "";
   }
   showCostManagementFun() {
@@ -629,8 +776,6 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   closeDetailPage() {
     this.dispatchEvent(new CustomEvent("back"));
   }
-
-
 
   toggleStar(event) {
     let boolFav;
@@ -669,14 +814,46 @@ export default class Ccp2_VehicleDetails extends LightningElement {
     } else if (year > 2019) {
       reiwaYear = year - 2018;
       return `令和${reiwaYear}年${month}月${day}日`;
-    }
-    else {
+    } else {
       reiwaYear = 30 - (2018 - year);
       return `平成${reiwaYear}年${month}月${day}日`;
     }
   }
 
-  // not in use
+  handleOutsideClick = (event) => {
+    const dataDropElement = this.template.querySelector(".mm-filter-dropdown");
+    const listsElement = this.template.querySelector(
+      ".mm-filter-dropdown-rows"
+    );
+    console.log("dataDropElement", dataDropElement);
+    console.log("listsElement", listsElement);
+    if (
+      dataDropElement &&
+      !dataDropElement.contains(event.target) &&
+      listsElement &&
+      !listsElement.contains(event.target)
+    ) {
+      this.showImplementationDropdown = false;
+    }
+  };
+
+  handleOutsideClick2 = (event) => {
+    const dataDropElement = this.template.querySelector(".mm-filter-dropdown1");
+    const listsElement = this.template.querySelector(
+      ".mm-filter-dropdown-rows1"
+    );
+    console.log("dataDropElement", dataDropElement);
+    console.log("listsElement", listsElement);
+    if (
+      dataDropElement &&
+      !dataDropElement.contains(event.target) &&
+      listsElement &&
+      !listsElement.contains(event.target)
+    ) {
+      this.showRecallCategoryDropdown = false;
+    }
+  };
+
   handlebackhere() {
     console.log("calledbydev");
     this.showvehDetails = true;
@@ -689,5 +866,333 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   }
   branchClose() {
     this.BranchesModal = false;
+  }
+
+  ToggleFirstDropDown(event) {
+    event.stopPropagation();
+    this.showRecallCategoryDropdown = !this.showRecallCategoryDropdown;
+    this.showImplementationDropdown = false;
+  }
+  ToggleSecondDropDown(event) {
+    event.stopPropagation();
+    this.showImplementationDropdown = !this.showImplementationDropdown;
+    this.showRecallCategoryDropdown = false;
+  }
+
+  handleRecallCategoryChangeAll(event) {
+    this.recallCatFilter.selectAll = event.target.checked;
+    this.recallCatFilter.option1 = this.recallCatFilter.selectAll;
+    this.recallCatFilter.option2 = this.recallCatFilter.selectAll;
+    this.recallCatFilter.option3 = this.recallCatFilter.selectAll;
+
+    if (event.target.checked) {
+      this.categoryFilerListForQuery = [];
+      this.categoryFilerListForQuery.push("リコール");
+      this.categoryFilerListForQuery.push("サービス キャンペーン");
+      this.categoryFilerListForQuery.push("改善対策");
+      this.updateFinalQuery();
+    } else {
+      this.categoryFilerListForQuery = ["Nothing to show"];
+      this.updateFinalQuery();
+    }
+
+    console.log(JSON.stringify(this.recallCatFilter));
+  }
+
+  handleinsideclick(event) {
+    console.log("inside handle click");
+    event.stopPropagation();
+  }
+  handleRecallCategoryChange(event) {
+    const option = event.target.name.toLowerCase().replace(" ", "");
+
+    this.recallCatFilter[option] = event.target.checked;
+    this.recallCatFilter.selectAll =
+      this.recallCatFilter.option1 &&
+      this.recallCatFilter.option2 &&
+      this.recallCatFilter.option3;
+
+    if (!event.target.checked) {
+      this.recallCatFilter.selectAll = false;
+    }
+
+    let recallArray = [];
+    for (const [key, value] of Object.entries(this.recallCatFilter)) {
+      if (key === "option1" && value === true) {
+        recallArray.push("リコール");
+      } else if (key === "option2" && value === true) {
+        recallArray.push("サービス キャンペーン");
+      } else if (key === "option3" && value === true) {
+        recallArray.push("改善対策");
+      }
+    }
+    if (recallArray.length === 0) {
+      this.categoryFilerListForQuery = ["Nothing to show"];
+    } else this.categoryFilerListForQuery = [...recallArray];
+
+    this.updateFinalQuery();
+    console.log("recallArray category", JSON.stringify(recallArray));
+  }
+
+  handleImplementationChangeAll(event) {
+    this.implementationFilter.selectAll = event.target.checked;
+
+    this.implementationFilter.option1 = this.implementationFilter.selectAll;
+    this.implementationFilter.option2 = this.implementationFilter.selectAll;
+    this.implementationFilter.option3 = this.implementationFilter.selectAll;
+
+    if (event.target.checked) {
+      this.implementationStatusFilerListForQuery = [];
+
+      this.implementationStatusFilerListForQuery.push("未実施");
+
+      this.implementationStatusFilerListForQuery.push("暫定対応済");
+      this.implementationStatusFilerListForQuery.push("恒久対応済");
+    } else {
+      this.implementationStatusFilerListForQuery = ["Nothing to show"];
+      this.updateFinalQuery();
+    }
+    this.updateFinalQuery();
+  }
+
+  handleImplementationChange(event) {
+    const option = event.target.name.toLowerCase().replace(" ", "");
+    this.implementationFilter[option] = event.target.checked;
+    this.implementationFilter.selectAll =
+      this.implementationFilter.option1 &&
+      this.implementationFilter.option2 &&
+      this.implementationFilter.option3;
+
+    if (!event.target.checked) {
+      this.implementationFilter.selectAll = false;
+    }
+
+    let recallArray = [];
+    for (const [key, value] of Object.entries(this.implementationFilter)) {
+      if (key === "option1" && value === true) {
+        recallArray.push("未実施");
+      } else if (key === "option2" && value === true) {
+        recallArray.push("暫定対応済");
+      } else if (key === "option3" && value === true) {
+        recallArray.push("恒久対応済");
+      }
+      console.log(`${key}: ${value}`);
+    }
+
+    if (recallArray.length === 0) {
+      this.implementationStatusFilerListForQuery = ["Nothing to show"];
+    } else this.implementationStatusFilerListForQuery = [...recallArray];
+
+    this.updateFinalQuery();
+    console.log("recallArray implementation", JSON.stringify(recallArray));
+  }
+
+  // WHERE crmVehicle__c = (SELECT Vehicle_Info_Id__c FROM ccp2_Registered_Vehicle__c WHERE Id = ${vehicelInfoId})
+  // AND ccp2_recallCategory_c__c IN CATEGORYFILTERLIST
+  // AND implementationStatus__c IN IMPLEMENTATIONFILTERLIST
+  // ORDER BY renovationDate__c RENOVATIONSORT, notificationDate__c NOTIFICATIONSORT`;
+  updateFinalQuery() {
+    this.innerContainerLoader = true;
+    let categoryFilter = this.categoryFilerListForQuery
+      .map((category) => `'${category}'`)
+      .join(", ");
+    let implementationFilter = this.implementationStatusFilerListForQuery
+      .map((category) => `'${category}'`)
+      .join(", ");
+
+    let orderByQuery = "";
+    if (
+      this.renovationSortForQuery !== "" &&
+      this.notificationSortForQuery !== ""
+    ) {
+      orderByQuery = `ORDER BY renovationDate__c ${this.renovationSortForQuery}, notificationDate__c ${this.notificationSortForQuery}`;
+    } else if (this.renovationSortForQuery !== "") {
+      orderByQuery = `ORDER BY renovationDate__c ${this.renovationSortForQuery}`;
+    } else if (this.notificationSortForQuery !== "") {
+      orderByQuery = `ORDER BY notificationDate__c ${this.notificationSortForQuery}`;
+    } else {
+      orderByQuery = `ORDER BY CreatedDate DESC`;
+    }
+
+    let query = `SELECT ccp2_recallCategory_c__c, implementationStatus__c, notificationDate__c, renovationDate__c, controlNumber__c, recallSubject__c
+    FROM recallInfo__c where ccp2_recallCategory_c__c IN (${categoryFilter}) AND implementationStatus__c IN (${implementationFilter}) AND crmVehicle__c = '${this.vehicelInfoId}' 
+    ${orderByQuery}`;
+
+    this.finalQuery = query;
+    this.fetchMarketMeasureFun(query);
+  }
+
+  handleSortNotificationDate() {
+    this.renovationSortForQuery = "";
+    if (this.notificationSortForQuery === "") {
+      this.notificationSortForQuery = "ASC";
+    } else if (this.notificationSortForQuery === "ASC") {
+      this.notificationSortForQuery = "DESC";
+    } else if (this.notificationSortForQuery === "DESC") {
+      this.notificationSortForQuery = "";
+    }
+    console.log("notification sort", this.notificationSortForQuery);
+    this.updateFinalQuery();
+  }
+  handleSortImplementationDate() {
+    this.notificationSortForQuery = "";
+    if (this.renovationSortForQuery === "") {
+      this.renovationSortForQuery = "ASC";
+    } else if (this.renovationSortForQuery === "ASC") {
+      this.renovationSortForQuery = "DESC";
+    } else if (this.renovationSortForQuery === "DESC") {
+      this.renovationSortForQuery = "";
+    }
+    console.log("implementation sort", this.renovationSortForQuery);
+    this.updateFinalQuery();
+  }
+
+  // pagination of drop down
+  clickOffSetElement1(event) {
+    console.log(event.target.title);
+    this.currentPaginationMM = event.target.title;
+    this.currentPageMM = 1;
+    // this.updatePageButtons();
+    // this.updateVisiblePages();
+  }
+
+  togglePaginationList() {
+    this.showListOffSet = !this.showListOffSet;
+  }
+
+  handlePreviousPage() {
+    if (this.currentPageMM > 1) {
+      this.prevGoing = true;
+      this.currentPageMM -= 1;
+      this.isPreviousDisabled1 = this.currentPageMM === 1;
+      this.isNextDisabled1 = this.currentPageMM === this.totalPageCountMM;
+      // this.updatePageButtons();
+    }
+  }
+  handleNextPage() {
+    if (this.totalPageCountMM > this.currentPageMM) {
+      this.prevGoing = false;
+      this.currentPageMM += 1;
+      console.log(
+        "THIS is the current page in handle next",
+        this.currentPageMM
+      );
+      this.isPreviousDisabled1 = this.currentPageMM === 1;
+      this.isNextDisabled1 = this.currentPageMM === this.totalPageCountMM;
+      // this.updatePageButtons();
+    }
+  }
+
+  //downlaod feature
+  openDownloadModalfunction() {
+    this.openDownloadModal = true;
+    console.log("gooo");
+    console.log("forprintdata", JSON.stringify(this.allVehiclesData));
+  }
+  closeDownloadModal() {
+    this.DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
+    this.openDownloadModal = false;
+  }
+  handleDownloadChange(event) {
+    this.DownloadNameValue = event.target.value;
+  }
+  finaldownload() {
+    this.downloadCSVAll();
+    this.showFinishTimeModal();
+    this.openDownloadModal = false;
+  }
+  showFinishTimeModal() {
+    this.ShowSuccessDownload = true;
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+      this.DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
+      this.ShowSuccessDownload = false;
+    }, 2000);
+  }
+  downloadCSVAll() {
+    if (this.allVehiclesData.length === 0) {
+      console.error("No data available to download");
+      return;
+    }
+    console.log("eorkdev");
+
+    const headers = [
+      "車両番号",
+      "登録番号",
+      "車台番号",
+      "交付年月日",
+      "車名",
+      "自動車の種別",
+      "車体形状",
+      "車両重量",
+      "初度登録年月日",
+      "有効期間の満了日",
+      "走行距離",
+      "燃料の種類",
+      "自家用・事業用の別",
+      "用途",
+      "型式",
+      "ドアナンバー",
+      "所属"
+    ];
+    console.log("statusdev");
+
+    const csvRows = this.allVehiclesData.map((record) => {
+      console.log("work");
+      const vehicle = record.vehicle;
+      console.log("status2");
+
+      // Since branches is an array of objects, extract the Name values
+      const branches = Array.isArray(record.branch)
+        ? record.branch.map((branch) => branch.Name).join("・") // Join branch names with '・'
+        : "";
+
+      // Logging the data to verify its structure
+      console.log("allVehiclesData:", JSON.stringify(record, null, 2));
+
+      // Return the row data for CSV
+      return [
+        vehicle.Vehicle_Number__c || "",
+        vehicle.Registration_Number__c || "",
+        vehicle.Chassis_number__c || "",
+        vehicle.Delivery_Date__c || "",
+        vehicle.Vehicle_Name__c || "",
+        vehicle.Vehicle_Type__c || "",
+        vehicle.Body_Shape__c || "",
+        vehicle.vehicleWeight__c || "",
+        vehicle.First_Registration_Date__c || "",
+        vehicle.Vehicle_Expiration_Date__c || "",
+        vehicle.Mileage__c || "",
+        vehicle.Fuel_Type__c || "",
+        vehicle.Private_Business_use__c || "",
+        vehicle.Use__c || "",
+        vehicle.fullModel__c || "",
+        vehicle.Door_Number__c || "",
+        branches // Join all branch names into a single string
+      ];
+    });
+    console.log("eorkdev3");
+    let csvContent = headers.join(",") + "\n";
+    csvRows.forEach((row) => {
+      csvContent += row.join(",") + "\n";
+    });
+    const BOM = "\uFEFF";
+    csvContent = BOM + csvContent;
+    console.log("eorkdev4");
+
+    const csvBase64 = btoa(unescape(encodeURIComponent(csvContent)));
+    console.log("eorkdev5");
+    const link = document.createElement("a");
+    console.log("eorkdev6");
+    link.href = "data:text/csv;base64," + csvBase64;
+    console.log("eorkdev7");
+    link.download = `${this.DownloadName}.csv`;
+    console.log("eorkdev8");
+    link.click();
+    console.log("eorkdev9");
+    window.URL.revokeObjectURL(link.href);
+    console.log("eorkdev10");
+    link.remove();
+    console.log("eorkdev11");
   }
 }
