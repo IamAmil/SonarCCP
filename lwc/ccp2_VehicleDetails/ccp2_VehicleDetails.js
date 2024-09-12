@@ -2,6 +2,7 @@ import { LightningElement, wire, track, api } from "lwc";
 import getVehicleById from "@salesforce/apex/CCP2_VehicleDetailController.getVehicleById";
 import getImagesAsBase64 from "@salesforce/apex/VehicleImageService.getImagesAsBase64";
 import getMarketMeasureApi from "@salesforce/apex/ccp2_download_recall_controller.recallinfo";
+import getTotalPageCountMarketMeasureApi from "@salesforce/apex/ccp2_download_recall_controller.recallPageCount";
 import vehicleBranchName from "@salesforce/apex/CCP2_VehicleDetailController.vehicleBranchName";
 import getVehicleCertificates from "@salesforce/apex/CCP2_VehicleDetailController.vehicleImageCountTitle";
 import updateFavVehicleApi from "@salesforce/apex/CCP2_VehicleDetailController.updateFavVehicle";
@@ -55,7 +56,7 @@ const EmptyRecallDataIcon =
 export default class Ccp2_VehicleDetails extends LightningElement {
   @track vehicleByIdLoader = true;
   @track showEmptyContiner = false;
-  @track hasVehicles = true;
+  // @track hasVehicles = true;
   @api vehicleIcons;
   @api vehicleId;
   @track showVehicleDetails = true;
@@ -72,8 +73,9 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   @track classMaintainList = "";
   @track vehId = "";
   @track uploadImageCss = "upload-image";
-  // @track uploadCertImagesArray = [];
+  @track currentDate = "";
   @track marketMeasureData = [];
+  @track marketMeasureDataTem = [];
   @track recallCatFilter = {
     selectAll: true,
     option1: true,
@@ -93,10 +95,8 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   //download feature
   @track openDownloadModal = false;
   @track ShowSuccessDownload = false;
-  @track allVehiclesData = {
-    vehicle: [],
-    branch: []
-  };
+  @track downloadbranch = [];
+  @track downloadvehicles = {};
   @track DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
 
   @track uploadImageCss = "upload-image";
@@ -127,23 +127,24 @@ export default class Ccp2_VehicleDetails extends LightningElement {
   ];
   @track implementationStatusFilerListForQuery = [
     "未実施",
-    "暫定対応済",
-    "恒久対応済"
+    "一部実施済み",
+    "実施済み"
   ];
   @track renovationSortForQuery = "";
   @track notificationSortForQuery = "";
   @track vehicleIdForQuery = this.vehicleId;
-  @track finalQuery =
-    `SELECT  ccp2_recallCategory_c__c, implementationStatus__c, 
+  @track finalQuery = `SELECT  ccp2_recallCategory__c, ccp2_implementationStatus__c, 
        notificationDate__c, renovationDate__c, controlNumber__c, recallSubject__c 
-FROM recallInfo__c `;
-
-  // pagination variables
-  @track currentPaginationMM = 10;
-  @track currentPageMM = 1;
-  @track totalPageCountMM = 1;
+        FROM recallInfo__c `;
 
   @track innerContainerLoader = false;
+
+  @track showNormalSortIcon1 = true;
+  @track showDescSortIcon1 = false;
+  @track showAscSortIcon1 = false;
+  @track showNormalSortIcon2 = true;
+  @track showDescSortIcon2 = false;
+  @track showAscSortIcon2 = false;
 
   truckLogoUrl = truckonnectLogo;
   // outsideClickHandlerAdded = false;
@@ -316,22 +317,23 @@ FROM recallInfo__c `;
             ? ""
             : data[0].Chassis_number__c;
         const vehicle = data[0];
-        this.allVehiclesData.vehicle = {
-          Vehicle_Number__c: vehicle.Vehicle_Number__c,
-          Registration_Number__c: vehicle.Registration_Number__c,
-          Chassis_number__c: vehicle.Chassis_number__c,
-          Delivery_Date__c: vehicle.Delivery_Date__c,
-          Vehicle_Type__c: vehicle.Vehicle_Type__c,
-          Body_Shape__c: vehicle.Body_Shape__c,
-          vehicleWeight__c: vehicle.vehicleWeight__c,
-          First_Registration_Date__c: vehicle.First_Registration_Date__c,
-          Vehicle_Expiration_Date__c: vehicle.Vehicle_Expiration_Date__c,
-          Mileage__c: vehicle.Mileage__c,
-          Fuel_Type__c: vehicle.Fuel_Type__c,
-          Private_Business_use__c: vehicle.Private_Business_use__c,
-          Use__c: vehicle.Use__c,
-          fullModel__c: vehicle.fullModel__c,
-          Door_Number__c: vehicle.Door_Number__c
+        this.downloadvehicles = {
+          Vehicle_Number__c: vehicle.Vehicle_Number__c || "",
+          Registration_Number__c: vehicle.Registration_Number__c || "",
+          Chassis_number__c: vehicle.Chassis_number__c || "",
+          Delivery_Date__c: vehicle.Delivery_Date__c || "",
+          Vehicle_Name__c: vehicle.Vehicle_Name__c || "",
+          Vehicle_Type__c: vehicle.Vehicle_Type__c || "",
+          Body_Shape__c: vehicle.Body_Shape__c || "",
+          vehicleWeight__c: vehicle.vehicleWeight__c || "",
+          First_Registration_Date__c: vehicle.First_Registration_Date__c || "",
+          Vehicle_Expiration_Date__c: vehicle.Vehicle_Expiration_Date__c || "",
+          Mileage__c: vehicle.Mileage__c || "",
+          Fuel_Type__c: vehicle.Fuel_Type__c || "",
+          Private_Business_use__c: vehicle.Private_Business_use__c || "",
+          Use__c: vehicle.Use__c || "",
+          fullModel__c: vehicle.fullModel__c || "",
+          Door_Number__c: vehicle.Door_Number__c || ""
         };
         this.loadbranches();
         this.fetchVehicleCertificates();
@@ -341,6 +343,16 @@ FROM recallInfo__c `;
       console.error("geting from vehicle by Id api: ", error);
     }
   }
+  // @wire(getTotalPageCountMarketMeasureApi, { vehicleId: "$vehicleId" })
+  // totalMarketCountFun({ data, error }) {
+  //   if (data) {
+  //     console.log("getTotalPageCountMarketMeasureApi: ", data);
+  //     this.totalPageCount2 = data;
+  //     this.updateVisiblePages();
+  //   } else if (error) {
+  //     console.error("getTotalPageCountMarketMeasureApi: ", error);
+  //   }
+  // }
 
   loadbranches() {
     vehicleBranchName({ vehicleId: this.vehicleId })
@@ -404,10 +416,7 @@ FROM recallInfo__c `;
           );
           if (data.length > 0) {
             data.forEach((branch) => {
-              this.allVehiclesData.branch.push({
-                Name: branch.Name,
-                otherBranchProperty: branch.otherProperty // Add any additional branch properties here
-              });
+              this.downloadbranch.push(branch.Name);
             });
           }
           // console.log("Branch data from API: ", JSON.stringify(this.Branches));
@@ -488,27 +497,51 @@ FROM recallInfo__c `;
     }
   }
 
+  offsetOnMarketMeasure() {
+    const itemsPerPage = 10;
+    const startIndex = (this.currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    let temArrMM = this.marketMeasureDataTem.slice(startIndex, endIndex);
+    this.marketMeasureData = [...temArrMM];
+    this.updateVisiblePages();
+    console.log("this.marketMeasureData para", this.currentPage, endIndex);
+    console.log("this.marketMeasureData", JSON.stringify(temArrMM));
+  }
+
+  getTodaysDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    return `${day}-${month}-${year}`;
+  }
+
   fetchMarketMeasureFun(query) {
     getMarketMeasureApi({ queryDetail: query })
       .then((data) => {
         try {
           console.log("getMarketData query", query, data);
-          this.marketMeasureData = data.map((elm) => {
+          this.totalPageCount2 = Math.ceil(data.length / 10);
+          this.marketMeasureDataTem = data.map((elm) => {
             return {
               Id: elm?.Id || "-",
               controlNumber__c: elm?.controlNumber__c || "-",
-              implementationStatus__c: elm?.implementationStatus__c || "-",
+              implementationStatus__c: elm?.ccp2_implementationStatus__c || "-",
               notificationDate__c: elm?.notificationDate__c || "-",
-              recallCategory__c: elm?.ccp2_recallCategory_c__c || "-",
+              recallCategory__c: elm?.ccp2_recallCategory__c || "-",
               recallSubject__c: elm?.recallSubject__c || "-",
-              renovationDate__c: elm?.renovationDate__c || "-"
+              renovationDate__c: elm?.renovationDate__c || "-",
+              trClassName: elm.ccp2_implementationStatus__c === "実施済み" ? 'grey-row' : ''
             };
           });
+          this.marketMeasureData = this.marketMeasureDataTem;
           if (data.length === 0) {
             this.showEmptyContiner = true;
           } else {
             this.showEmptyContiner = false;
           }
+          this.offsetOnMarketMeasure();
           this.innerContainerLoader = false;
           this.showMarketMeasure = true;
         } catch (e) {
@@ -584,9 +617,6 @@ FROM recallInfo__c `;
   }
 
   renderedCallback() {
-    console.log(
-      `%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`
-    );
     this.vehicleByIdData.Favourite = this.vehicleIcons;
     this.isLastPage = this.currentImageIndex === this.totalPages - 1;
     this.isFirstPage = this.currentImageIndex === 0;
@@ -601,6 +631,8 @@ FROM recallInfo__c `;
       document.addEventListener("click", this.handleOutsideClick2.bind(this));
       this.outsideClickHandlerAdded = true;
     }
+
+    this.updatePageButtons();
   }
 
   connectedCallback() {
@@ -612,6 +644,7 @@ FROM recallInfo__c `;
       `%cThis is green text connected ${this.vehicleIcons}' , 'color: green;`
     );
     this.vehicleByIdData.Favourite = this.vehicleIcons;
+    this.currentDate = this.getTodaysDate();
   }
   disconnectedCallback() {
     document.removeEventListener("click", this.handleOutsideClick.bind(this));
@@ -664,8 +697,8 @@ FROM recallInfo__c `;
     }
   }
 
+  // Simulate fetching or assigning images (replace this with your actual data-fetching logic)
   populateImages() {
-    // Simulate fetching or assigning images (replace this with your actual data-fetching logic)
     const fetchedImages = [
       { fileName: "Image1", fileURL: "data:image/jpeg;base64,..." },
       { fileName: "Image2", fileURL: "data:image/jpeg;base64,..." },
@@ -677,7 +710,6 @@ FROM recallInfo__c `;
         fileName: image.fileName,
         fileURL: image.fileURL
       }));
-      // console.log("Image Here: ", JSON.stringify(this.allImages));
       this.imagesAvailable = true;
     } else {
       this.allImages = [];
@@ -799,10 +831,8 @@ FROM recallInfo__c `;
 
   formatJapaneseDate(isoDate) {
     const date = new Date(isoDate);
-
-    // Extract the year, month, and day
     const year = date.getFullYear();
-    const month = date.getMonth() + 1; // getMonth() is zero-based
+    const month = date.getMonth() + 1;
     const day = date.getDate();
     let reiwaYear;
     if (year === 2019) {
@@ -818,6 +848,7 @@ FROM recallInfo__c `;
       reiwaYear = 30 - (2018 - year);
       return `平成${reiwaYear}年${month}月${day}日`;
     }
+    return isoDate;
   }
 
   handleOutsideClick = (event) => {
@@ -825,8 +856,6 @@ FROM recallInfo__c `;
     const listsElement = this.template.querySelector(
       ".mm-filter-dropdown-rows"
     );
-    console.log("dataDropElement", dataDropElement);
-    console.log("listsElement", listsElement);
     if (
       dataDropElement &&
       !dataDropElement.contains(event.target) &&
@@ -842,8 +871,6 @@ FROM recallInfo__c `;
     const listsElement = this.template.querySelector(
       ".mm-filter-dropdown-rows1"
     );
-    console.log("dataDropElement", dataDropElement);
-    console.log("listsElement", listsElement);
     if (
       dataDropElement &&
       !dataDropElement.contains(event.target) &&
@@ -879,7 +906,13 @@ FROM recallInfo__c `;
     this.showRecallCategoryDropdown = false;
   }
 
+  handleinsideclick(event) {
+    console.log("inside handle click");
+    event.stopPropagation();
+  }
+
   handleRecallCategoryChangeAll(event) {
+    this.currentPage = 1;
     this.recallCatFilter.selectAll = event.target.checked;
     this.recallCatFilter.option1 = this.recallCatFilter.selectAll;
     this.recallCatFilter.option2 = this.recallCatFilter.selectAll;
@@ -899,11 +932,8 @@ FROM recallInfo__c `;
     console.log(JSON.stringify(this.recallCatFilter));
   }
 
-  handleinsideclick(event) {
-    console.log("inside handle click");
-    event.stopPropagation();
-  }
   handleRecallCategoryChange(event) {
+    this.currentPage = 1;
     const option = event.target.name.toLowerCase().replace(" ", "");
 
     this.recallCatFilter[option] = event.target.checked;
@@ -935,6 +965,7 @@ FROM recallInfo__c `;
   }
 
   handleImplementationChangeAll(event) {
+    this.currentPage = 1;
     this.implementationFilter.selectAll = event.target.checked;
 
     this.implementationFilter.option1 = this.implementationFilter.selectAll;
@@ -946,8 +977,8 @@ FROM recallInfo__c `;
 
       this.implementationStatusFilerListForQuery.push("未実施");
 
-      this.implementationStatusFilerListForQuery.push("暫定対応済");
-      this.implementationStatusFilerListForQuery.push("恒久対応済");
+      this.implementationStatusFilerListForQuery.push("一部実施済み");
+      this.implementationStatusFilerListForQuery.push("実施済み");
     } else {
       this.implementationStatusFilerListForQuery = ["Nothing to show"];
       this.updateFinalQuery();
@@ -956,6 +987,7 @@ FROM recallInfo__c `;
   }
 
   handleImplementationChange(event) {
+    this.currentPage = 1;
     const option = event.target.name.toLowerCase().replace(" ", "");
     this.implementationFilter[option] = event.target.checked;
     this.implementationFilter.selectAll =
@@ -972,9 +1004,9 @@ FROM recallInfo__c `;
       if (key === "option1" && value === true) {
         recallArray.push("未実施");
       } else if (key === "option2" && value === true) {
-        recallArray.push("暫定対応済");
+        recallArray.push("一部実施済み");
       } else if (key === "option3" && value === true) {
-        recallArray.push("恒久対応済");
+        recallArray.push("実施済み");
       }
       console.log(`${key}: ${value}`);
     }
@@ -987,10 +1019,6 @@ FROM recallInfo__c `;
     console.log("recallArray implementation", JSON.stringify(recallArray));
   }
 
-  // WHERE crmVehicle__c = (SELECT Vehicle_Info_Id__c FROM ccp2_Registered_Vehicle__c WHERE Id = ${vehicelInfoId})
-  // AND ccp2_recallCategory_c__c IN CATEGORYFILTERLIST
-  // AND implementationStatus__c IN IMPLEMENTATIONFILTERLIST
-  // ORDER BY renovationDate__c RENOVATIONSORT, notificationDate__c NOTIFICATIONSORT`;
   updateFinalQuery() {
     this.innerContainerLoader = true;
     let categoryFilter = this.categoryFilerListForQuery
@@ -1014,83 +1042,194 @@ FROM recallInfo__c `;
       orderByQuery = `ORDER BY CreatedDate DESC`;
     }
 
-    let query = `SELECT ccp2_recallCategory_c__c, implementationStatus__c, notificationDate__c, renovationDate__c, controlNumber__c, recallSubject__c
-    FROM recallInfo__c where ccp2_recallCategory_c__c IN (${categoryFilter}) AND implementationStatus__c IN (${implementationFilter}) AND crmVehicle__c = '${this.vehicelInfoId}' 
+    let query = `SELECT ccp2_recallCategory__c, ccp2_implementationStatus__c, notificationDate__c, renovationDate__c, controlNumber__c, recallSubject__c
+    FROM recallInfo__c where ccp2_recallCategory__c IN (${categoryFilter}) AND ccp2_implementationStatus__c IN (${implementationFilter}) AND crmVehicle__c = '${this.vehicelInfoId}' 
     ${orderByQuery}`;
 
     this.finalQuery = query;
     this.fetchMarketMeasureFun(query);
   }
 
+  /*Sorting Handling*/
   handleSortNotificationDate() {
+    this.currentPage = 1;
     this.renovationSortForQuery = "";
     if (this.notificationSortForQuery === "") {
       this.notificationSortForQuery = "ASC";
+
+      this.renovationSortForQuery = "";
+      this.showAscSortIcon1 = false;
+      this.showNormalSortIcon1 = true;
+      this.showDescSortIcon1 = false;
+
+      this.showAscSortIcon2 = true;
+      this.showNormalSortIcon2 = false;
+      this.showDescSortIcon2 = false;
     } else if (this.notificationSortForQuery === "ASC") {
       this.notificationSortForQuery = "DESC";
+
+      this.renovationSortForQuery = "";
+      this.showAscSortIcon1 = false;
+      this.showNormalSortIcon1 = true;
+      this.showDescSortIcon1 = false;
+
+      this.showAscSortIcon2 = false;
+      this.showNormalSortIcon2 = false;
+      this.showDescSortIcon2 = true;
     } else if (this.notificationSortForQuery === "DESC") {
-      this.notificationSortForQuery = "";
+      this.notificationSortForQuery = "ASC";
+
+      this.renovationSortForQuery = "";
+      this.showAscSortIcon1 = false;
+      this.showNormalSortIcon1 = true;
+      this.showDescSortIcon1 = false;
+
+      this.showAscSortIcon2 = true;
+      this.showNormalSortIcon2 = false;
+      this.showDescSortIcon2 = false;
     }
     console.log("notification sort", this.notificationSortForQuery);
     this.updateFinalQuery();
   }
+
   handleSortImplementationDate() {
+    this.currentPage = 1;
     this.notificationSortForQuery = "";
     if (this.renovationSortForQuery === "") {
       this.renovationSortForQuery = "ASC";
+
+      this.notificationSortForQuery = "";
+      this.showAscSortIcon2 = false;
+      this.showNormalSortIcon2 = true;
+      this.showDescSortIcon2 = false;
+
+      this.showAscSortIcon1 = true;
+      this.showNormalSortIcon1 = false;
+      this.showDescSortIcon1 = false;
     } else if (this.renovationSortForQuery === "ASC") {
       this.renovationSortForQuery = "DESC";
+
+      this.notificationSortForQuery = "";
+      this.showAscSortIcon2 = false;
+      this.showNormalSortIcon2 = true;
+      this.showDescSortIcon2 = false;
+
+      this.showAscSortIcon1 = false;
+      this.showNormalSortIcon1 = false;
+      this.showDescSortIcon1 = true;
     } else if (this.renovationSortForQuery === "DESC") {
-      this.renovationSortForQuery = "";
+      this.renovationSortForQuery = "ASC";
+
+      this.notificationSortForQuery = "";
+      this.showAscSortIcon2 = false;
+      this.showNormalSortIcon2 = true;
+      this.showDescSortIcon2 = false;
+
+      this.showAscSortIcon1 = true;
+      this.showNormalSortIcon1 = false;
+      this.showDescSortIcon1 = false;
     }
     console.log("implementation sort", this.renovationSortForQuery);
     this.updateFinalQuery();
   }
 
-  // pagination of drop down
-  clickOffSetElement1(event) {
-    console.log(event.target.title);
-    this.currentPaginationMM = event.target.title;
-    this.currentPageMM = 1;
-    // this.updatePageButtons();
-    // this.updateVisiblePages();
+  /* pagination of drop down */
+  @track showLeftDots2 = false;
+  @track visiblePageCount2 = [1];
+  @track showRightDots2 = false;
+  @track currentPage = 1;
+  @track totalPageCount2;
+  @track prevGoing = false;
+  @track isPreviousDisabled2 = false;
+  @track isNextDisabled2 = false;
+
+  get hasVehicles2() {
+    return this.marketMeasureData.length > 0 && this.showMarketMeasure;
   }
 
-  togglePaginationList() {
-    this.showListOffSet = !this.showListOffSet;
-  }
-
-  handlePreviousPage() {
-    if (this.currentPageMM > 1) {
+  handlePreviousPage2() {
+    if (this.currentPage > 1) {
       this.prevGoing = true;
-      this.currentPageMM -= 1;
-      this.isPreviousDisabled1 = this.currentPageMM === 1;
-      this.isNextDisabled1 = this.currentPageMM === this.totalPageCountMM;
-      // this.updatePageButtons();
+      this.currentPage -= 1;
+      this.isPreviousDisabled2 = this.currentPage === 1;
+      this.isNextDisabled2 = this.currentPage === this.totalPageCount2;
+      this.offsetOnMarketMeasure();
+      this.updatePageButtons();
     }
   }
-  handleNextPage() {
-    if (this.totalPageCountMM > this.currentPageMM) {
+
+  updatePageButtons() {
+    console.log("in update pagination");
+    const buttons = this.template.querySelectorAll(".mm-page-button");
+    buttons.forEach((button) => {
+      const pageNum = Number(button.title);
+      if (pageNum === this.currentPage) {
+        console.log("Current Page Number clicked: ", pageNum);
+        button.classList.add("cuurent-page");
+      } else {
+        button.classList.remove("cuurent-page");
+      }
+    });
+
+    this.isPreviousDisabled2 = this.currentPage === 1;
+    this.isNextDisabled2 = this.currentPage === this.totalPageCount2;
+  }
+
+  handleNextPage2() {
+    if (this.totalPageCount2 > this.currentPage) {
       this.prevGoing = false;
-      this.currentPageMM += 1;
-      console.log(
-        "THIS is the current page in handle next",
-        this.currentPageMM
-      );
-      this.isPreviousDisabled1 = this.currentPageMM === 1;
-      this.isNextDisabled1 = this.currentPageMM === this.totalPageCountMM;
-      // this.updatePageButtons();
+      this.currentPage += 1;
+      console.log("THIS is the current page in handle next", this.currentPage);
+      this.isPreviousDisabled2 = this.currentPage === 1;
+      this.isNextDisabled2 = this.currentPage === this.totalPageCount2;
+      this.offsetOnMarketMeasure();
+      this.updatePageButtons();
     }
+  }
+
+  pageCountClick2(event) {
+    console.log(event.target.title);
+    this.currentPage = Number(event.target.title);
+    this.offsetOnMarketMeasure();
+    this.updatePageButtons();
+  }
+
+  updateVisiblePages() {
+    let startPage, endPage;
+
+    if (this.currentPage <= 4) {
+      startPage = 1;
+      endPage = Math.min(4, this.totalPageCount2);
+    } else if (
+      this.currentPage > 4 &&
+      this.currentPage <= this.totalPageCount2 - 4
+    ) {
+      startPage = this.currentPage - 1;
+      endPage = this.currentPage + 2;
+    } else {
+      startPage = this.totalPageCount2 - 3;
+      endPage = this.totalPageCount2;
+    }
+
+    this.visiblePageCount2 = [];
+    for (let i = startPage; i <= endPage; i++) {
+      this.visiblePageCount2.push(i);
+    }
+
+    this.visiblePageCount2.forEach((element) => {
+      this.showRightDots2 = element === this.totalPageCount2 ? false : true;
+    });
   }
 
   //downlaod feature
   openDownloadModalfunction() {
+    this.DownloadNameValue = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
     this.openDownloadModal = true;
-    console.log("gooo");
-    console.log("forprintdata", JSON.stringify(this.allVehiclesData));
+    console.log("forprintdata", JSON.stringify(this.downloadvehicles));
+    console.log("forprintdata2", JSON.stringify(this.downloadbranch));
   }
   closeDownloadModal() {
-    this.DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
+    this.DownloadNameValue = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
     this.openDownloadModal = false;
   }
   handleDownloadChange(event) {
@@ -1105,16 +1244,18 @@ FROM recallInfo__c `;
     this.ShowSuccessDownload = true;
     window.scrollTo(0, 0);
     setTimeout(() => {
-      this.DownloadNameValue = "日付- カスタマーポータル車両リスト.csv";
+      this.DownloadNameValue = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
       this.ShowSuccessDownload = false;
     }, 2000);
   }
   downloadCSVAll() {
-    if (this.allVehiclesData.length === 0) {
-      console.error("No data available to download");
-      return;
-    }
+    // if (this.allVehiclesData.length === 0) {
+    //   console.error("No data available to download");
+    //   return;
+    // }
     console.log("eorkdev");
+    const vehiclesD = this.downloadvehicles;
+    const branchesD = this.downloadbranch;
 
     const headers = [
       "車両番号",
@@ -1136,47 +1277,34 @@ FROM recallInfo__c `;
       "所属"
     ];
     console.log("statusdev");
+    const allBranches = branchesD.join("・");
 
-    const csvRows = this.allVehiclesData.map((record) => {
-      console.log("work");
-      const vehicle = record.vehicle;
-      console.log("status2");
-
-      // Since branches is an array of objects, extract the Name values
-      const branches = Array.isArray(record.branch)
-        ? record.branch.map((branch) => branch.Name).join("・") // Join branch names with '・'
-        : "";
-
-      // Logging the data to verify its structure
-      console.log("allVehiclesData:", JSON.stringify(record, null, 2));
-
-      // Return the row data for CSV
-      return [
-        vehicle.Vehicle_Number__c || "",
-        vehicle.Registration_Number__c || "",
-        vehicle.Chassis_number__c || "",
-        vehicle.Delivery_Date__c || "",
-        vehicle.Vehicle_Name__c || "",
-        vehicle.Vehicle_Type__c || "",
-        vehicle.Body_Shape__c || "",
-        vehicle.vehicleWeight__c || "",
-        vehicle.First_Registration_Date__c || "",
-        vehicle.Vehicle_Expiration_Date__c || "",
-        vehicle.Mileage__c || "",
-        vehicle.Fuel_Type__c || "",
-        vehicle.Private_Business_use__c || "",
-        vehicle.Use__c || "",
-        vehicle.fullModel__c || "",
-        vehicle.Door_Number__c || "",
-        branches // Join all branch names into a single string
-      ];
-    });
-    console.log("eorkdev3");
     let csvContent = headers.join(",") + "\n";
-    csvRows.forEach((row) => {
-      csvContent += row.join(",") + "\n";
-    });
-    const BOM = "\uFEFF";
+
+    const csvRow = [
+      vehiclesD.Vehicle_Number__c,
+      vehiclesD.Registration_Number__c,
+      vehiclesD.Chassis_number__c,
+      vehiclesD.Delivery_Date__c,
+      vehiclesD.Vehicle_Name__c,
+      vehiclesD.Vehicle_Type__c,
+      vehiclesD.Body_Shape__c,
+      vehiclesD.vehicleWeight__c,
+      vehiclesD.First_Registration_Date__c,
+      vehiclesD.Vehicle_Expiration_Date__c,
+      vehiclesD.Mileage__c,
+      vehiclesD.Fuel_Type__c,
+      vehiclesD.Private_Business_use__c,
+      vehiclesD.Use__c,
+      vehiclesD.fullModel__c,
+      vehiclesD.Door_Number__c,
+      allBranches
+    ];
+
+    csvContent += csvRow.join(",") + "\n";
+    console.log("eorkdevn2");
+    let BOM = "\uFEFF";
+    console.log("eorkdevn3");
     csvContent = BOM + csvContent;
     console.log("eorkdev4");
 
@@ -1186,7 +1314,7 @@ FROM recallInfo__c `;
     console.log("eorkdev6");
     link.href = "data:text/csv;base64," + csvBase64;
     console.log("eorkdev7");
-    link.download = `${this.DownloadName}.csv`;
+    link.download = `${this.DownloadNameValue}.csv`;
     console.log("eorkdev8");
     link.click();
     console.log("eorkdev9");

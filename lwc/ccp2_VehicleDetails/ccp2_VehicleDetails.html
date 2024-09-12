@@ -368,7 +368,10 @@
                           </svg>
                         </span>
                         <template if:true={showRecallCategoryDropdown}>
-                          <div class="mm-filter-dropdown1" onclick={handleinsideclick}>
+                          <div
+                            class="mm-filter-dropdown1"
+                            onclick={handleinsideclick}
+                          >
                             <div class="mm-filter-dropdown-rows1">
                               <input
                                 type="checkbox"
@@ -478,14 +481,16 @@
                           </svg>
                         </span>
                         <template if:true={showImplementationDropdown}>
-                          <div class="mm-filter-dropdown" onclick={handleinsideclick}>
+                          <div
+                            class="mm-filter-dropdown"
+                            onclick={handleinsideclick}
+                          >
                             <div class="mm-filter-dropdown-rows">
                               <input
                                 type="checkbox"
                                 name="All"
                                 checked={implementationFilter.selectAll}
                                 onchange={handleImplementationChangeAll}
-                                
                               />
                               <p>全て</p>
                             </div>
@@ -520,7 +525,10 @@
                         </template>
                       </th>
                       <th>
-                        <span onclick={handleSortImplementationDate}>
+                        <span
+                          if:true={showNormalSortIcon1}
+                          onclick={handleSortImplementationDate}
+                        >
                           実施日
                           <svg
                             width="10"
@@ -536,10 +544,59 @@
                             />
                           </svg>
                         </span>
+                        <span
+                          if:true={showAscSortIcon1}
+                          onclick={handleSortImplementationDate}
+                        >
+                          実施日
+                          <svg
+                            width="12"
+                            height="18"
+                            viewBox="0 0 12 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="mm-drop-down-icon2"
+                          >
+                            <path
+                              d="M11.6826 10.1294H0.317408C0.257956 10.1291 0.199623 10.1455 0.149121 10.1768C0.0986185 10.208 0.0580008 10.2529 0.0319421 10.3062C0.00588349 10.3594 -0.0045567 10.419 0.00182323 10.4779C0.00820316 10.5368 0.0311438 10.5928 0.0680048 10.6393L5.7506 17.8782C5.78011 17.9161 5.81792 17.9467 5.86115 17.9679C5.90437 17.989 5.95187 17.9999 6 17.9999C6.04813 17.9999 6.09563 17.989 6.13885 17.9679C6.18208 17.9467 6.21989 17.9161 6.2494 17.8782L11.932 10.6393C11.9689 10.5928 11.9918 10.5368 11.9982 10.4779C12.0046 10.419 11.9941 10.3594 11.9681 10.3062C11.942 10.2529 11.9014 10.208 11.8509 10.1768C11.8004 10.1455 11.742 10.1291 11.6826 10.1294Z"
+                              fill="#262626"
+                            />
+                            <path
+                              d="M0.317408 7.87053H11.6826C11.742 7.87085 11.8004 7.85443 11.8509 7.82316C11.9014 7.79188 11.942 7.74703 11.9681 7.69375C11.9941 7.64048 12.0046 7.58095 11.9982 7.52203C11.9918 7.4631 11.9689 7.40716 11.932 7.36066L6.2494 0.121769C6.21989 0.0838608 6.18208 0.0531816 6.13885 0.0320767C6.09563 0.0109718 6.04813 0 6 0C5.95187 0 5.90437 0.0109718 5.86115 0.0320767C5.81792 0.0531816 5.78011 0.0838608 5.7506 0.121769L0.0680048 7.36066C0.0311438 7.40716 0.00820316 7.4631 0.00182323 7.52203C-0.0045567 7.58095 0.00588349 7.64048 0.0319421 7.69375C0.0580008 7.74703 0.0986185 7.79188 0.149121 7.82316C0.199623 7.85443 0.257956 7.87085 0.317408 7.87053Z"
+                              fill="#BBBBBB"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          if:true={showDescSortIcon1}
+                          onclick={handleSortImplementationDate}
+                        >
+                          実施日
+                          <svg
+                            width="12"
+                            height="18"
+                            viewBox="0 0 12 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="mm-drop-down-icon2"
+                          >
+                            <path
+                              d="M11.6826 10.1294H0.317408C0.257956 10.1291 0.199623 10.1455 0.149121 10.1768C0.0986185 10.208 0.0580008 10.2529 0.0319421 10.3062C0.00588349 10.3594 -0.0045567 10.419 0.00182323 10.4779C0.00820316 10.5368 0.0311438 10.5928 0.0680048 10.6393L5.7506 17.8782C5.78011 17.9161 5.81792 17.9467 5.86115 17.9679C5.90437 17.989 5.95187 17.9999 6 17.9999C6.04813 17.9999 6.09563 17.989 6.13885 17.9679C6.18208 17.9467 6.21989 17.9161 6.2494 17.8782L11.932 10.6393C11.9689 10.5928 11.9918 10.5368 11.9982 10.4779C12.0046 10.419 11.9941 10.3594 11.9681 10.3062C11.942 10.2529 11.9014 10.208 11.8509 10.1768C11.8004 10.1455 11.742 10.1291 11.6826 10.1294Z"
+                              fill="#BBBBBB"
+                            />
+                            <path
+                              d="M0.317408 7.87053H11.6826C11.742 7.87085 11.8004 7.85443 11.8509 7.82316C11.9014 7.79188 11.942 7.74703 11.9681 7.69375C11.9941 7.64048 12.0046 7.58095 11.9982 7.52203C11.9918 7.4631 11.9689 7.40716 11.932 7.36066L6.2494 0.121769C6.21989 0.0838608 6.18208 0.0531816 6.13885 0.0320767C6.09563 0.0109718 6.04813 0 6 0C5.95187 0 5.90437 0.0109718 5.86115 0.0320767C5.81792 0.0531816 5.78011 0.0838608 5.7506 0.121769L0.0680048 7.36066C0.0311438 7.40716 0.00820316 7.4631 0.00182323 7.52203C-0.0045567 7.58095 0.00588349 7.64048 0.0319421 7.69375C0.0580008 7.74703 0.0986185 7.79188 0.149121 7.82316C0.199623 7.85443 0.257956 7.87085 0.317408 7.87053Z"
+                              fill="#262626"
+                            />
+                          </svg>
+                        </span>
                       </th>
                       <th>市場措置件名</th>
                       <th>
-                        <span onclick={handleSortNotificationDate}>
+                        <span
+                          onclick={handleSortNotificationDate}
+                          if:true={showNormalSortIcon2}
+                        >
                           届出日
                           <svg
                             width="10"
@@ -555,16 +612,66 @@
                             />
                           </svg>
                         </span>
+                        <span
+                          if:true={showAscSortIcon2}
+                          onclick={handleSortNotificationDate}
+                        >
+                          実施日
+                          <svg
+                            width="12"
+                            height="18"
+                            viewBox="0 0 12 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="mm-drop-down-icon2"
+                          >
+                            <path
+                              d="M11.6826 10.1294H0.317408C0.257956 10.1291 0.199623 10.1455 0.149121 10.1768C0.0986185 10.208 0.0580008 10.2529 0.0319421 10.3062C0.00588349 10.3594 -0.0045567 10.419 0.00182323 10.4779C0.00820316 10.5368 0.0311438 10.5928 0.0680048 10.6393L5.7506 17.8782C5.78011 17.9161 5.81792 17.9467 5.86115 17.9679C5.90437 17.989 5.95187 17.9999 6 17.9999C6.04813 17.9999 6.09563 17.989 6.13885 17.9679C6.18208 17.9467 6.21989 17.9161 6.2494 17.8782L11.932 10.6393C11.9689 10.5928 11.9918 10.5368 11.9982 10.4779C12.0046 10.419 11.9941 10.3594 11.9681 10.3062C11.942 10.2529 11.9014 10.208 11.8509 10.1768C11.8004 10.1455 11.742 10.1291 11.6826 10.1294Z"
+                              fill="#262626"
+                            />
+                            <path
+                              d="M0.317408 7.87053H11.6826C11.742 7.87085 11.8004 7.85443 11.8509 7.82316C11.9014 7.79188 11.942 7.74703 11.9681 7.69375C11.9941 7.64048 12.0046 7.58095 11.9982 7.52203C11.9918 7.4631 11.9689 7.40716 11.932 7.36066L6.2494 0.121769C6.21989 0.0838608 6.18208 0.0531816 6.13885 0.0320767C6.09563 0.0109718 6.04813 0 6 0C5.95187 0 5.90437 0.0109718 5.86115 0.0320767C5.81792 0.0531816 5.78011 0.0838608 5.7506 0.121769L0.0680048 7.36066C0.0311438 7.40716 0.00820316 7.4631 0.00182323 7.52203C-0.0045567 7.58095 0.00588349 7.64048 0.0319421 7.69375C0.0580008 7.74703 0.0986185 7.79188 0.149121 7.82316C0.199623 7.85443 0.257956 7.87085 0.317408 7.87053Z"
+                              fill="#BBBBBB"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          if:true={showDescSortIcon2}
+                          onclick={handleSortNotificationDate}
+                        >
+                          実施日
+                          <svg
+                            width="12"
+                            height="18"
+                            viewBox="0 0 12 18"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="mm-drop-down-icon2"
+                          >
+                            <path
+                              d="M11.6826 10.1294H0.317408C0.257956 10.1291 0.199623 10.1455 0.149121 10.1768C0.0986185 10.208 0.0580008 10.2529 0.0319421 10.3062C0.00588349 10.3594 -0.0045567 10.419 0.00182323 10.4779C0.00820316 10.5368 0.0311438 10.5928 0.0680048 10.6393L5.7506 17.8782C5.78011 17.9161 5.81792 17.9467 5.86115 17.9679C5.90437 17.989 5.95187 17.9999 6 17.9999C6.04813 17.9999 6.09563 17.989 6.13885 17.9679C6.18208 17.9467 6.21989 17.9161 6.2494 17.8782L11.932 10.6393C11.9689 10.5928 11.9918 10.5368 11.9982 10.4779C12.0046 10.419 11.9941 10.3594 11.9681 10.3062C11.942 10.2529 11.9014 10.208 11.8509 10.1768C11.8004 10.1455 11.742 10.1291 11.6826 10.1294Z"
+                              fill="#BBBBBB"
+                            />
+                            <path
+                              d="M0.317408 7.87053H11.6826C11.742 7.87085 11.8004 7.85443 11.8509 7.82316C11.9014 7.79188 11.942 7.74703 11.9681 7.69375C11.9941 7.64048 12.0046 7.58095 11.9982 7.52203C11.9918 7.4631 11.9689 7.40716 11.932 7.36066L6.2494 0.121769C6.21989 0.0838608 6.18208 0.0531816 6.13885 0.0320767C6.09563 0.0109718 6.04813 0 6 0C5.95187 0 5.90437 0.0109718 5.86115 0.0320767C5.81792 0.0531816 5.78011 0.0838608 5.7506 0.121769L0.0680048 7.36066C0.0311438 7.40716 0.00820316 7.4631 0.00182323 7.52203C-0.0045567 7.58095 0.00588349 7.64048 0.0319421 7.69375C0.0580008 7.74703 0.0986185 7.79188 0.149121 7.82316C0.199623 7.85443 0.257956 7.87085 0.317408 7.87053Z"
+                              fill="#262626"
+                            />
+                          </svg>
+                        </span>
                       </th>
                       <th>管理番号</th>
                     </thead>
                     <tbody>
                       <template for:each={marketMeasureData} for:item="elm">
-                        <tr key={elm.Id}>
+                        <tr key={elm.Id} class={elm.trClassName}>
                           <td>{elm.recallCategory__c}</td>
                           <td>{elm.implementationStatus__c}</td>
                           <td>{elm.renovationDate__c}</td>
-                          <td class="recall-subject-length"><span title={elm.recallSubject__c}>{elm.recallSubject__c}</span></td>
+                          <td class="recall-subject-length">
+                            <span title={elm.recallSubject__c}
+                              >{elm.recallSubject__c}</span
+                            >
+                          </td>
                           <td>{elm.notificationDate__c}</td>
                           <td>{elm.controlNumber__c}</td>
                         </tr>
@@ -573,7 +680,7 @@
                   </table>
 
                   <div class="empty-container" if:true={showEmptyContiner}>
-                    <img src={emptyRecallDataIcon}>
+                    <img src={emptyRecallDataIcon} />
                     <p>該当する市場措置情報がありません</p>
                   </div>
                 </div>
@@ -608,59 +715,75 @@
                 /> -->
                 <div class="deletevehicle">
                   <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M13.8044 9.64993C13.9323 9.12086 14 8.56834 14 8H18.0903V11.2999H20.5448L22.9992 14.5997V18.7245H21.3629C21.3629 20.094 20.2666 21.1994 18.9085 21.1994C17.5504 21.1994 16.454 20.094 16.454 18.7245H11.5452C11.5452 20.094 10.4489 21.1994 9.09073 21.1994C7.73261 21.1994 6.63629 20.094 6.63629 18.7245H5V14.7101C5.52247 14.8656 6.07051 14.9618 6.63629 14.9907V17.0746H7.27445C7.72443 16.5714 8.36258 16.2496 9.09073 16.2496C9.81888 16.2496 10.457 16.5714 10.907 17.0746H16.454V9.64993H13.8044ZM21.7393 14.5997L20.1357 12.5373H18.0903V14.5997H21.7393ZM8.27259 18.7245C8.27259 19.1783 8.64075 19.5495 9.09073 19.5495C9.54071 19.5495 9.90888 19.1783 9.90888 18.7245C9.90888 18.2708 9.54071 17.8996 9.09073 17.8996C8.64075 17.8996 8.27259 18.2708 8.27259 18.7245ZM18.0903 18.7245C18.0903 19.1783 18.4585 19.5495 18.9085 19.5495C19.3585 19.5495 19.7266 19.1783 19.7266 18.7245C19.7266 18.2708 19.3585 17.8996 18.9085 17.8996C18.4585 17.8996 18.0903 18.2708 18.0903 18.7245Z"
-                    class="deletetruck delete vehicle"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M7 14C10.3137 14 13 11.3137 13 8C13 4.68629 10.3137 2 7 2C3.68629 2 1 4.68629 1 8C1 11.3137 3.68629 14 7 14ZM9.12229 4.46445L10.5365 5.87867L8.41518 7.99999L10.5365 10.1213L9.12229 11.5355L7.00097 9.4142L4.87965 11.5355L3.46543 10.1213L5.58675 7.99999L3.46543 5.87867L4.87965 4.46445L7.00097 6.58577L9.12229 4.46445Z"
-                    class="deletetruck delete vehicle"
-                  />
-                </svg>
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M13.8044 9.64993C13.9323 9.12086 14 8.56834 14 8H18.0903V11.2999H20.5448L22.9992 14.5997V18.7245H21.3629C21.3629 20.094 20.2666 21.1994 18.9085 21.1994C17.5504 21.1994 16.454 20.094 16.454 18.7245H11.5452C11.5452 20.094 10.4489 21.1994 9.09073 21.1994C7.73261 21.1994 6.63629 20.094 6.63629 18.7245H5V14.7101C5.52247 14.8656 6.07051 14.9618 6.63629 14.9907V17.0746H7.27445C7.72443 16.5714 8.36258 16.2496 9.09073 16.2496C9.81888 16.2496 10.457 16.5714 10.907 17.0746H16.454V9.64993H13.8044ZM21.7393 14.5997L20.1357 12.5373H18.0903V14.5997H21.7393ZM8.27259 18.7245C8.27259 19.1783 8.64075 19.5495 9.09073 19.5495C9.54071 19.5495 9.90888 19.1783 9.90888 18.7245C9.90888 18.2708 9.54071 17.8996 9.09073 17.8996C8.64075 17.8996 8.27259 18.2708 8.27259 18.7245ZM18.0903 18.7245C18.0903 19.1783 18.4585 19.5495 18.9085 19.5495C19.3585 19.5495 19.7266 19.1783 19.7266 18.7245C19.7266 18.2708 19.3585 17.8996 18.9085 17.8996C18.4585 17.8996 18.0903 18.2708 18.0903 18.7245Z"
+                      class="deletetruck delete vehicle"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M7 14C10.3137 14 13 11.3137 13 8C13 4.68629 10.3137 2 7 2C3.68629 2 1 4.68629 1 8C1 11.3137 3.68629 14 7 14ZM9.12229 4.46445L10.5365 5.87867L8.41518 7.99999L10.5365 10.1213L9.12229 11.5355L7.00097 9.4142L4.87965 11.5355L3.46543 10.1213L5.58675 7.99999L3.46543 5.87867L4.87965 4.46445L7.00097 6.58577L9.12229 4.46445Z"
+                      class="deletetruck delete vehicle"
+                    />
+                  </svg>
                   <span class="b deletetext">車両削除</span>
                 </div>
-                <div class="download">
+                <div class="download" onclick={openDownloadModalfunction}>
                   <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
-                    class="printtruck"
-                  />
-                </svg>
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M14 11V14H2V11H0V14C0 15.1 0.9 16 2 16H14C15.1 16 16 15.1 16 14V11H14ZM13 7L11.59 5.59L9 8.17V0H7V8.17L4.41 5.59L3 7L8 12L13 7Z"
+                      class="printtruck"
+                    />
+                  </svg>
                   <span class="b downloadvehicle">ダウンロード</span>
                 </div>
                 <div class="editvehicle">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 16.001L11 20.001H21V16.001H15Z" class="edittruck"/>
-                    <path d="M12.06 7.19098L3 16.251V20.001H6.75L15.81 10.941L12.06 7.19098ZM5.92 18.001H5V17.081L12.06 10.021L12.98 10.941L5.92 18.001Z" class="edittruck"/>
-                    <path d="M18.71 8.04098C19.1 7.65098 19.1 7.02098 18.71 6.63098L16.37 4.29098C16.17 4.09098 15.92 4.00098 15.66 4.00098C15.41 4.00098 15.15 4.10098 14.96 4.29098L13.13 6.12098L16.88 9.87098L18.71 8.04098Z" class="edittruck"/>
-                    </svg>
-                <span class="b editvehicle">編集する</span>
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 16.001L11 20.001H21V16.001H15Z"
+                      class="edittruck"
+                    />
+                    <path
+                      d="M12.06 7.19098L3 16.251V20.001H6.75L15.81 10.941L12.06 7.19098ZM5.92 18.001H5V17.081L12.06 10.021L12.98 10.941L5.92 18.001Z"
+                      class="edittruck"
+                    />
+                    <path
+                      d="M18.71 8.04098C19.1 7.65098 19.1 7.02098 18.71 6.63098L16.37 4.29098C16.17 4.09098 15.92 4.00098 15.66 4.00098C15.41 4.00098 15.15 4.10098 14.96 4.29098L13.13 6.12098L16.88 9.87098L18.71 8.04098Z"
+                      class="edittruck"
+                    />
+                  </svg>
+                  <span class="b editvehicle">編集する</span>
                 </div>
               </div>
 
+              <!-- pagination made by jashanpreet singh -->
               <div class="mm-pagination-container">
-                <template if:true={hasVehicles}>
+                <template if:true={hasVehicles2}>
                   <div class="mm-big-div-page">
                     <button
                       class="mm-nav-button"
-                      onclick={handlePreviousPage1}
-                      disabled={isPreviousDisabled1}
+                      onclick={handlePreviousPage2}
+                      disabled={isPreviousDisabled2}
                     >
                       <lightning-icon
                         icon-name="utility:chevronleft"
@@ -668,36 +791,37 @@
                         size="xx-small"
                       ></lightning-icon>
                     </button>
-                    <span if:true={showLeftDots} class="mm-page-button-dots"
+                    <span if:true={showLeftDots2} class="mm-page-button-dots"
                       >...</span
                     >
 
-                    <template for:each={visiblePageCount} for:item="page">
+                    <template for:each={visiblePageCount2} for:item="page">
                       <button
                         class="mm-page-button"
                         title={page}
-                        onclick={pageCountClick1}
+                        onclick={pageCountClick2}
                         key={page}
                       >
                         {page}
                       </button>
                     </template>
 
-                    <span if:true={showRightDots} class="mm-page-button-dots"
+                    <span if:true={showRightDots2} class="mm-page-button-dots"
                       >...</span
                     >
                     <button
-                      if:true={showRightDots}
+                      if:true={showRightDots2}
                       class="mm-page-button"
-                      title={totalPageCountMM}
-                      onclick={pageCountClick1}
+                      title={totalPageCount2}
+                      onclick={pageCountClick2}
                     >
-                      {totalPageCountMM}
+                      {totalPageCount2}
                     </button>
+
                     <button
                       class="mm-nav-button"
-                      onclick={handleNextPage1}
-                      disabled={isNextDisabled1}
+                      onclick={handleNextPage2}
+                      disabled={isNextDisabled2}
                     >
                       <lightning-icon
                         icon-name="utility:chevronright"
@@ -815,29 +939,44 @@
   </template>
   <template if:true={openDownloadModal}>
     <div class="modal-background-last">
-        <div class="modal-window-small">
-          <div class="Download-name-container">
-            <p class="Heading-download">ダウンロード 車両リスト</p>
-            <p class="label-download">ファイル名</p>
-            <input type="text" value={DownloadNameValue} onchange={handleDownloadChange} placeholder="名前を入力してください。" class="Download-name" maxlength="24">
-            <p class="label-end">ダウンロードフォーマットは、 CSV　とする</p>
-          </div>
-            <div class="buttons-small">
-                <div class="cancelbutton-download btn-download" onclick={closeDownloadModal}>
-                    <p class="buttontxt">キャンセル</p>
-                </div>
-                <div class="searchbutton-download btn-download" onclick={finaldownload}>
-                    <p class="buttontxt2">ダウンロード</p>
-                </div>
-            </div>
+      <div class="modal-window-small">
+        <div class="Download-name-container">
+          <p class="Heading-download">ダウンロード 車両リスト</p>
+          <p class="label-download">ファイル名</p>
+          <input
+            type="text"
+            value={DownloadNameValue}
+            onchange={handleDownloadChange}
+            placeholder="名前を入力してください。"
+            class="Download-name"
+            maxlength="24"
+          />
+          <p class="label-end">ダウンロードフォーマットは、 CSV　とする</p>
         </div>
+        <div class="buttons-small">
+          <div
+            class="cancelbutton-download btn-download"
+            onclick={closeDownloadModal}
+          >
+            <p class="buttontxt">キャンセル</p>
+          </div>
+          <div
+            class="searchbutton-download btn-download"
+            onclick={finaldownload}
+          >
+            <p class="buttontxt2">ダウンロード</p>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
   <template if:true={ShowSuccessDownload}>
     <div class="modal-background-last">
-        <div class="modal-window-loader">
-                <p class="warntxt">ファイルは指定されたフォルダーに正常にダウンロードされました</p>
-        </div>
+      <div class="modal-window-loader">
+        <p class="warntxt">
+          ファイルは指定されたフォルダーに正常にダウンロードされました
+        </p>
+      </div>
     </div>
   </template>
 </template>

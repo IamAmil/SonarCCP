@@ -73,6 +73,7 @@ export default class Ccp2_FusoHeader extends LightningElement {
   addBranchUrl;
   vehicleListUrl;
   profileUrl;
+  requestBookUrl;
   directBook = false;
   eInvoice = false;
   vehicleList = false;
@@ -122,7 +123,7 @@ loadI18nextLibrary() {
     fetch(labelResource)
       .then((response) => response.json())
       .then((data) => {
-        const userLocale = this.getLocale(); // Method to determine user locale (e.g., 'en', 'jp')
+        const userLocale = 'jp'; // Method to determine user locale (e.g., 'en', 'jp')
         
         // Initialize i18next with the fetched labels
         i18next.init({

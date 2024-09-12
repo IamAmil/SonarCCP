@@ -1,11 +1,16 @@
-import { LightningElement, track, wire } from "lwc";
+import { LightningElement, track, wire, api } from "lwc";
 import getVehicleData from "@salesforce/apex/CCP2_userData.userRegisteredVehicleList";
 import getAllVehicleForDownload from "@salesforce/apex/ccp2_download_recall_controller.userListforDownload";
 import totalPageCountApi from "@salesforce/apex/CCP2_userData.totalPageCount";
 import seachVehicleDataApi from "@salesforce/apex/CCP2_VehicleDetailController.vehicleRegistrationAndDoorNo";
 import listBySearchVehicle from "@salesforce/apex/CCP2_VehicleDetailController.getVehicleOnSearch";
+
+// delete vehicle apex
+import deletevehicleinfomodal from "@salesforce/apex/ccp2_download_recall_controller.vehicleDetails";
+
 // import updateFavVehicleApi from "@salesforce/apex/CCP2_VehicleDetailController.updateFavVehicle";
 import Vehicle_StaticResource from "@salesforce/resourceUrl/CCP2_Resources";
+
 const BACKGROUND_IMAGE_PC =
   Vehicle_StaticResource + "/CCP2_Resources/Common/Main_Background.webp";
 const Filter =
@@ -34,13 +39,15 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   addvehicleIcon = AddVehicle;
   truckSampleIcon = TruckSampleImage;
   noVehicleIcon = NoVehicleIcon;
-  @track modalStyle = '';
+  @track modalStyle = "";
 
   vehicleData = [];
   CarModel = [];
   brandModel = [];
   offSetCount = 10;
   @track vehicleListApiData;
+  @track isNextDisabled = true;
+  @track isPreviousDisabled = true;
   @track showListOffSet = false;
   @track showVehicleListOrNoVehicle = true;
   @track showVehicleList = true;
@@ -55,7 +62,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   @track isStarFilled;
   //today's date
   @track currentDate;
-  
+
   @track searchVehicleRegDoorData = [];
   @track filteredSearchVehicleRegDoorData = [];
   @track filterSuggestions = "";
@@ -63,7 +70,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   @track showFilteredSuggestions = false;
   @track FilterFlag = false;
   @track AllFlag = true;
-  @track DownloadName = '日付- カスタマーポータル車両リスト.csv';
+  @track DownloadName = "日付- カスタマーポータル車両リスト.csv";
   @track allVehiclesData = [];
   @track filterData = [];
   @track searchFilter = false;
@@ -80,15 +87,34 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   @track visiblePageCount = [1];
   @track prevGoing = false;
   @track TotalPageApiData;
-  //filter modal variables 
+  //filter modal variables
   @track showFilterModal = false;
-
 
   vehicleBrachCount = 0;
   vehicleAccountCount = 0;
 
+  // delete variablesss
+  deletecheckboxoverfav = false;
+  deletebuttonsall = false;
+  @track deleteselectedVehicleIds = [];
+  @track isdeleteModalOpen = false;
+  @track currentPagedelete = 1;
+  @track deletevehiclesPerPage = 1;
+  @track vehicleDatadelete = [];
+  @track currentVehicledelete;
+  @track isPrevDisableddelete = true;
+  @track isNextDisableddelete = true;
+  @track totalVehiclesdelete = 0; // Total number of vehicles
+  @track currentPageDisplaydelete = 1;
+  @track currentPageClassdelete = "page-button";
+
   renderedCallback() {
     this.updatePageButtons();
+
+    if (!this.outsideClickHandlerAdded) {
+      document.addEventListener("click", this.handleOutsideClick.bind(this));
+      this.outsideClickHandlerAdded = true;
+    }
   }
 
   @wire(getVehicleData, {
@@ -98,6 +124,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   vehicledata(result) {
     console.log("wire for list is running!");
     this.vehicleListApiData = result;
+    console.log("this.vehicleListApiData", this.vehicleListApiData);
     const { data, error } = result;
     if (data) {
       this.vehicleData = data.map((item) => {
@@ -130,6 +157,7 @@ export default class Ccp2_VehicleListNew extends LightningElement {
           expDate // Store the concatenated branch names
         };
       });
+      console.log("this.vehicleData", this.vehicleData);
       this.showSpinner = false;
       console.log("redata", data);
     } else if (error) {
@@ -180,17 +208,16 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   listBySearchVehicle(regOrDoorNumberSearched) {
     listBySearchVehicle({ str: regOrDoorNumberSearched })
       .then((data) => {
-        this.filterData = data.map(record => {
-         
+        this.filterData = data.map((record) => {
           const { imageUrl, ...recordWithoutImageUrl } = record;
-          
+
           return {
             ...recordWithoutImageUrl,
-            branches: record.branches.map(branch => branch.Name) 
+            branches: record.branches.map((branch) => branch.Name)
           };
         });
 
-         console.log("filter",JSON.stringify(this.filterData));
+        console.log("filter", JSON.stringify(this.filterData));
         console.log("Data from sigle searched data:-", data[0]);
         // console.log('Data from sigle searched data:-',data.vehicle)
         const { vehicle, branches, imageUrl } = data[0];
@@ -241,6 +268,11 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     link.rel = "stylesheet";
     document.head.appendChild(link);
     this.currentDate = this.getTodaysDate();
+    document.addEventListener("click", this.handleOutsideClick);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("click", this.handleOutsideClick.bind(this));
   }
 
   handlecardClick(event) {
@@ -248,15 +280,17 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     this.favIconForDetailPage = event.currentTarget.dataset.icon;
     console.log("Clicked Vehicle ID:", this.vehicleId);
     console.log("Clicked Vehicle icon:", this.favIconForDetailPage);
-  
+
     this.showVehicleDetails = true;
     this.showVehicleList = false;
     window.scrollTo(0, 0);
   }
   handleBack() {
-    this.currentPagination = this.currentPagination + 1;
-   
-    console.log("called");
+    this.currentPagination = Number(this.currentPagination) + 1;
+    setTimeout(() => {
+      this.currentPagination = Number(this.currentPagination) - 1;
+    }, 0);
+    this.currentPage = 1;
     this.showVehicleList = true;
     this.showVehicleDetails = false;
   }
@@ -271,12 +305,18 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     this.showVehicleList = false;
   }
 
-
   toggleStar(event) {
     event.stopPropagation();
   }
 
-  togglePaginationList() {
+  togglePaginationList(event) {
+    event.stopPropagation();
+    if (this.showListOffSet === false) {
+      // window.scrollTo(0, document.body.scrollHeight);
+      const element = this.template.querySelector(".drop-down-container");
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+
     this.showListOffSet = !this.showListOffSet;
   }
 
@@ -308,6 +348,12 @@ export default class Ccp2_VehicleListNew extends LightningElement {
     });
 
     this.isPreviousDisabled = this.currentPage === 1;
+    console.log(
+      "verifing my total and current page number",
+      this.totalPageCount,
+      " ",
+      this.currentPage
+    );
     this.isNextDisabled = this.currentPage === this.totalPageCount;
   }
 
@@ -348,17 +394,14 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       endPage = this.totalPageCount;
     }
 
-    
     this.visiblePageCount = [];
     for (let i = startPage; i <= endPage; i++) {
       this.visiblePageCount.push(i);
     }
-  
 
     this.visiblePageCount.forEach((element) => {
       this.showRightDots = element === this.totalPageCount ? false : true;
     });
-   
   }
 
   formatJapaneseDate(isoDate) {
@@ -388,20 +431,20 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   getTodaysDate() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = ('0' + (today.getMonth() + 1)).slice(-2);  
-    const day = ('0' + today.getDate()).slice(-2);  
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
     return `${day}-${month}-${year}`;
-}
+  }
 
   handleSuggestionInputChange(event) {
     if (event.target.value === "") {
-      this.currentPagination = this.currentPagination + 1;
+      this.currentPagination = Number(this.currentPagination) + 1;
+      setTimeout(() => {
+        this.currentPagination = Number(this.currentPagination) - 1;
+      }, 0);
       this.filterData = [];
       this.searchFilter = false;
-      console.log("filterednew",this.filterData);
-      setTimeout(() => {
-        this.currentPagination = this.currentPagination - 1;
-      }, 0);
+      console.log("filterednew", this.filterData);
 
       this.showVehicleListOrNoVehicle = true;
     }
@@ -441,7 +484,10 @@ export default class Ccp2_VehicleListNew extends LightningElement {
       if (this.filteredSearchVehicleRegDoorData?.length !== 0) {
         this.showSpinner = true;
         this.listBySearchVehicle(this.filteredSearchVehicleRegDoorData[0]);
-        console.log('available search list :-',JSON.stringify(this.filteredSearchVehicleRegDoorData));
+        console.log(
+          "available search list :-",
+          JSON.stringify(this.filteredSearchVehicleRegDoorData)
+        );
         this.showFilteredSuggestions = false;
       } else {
         this.showVehicleListOrNoVehicle = false;
@@ -482,159 +528,270 @@ export default class Ccp2_VehicleListNew extends LightningElement {
   //     dropdownList.style.bottom = "44px";
   //   }
   // }
+
+  handleOutsideClick = (event) => {
+    const dataDropElement = this.template.querySelector(".drop-down-container");
+    const listsElement = this.template.querySelector(".drop-down-list");
+    if (
+      dataDropElement &&
+      !dataDropElement.contains(event.target) &&
+      listsElement &&
+      !listsElement.contains(event.target)
+    ) {
+      this.showListOffSet = false;
+    }
+  };
+
   get hasVehicles() {
     return this.vehicleAccountCount > 0;
-}
-//download feature
-//modal 1
-  showDownloadModal(){
+  }
+  //download feature
+  //modal 1
+  showDownloadModal() {
     this.showDownload = true;
     this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
   }
-  closeDownload(){
+  closeDownload() {
     this.FilterFlag = false;
     this.AllFlag = true;
     this.showDownload = false;
   }
-  MovetoRename(){
-    if(this.AllFlag == true ){
-       this.allApex();
+  MovetoRename() {
+    if (this.AllFlag == true) {
+      this.allApex();
     }
-    if(this.searchFilter == true){
+    if (this.searchFilter == true) {
       this.allVehiclesData = [];
       this.allVehiclesData = this.filterData;
     }
-    if(this.searchFilter == false && this.AllFlag == false){
+    if (this.searchFilter == false && this.AllFlag == false) {
       this.allApex();
     }
     this.showDownload = false;
     this.showDownloadPath = true;
   }
-  closePathDownload(){
+  closePathDownload() {
     this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
     this.FilterFlag = false;
     this.AllFlag = true;
     this.showDownloadPath = false;
   }
-  finaldownload(){
+  finaldownload() {
     this.downloadCSVAll();
     this.showFinishTimeModal();
-    this.showDownloadPath =false;
+    this.showDownloadPath = false;
   }
   showFinishTimeModal() {
     this.showSuccessDownload = true;
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     setTimeout(() => {
-        this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
-        this.FilterFlag = false;
-        this.AllFlag = true;
-        this.showSuccessDownload = false;
+      this.DownloadName = `${this.currentDate} - カスタマーポータル車両リスト.csv`;
+      this.FilterFlag = false;
+      this.AllFlag = true;
+      this.showSuccessDownload = false;
     }, 2000);
-}
-FilterOption(event){
-  this.FilterFlag = event.target.checked;
-  if (this.FilterFlag) {
-    this.AllFlag = false;
   }
-  console.log("de",this.allVehiclesData);
-}
-Alloption(event){
-  this.AllFlag= event.target.checked;
+  FilterOption(event) {
+    this.FilterFlag = event.target.checked;
+    if (this.FilterFlag) {
+      this.AllFlag = false;
+    }
+    console.log("de", this.allVehiclesData);
+  }
+  Alloption(event) {
+    this.AllFlag = event.target.checked;
     if (this.AllFlag) {
       this.FilterFlag = false;
-   }
-}
-allApex(){
-  getAllVehicleForDownload()
-  .then((result) => {
-      this.allVehiclesData = [];
-      this.allVehiclesData = result;
-      console.log('All Vehicle Data:',JSON.stringify(result));
-  })
-  .catch((error) => {
-      console.error('Error retrieving vehicle data:', error);
-  });
-}
+    }
+  }
+  allApex() {
+    getAllVehicleForDownload()
+      .then((result) => {
+        this.allVehiclesData = [];
+        this.allVehiclesData = result;
+        console.log("All Vehicle Data:", JSON.stringify(result));
+      })
+      .catch((error) => {
+        console.error("Error retrieving vehicle data:", error);
+      });
+  }
 
-downloadCSVAll() {
-  if (this.allVehiclesData.length === 0) {
-    console.error('No data available to download');
-    return;
-}
+  downloadCSVAll() {
+    if (this.allVehiclesData.length === 0) {
+      console.error("No data available to download");
+      return;
+    }
 
-const headers = [
-    '車両番号',
-    '登録番号',
-    '車台番号',
-    '交付年月日',
-    '車名',
-    '自動車の種別',
-    '車体形状',
-    '車両重量',
-    '初度登録年月日',
-    '有効期間の満了日',
-    '走行距離',
-    '燃料の種類',
-    '自家用・事業用の別',
-    '用途',
-    '型式',
-    'ドアナンバー',
-    '所属'
-];
-
-const csvRows = this.allVehiclesData.map(record => {
-    const vehicle = record.vehicle;
-    const branches = Array.isArray(record.branches) 
-    ? record.branches.join('・') 
-    : record.branches ? record.branches.name : ''; 
-
-    return [
-        vehicle.Vehicle_Number__c || '',
-        vehicle.Registration_Number__c || '',
-        vehicle.Chassis_number__c || '',
-        vehicle.Delivery_Date__c || '',
-        vehicle.Vehicle_Name__c || '',
-        vehicle.Vehicle_Type__c || '',
-        vehicle.Body_Shape__c || '',
-        vehicle.vehicleWeight__c || '', 
-        vehicle.First_Registration_Date__c || '',
-        vehicle.Vehicle_Expiration_Date__c || '',
-        vehicle.Mileage__c || '',
-        vehicle.Fuel_Type__c || '',
-        vehicle.Private_Business_use__c || '',
-        vehicle.Use__c || '',
-        vehicle.fullModel__c || '',
-        vehicle.Door_Number__c || '', 
-        branches
+    const headers = [
+      "車両番号",
+      "登録番号",
+      "車台番号",
+      "交付年月日",
+      "車名",
+      "自動車の種別",
+      "車体形状",
+      "車両重量",
+      "初度登録年月日",
+      "有効期間の満了日",
+      "走行距離",
+      "燃料の種類",
+      "自家用・事業用の別",
+      "用途",
+      "型式",
+      "ドアナンバー",
+      "所属"
     ];
-});
 
+    const csvRows = this.allVehiclesData.map((record) => {
+      const vehicle = record.vehicle;
+      const branches = Array.isArray(record.branches)
+        ? record.branches.join("・")
+        : record.branches
+          ? record.branches.name
+          : "";
 
-let csvContent = headers.join(',') + '\n';
-csvRows.forEach(row => {
-    csvContent += row.join(',') + '\n';
-});
-const BOM = '\uFEFF'; 
-csvContent = BOM + csvContent;
-  
-const csvBase64 = btoa(unescape(encodeURIComponent(csvContent)));
-        const link = document.createElement('a');
-        link.href = 'data:text/csv;base64,' + csvBase64;
-        link.download = `${this.DownloadName}.csv`;
-        link.click();
-        window.URL.revokeObjectURL(link.href);
-        link.remove();
-}
-  handleDownloadChange(event){
-     this.DownloadName = event.target.value;
+      return [
+        vehicle.Vehicle_Number__c || "",
+        vehicle.Registration_Number__c || "",
+        vehicle.Chassis_number__c || "",
+        vehicle.Delivery_Date__c || "",
+        vehicle.Vehicle_Name__c || "",
+        vehicle.Vehicle_Type__c || "",
+        vehicle.Body_Shape__c || "",
+        vehicle.vehicleWeight__c || "",
+        vehicle.First_Registration_Date__c || "",
+        vehicle.Vehicle_Expiration_Date__c || "",
+        vehicle.Mileage__c || "",
+        vehicle.Fuel_Type__c || "",
+        vehicle.Private_Business_use__c || "",
+        vehicle.Use__c || "",
+        vehicle.fullModel__c || "",
+        vehicle.Door_Number__c || "",
+        branches
+      ];
+    });
+
+    let csvContent = headers.join(",") + "\n";
+    csvRows.forEach((row) => {
+      csvContent += row.join(",") + "\n";
+    });
+    const BOM = "\uFEFF";
+    csvContent = BOM + csvContent;
+
+    const csvBase64 = btoa(unescape(encodeURIComponent(csvContent)));
+    const link = document.createElement("a");
+    link.href = "data:text/csv;base64," + csvBase64;
+    link.download = `${this.DownloadName}.csv`;
+    link.click();
+    window.URL.revokeObjectURL(link.href);
+    link.remove();
   }
-  //filter Modal 
-  openFilterModal(){
+  handleDownloadChange(event) {
+    this.DownloadName = event.target.value;
+  }
+  //filter Modal
+  openFilterModal() {
     this.showFilterModal = true;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }
-  closeFilterModal(){
+  closeFilterModal() {
     this.showFilterModal = false;
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
+  }
+
+  // delete vehicle
+  showdeletecheckboxes() {
+    this.deletecheckboxoverfav = true;
+    this.deletebuttonsall = true;
+  }
+  handlebackfromdelete() {
+    this.deletecheckboxoverfav = false;
+    this.deletebuttonsall = false;
+  }
+  handledeleteselectall() {
+    this.deleteselectedVehicleIds = this.vehicleData.map(
+      (vehicle) => vehicle.Id
+    );
+
+    // Check all checkboxes manually via DOM manipulation
+    this.template
+      .querySelectorAll('input[type="checkbox"][name="delete"]')
+      .forEach((checkbox) => {
+        checkbox.checked = true;
+      });
+    console.log(
+      "selected delete veh ids",
+      JSON.stringify(this.deleteselectedVehicleIds)
+    );
+  }
+  handleCheckboxChange(event) {
+    const vehicleId = event.target.dataset.id;
+
+    // Add or remove the ID from selectedVehicleIds based on checkbox state
+    if (event.target.checked) {
+      this.deleteselectedVehicleIds = [
+        ...this.deleteselectedVehicleIds,
+        vehicleId
+      ];
+    } else {
+      this.deleteselectedVehicleIds = this.deleteselectedVehicleIds.filter(
+        (id) => id !== vehicleId
+      );
+    }
+  }
+
+  get isDeleteDisabled() {
+    return this.deleteselectedVehicleIds.length === 0;
+  }
+
+  handledeleteopenmodal() {
+    console.log(
+      "del veh idddddddd in delete open modal",
+      this.deleteselectedVehicleIds
+    );
+    deletevehicleinfomodal({ vehicleIds: this.deleteselectedVehicleIds })
+      .then((result) => {
+        console.log(
+          "All Vehicle delete veh data Data:",
+          JSON.stringify(result)
+        );
+        this.vehicleDatadelete = result;
+        this.totalVehiclesdelete = this.vehicleDatadelete.length;
+
+        if (this.totalVehiclesdelete > 0) {
+          this.showPage(0); // Show the first page
+          this.isdeleteModalOpen = true; // Open modal
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  closeModaldelete() {
+    this.isdeleteModalOpen = false;
+  }
+  showPage(pageIndex) {
+    this.currentPagedelete = pageIndex;
+    this.currentVehicledelete = this.vehicleDatadelete[pageIndex];
+    this.currentPageDisplaydelete = pageIndex + 1; // Display-friendly page (1-based)
+    // Handle disabling Previous/Next buttons
+    this.isPrevDisableddelete = this.currentPagedelete === 0;
+    this.isNextDisableddelete =
+      this.currentPagedelete === this.totalVehiclesdelete - 1;
+    this.currentPageClassdelete =
+      this.currentPagedelete === pageIndex
+        ? "page-button cuurent-page"
+        : "page-button";
+    console.log("current page css", this.currentPageClassdelete);
+  }
+  nextPage() {
+    if (this.currentPagedelete < this.totalVehiclesdelete - 1) {
+      this.showPage(this.currentPagedelete + 1);
+    }
+  }
+  prevPage() {
+    if (this.currentPagedelete > 0) {
+      this.showPage(this.currentPagedelete - 1);
+    }
   }
 }

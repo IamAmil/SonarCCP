@@ -825,6 +825,7 @@
 /* market measure */
 .mm-main-container {
   border-radius: 10px;
+  border-collapse: collapse;
 }
 
 .mm-drop-down-icon1 {
@@ -840,6 +841,15 @@
 .vehicle_container2 tr {
   height: 50px;
   border-bottom: 1px solid #d9d9d9;
+}
+tbody tr:last-child {
+  border-bottom: 0;
+}
+tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
 }
 
 .vehicle_container2 tr th {
@@ -877,6 +887,7 @@
 
 .mm-main-container thead th:nth-child(1) {
   width: 22%;
+  border-top-left-radius: 10px;
 }
 
 .mm-main-container thead th:nth-child(2),
@@ -891,6 +902,7 @@
 
 .mm-main-container thead th:nth-child(6) {
   width: 10%;
+  border-top-right-radius: 10px;
 }
 
 .mm-filter-dropdown {
@@ -907,6 +919,7 @@
   width: 216px;
   font-size: 16px;
 }
+
 .mm-filter-dropdown1 {
   position: absolute;
   top: 42px;
@@ -927,6 +940,7 @@
   gap: 10px;
   align-items: center;
 }
+
 .mm-filter-dropdown-rows1 {
   display: flex;
   gap: 10px;
@@ -939,6 +953,7 @@
   height: 15px;
   flex-shrink: 0;
 }
+
 .mm-filter-dropdown-rows1 input {
   accent-color: #e10202;
   width: 15px;
@@ -949,6 +964,7 @@
 .mm-filter-dropdown-rows p {
   font-weight: 400;
 }
+
 .mm-filter-dropdown-rows1 p {
   font-weight: 400;
 }
@@ -961,6 +977,10 @@
   padding-right: 51px;
 }
 
+.grey-row{
+  background-color: #f4f4f4;
+}
+
 /* .recall-subject-length:hover{
   overflow: visible;
   box-shadow: 4px 4px 14px 0px #00000014;
@@ -970,97 +990,72 @@
   color:red
 } */
 
-/* pagination of drop down */
 
+/* pagination of drop down */
 .mm-pagination-container {
   display: flex;
-
   gap: 16px;
-
   align-items: center;
+  padding-right: 20px;
 }
 
-.mm-pagination-offset-heading {
-  font-weight: 400;
+.cuurent-page {
+  background-color: #E10202 !important;
+  color: white !important;
+}
 
+.mm-big-div-page {
   display: flex;
-
-  align-items: center;
-}
-
-.mm-pagination-offset-container {
-  display: flex;
-
-  gap: 12px;
-}
-
-.mm-pagination-offset {
-  border: 1px solid #d9d9d9;
-
-  border-radius: 10px;
-
-  padding: 16px;
-}
-
-.mm-drop-down-container {
-  position: relative;
-
-  display: flex;
-
   justify-content: center;
-
   align-items: center;
-
-  padding: 0px 10px;
-
-  border: 1px solid #d9d9d9;
-
-  border-radius: 10px;
-
-  gap: 3px;
-
-  height: 40px;
-
-  width: 80px;
 }
 
-.mm-drop-down-text {
-  font-weight: 700;
-
-  color: black;
-}
-
-.mm-drop-down-list {
-  position: absolute;
-
-  width: 100%;
-
-  text-align: center;
-
-  box-shadow: 0px 0px 10px 0px #00000026;
-
-  border-radius: 10px;
-
-  bottom: 44px;
-
-  left: 0;
-
-  background-color: white;
-}
-
-.mm-drop-down-element {
-  width: 100%;
-
-  height: 100%;
-
+.mm-nav-button {
+  background: none;
+  border: none;
   cursor: pointer;
-
-  background-color: white;
-
-  padding: 5px;
-
-  border-radius: 10px;
+  display: flex;
+  --sds-c-icon-color-foreground-default: black !important;
 }
+
+.mm-nav-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  --sds-c-icon-color-foreground-default: grey !important;
+}
+
+.mm-page-button-dots {
+  border: none;
+  cursor: default;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: black;
+  margin-left: 5px;
+  font-weight: bolder;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mm-page-button {
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  background-color: transparent;
+  color: black;
+  margin-left: 5px;
+  font-weight: bolder;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* modal css */
 /* download modal */
@@ -1169,7 +1164,7 @@
 .Download-name {
   border: 1px solid #D9D9D9;
   border-radius: 8px;
-  width: 18.1rem;
+  width: 19.6rem;
   height: 40px;
   padding-left: 17px;
 }
@@ -1207,14 +1202,15 @@
   cursor: pointer;
   color: red;
 }
-  .deletevehicle {
-    display: flex;
-    align-items: center;
-  }
-  
-  .deletetruck {
-    fill: black;
-  }
+
+.deletevehicle {
+  display: flex;
+  align-items: center;
+}
+
+.deletetruck {
+  fill: black;
+}
 
 .deletevehicle:hover .deletetruck {
   cursor: pointer;
@@ -1231,19 +1227,19 @@
   align-items: center;
 }
 
-  
+
 .edittruck {
   fill: black;
 }
 
 .editvehicle:hover .edittruck {
-cursor: pointer;
-fill: red;
+  cursor: pointer;
+  fill: red;
 }
 
 .editvehicle:hover .b.editvehicle {
-cursor: pointer;
-color: red;
+  cursor: pointer;
+  color: red;
 }
 
 
@@ -1251,10 +1247,10 @@ color: red;
   fill: red;
 }
 
-.empty-container{
-  display:flex;
+.empty-container {
+  display: flex;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   flex-direction: column;
   height: 367px;
 }

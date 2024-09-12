@@ -37,6 +37,7 @@
     --colorBg2: #262626;
     --colorStatus1: #0079D3;
     --colorStatus2: #9DC727;
+    --dropdown-icon: url('');
 }
 
 .body {
@@ -153,12 +154,6 @@ h4 {
 }
 
 /* Style select like a standard input */
-select {
-    -moz-appearance: none;
-    /* Firefox 36+ */
-    -webkit-appearance: none;
-    /* Chrome 41+ */
-}
 
 select,
 textarea,
@@ -168,11 +163,6 @@ button {
     -webkit-appearance: none;
     display: block;
     transition: background-color 0.3s linear, border 0.3s linear, color 0.3s ease-out;
-}
-
-select,
-button {
-    cursor: pointer;
 }
 
 button,
@@ -196,6 +186,7 @@ button {
 
 button,
 select {
+    cursor: pointer;
     text-transform: none;
     /* Firefox 40+, Internet Explorer 11- */
 }
@@ -856,7 +847,6 @@ label.form-label {
     margin-right: 8px;
     position: relative;
     padding: 0 !important;
-    width: 100%;
     border: 1px solid var(--colorLine);
     background: #fff;
     border-radius: 3px;
@@ -1189,7 +1179,6 @@ input.input-checkbox {
 
 .top {
     height: 96vh;
-    background-color: #f4f4f4;
     background: linear-gradient(to bottom, #BFBFBF, #F4F4F4);
 }
 
@@ -1326,17 +1315,6 @@ input.input-checkbox {
     border-radius: 8px;
     /* padding: 0.5rem 1rem; */
     cursor: pointer;
-}
-
-.content-modal .btn-modal .btn-yes:hover {
-    /* background-color: white;
-    color: #E10202;
-    font-weight: 300;
-    font-family: 'Noto Sans JP', sans-serif;
-    border: solid;
-    border-width: 1px;
-    transition: background-color 0.9s ease, border 0.5s ease, color 0.5s ease;
-    border-color: #E10202; */
 }
 
 .content-modal .btn-modal-edit .btn-no {
@@ -1535,10 +1513,6 @@ input.input-checkbox {
 
 /* userDropdown.css */
 
-:host {
-    --dropdown-icon: url('');
-    /* Fallback or default value */
-}
 
 /* .custom-dropdown {
     position: relative;
@@ -2253,7 +2227,6 @@ button.btn-yes-final {
     font-weight: 300;
     font-family: 'Noto Sans JP', sans-serif;
     box-shadow: 0px 0px 10px 0px #00000026;
-    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -2326,10 +2299,6 @@ button.btn-yes-final:hover {
     border: 1px solid #E10202 !important;
 }
 
-.btn-save:hover .txt-save {
-    color: #E10202;
-}
-
 .toedit {
     color: black;
     transition: color 0.3s ease;
@@ -2351,19 +2320,6 @@ button.btn-yes-final:hover {
     width: 100%;
 }
 
-.modal-background-last {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 109;
-}
-
 .modal-window-loader {
     background-color: rgba(251, 251, 251, 1);
     border-radius: 8px;
@@ -2377,12 +2333,6 @@ button.btn-yes-final:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.warntxt {
-    font-size: 14px;
-    color: #0A0A0A;
-    font-family: 'Noto Sans JP', sans-serif;
 }
 
 @media (max-width: 768px) {
@@ -3383,8 +3333,6 @@ button.btn-yes-final:hover {
     .data {
         font-size: 10px;
     }
-
-    .top-btn {}
 }
 
 .custom-dropdown2 {
@@ -3402,14 +3350,10 @@ button.btn-yes-final:hover {
     /* border: none; */
     cursor: pointer;
     background-color: white;
-    color: black;
-    padding: 10px;
     border-radius: 8px;
-    font-size: 16px;
     border: 1px solid lightgrey;
     margin-right: 10px;
     /* border: none; */
-    cursor: pointer;
     width: 114px;
     height: 56px;
     text-align: left;
